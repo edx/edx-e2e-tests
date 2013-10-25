@@ -1,4 +1,4 @@
-from e2e_framework.PageObject import PageObject
+from e2e_framework.page_object import PageObject
 from . import BASE_URL
 
 
