@@ -2,9 +2,8 @@
 E2E tests for the LMS.
 """
 
-from uuid import uuid4
 
-from .base import WebAppTest
+from .base import WebAppTest, TestCredentials
 from edx_tests.pages.lms.LoginPage import LoginPage
 from edx_tests.pages.lms.FindCoursesPage import FindCoursesPage
 from edx_tests.pages.lms.InfoPage import InfoPage
@@ -56,24 +55,10 @@ class LoggedOutTest(WebAppTest):
         self.ui['lms.course_about'].register()
 
         # Fill in registration info and submit
-        name = self._unique_name()
-        self.ui['lms.register'].provide_info(
-            name + '@test.com',
-            'test_password',
-            name,
-            name.replace('_', ' ').capitalize()
-        )
+        self.ui['lms.register'].provide_info(TestCredentials())
         self.ui['lms.register'].submit()
 
         # We should end up at the dashboard
         # Check that we're registered for the course
         course_names = self.ui['lms.dashboard'].available_courses()
         self.assertIn('999 edX Demonstration Course', course_names)
-
-    def _unique_name(self):
-        """
-        Generate a unique, valid username to avoid conflicts
-        between tests.
-        """
-        return "test_" + str(uuid4())[0:8]
-
