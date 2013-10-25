@@ -99,5 +99,8 @@ class PageObject(SafeSelenium):
         Wait for the page's JavaScript dependencies to load.
         Pages define their dependencies using `requirejs` and `js_globals` properties.
         """
-        self.wait_for_requirejs(self.requirejs)
-        self.wait_for_js_variable_truthy(self.js_globals)
+        if self.requirejs:
+            self.wait_for_requirejs(self.requirejs)
+
+        if self.js_globals:
+            self.wait_for_js_variable_truthy(self.js_globals)
