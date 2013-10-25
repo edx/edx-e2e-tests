@@ -6,7 +6,7 @@ See https://code.google.com/p/selenium/wiki/PageObjects
 from abc import ABCMeta, abstractproperty, abstractmethod
 from functools import wraps
 
-from .SafeSelenium import SafeSelenium
+from .safe_selenium import SafeSelenium
 
 
 class PageObject(SafeSelenium):

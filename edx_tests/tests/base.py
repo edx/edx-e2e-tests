@@ -7,7 +7,7 @@ from abc import ABCMeta, abstractproperty, abstractmethod
 import os.path
 from uuid import uuid4
 
-from e2e_framework.WebAppUI import WebAppUI, WrongPageError
+from e2e_framework.web_app_ui import WebAppUI, WrongPageError
 
 
 class WebAppTest(TestCase):
