@@ -18,7 +18,6 @@ class InfoPage(PageObject):
         'terms': '/tos',
         'privacy': '/privacy',
         'honor': '/honor',
-        'course_about': '/courses/edx/999/2013_Spring/about'
     } 
 
     # Dictionary mapping URLs to expected css selector 
@@ -30,7 +29,6 @@ class InfoPage(PageObject):
         '/tos': 'section.tos',
         '/privacy': 'section.privacy-policy',
         '/honor': 'section.honor-code',
-        '/courses/edx/999/2013_Spring/about': 'section.course-info',
     }
 
     @property
