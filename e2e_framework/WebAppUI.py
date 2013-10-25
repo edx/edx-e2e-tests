@@ -143,7 +143,7 @@ class WebAppUI(Mapping):
             )
             raise PageLoadError(msg)
         except socket.gaierror:
-            raise PageLoadError("Could not load page '{0}' with parameters {1} at URL '{1}'".format(
+            raise PageLoadError("Could not load page '{0}' with parameters {1} at URL '{2}'".format(
                 page_name, kwargs, url
             ))
 
