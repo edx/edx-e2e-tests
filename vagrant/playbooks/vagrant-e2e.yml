@@ -1,0 +1,10 @@
+# Configure Vagrant for developing E2E tests locally
+
+- name: Configure Vagrant E2E
+  hosts: vagrant
+  sudo: True
+  gather_facts: True
+  roles:
+    - dev
+    - selenium
+    - saucelabs
