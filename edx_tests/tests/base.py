@@ -8,6 +8,7 @@ import os.path
 from uuid import uuid4
 
 from e2e_framework.web_app_ui import WebAppUI, WrongPageError
+from e2e_framework.browser_env import BrowserEnv
 
 
 class WebAppTest(TestCase):
@@ -17,18 +18,19 @@ class WebAppTest(TestCase):
 
     __metaclass__ = ABCMeta
 
-    # The browser to use when testing the web app
-    TEST_BROWSER = "chrome"
-
     # Subclasses can use this property
     # to access the `WebAppUI` object under test
     ui = None
 
     def setUp(self):
 
+        # Use environment variable values to determine the
+        # type of browser you want.
+        self.browser_env = BrowserEnv()
+
         # Set up the page objects
         # This will start the browser, so add a cleanup
-        self.ui = WebAppUI(self.TEST_BROWSER, self.page_object_classes)
+        self.ui = WebAppUI(self.browser_env, self.page_object_classes)
         self.addCleanup(self.ui.quit_browser)
 
         # Delegate to concrete subclasses to set up the app
