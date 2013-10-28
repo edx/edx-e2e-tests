@@ -28,9 +28,6 @@ class LoggedOutTest(WebAppTest):
             CourseAboutPage, RegisterPage, DashboardPage
         ]
 
-    def setup_app(self):
-        pass
-
     def test_find_courses(self):
         self.ui.visit('lms.find_courses')
 

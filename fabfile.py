@@ -22,6 +22,9 @@ COURSE_FIXTURES = [
     ('edx_demo_course', 'edx_demo_course_1_0.tar.gz'),
 ]
 
+# Number of tests to run in parallel
+NUM_PARALLEL = 4
+
 
 def test_edxapp():
     """
@@ -40,7 +43,8 @@ def test_edxapp():
     # Run the tests!
     local(_cmd(
         'EDXAPP_HOST=' + env.host,
-        'nosetests', REPO_ROOT / "edx_tests" / "tests"
+        'nosetests', REPO_ROOT / "edx_tests" / "tests",
+        '--processes={0}'.format(NUM_PARALLEL)
     ))
 
 
