@@ -18,15 +18,15 @@ class LoggedOutTest(WebAppTest):
     that are visible when logged out.
     """
 
+    DEMO_COURSE_ID = 'edX/Open_DemoX/edx_demo_course'
+    DEMO_COURSE_TITLE = 'Open_DemoX edX Demonstration Course'
+
     @property
     def page_object_classes(self):
         return [
             InfoPage, FindCoursesPage, LoginPage,
             CourseAboutPage, RegisterPage, DashboardPage
         ]
-
-    def setup_app(self):
-        pass
 
     def test_find_courses(self):
         self.ui.visit('lms.find_courses')
@@ -46,10 +46,10 @@ class LoggedOutTest(WebAppTest):
 
         # Expect that the demo course exists
         course_ids = self.ui['lms.find_courses'].course_id_list()
-        self.assertIn('edx/999/2013_Spring', course_ids)
+        self.assertIn(self.DEMO_COURSE_ID, course_ids)
 
         # Go to the course about page
-        self.ui['lms.find_courses'].go_to_course('edx/999/2013_Spring')
+        self.ui['lms.find_courses'].go_to_course(self.DEMO_COURSE_ID)
 
         # Click the register button
         self.ui['lms.course_about'].register()
@@ -61,4 +61,4 @@ class LoggedOutTest(WebAppTest):
         # We should end up at the dashboard
         # Check that we're registered for the course
         course_names = self.ui['lms.dashboard'].available_courses()
-        self.assertIn('999 edX Demonstration Course', course_names)
+        self.assertIn(self.DEMO_COURSE_TITLE, course_names)

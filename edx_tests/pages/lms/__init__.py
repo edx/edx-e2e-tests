@@ -1,2 +1,5 @@
-# TODO -- point this at the integration server instead of vagrant
-BASE_URL = "http://wedaly.m.sandbox.edx.org"
+import os
+
+# Get the hostname of the edxapp instance from the environment 
+EDXAPP_HOST = os.environ.get('EDXAPP_HOST')
+BASE_URL = "http://" + EDXAPP_HOST
