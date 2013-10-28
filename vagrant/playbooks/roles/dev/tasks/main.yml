@@ -36,3 +36,9 @@
 
 - name: dev | git clone edx/configuration
   git: repo={{ edx_config_repo }} dest={{ edx_config_path }}
+
+- name: dev | set virtualenv permissions
+  file:
+    path="{{ virtualenv }}" state=directory
+    owner="{{ dev_user }}" group="{{ dev_group }}" mode=700
+    recurse=yes
