@@ -45,8 +45,9 @@ class WebAppUI(Mapping):
 
     _browser = None
     _page_object_dict = None
+    _session_id = None
 
-    def __init__(self, browser_name, page_object_classes):
+    def __init__(self, browser_env, page_object_classes):
         """
         Create an object to interact with a web application's
         user interface.
@@ -66,7 +67,34 @@ class WebAppUI(Mapping):
         """
 
         # Create the Selenium browser
-        self._browser = splinter.Browser(browser_name)
+        if browser_env.run_on_saucelabs:
+            capabilities = browser_env._make_desired_capabilities()
+            url = "http://{user}:{key}@{host}:{port}/wd/hub".format(
+                user=browser_env.sauce_user_name,
+                key=browser_env.sauce_api_key,
+                host=browser_env.selenium_host,
+                port=browser_env.selenium_port
+                )
+            self._browser = splinter.Browser('remote', url=url, **capabilities)
+            self._session_id = self._browser.driver.session_id
+
+            # As part of the post build activities, the Sauce plugin will parse the test result files.
+            # It attempts to identify lines in the stdout or stderr that are in the following format:
+            # SauceOnDemandSessionID=<some session id> job-name=<some job name>
+            # so we need to output this to the console for jenkins to pick up.
+            print 'SauceOnDemandSessionID={} job-name={}'.format(
+                browser_env.session_id, browser_env.job_name)
+
+        elif browser_env.selenium_host and browser_env.selenium_port:
+            capabilities = browser_env._make_desired_capabilities()
+            url = "http://{host}:{port}/wd/hub".format(
+                host=browser_env.selenium_host,
+                port=browser_env.selenium_port
+                )
+            self._browser = splinter.Browser('remote', url=url, **capabilities)
+
+        else:
+            self._browser = splinter.Browser(browser_env.selenium_browser)
 
         try:
 
