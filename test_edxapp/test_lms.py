@@ -3,13 +3,14 @@ E2E tests for the LMS.
 """
 
 
-from .base import WebAppTest, TestCredentials
-from edx_tests.pages.lms.login import LoginPage
-from edx_tests.pages.lms.find_courses import FindCoursesPage
-from edx_tests.pages.lms.info import InfoPage
-from edx_tests.pages.lms.course_about import CourseAboutPage
-from edx_tests.pages.lms.register import RegisterPage
-from edx_tests.pages.lms.dashboard import DashboardPage
+from e2e_framework.web_app_test import WebAppTest
+from credentials import TestCredentials
+from pages.lms.login import LoginPage
+from pages.lms.find_courses import FindCoursesPage
+from pages.lms.info import InfoPage
+from pages.lms.course_about import CourseAboutPage
+from pages.lms.register import RegisterPage
+from pages.lms.dashboard import DashboardPage
 
 
 class LoggedOutTest(WebAppTest):

@@ -4,8 +4,6 @@ See https://code.google.com/p/selenium/wiki/PageObjects
 """
 
 from abc import ABCMeta, abstractproperty, abstractmethod
-from functools import wraps
-
 from .safe_selenium import SafeSelenium
 
 

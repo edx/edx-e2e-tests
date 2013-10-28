@@ -127,7 +127,7 @@ def _required_envs():
     missing = [key for key, val in envs.items() if val is None]
     if len(missing) > 0:
         msg = (
-            "These environment variables must be set: " + 
+            "These environment variables must be set: " +
             ", ".join(missing)
         )
         raise BrowserConfigError(msg)
@@ -165,7 +165,7 @@ def _optional_envs():
 
 def _capabilities_dict(envs, tags):
     """
-    Convert the dictionary of environment variables to 
+    Convert the dictionary of environment variables to
     a dictionary of desired capabilities to send to the
     Remote WebDriver.
 

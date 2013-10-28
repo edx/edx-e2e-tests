@@ -42,32 +42,27 @@ def test_edxapp(test_spec=None):
 
     to run only those tests.  If ommitted, run all the tests.
     """
-    if env.host is None:
-        _abort("""
-            Must specify at least one host.
-            See http://docs.fabfile.org/en/1.8/usage/execution.html#defining-host-lists
-        """)
+    _verify_host_configured()
 
     # Ensure that the service is available before running the test suite
     if not _available(env.host):
         _abort("Could not contact '{0}'".format(env.host))
 
     # Run the tests
-    test_path = str(REPO_ROOT / "edx_tests" / "tests")
+    test_path = str(REPO_ROOT / "test_edxapp")
+    _run_tests(test_path, test_spec, host_env_var='EDXAPP_HOST')
 
-    if test_spec is not None:
-        test_path += "/" + test_spec
 
-    if NUM_PARALLEL > 1:
-        local(_cmd(
-            'EDXAPP_HOST=' + env.host,
-            'nosetests', test_path,
-            '--processes={0}'.format(NUM_PARALLEL),
-            '--process-timeout={0}'.format(PROCESS_TIMEOUT)
-        ))
+def test_mktg(test_spec=None):
+    """
+    Execute the E2E test suite on an instance of the website administered by marketing.
+    See test_edxapp docstring for 'test_spec' explanation and examples.
+    """
+    _verify_host_configured()
 
-    else:
-        local(_cmd('EDXAPP_HOST=' + env.host, 'nosetests', test_path))
+    test_path = str(REPO_ROOT / "test_mktg")
+
+    _run_tests(test_path, test_spec)
 
 
 def install_courses(force=False):
@@ -76,6 +71,7 @@ def install_courses(force=False):
 
     If `force` is True, upload the course even if it already exists.
     """
+    _verify_host_configured()
 
     confirm = prompt(
         "Install fixture courses on {0}?".format(env.host),
@@ -92,7 +88,7 @@ def install_courses(force=False):
         remote_archive = path('/tmp') / course_archive
         if not files.exists(remote_archive) or force:
             print "Uploading {0}".format(remote_archive)
-            local_path = REPO_ROOT / "edx_tests" / "fixtures" / course_archive
+            local_path = REPO_ROOT / "fixtures" / course_archive
             result = put(str(local_path), str(remote_archive), use_sudo=True)
 
             if not result.succeeded:
@@ -164,3 +160,44 @@ def _manage_cmd(env, cmd):
         '--settings={0}.envs.aws'.format(env),
         '--pythonpath=/opt/wwc/edx-platform'
     )
+
+
+def _verify_host_configured():
+    """
+    Verify that a host was defined.
+    """
+    if env.host is None:
+        _abort("""
+            Must specify at least one host.
+            See http://docs.fabfile.org/en/1.8/usage/execution.html#defining-host-lists
+        """)
+
+
+def _run_tests(test_path, test_spec, host_env_var=None):
+    """
+    Assemble the test runner command and execute it.
+
+    If you want to set up an environment variable e.g. for
+    using the hostname for the base url of the website under test,
+    pass it in so that it will be set as Fabric iterates through
+    each host in the host list.
+    """
+    if test_spec is not None:
+        test_path += "/" + test_spec
+
+    cmd_to_execute = _cmd('nosetests', test_path)
+
+    if host_env_var is not None:
+        cmd_to_execute = _cmd(
+            '{0}={1}'.format(host_env_var, env.host),
+            cmd_to_execute
+        )
+
+    if NUM_PARALLEL > 1:
+        cmd_to_execute = _cmd(
+            cmd_to_execute,
+            '--processes={0}'.format(NUM_PARALLEL),
+            '--process-timeout={0}'.format(PROCESS_TIMEOUT)
+        )
+
+    local(cmd_to_execute)
