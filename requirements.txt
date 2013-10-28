@@ -1,2 +1,5 @@
 splinter==0.5.4
 selenium==2.34.0
+fabric==1.8.0
+path.py==4.4
+requests==2.0.1
