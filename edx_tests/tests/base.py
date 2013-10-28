@@ -17,6 +17,9 @@ class WebAppTest(TestCase):
 
     __metaclass__ = ABCMeta
 
+    # Execute tests in parallel!
+    _multiprocess_can_split_ = True
+
     # The browser to use when testing the web app
     TEST_BROWSER = "chrome"
 
@@ -31,9 +34,6 @@ class WebAppTest(TestCase):
         self.ui = WebAppUI(self.TEST_BROWSER, self.page_object_classes)
         self.addCleanup(self.ui.quit_browser)
 
-        # Delegate to concrete subclasses to set up the app
-        self.setup_app()
-
     @abstractproperty
     def page_object_classes(self):
         """
@@ -42,24 +42,6 @@ class WebAppTest(TestCase):
         during the test.
         """
         return []
-
-    @abstractmethod
-    def setup_app(self):
-        """
-        Perform any setup required to gain
-        access to the pages under test.
-
-        This can include:
-
-            * Flushing databases
-            * Installing fixtures
-            * Creating accounts
-            * Logging in
-
-        When this method exits, all the page objects
-        should be accessible.
-        """
-        pass
 
 
 class TestCredentials(object):

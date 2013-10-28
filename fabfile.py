@@ -22,6 +22,9 @@ COURSE_FIXTURES = [
     ('edx_demo_course', 'edx_demo_course_1_0.tar.gz'),
 ]
 
+# Number of tests to run in parallel
+NUM_PARALLEL = 4
+
 
 def test_edxapp(test_spec=None):
     """
@@ -53,13 +56,16 @@ def test_edxapp(test_spec=None):
 
     local(_cmd(
         'EDXAPP_HOST=' + env.host,
-        'nosetests', test_path
+        'nosetests', test_path,
+        '--processes={0}'.format(NUM_PARALLEL)
     ))
 
 
-def install_courses():
+def install_courses(force=False):
     """
     Install course fixtures that the test suite depends on.
+
+    If `force` is True, upload the course even if it already exists.
     """
 
     confirm = prompt(
@@ -75,16 +81,20 @@ def install_courses():
 
         # Upload the course archive if we haven't already
         remote_archive = path('/tmp') / course_archive
-        if not files.exists(remote_archive):
+        if not files.exists(remote_archive) or force:
             print "Uploading {0}".format(remote_archive)
             local_path = REPO_ROOT / "edx_tests" / "fixtures" / course_archive
-            put(str(local_path), str(remote_archive))
+            result = put(str(local_path), str(remote_archive), use_sudo=True)
+
+            if not result.succeeded:
+                _abort("Upload failed: {0}".format(result))
+
         else:
             print "{0} already exists, skipping.".format(remote_archive)
 
         # Unarchive the course if we haven't already
         remote_data = path('/opt/wwc/data')
-        if not files.exists(remote_data / course_name):
+        if not files.exists(remote_data / course_name) or force:
 
             print "Unarchiving {0} to {1}".format(remote_archive, remote_data / course_name)
 
