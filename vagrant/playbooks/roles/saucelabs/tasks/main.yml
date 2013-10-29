@@ -1,4 +1,7 @@
 ---
+- name: saucelabs | install Java
+  apt: pkg=openjdk-7-jdk state=present update_cache=yes
+
 - name: saucelabs | download Sauce connect
   get_url: url={{ sauce_connect_url }} dest=/tmp/{{ sauce_zip }}
 

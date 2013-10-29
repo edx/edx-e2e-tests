@@ -6,5 +6,5 @@
   gather_facts: True
   roles:
     - dev
-    - selenium
+    - browsers
     - saucelabs

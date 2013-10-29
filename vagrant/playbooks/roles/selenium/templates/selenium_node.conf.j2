@@ -1,5 +1,0 @@
-description     "Selenium Grid Node"
-stop on runlevel [016]
-exec java -jar {{ selenium_jar_path }} -role node \
-    -hub http://localhost:4444/grid/register \
-    -nodeConfig {{ node_config_path }}

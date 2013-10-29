@@ -1,7 +1,6 @@
 ---
 
-selenium_pkgs:
-    - openjdk-7-jdk 
+browsers_pkgs:
     - dbus-x11
     - firefox
     - libgconf2-4
@@ -9,13 +8,6 @@ selenium_pkgs:
     - libnss3-1d
     - libcurl3
     - xdg-utils
-
-# Selenium Grid
-selenium_jar: "selenium-server-standalone-2.37.0.jar"
-selenium_jar_url: "https://selenium.googlecode.com/files/{{ selenium_jar }}"
-selenium_jar_path: "/usr/local/bin/{{ selenium_jar }}"
-node_config_path: "/usr/local/etc/selenium_node.json"
-selenium_hub_port: 4444
 
 # Chrome and ChromeDriver
 chrome_apt_key: "https://dl-ssl.google.com/linux/linux_signing_key.pub"

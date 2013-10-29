@@ -13,6 +13,8 @@ import splinter
 import logging
 LOGGER = logging.getLogger(__name__)
 
+from .browser import browser
+
 
 class WebAppUIConfigError(Exception):
     """
@@ -27,6 +29,7 @@ class WrongPageError(Exception):
     The page object reports that we're on the wrong page!
     """
     pass
+
 
 class PageLoadError(Exception):
     """
@@ -46,13 +49,13 @@ class WebAppUI(Mapping):
     _browser = None
     _page_object_dict = None
 
-    def __init__(self, browser_name, page_object_classes):
+    def __init__(self, page_object_classes):
         """
         Create an object to interact with a web application's
         user interface.
 
-        `browser_name` is any value allowed by the Splinter
-        library: http://splinter.readthedocs.org/en/latest/browser.html
+        Uses environment variables to create the browser
+        (using local browser or SauceLabs).
 
         The browser will be shared by all pages in the web app.
 
@@ -63,10 +66,13 @@ class WebAppUI(Mapping):
 
         Raises a `WebAppUIConfigError` if page object names
         are not unique.
+
+        Raises a `BrowserConfigError` if environment variables
+        for browser configuration are invalid.
         """
 
-        # Create the Selenium browser
-        self._browser = splinter.Browser(browser_name)
+        # Create the browser, either locally or using SauceLabs
+        self._browser = browser()
 
         try:
 
