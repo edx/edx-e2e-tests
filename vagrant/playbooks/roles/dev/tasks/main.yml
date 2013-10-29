@@ -28,7 +28,12 @@
 - name: dev | install virtualenv
   pip: name=virtualenv state=latest
 
+- name: dev | create the virtualenv
+  sudo_user: "{{ dev_user }}"
+  command: /usr/local/bin/virtualenv {{ virtualenv }}
+
 - name: dev | install E2E python requirements
+  sudo_user: "{{ dev_user }}"
   pip:
     requirements={{ repo_dir }}/requirements.txt
     virtualenv={{ virtualenv }}
@@ -36,9 +41,3 @@
 
 - name: dev | git clone edx/configuration
   git: repo={{ edx_config_repo }} dest={{ edx_config_path }}
-
-- name: dev | set virtualenv permissions
-  file:
-    path="{{ virtualenv }}" state=directory
-    owner="{{ dev_user }}" group="{{ dev_group }}" mode=700
-    recurse=yes
