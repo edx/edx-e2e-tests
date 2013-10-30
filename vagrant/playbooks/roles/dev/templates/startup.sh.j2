@@ -5,3 +5,6 @@ cd {{ start_dir }}
 
 # Activate the virtualenv
 source {{ virtualenv }}/bin/activate
+
+# Stop Xubuntu from giving a keychain warning
+unset GNOME_KEYRING_CONTROL
