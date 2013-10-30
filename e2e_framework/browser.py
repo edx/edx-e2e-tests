@@ -5,8 +5,6 @@ For use with SauceLabs (via SauceConnect) or local browsers.
 
 import os
 import splinter
-from selenium.webdriver.common.desired_capabilities \
-    import DesiredCapabilities as DC
 
 import logging
 LOGGER = logging.getLogger(__name__)
@@ -29,12 +27,7 @@ OPTIONAL_ENV_VARS = [
 ]
 
 
-BROWSER_DICT = {
-    'chrome': DC.CHROME,
-    'firefox': DC.FIREFOX,
-    'iexplore': DC.INTERNETEXPLORER,
-    'safari': DC.SAFARI
-}
+BROWSERS = ['chrome', 'firefox', 'internet explorer', 'safari']
 
 
 class BrowserConfigError(Exception):
@@ -92,6 +85,10 @@ def browser():
         # Turn the environment variables into a dictionary of desired capabilities
         caps = _capabilities_dict(envs)
 
+        LOGGER.info("Using SauceLabs: {0} {1} {2}".format(
+            caps['platform'], caps['browserName'], caps['version']
+        ))
+
         # Create and return a new Browser
         # We assume that the WebDriver end-point is running locally (e.g. using SauceConnect)
         url = "http://{0}:{1}/wd/hub".format(envs['SELENIUM_HOST'], envs['SELENIUM_PORT'])
@@ -133,7 +130,7 @@ def _required_envs():
         raise BrowserConfigError(msg)
 
     # Check that we support this browser
-    if envs['SELENIUM_BROWSER'] not in BROWSER_DICT:
+    if envs['SELENIUM_BROWSER'] not in BROWSERS:
         msg = "Unsuppported browser: {0}".format(envs['SELENIUM_BROWSER'])
         raise BrowserConfigError(msg)
 
@@ -170,7 +167,7 @@ def _capabilities_dict(envs):
     Remote WebDriver.
     """
     capabilities = {
-        'browser': envs['SELENIUM_BROWSER'],
+        'browserName': envs['SELENIUM_BROWSER'],
         'platform': envs['SELENIUM_PLATFORM'],
         'version': envs['SELENIUM_VERSION'],
         'username': envs['SAUCE_USER_NAME'],
