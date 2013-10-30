@@ -25,6 +25,9 @@ COURSE_FIXTURES = [
 # Number of tests to run in parallel
 NUM_PARALLEL = 4
 
+# Process timeout for test results
+PROCESS_TIMEOUT = 600
+
 
 def test_edxapp(test_spec=None):
     """
@@ -57,7 +60,8 @@ def test_edxapp(test_spec=None):
     local(_cmd(
         'EDXAPP_HOST=' + env.host,
         'nosetests', test_path,
-        '--processes={0}'.format(NUM_PARALLEL)
+        '--processes={0}'.format(NUM_PARALLEL),
+	'--process-timeout={0}'.format(PROCESS_TIMEOUT)
     ))
 
 
