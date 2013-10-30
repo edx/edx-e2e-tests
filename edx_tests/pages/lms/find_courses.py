@@ -41,8 +41,11 @@ class FindCoursesPage(PageObject):
         """
 
         # Try clicking the link directly
+        # There are several links without text;
+        # in IE 10, only the second one works
         try:
-            self.css_click('a[href="/courses/{0}/about"]'.format(course_id))
+            css = 'a[href="/courses/{0}/about"]'.format(course_id)
+            self.css_click(css, index=1)
 
         # Chrome gives an error that another element would receive the click.
         # So click higher up in the DOM
