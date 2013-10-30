@@ -20,9 +20,6 @@ class WebAppTest(TestCase):
     # Execute tests in parallel!
     _multiprocess_can_split_ = True
 
-    # The browser to use when testing the web app
-    TEST_BROWSER = "chrome"
-
     # Subclasses can use this property
     # to access the `WebAppUI` object under test
     ui = None
@@ -31,7 +28,7 @@ class WebAppTest(TestCase):
 
         # Set up the page objects
         # This will start the browser, so add a cleanup
-        self.ui = WebAppUI(self.TEST_BROWSER, self.page_object_classes)
+        self.ui = WebAppUI(self.page_object_classes)
         self.addCleanup(self.ui.quit_browser)
 
     @abstractproperty
