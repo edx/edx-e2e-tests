@@ -7,7 +7,7 @@ virtualenv: "{{ start_dir }}/virtualenv"
 repo_dir: "{{ start_dir }}/edx-e2e-tests"
 
 dev_pkgs:
-    - ubuntu-desktop
+    - xubuntu-desktop
     - git
     - vim
     - unzip
@@ -18,3 +18,6 @@ dev_pkgs:
 
 edx_config_repo: "https://github.com/edx/configuration"
 edx_config_path: "{{ start_dir }}/configuration"
+
+terminalrc_url: "https://raw.github.com/sgerrand/xfce4-terminal-colors-solarized/master/dark/terminalrc"
+terminalrc_dir: "{{ dev_home }}/.config/Terminal"

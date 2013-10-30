@@ -6,6 +6,16 @@
   apt: pkg={{','.join(dev_pkgs)}}
        state=present update_cache=yes
 
+- name: dev | create terminal theme dir
+  file:
+    path={{ terminalrc_dir }} state=directory
+    owner={{ dev_user }} group={{ dev_group }} mode=700
+
+- name: dev | install terminal theme
+  get_url:
+    url={{ terminalrc_url }} dest={{ terminalrc_dir }}/terminalrc
+    owner={{ dev_user }} group={{ dev_group }} mode=700
+
 - name: dev | create start directory
   file:
     path={{ start_dir }} state=directory
