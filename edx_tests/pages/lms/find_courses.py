@@ -1,4 +1,5 @@
 from e2e_framework.page_object import PageObject
+from selenium.common.exceptions import WebDriverException
 from . import BASE_URL
 
 
@@ -38,7 +39,15 @@ class FindCoursesPage(PageObject):
         Currently the course id has the form
         edx/999/2013_Spring, but this could change.
         """
-        # We need to escape forward slashes in the course_id
-        # to create a valid CSS selector
-        course_id = course_id.replace('/', '\/')
-        self.css_click('article.course#{0}'.format(course_id))
+
+        # Try clicking the link directly
+        try:
+            self.css_click('a[href="/courses/{0}/about"]'.format(course_id))
+
+        # Chrome gives an error that another element would receive the click.
+        # So click higher up in the DOM
+        except WebDriverException:
+            # We need to escape forward slashes in the course_id
+            # to create a valid CSS selector
+            course_id = course_id.replace('/', '\/')
+            self.css_click('article.course#{0}'.format(course_id))

@@ -2,6 +2,7 @@
 Commands for setting up test environments and running tests.
 """
 
+import os
 from fabric.api import *
 from fabric.contrib import files
 from textwrap import dedent
@@ -22,8 +23,8 @@ COURSE_FIXTURES = [
     ('edx_demo_course', 'edx_demo_course_1_0.tar.gz'),
 ]
 
-# Number of tests to run in parallel
-NUM_PARALLEL = 4
+# Number of tests to run in parallel, set by environment
+NUM_PARALLEL = os.environ.get('NUM_PARALLEL_TESTS', 1)
 
 # Process timeout for test results
 PROCESS_TIMEOUT = 600
@@ -57,12 +58,16 @@ def test_edxapp(test_spec=None):
     if test_spec is not None:
         test_path += "/" + test_spec
 
-    local(_cmd(
-        'EDXAPP_HOST=' + env.host,
-        'nosetests', test_path,
-        '--processes={0}'.format(NUM_PARALLEL),
-	'--process-timeout={0}'.format(PROCESS_TIMEOUT)
-    ))
+    if NUM_PARALLEL > 1:
+        local(_cmd(
+            'EDXAPP_HOST=' + env.host,
+            'nosetests', test_path,
+            '--processes={0}'.format(NUM_PARALLEL),
+            '--process-timeout={0}'.format(PROCESS_TIMEOUT)
+        ))
+
+    else:
+        local(_cmd('EDXAPP_HOST=' + env.host, 'nosetests', test_path))
 
 
 def install_courses(force=False):
