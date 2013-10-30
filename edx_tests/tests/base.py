@@ -10,6 +10,12 @@ from uuid import uuid4
 from e2e_framework.web_app_ui import WebAppUI, WrongPageError
 
 
+# Suppress Selenium log messages
+import logging
+selenium_logger = logging.getLogger('selenium.webdriver.remote.remote_connection')
+selenium_logger.setLevel(logging.WARNING)
+
+
 class WebAppTest(TestCase):
     """
     Base class for testing a web application.

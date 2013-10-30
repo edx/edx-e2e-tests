@@ -3,6 +3,9 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
+MEMORY = 2048
+CPU_COUNT = 2
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # We initially use the base Ubuntu 12.04 box to bootstrap the image
@@ -19,6 +22,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provider :virtualbox do |vb|
      vb.gui = true
+
+    vb.customize ["modifyvm", :id, "--memory", MEMORY.to_s]
+    vb.customize ["modifyvm", :id, "--cpus", CPU_COUNT.to_s]
   end
 
   config.vm.provision "ansible" do |ansible|
