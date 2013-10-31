@@ -37,10 +37,13 @@ class BrowserConfigError(Exception):
     pass
 
 
-def browser():
+def browser(tags):
     """
     Interpret environment variables to configure Selenium.
     Performs validation, logging, and sensible defaults.
+
+    `tags` is a list of string tags to apply to the SauceLabs
+    job.  If not using SauceLabs, these will be ignored.
 
     There are two cases:
 
@@ -83,7 +86,7 @@ def browser():
         envs.update(_optional_envs())
 
         # Turn the environment variables into a dictionary of desired capabilities
-        caps = _capabilities_dict(envs)
+        caps = _capabilities_dict(envs, tags)
 
         LOGGER.info("Using SauceLabs: {0} {1} {2}".format(
             caps['platform'], caps['browserName'], caps['version']
@@ -160,11 +163,13 @@ def _optional_envs():
     return envs
 
 
-def _capabilities_dict(envs):
+def _capabilities_dict(envs, tags):
     """
     Convert the dictionary of environment variables to 
     a dictionary of desired capabilities to send to the
     Remote WebDriver.
+
+    `tags` is a list of string tags to apply to the SauceLabs job.
     """
     capabilities = {
         'browserName': envs['SELENIUM_BROWSER'],
@@ -178,6 +183,7 @@ def _capabilities_dict(envs):
         'record-screenshots': True,
         'max-duration': 600,
         'public': 'public restricted',
+        'tags': tags,
     }
 
     # Optional: Add in Jenkins-specific environment variables

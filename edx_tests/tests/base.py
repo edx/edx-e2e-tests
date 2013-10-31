@@ -32,9 +32,12 @@ class WebAppTest(TestCase):
 
     def setUp(self):
 
+        # If using SauceLabs, tag the job with test info
+        tags = [self.id()]
+
         # Set up the page objects
         # This will start the browser, so add a cleanup
-        self.ui = WebAppUI(self.page_object_classes)
+        self.ui = WebAppUI(self.page_object_classes, tags)
         self.addCleanup(self.ui.quit_browser)
 
     @abstractproperty

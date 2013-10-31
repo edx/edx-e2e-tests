@@ -49,7 +49,7 @@ class WebAppUI(Mapping):
     _browser = None
     _page_object_dict = None
 
-    def __init__(self, page_object_classes):
+    def __init__(self, page_object_classes, tags):
         """
         Create an object to interact with a web application's
         user interface.
@@ -64,6 +64,9 @@ class WebAppUI(Mapping):
         defines the name used to access it; these names must
         be unique among page objects in the list.
 
+        `tags` is a list of tags to apply to the SauceLabs
+        job (if the environment is configured to use SauceLabs)
+
         Raises a `WebAppUIConfigError` if page object names
         are not unique.
 
@@ -72,7 +75,7 @@ class WebAppUI(Mapping):
         """
 
         # Create the browser, either locally or using SauceLabs
-        self._browser = browser()
+        self._browser = browser(tags)
 
         try:
 
