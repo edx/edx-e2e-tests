@@ -2,11 +2,7 @@
 Web application user interface.
 Encapsulates tests from interacting directly with Selenium.
 """
-
-import os
-import os.path
 import socket
-from uuid import uuid4
 from collections import Mapping
 import splinter
 
@@ -91,7 +87,7 @@ class WebAppUI(Mapping):
                 page = clz(self._browser)
 
                 if page.name in self._page_object_dict:
-                    msg = "Duplicate page object name: {0}".format(page_name)
+                    msg = "Duplicate page object name: {0}".format(page.name)
                     raise WebAppUIConfigError(msg)
 
                 else:
