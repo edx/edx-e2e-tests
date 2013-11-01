@@ -4,7 +4,7 @@ Commands for setting up test environments and running tests.
 
 import os
 from ConfigParser import SafeConfigParser
-from fabric.api import *
+from fabric.api import task, env, local
 from fabric.contrib import files
 from textwrap import dedent
 from path import path
