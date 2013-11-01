@@ -19,9 +19,7 @@ REPO_ROOT = path(__file__).dirname()
 
 # Courses that will be imported before running the tests
 # These should be .tar.gz archives exported from Studio
-COURSE_FIXTURES = [
-    ('edx_demo_course', 'edx_demo_course_1_0.tar.gz'),
-]
+COURSE_FIXTURES = []
 
 # Number of tests to run in parallel, set by environment
 NUM_PARALLEL = os.environ.get('NUM_PARALLEL_TESTS', 1)
