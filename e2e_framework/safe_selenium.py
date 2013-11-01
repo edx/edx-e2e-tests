@@ -150,8 +150,6 @@ class SafeSelenium(object):
         """
         Perform a click on a CSS selector, first waiting for the element
         to be present and clickable.
-
-        This method will return True if the click worked.
         """
         self.wait_for_clickable(css_selector, timeout=wait_time)
         self.wait_for_visible(css_selector, index=index, timeout=wait_time)
@@ -160,8 +158,7 @@ class SafeSelenium(object):
             msg="Element {}[{}] is present but not visible".format(css_selector, index)
         )
 
-        result = self.retry_on_exception(lambda: self.css_find(css_selector)[index].click())
-        return result
+        self.retry_on_exception(lambda: self.css_find(css_selector)[index].click())
 
     def css_check(self, css_selector, wait_time=30):
         """
@@ -170,17 +167,14 @@ class SafeSelenium(object):
         because that's how selenium interacts with check boxes and radio buttons.
 
         Then for synchronization purposes, wait for the element to be checked.
-        This method will return True if the check worked.
         """
         self.css_click(css_selector=css_selector, wait_time=wait_time)
         self.wait_for(lambda _: self.css_find(css_selector).selected)
-        return True
 
     def select_option(self, name, value, wait_time=30):
         """
         A method to select an option
         Then for synchronization purposes, wait for the option to be selected.
-        This method will return True if the selection worked.
         """
         select_css = "select[name='{}']".format(name)
         option_css = "option[value='{}']".format(value)
@@ -188,7 +182,6 @@ class SafeSelenium(object):
         css_selector = "{} {}".format(select_css, option_css)
         self.css_click(css_selector=css_selector, wait_time=wait_time)
         self.wait_for(lambda _: self.css_has_value(select_css, value))
-        return True
 
     def css_fill(self, css_selector, text, index=0):
         """
@@ -199,7 +192,6 @@ class SafeSelenium(object):
         self.wait_for_visible(css_selector, index=index)
         self.retry_on_exception(lambda: self.css_find(css_selector)[index].fill(text))
         self.wait_for(lambda _: self.css_has_value(css_selector, text, index=index))
-        return True
 
     def click_link(self, partial_text, index=0):
         self.retry_on_exception(lambda: self.browser.find_link_by_partial_text(partial_text)[index].click())
