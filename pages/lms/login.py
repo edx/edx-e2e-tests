@@ -1,5 +1,5 @@
 from e2e_framework.page_object import PageObject
-from . import BASE_URL
+from pages import BASE_URL
 
 
 class LoginPage(PageObject):
@@ -25,3 +25,11 @@ class LoginPage(PageObject):
     def is_browser_on_page(self):
         page_title = self.css_text('span.title-super').lower()
         return 'log in' in page_title
+
+    def login(self, email, password):
+        """
+        Attempt to log in using `email` and `password`.
+        """
+        self.css_fill('input#email', email)
+        self.css_fill('input#password', password)
+        self.css_click('button#submit')
