@@ -1,6 +1,6 @@
 from e2e_framework.page_object import PageObject
 from selenium.common.exceptions import WebDriverException
-from . import BASE_URL
+from pages import BASE_URL
 
 
 class FindCoursesPage(PageObject):

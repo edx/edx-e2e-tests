@@ -1,5 +1,5 @@
 from e2e_framework.page_object import PageObject
-from . import BASE_URL
+from pages import BASE_URL
 
 
 class RegisterPage(PageObject):

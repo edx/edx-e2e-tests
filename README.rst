@@ -26,18 +26,24 @@ We recommend using the provided Vagrant environment to develop and run tests.
 3. In the `edx-e2e-tests/vagrant` directory, execute this command:
 
 .. code:: bash
-    
+
     vagrant up
 
 4. This will create and provision a new Vagrant environment.
 
-You will also need an installation of the edX to run the tests on. 
+You will also need an installation of the edX to run the tests on.
 See `edx/configuration`__ for instructions on provisioning an edX instance.
 
 __ http://docs.vagrantup.com/v2/installation/index.html
 __ http://www.ansibleworks.com/docs/intro_installation.html
 __ https://github.com/edx/configuration
 
+
+Configuration
+-------------
+
+Edit the configuration file ``config.ini`` to provide information about the system under test.
+You can specify another configuration file by setting the ``CONFIG_PATH`` environment variable.
 
 
 Running Tests Locally
@@ -48,21 +54,19 @@ To run tests within the Vagrant environment:
 .. code:: bash
 
     cd /opt/dev/edx-e2e-tests
-    fab test_edxapp -H HOSTNAME
-
-where ``HOSTNAME`` is the hostname of the test environment.
+    fab test_edxapp
 
 You can run a specific test using nose-style test specifiers:
 
 .. code:: bash
 
-    fab test_edxapp:test_lms.py:LoggedOutTest.test_register -H HOSTNAME
+    fab test_edxapp:test_lms.py:LoggedOutTest.test_register
 
 By default, tests run locally in Firefox.  You can also use Chrome:
 
 .. code:: bash
 
-    SELENIUM_BROWSER=chrome fab test_edxapp -H HOSTNAME
+    SELENIUM_BROWSER=chrome fab test_edxapp
 
 
 
@@ -83,15 +87,15 @@ variables as the `Sauce OnDemand Plugin`__ for Jenkins
 3. In another terminal, run the tests:
 
 .. code:: bash
-    
+
     source /opt/dev/jenkins_env
-    fab test_edxapp -H HOSTNAME
+    fab test_edxapp
 
 To speed things up, you can also run tests in parallel:
 
 .. code:: bash
 
-    NUM_PARALLEL=4 fab test_edxapp -H HOSTNAME
+    NUM_PARALLEL=4 fab test_edxapp
 
 __ https://saucelabs.com/docs/connect
 __ https://wiki.jenkins-ci.org/display/JENKINS/Sauce+OnDemand+Plugin
