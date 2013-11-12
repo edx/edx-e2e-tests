@@ -23,6 +23,22 @@ NUM_PARALLEL = os.environ.get('NUM_PARALLEL_TESTS', 1)
 PROCESS_TIMEOUT = 600
 
 
+def config_edxapp(**kwargs):
+    """
+    Ensure that edxapp tests are configured with the keys/values in kwargs (idempotent).
+    This is useful for generating config files on the fly (e.g. in Jenkins).
+    """
+    _set_config('edxapp', kwargs)
+
+
+def config_mktg(**kwargs):
+    """
+    Ensure that mktg tests are configured with the keys/values in kwargs (idempotent).
+    This is useful for generating config files on the fly (e.g. in Jenkins).
+    """
+    _set_config('mktg', kwargs)
+
+
 def test_edxapp(test_spec=None):
     """
     Execute the E2E test suite on an instance of the edxapp.
@@ -63,6 +79,27 @@ def _available(protocol, hostname):
         return False
 
     return resp.status_code == 200
+
+
+def _set_config(suite, options_dict):
+    """
+    Set the config keys/values to `options_dict` for the test suite `suite`.
+    """
+    config = SafeConfigParser()
+    config.read(CONFIG_PATH)
+
+    print "Updating {0} in '{1}'".format(suite, CONFIG_PATH)
+
+    if not config.has_section(suite):
+        print "Adding section '{0}'".format(suite)
+        config.add_section(suite)
+
+    for key, val in options_dict.items():
+        print "Setting: {0}={1}".format(key, val)
+        config.set(suite, key, val)
+
+    with open(CONFIG_PATH, 'wb') as config_file:
+        config.write(config_file)
 
 
 def _read_config(suite):
