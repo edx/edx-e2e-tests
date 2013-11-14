@@ -13,6 +13,8 @@ from pages.lms.course_about import CourseAboutPage
 from pages.lms.register import RegisterPage
 from pages.lms.dashboard import DashboardPage
 from pages.lms.course_info import CourseInfoPage
+from pages.lms.tab_nav import TabNavPage
+from pages.lms.progress import ProgressPage
 
 
 # The demo course is installed by default in the CI environment
@@ -74,7 +76,7 @@ class LoggedInTest(WebAppTest):
 
     @property
     def page_object_classes(self):
-        return [LoginPage, DashboardPage, CourseInfoPage]
+        return [LoginPage, DashboardPage, CourseInfoPage, TabNavPage, ProgressPage]
 
     @property
     def fixtures(self):
@@ -109,6 +111,21 @@ class LoggedInTest(WebAppTest):
         handout_links = self.ui['lms.course_info'].handout_links()
         self.assertEqual(len(handout_links), 1)
         self.assertIn('demoPDF.pdf', handout_links[0])
+
+    def test_progress(self):
+        """
+        Navigate to the progress page.
+        """
+        self.ui['lms.dashboard'].view_course(DEMO_COURSE_ID)
+        self.ui['lms.tab_nav'].go_to_tab('Progress')
+
+        # We haven't answered any problems yet, so assume scores are zero
+        CHAPTER = 'Example Week 1: Getting Started'
+        SECTION = 'Homework - Question Styles'
+        EXPECTED_SCORES = [(0, 1), (0, 1), (0, 3), (0, 1), (0, 1), (0, 3), (0, 1)]
+
+        actual_scores = self.ui['lms.progress'].scores(CHAPTER, SECTION)
+        self.assertEqual(actual_scores, EXPECTED_SCORES)
 
     def _login(self):
         """

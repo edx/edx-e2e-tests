@@ -20,7 +20,7 @@ class DashboardPage(PageObject):
     def js_globals(self):
         return []
 
-    def url(self, course_id=None):
+    def url(self, **kwargs):
         return BASE_URL + "/dashboard"
 
     def is_browser_on_page(self):
@@ -39,22 +39,16 @@ class DashboardPage(PageObject):
         Go to the course with `course_id` (e.g. edx/Open_DemoX/edx_demo_course)
         """
         # This is currently implemented as a native link with some CSS styling
-        # We retrieve the href and visit the link directly rather than
-        # using Selenium click methods, since there isn't an easy
-        # way to reference the links otherwise (no css id)
-        links = [
-            el['href'] for el in self.css_find('a.enter-course')
-            if course_id in el['href']
-        ]
+        links = [el for el in self.css_find('a.enter-course') if course_id in el['href']]
 
         if len(links) > 1:
             msg = "Expected one link for course {0}, but found {1}.  Will use the first link.".format(course_id, len(links))
             self.warning(msg)
-            self.browser.visit(links[0])
+            links[0].click()
 
         elif len(links) < 1:
             msg = "No links found for course {0}".format(course_id)
             self.warning(msg)
 
         else:
-            self.browser.visit(links[0])
+            links[0].click()
