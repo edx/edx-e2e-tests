@@ -4,6 +4,7 @@ See https://code.google.com/p/selenium/wiki/PageObjects
 """
 
 from abc import ABCMeta, abstractproperty, abstractmethod
+import logging
 from .safe_selenium import SafeSelenium
 
 
@@ -102,3 +103,15 @@ class PageObject(SafeSelenium):
 
         if self.js_globals:
             self.wait_for_js_variable_truthy(self.js_globals)
+
+    def warning(self, msg):
+        """
+        Subclasses call this to indicate that something unexpected
+        occurred while interacting with the page.
+
+        Page objects themselves should never make assertions or
+        raise exceptions, but they can issue warnings to make
+        tests easier to debug.
+        """
+        log = logging.getLogger(self.__class__.__name__)
+        log.warning(msg)

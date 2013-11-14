@@ -12,6 +12,7 @@ from pages.lms.info import InfoPage
 from pages.lms.course_about import CourseAboutPage
 from pages.lms.register import RegisterPage
 from pages.lms.dashboard import DashboardPage
+from pages.lms.course_info import CourseInfoPage
 
 
 # The demo course is installed by default in the CI environment
@@ -73,12 +74,13 @@ class LoggedInTest(WebAppTest):
 
     @property
     def page_object_classes(self):
-        return [LoginPage, DashboardPage]
+        return [LoginPage, DashboardPage, CourseInfoPage]
 
     @property
     def fixtures(self):
         """
         Create a user account so we can log in.
+        The user account is automatically registered for the demo course.
         """
         self.username = 'test_' + self.unique_id
         self.email = '{0}@example.com'.format(self.username)
@@ -86,7 +88,33 @@ class LoggedInTest(WebAppTest):
 
         return [UserFixture(self.username, self.email, self.password, course=DEMO_COURSE_ID)]
 
-    def test_login(self):
+    def setUp(self):
+        """
+        Each test begins after registering for the demo course and logging in.
+        """
+        super(LoggedInTest, self).setUp()
+        self._login()
+
+    def test_course_info(self):
+        """
+        Navigate to the course info page.
+        """
+        self.ui['lms.dashboard'].view_course(DEMO_COURSE_ID)
+
+        # Expect just one update
+        num_updates = self.ui['lms.course_info'].num_updates()
+        self.assertEqual(num_updates, 1)
+
+        # Expect a link to the demo handout pdf
+        handout_links = self.ui['lms.course_info'].handout_links()
+        self.assertEqual(len(handout_links), 1)
+        self.assertIn('demoPDF.pdf', handout_links[0])
+
+    def _login(self):
+        """
+        Log in as the test user and navigate to the dashboard,
+        where we should see the demo course.
+        """
         self.ui.visit('lms.login')
         self.ui['lms.login'].login(self.email, self.password)
         course_names = self.ui['lms.dashboard'].available_courses()

@@ -9,7 +9,7 @@ Examples:
 """
 
 from abc import ABCMeta, abstractproperty, abstractmethod
-from fabric.api import execute, env
+from fabric.api import execute, env, hide
 from fabric.network import disconnect_all
 
 
@@ -93,10 +93,12 @@ class RemoteCommandFixture(WebAppFixture):
             else:
                 host = self.hostname
 
-            execute(self.execute, hosts=[host])
+            with hide('output', 'running'):
+                execute(self.execute, hosts=[host])
 
         finally:
-            disconnect_all()
+            with hide('output', 'running'):
+                disconnect_all()
 
     @abstractmethod
     def execute(self):
