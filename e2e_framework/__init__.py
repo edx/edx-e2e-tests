@@ -1,4 +1,6 @@
-# Suppress Selenium log messages
 import logging
-selenium_logger = logging.getLogger('selenium.webdriver.remote.remote_connection')
-selenium_logger.setLevel(logging.WARNING)
+
+# Suppress noisy loggers
+NOISY_LOGGERS = ['selenium.webdriver.remote.remote_connection', 'paramiko.transport']
+for log_name in NOISY_LOGGERS:
+    logging.getLogger(log_name).setLevel(logging.WARNING)
