@@ -14,6 +14,7 @@ from pages.lms.register import RegisterPage
 from pages.lms.dashboard import DashboardPage
 from pages.lms.course_info import CourseInfoPage
 from pages.lms.tab_nav import TabNavPage
+from pages.lms.course_nav import CourseNavPage
 from pages.lms.progress import ProgressPage
 
 
@@ -76,7 +77,10 @@ class LoggedInTest(WebAppTest):
 
     @property
     def page_object_classes(self):
-        return [LoginPage, DashboardPage, CourseInfoPage, TabNavPage, ProgressPage]
+        return [
+            LoginPage, DashboardPage, CourseInfoPage, TabNavPage,
+            CourseNavPage, ProgressPage
+        ]
 
     @property
     def fixtures(self):
@@ -126,6 +130,39 @@ class LoggedInTest(WebAppTest):
 
         actual_scores = self.ui['lms.progress'].scores(CHAPTER, SECTION)
         self.assertEqual(actual_scores, EXPECTED_SCORES)
+
+    def test_courseware_nav(self):
+        """
+        Navigate to a particular unit in the courseware.
+        """
+        self.ui['lms.dashboard'].view_course(DEMO_COURSE_ID)
+        self.ui['lms.tab_nav'].go_to_tab('Courseware')
+
+        # Check that the courseware navigation appears correctly
+        EXPECTED_SECTIONS = {
+            'Introduction': ['Demo Course Overview'],
+            'Example Week 1: Getting Started': ['Lesson 1 - Getting Started', 'Homework - Question Styles']
+        }
+        actual_sections = self.ui['lms.course_nav'].sections
+        for section, subsections in EXPECTED_SECTIONS.iteritems():
+            self.assertIn(section, actual_sections)
+            self.assertEqual(actual_sections[section], EXPECTED_SECTIONS[section])
+
+        # Navigate to a particular section
+        self.ui['lms.course_nav'].go_to_section(
+            'Example Week 1: Getting Started', 'Homework - Question Styles'
+        )
+
+        # Check the sequence items
+        EXPECTED_ITEMS = [
+            'Pointing on a Picture', 'Drag and Drop', 'Multiple Choice Questions',
+            'Mathematical Expressions', 'Chemical Equations', 'Numerical Input', 'Text Input'
+        ]
+
+        actual_items = self.ui['lms.course_nav'].sequence_items
+        self.assertEqual(len(actual_items), len(EXPECTED_ITEMS))
+        for expected in EXPECTED_ITEMS:
+            self.assertIn(expected, actual_items)
 
     def _login(self):
         """
