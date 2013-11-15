@@ -191,4 +191,4 @@ def _abort(msg):
     Helper to abort with a message.
     """
     print "ABORT: " + dedent(msg).strip()
-    exit(0)
+    exit(1)
