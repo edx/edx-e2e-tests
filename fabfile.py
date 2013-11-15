@@ -110,7 +110,7 @@ def _read_config(suite):
     Returns a dictionary of configuration values that will
     be passed as environment variables to the test suite.
 
-    Only `protocol` and `host` keys are required.
+    Only `protocol` and `test_host` keys are required.
     """
     if not os.path.isfile(CONFIG_PATH):
         msg = """
@@ -128,7 +128,7 @@ def _read_config(suite):
 
     # Check that the required keys are defined
     missing = []
-    for key in ['protocol', 'host']:
+    for key in ['protocol', 'test_host']:
         if key not in result:
             missing.append(key)
 
@@ -154,8 +154,8 @@ def _run_tests(test_path, test_spec, config):
     """
 
     # Ensure that the service is available before running the test suite
-    if not _available(config['protocol'], config['host']):
-        _abort("Could not contact '{0}'".format(config['host']))
+    if not _available(config['protocol'], config['test_host']):
+        _abort("Could not contact '{0}'".format(config['test_host']))
 
     # Restrict to a subset of tests based on command-line arguments
     if test_spec is not None:
