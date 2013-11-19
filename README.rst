@@ -10,7 +10,8 @@ UI-level tests for edX applications:
 
 - ``e2e_framework``: A framework for writing end-to-end Selenium tests using the `Page Object`__ design pattern.
 - ``pages``: PageObjects for interacting with pages under test.
-- ``test_edxapp``: Selenium tests for edX applications.
+- ``test_lms``: Selenium tests for the Learning Management System (LMS).
+- ``test_studio``: Selenium tests for Studio.
 - ``test_mktg``: Selenium tests for the edX marketing site.
 
 __ https://code.google.com/p/selenium/wiki/PageObjects
@@ -64,43 +65,36 @@ You can use the following command to list the available fabric commands:
     fab --list
 
 
+To run all the tests:
+
+.. code:: bash
+
+    fab test
+
+
 The following commands can be used to execute the test suites for the edX
 app or the marketing site:
 
 .. code:: bash
 
-    fab test_edxapp
+    fab test_lms
+    fab test_studio
     fab test_mktg
 
 
-You can run a specific test using nose-style test specifiers:
+The commands also accept nose-style specifiers for test case or module:
 
 .. code:: bash
 
-    fab test_edxapp:test_lms.py:LoggedOutTest.test_register
-
-
-If you wish to run only the tests for lms or Studio, you can use these shortcuts:
-
-.. code:: bash
-
-    fab test_lms
-    fab test_cms
-
-
-The shortcuts can also take nose-style specifiers for test case or module:
-
-.. code:: bash
-
-    fab test_lms:LoggedInTest.test_progress
-    fab test_cms:LoggedOutTest
+    fab test_lms:test_lms.py:RegistrationTest.test_register
+    fab test_studio:test_studio.py:LoggedOutTest
 
 
 By default, tests run locally in Firefox.  You can also use Chrome:
 
 .. code:: bash
 
-    SELENIUM_BROWSER=chrome fab test_edxapp
+    SELENIUM_BROWSER=chrome fab test_lms
 
 
 
@@ -123,13 +117,13 @@ variables as the `Sauce OnDemand Plugin`__ for Jenkins
 .. code:: bash
 
     source /opt/dev/jenkins_env
-    fab test_edxapp
+    fab test_studio
 
 To speed things up, you can also run tests in parallel:
 
 .. code:: bash
 
-    NUM_PARALLEL=4 fab test_edxapp
+    NUM_PARALLEL=4 fab test_lms
 
 __ https://saucelabs.com/docs/connect
 __ https://wiki.jenkins-ci.org/display/JENKINS/Sauce+OnDemand+Plugin
