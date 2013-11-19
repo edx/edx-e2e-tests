@@ -2,7 +2,6 @@
 E2E tests for the LMS.
 """
 
-
 from e2e_framework.web_app_test import WebAppTest
 from credentials import TestCredentials
 from fixtures import UserFixture
@@ -16,6 +15,7 @@ from pages.lms.course_info import CourseInfoPage
 from pages.lms.tab_nav import TabNavPage
 from pages.lms.course_nav import CourseNavPage
 from pages.lms.progress import ProgressPage
+from pages.lms.video import VideoPage
 
 
 # The demo course is installed by default in the CI environment
@@ -79,7 +79,7 @@ class LoggedInTest(WebAppTest):
     def page_object_classes(self):
         return [
             LoginPage, DashboardPage, CourseInfoPage, TabNavPage,
-            CourseNavPage, ProgressPage
+            CourseNavPage, ProgressPage, VideoPage
         ]
 
     @property
@@ -163,6 +163,44 @@ class LoggedInTest(WebAppTest):
         self.assertEqual(len(actual_items), len(EXPECTED_ITEMS))
         for expected in EXPECTED_ITEMS:
             self.assertIn(expected, actual_items)
+
+    def test_video_player(self):
+        """
+        Play a video in the courseware.
+        """
+
+        # Navigate to a video in the demo course
+        self.ui['lms.dashboard'].view_course(DEMO_COURSE_ID)
+        self.ui['lms.tab_nav'].go_to_tab('Courseware')
+        self.ui['lms.course_nav'].go_to_section('Introduction', 'Demo Course Overview')
+
+        # The video should start off paused
+        # Since the video hasn't loaded yet, it's elapsed time and duration are both 0
+        self.assertFalse(self.ui['lms.video'].is_playing)
+        self.assertEqual(self.ui['lms.video'].duration, 0)
+        self.assertEqual(self.ui['lms.video'].elapsed_time, 0)
+
+        # Play the video
+        self.ui['lms.video'].play()
+
+        # Wait for some time to allow the video to load and progress
+        # There's a risk for flakiness here, since we're depending on YouTube
+        # to serve the video in a reasonable amount of time.
+        # Since we can't anticipate the wait time with any accuracy,
+        # the next few assertions we make will have weaker conditions
+        self.wait_for(
+            lambda: self.ui['lms.video'].elapsed_time > 1,
+            "video to play", timeout_sec=20
+        )
+
+        # Pause the video
+        self.ui['lms.video'].pause()
+
+        # Expect that the video progressed by *some* amount
+        # This is a weak condition, but prevents failures from
+        # variance in the timings.
+        self.assertGreater(self.ui['lms.video'].elapsed_time, 1)
+        self.assertEqual(self.ui['lms.video'].duration, 194)
 
     def _login(self):
         """
