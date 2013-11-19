@@ -117,6 +117,30 @@ class CourseNavPage(PageObject):
         )
         self.css_click(subsection_css)
 
+    def go_to_sequential(self, sequential_title):
+        """
+        Within a section/subsection, navigate to the sequential with `sequential_title`.
+        """
+
+        # Get the index of the item in the sequence
+        all_items = self.sequence_items
+
+        try:
+            seq_index = all_items.index(sequential_title)
+
+        except ValueError:
+            msg = "Could not find sequential '{0}'.  Available sequentials: [{1}]".format(
+                sequential_title, ", ".join(all_items)
+            )
+            self.warning(msg)
+
+        else:
+
+            # Click on the sequence item at the correct index
+            # Convert the list index (starts at 0) to a CSS index (starts at 1)
+            seq_css = "ol#sequence-list>li:nth-of-type({0})>a".format(seq_index + 1)
+            self.css_click(seq_css)
+
     def _section_titles(self):
         """
         Return a list of all section titles on the page.
