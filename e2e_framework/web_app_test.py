@@ -82,6 +82,7 @@ class WebAppTest(TestCase):
         while abs(time.time() - start_time) < timeout_sec:
             if func():
                 return
+            time.sleep(0.5)
 
         msg = "Timed out waiting for '{0}'".format(description)
         raise TimeoutError(msg)
