@@ -126,6 +126,14 @@ class OpenResponsePage(PageObject):
         alert_css = "div.open-ended-alert"
         return self.css_text(alert_css)
 
+    @property
+    def grader_status(self):
+        """
+        Status message from the grader.
+        If not present, return an empty string.
+        """
+        return self.css_text('div.grader-status')
+
     def set_response(self, response_str):
         """
         Input a response to the prompt.

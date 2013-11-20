@@ -120,12 +120,14 @@ class CourseNavPage(PageObject):
     def go_to_sequential(self, sequential_title):
         """
         Within a section/subsection, navigate to the sequential with `sequential_title`.
+        If the same title occurs multiple times, go to the first one.
         """
 
         # Get the index of the item in the sequence
         all_items = self.sequence_items
 
         try:
+            # This will return the first item that matches the title
             seq_index = all_items.index(sequential_title)
 
         except ValueError:
