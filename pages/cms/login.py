@@ -1,15 +1,15 @@
 from e2e_framework.page_object import PageObject
-from ..lms import BASE_URL
+from ..cms import BASE_URL
 
 
 class LoginPage(PageObject):
     """
-    Login page for the LMS.
+    Login page for Studio.
     """
 
     @property
     def name(self):
-        return "lms.login"
+        return "cms.login"
 
     @property
     def requirejs(self):
@@ -20,11 +20,10 @@ class LoginPage(PageObject):
         return []
 
     def url(self):
-        return BASE_URL + "/login"
+        return BASE_URL + "/signin"
 
     def is_browser_on_page(self):
-        page_title = self.css_text('span.title-super').lower()
-        return 'log in' in page_title
+        return self.browser.title == 'Sign In | edX Studio'
 
     def login(self, email, password):
         """

@@ -1,5 +1,5 @@
 from e2e_framework.page_object import PageObject
-from pages import BASE_URL
+from ..lms import BASE_URL
 
 
 class InfoPage(PageObject):
@@ -18,9 +18,9 @@ class InfoPage(PageObject):
         'terms': '/tos',
         'privacy': '/privacy',
         'honor': '/honor',
-    } 
+    }
 
-    # Dictionary mapping URLs to expected css selector 
+    # Dictionary mapping URLs to expected css selector
     EXPECTED_CSS = {
         '/about': 'section.vision',
         '/faq': 'section.faq',
