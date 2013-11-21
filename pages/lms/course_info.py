@@ -33,12 +33,10 @@ class CourseInfoPage(PageObject):
         """
         Return the number of updates on the page.
         """
-        update_css = 'section.updates ol li'
-        return len(self.css_find(update_css))
+        return self.css_count('section.updates ol li')
 
     def handout_links(self):
         """
         Return a list of handout assets links.
         """
-        handouts_css = 'section.handouts ol li a'
-        return [el['href'] for el in self.css_find(handouts_css)]
+        return self.css_map('section.handouts ol li a', lambda el: el['href'])

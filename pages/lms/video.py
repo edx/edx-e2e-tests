@@ -70,13 +70,19 @@ class VideoPage(PageObject):
         Return a tuple `(elapsed_time, duration)`, each in seconds.
         """
         # The full time has the form "0:32 / 3:14"
-        full_time = self.css_text('div.vidtime')
+        all_times = self.css_text('div.vidtime')
 
-        # Split the time at the " / ", to get ["0:32", "3:14"]
-        elapsed_str, duration_str = full_time.split(' / ')
+        if len(all_times) == 0:
+            self.warning('Could not find video time')
 
-        # Convert each string to seconds
-        return (self._parse_time_str(elapsed_str), self._parse_time_str(duration_str))
+        else:
+            full_time = all_times[0]
+
+            # Split the time at the " / ", to get ["0:32", "3:14"]
+            elapsed_str, duration_str = full_time.split(' / ')
+
+            # Convert each string to seconds
+            return (self._parse_time_str(elapsed_str), self._parse_time_str(duration_str))
 
     def _parse_time_str(self, time_str):
         """

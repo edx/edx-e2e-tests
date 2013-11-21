@@ -72,10 +72,7 @@ class CourseNavPage(PageObject):
             ['Chemical Bonds Video', 'Practice Problems', 'Homework']
         """
         seq_css = 'ol#sequence-list>li>a>p'
-        seq_titles = [el.html.strip() for el in self.css_find(seq_css)]
-
-        # Need to strip out the span tag text after the first line
-        return [title.split('\n')[0] for title in seq_titles]
+        return self.css_map(seq_css, lambda el: el.html.strip().split('\n')[0])
 
     def go_to_section(self, section_title, subsection_title):
         """
@@ -122,7 +119,7 @@ class CourseNavPage(PageObject):
         Return a list of all section titles on the page.
         """
         chapter_css = 'nav>div.chapter>h3>a'
-        return [el.text.strip() for el in self.css_find(chapter_css)]
+        return self.css_map(chapter_css, lambda el: el.text.strip())
 
     def _subsection_titles(self, section_index):
         """
@@ -137,11 +134,7 @@ class CourseNavPage(PageObject):
         # Otherwise, we need to get the HTML
         # It *would* make sense to always get the HTML, but unfortunately
         # the open tab has some child <span> tags that we don't want.
-        subsection_titles = [
-            el.text.strip() if el.visible else el.html.strip()
-            for el in self.css_find(subsection_css)
-        ]
-
-        # Section title text sometimes picks up trailing text on the next line
-        # So include only the first line
-        return [title.split('\n')[0] for title in subsection_titles]
+        return self.css_map(
+            subsection_css,
+            lambda el: el.text.strip().split('\n')[0] if el.visible else el.html.strip()
+        )

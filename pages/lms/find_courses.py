@@ -1,4 +1,5 @@
 from e2e_framework.page_object import PageObject
+from e2e_framework.promise import BrokenPromise
 from selenium.common.exceptions import WebDriverException
 from ..lms import BASE_URL
 
@@ -31,7 +32,7 @@ class FindCoursesPage(PageObject):
         Retrieve the list of available course IDs
         on the page.
         """
-        return [el['id'] for el in self.css_find('article.course')]
+        return self.css_map('article.course', lambda el: el['id'])
 
     def go_to_course(self, course_id):
         """
@@ -48,16 +49,16 @@ class FindCoursesPage(PageObject):
             # that match this selector, most without text
             # In IE 10, only the second one works.
             # In IE 9, there is only one link
-            if len(self.css_find(css)) > 1:
+            if self.css_count(css) > 1:
                 index = 1
             else:
                 index = 0
 
-            self.css_click(css, index=index)
+            self.css_click(css + ":nth-of-type({0})".format(index))
 
         # Chrome gives an error that another element would receive the click.
         # So click higher up in the DOM
-        except WebDriverException:
+        except BrokenPromise:
             # We need to escape forward slashes in the course_id
             # to create a valid CSS selector
             course_id = course_id.replace('/', '\/')

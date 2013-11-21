@@ -38,15 +38,22 @@ class TabNavPage(PageObject):
 
         # The only identifier for individual tabs is the link href
         # so we find the tab with `tab_name` in its text.
-        tab_css = 'ol.course-tabs li a'
-        tabs = [el for el in self.css_find(tab_css) if tab_name.lower() in el.text.lower()]
+        tab_css = self._tab_css(tab_name)
 
-        if len(tabs) > 1:
-            self.warning("Multiple tabs found for '{0}'.  Clicking the first one.".format(tab_name))
-            tabs[0].click()
-
-        elif len(tabs) < 1:
+        if tab_css is not None:
+            self.css_click(tab_css)
+        else:
             self.warning("No tabs found for '{0}'".format(tab_name))
 
+    def _tab_css(self, tab_name):
+        """
+        Return the CSS to click for `tab_name`.
+        """
+        all_tabs = self.css_text('ol.course-tabs li a')
+
+        try:
+            tab_index = all_tabs.index(tab_name)
+        except ValueError:
+            return None
         else:
-            tabs[0].click()
+            return 'ol.course-tabs li:nth-of-type({0}) a'.format(tab_index + 1)

@@ -23,8 +23,10 @@ class LoginPage(PageObject):
         return BASE_URL + "/login"
 
     def is_browser_on_page(self):
-        page_title = self.css_text('span.title-super').lower()
-        return 'log in' in page_title
+        return any([
+            'log in' in title.lower()
+            for title in self.css_text('span.title-super')
+        ])
 
     def login(self, email, password):
         """

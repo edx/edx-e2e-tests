@@ -56,7 +56,7 @@ class ProgressPage(PageObject):
         Returns `None` if it cannot find such a chapter.
         """
         chapter_css = 'ol.chapters li h2'
-        chapter_titles = [el.text.lower().strip() for el in self.css_find(chapter_css)]
+        chapter_titles = self.css_map(chapter_css, lambda el: el.text.lower().strip())
 
         try:
             # CSS indices are 1-indexed, so add one to the list index
@@ -75,7 +75,7 @@ class ProgressPage(PageObject):
         # Get the links containing the section titles in `chapter_index`.
         # The link text is the section title.
         section_css = 'ol.chapters>li:nth-of-type({0}) ol.sections li h3 a'.format(chapter_index)
-        section_titles = [el.text.lower().strip() for el in self.css_find(section_css)]
+        section_titles = self.css_map(section_css, lambda el: el.text.lower().strip())
 
         # The section titles also contain "n of m possible points" on the second line
         # We have to remove this to find the right title
@@ -105,7 +105,7 @@ class ProgressPage(PageObject):
             chapter_index, section_index
         )
 
-        text_scores = [el.text for el in self.css_find(score_css)]
+        text_scores = self.css_text(score_css)
 
         # Convert text scores to tuples of (points, max_points)
         return [tuple(map(int, score.split('/'))) for score in text_scores]

@@ -28,27 +28,35 @@ class DashboardPage(PageObject):
 
     def available_courses(self):
         """
-        Return list of the names of available courses.
-        e.g. "999 edX Demonstration Course"
+        Return list of the names of available courses (e.g. "999 edX Demonstration Course")
         """
-        links = self.css_find('section.info > hgroup > h3 > a')
-        return [el.text for el in links]
+        return self.css_text('section.info > hgroup > h3 > a')
 
     def view_course(self, course_id):
         """
         Go to the course with `course_id` (e.g. edx/Open_DemoX/edx_demo_course)
         """
-        # This is currently implemented as a native link with some CSS styling
-        links = [el for el in self.css_find('a.enter-course') if course_id in el['href']]
+        link_css = self._link_css(course_id)
 
-        if len(links) > 1:
-            msg = "Expected one link for course {0}, but found {1}.  Will use the first link.".format(course_id, len(links))
-            self.warning(msg)
-            links[0].click()
-
-        elif len(links) < 1:
+        if link_css is not None:
+            self.css_click(link_css)
+        else:
             msg = "No links found for course {0}".format(course_id)
             self.warning(msg)
 
+    def _link_css(self, course_id):
+
+        # Get the link hrefs for all courses
+        all_links = self.css_map('a.enter-course', lambda el: el['href'])
+
+        # Search for the first link that matches the course id
+        link_index = None
+        for index in range(len(all_links)):
+            if course_id in all_links[index]:
+                link_index = index
+                break
+
+        if link_index is not None:
+            return "a.enter-course:nth-of-type({0})".format(link_index + 1)
         else:
-            links[0].click()
+            return None
