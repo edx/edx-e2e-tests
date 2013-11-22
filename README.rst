@@ -49,18 +49,52 @@ You can specify another configuration file by setting the ``CONFIG_PATH`` enviro
 Running Tests Locally
 ---------------------
 
-To run tests within the Vagrant environment:
+Within the Vagrant environment, the tests are installed in /opt/dev/edx-e2e-tests,
+so before running the fabric commands:
 
 .. code:: bash
 
     cd /opt/dev/edx-e2e-tests
+
+
+You can use the following command to list the available fabric commands:
+
+.. code:: bash
+
+    fab --list
+
+
+The following commands can be used to execute the test suites for the edX
+app or the marketing site:
+
+.. code:: bash
+
     fab test_edxapp
+    fab test_mktg
+
 
 You can run a specific test using nose-style test specifiers:
 
 .. code:: bash
 
     fab test_edxapp:test_lms.py:LoggedOutTest.test_register
+
+
+If you wish to run only the tests for lms or Studio, you can use these shortcuts:
+
+.. code:: bash
+
+    fab test_lms
+    fab test_cms
+
+
+The shortcuts can also take nose-style specifiers for test case or module:
+
+.. code:: bash
+
+    fab test_lms:LoggedInTest.test_progress
+    fab test_cms:LoggedOutTest
+
 
 By default, tests run locally in Firefox.  You can also use Chrome:
 

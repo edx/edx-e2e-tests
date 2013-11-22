@@ -22,7 +22,12 @@ NUM_PARALLEL = os.environ.get('NUM_PARALLEL_TESTS', 1)
 # Process timeout for test results
 PROCESS_TIMEOUT = 600
 
+# Keys from the config file to use for the availibility check
+LMS_KEYS = {'protocol': 'lms_protocol', 'test_host': 'lms_test_host'}
+CMS_KEYS = {'protocol': 'cms_protocol', 'test_host': 'cms_test_host'}
+MKTG_KEYS = {'protocol': 'protocol', 'test_host': 'test_host'}
 
+@task
 def config_edxapp(**kwargs):
     """
     Ensure that edxapp tests are configured with the keys/values in kwargs (idempotent).
@@ -31,6 +36,7 @@ def config_edxapp(**kwargs):
     _set_config('edxapp', kwargs)
 
 
+@task
 def config_mktg(**kwargs):
     """
     Ensure that mktg tests are configured with the keys/values in kwargs (idempotent).
@@ -39,7 +45,8 @@ def config_mktg(**kwargs):
     _set_config('mktg', kwargs)
 
 
-def test_edxapp(test_spec=None):
+@task
+def test_edxapp(test_spec=None, availability_keys=[LMS_KEYS, CMS_KEYS]):
     """
     Execute the E2E test suite on an instance of the edxapp.
 
@@ -53,17 +60,54 @@ def test_edxapp(test_spec=None):
     """
     config = _read_config('edxapp')
     test_path = str(REPO_ROOT / "test_edxapp")
-    _run_tests(test_path, test_spec, config)
+    _run_tests(test_path, test_spec, config, availability_keys=availability_keys)
 
 
-def test_mktg(test_spec=None):
+@task
+def test_lms(test_case=None):
+    """
+    Execute only the lms test specs (from the test_lms.py file).
+
+    Optionally specify the test case or method in this form to limit execution
+    to that test case or method:
+
+        * "TestCase"
+        * "TestCase:test_method"
+    """
+    if test_case:
+        test_spec = 'test_lms.py:{}'.format(test_case)
+    else:
+        test_spec = 'test_lms.py'
+    test_edxapp(test_spec=test_spec, availability_keys=[LMS_KEYS])
+
+
+@task
+def test_cms(test_case=None):
+    """
+    Execute only the Studio test specs (from the test_cms.py file).
+
+    Optionally specify the test case or method in this form to limit execution
+    to that test case or method:
+
+        * "TestCase"
+        * "TestCase:test_method"
+    """
+    if test_case:
+        test_spec = 'test_cms.py:{}'.format(test_case)
+    else:
+        test_spec = 'test_cms.py'
+    test_edxapp(test_spec=test_spec, availability_keys=[CMS_KEYS])
+
+
+@task
+def test_mktg(test_spec=None, availability_keys=[MKTG_KEYS]):
     """
     Execute the E2E test suite on an instance of the website administered by marketing.
     See test_edxapp docstring for 'test_spec' explanation and examples.
     """
     config = _read_config('mktg')
     test_path = str(REPO_ROOT / "test_mktg")
-    _run_tests(test_path, test_spec, config)
+    _run_tests(test_path, test_spec, config, availability_keys=availability_keys)
 
 
 def _available(protocol, hostname):
@@ -109,8 +153,6 @@ def _read_config(suite):
 
     Returns a dictionary of configuration values that will
     be passed as environment variables to the test suite.
-
-    Only `protocol` and `test_host` keys are required.
     """
     if not os.path.isfile(CONFIG_PATH):
         msg = """
@@ -126,22 +168,10 @@ def _read_config(suite):
         key: config.get(suite, key) for key in config.options(suite)
     }
 
-    # Check that the required keys are defined
-    missing = []
-    for key in ['protocol', 'test_host']:
-        if key not in result:
-            missing.append(key)
-
-    if len(missing) > 0:
-        msg = "Test suite {0} is missing configuration values: {1}".format(
-            suite, missing.join(",")
-        )
-        _abort(msg)
-
     return result
 
 
-def _run_tests(test_path, test_spec, config):
+def _run_tests(test_path, test_spec, config, availability_keys=None):
     """
     Assemble the test runner command and execute it.
 
@@ -151,11 +181,19 @@ def _run_tests(test_path, test_spec, config):
     `test_spec` is a nose-style test identifier, used to run a subset of tests.
 
     `config` is a dict of configuration values (see `_read_config()` for details)
-    """
 
+    `availability_keys` is a list of dicts containing protocol/server key name pairs
+        from the config dict that will be used to test that the application is available.
+        e.g. [{'protocol': 'protocol', 'test_host': 'test_host'}] or
+        [{'protocol': 'lms_protocol', 'test_host': 'lms_test_host'},
+         {'protocol': 'cms_protocol', 'test_host': 'cms_test_host'}]
+    """
     # Ensure that the service is available before running the test suite
-    if not _available(config['protocol'], config['test_host']):
-        _abort("Could not contact '{0}'".format(config['test_host']))
+    if availability_keys:
+        for keypair in availability_keys:
+            if not _available(config[keypair['protocol']], config[keypair['test_host']]):
+                _abort("Could not contact '{0}' via {1}".format(
+                    config[keypair['test_host']], config[keypair['protocol']]))
 
     # Restrict to a subset of tests based on command-line arguments
     if test_spec is not None:

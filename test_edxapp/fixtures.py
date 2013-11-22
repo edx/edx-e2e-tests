@@ -27,7 +27,7 @@ class UserFixture(RemoteCommandFixture):
         `enrollment_mode` is either "honor", "verified", or "audit"
         """
         super(UserFixture, self).__init__(
-            os.environ['test_host'],
+            os.environ['lms_test_host'],
             ssh_user=os.environ.get('ssh_user'),
             ssh_keyfile=os.environ.get('ssh_keyfile')
         )

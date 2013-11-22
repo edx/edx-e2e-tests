@@ -1,15 +1,15 @@
 from e2e_framework.page_object import PageObject
-from ..mktg import BASE_URL
+from ..cms import BASE_URL
 
 
-class EdxBlogPage(PageObject):
+class HowitworksPage(PageObject):
     """
-    The edX Blog page
+    Home page for Studio when not logged in.
     """
 
     @property
     def name(self):
-        return 'mktg.edx_blog'
+        return "cms.howitworks"
 
     @property
     def requirejs(self):
@@ -20,7 +20,7 @@ class EdxBlogPage(PageObject):
         return []
 
     def url(self):
-        return BASE_URL + '/edx-blog'
+        return BASE_URL + "/howitworks"
 
     def is_browser_on_page(self):
-        return self.browser.title == 'edX Blog | edX'
+        return self.browser.title == 'Welcome | edX Studio'
