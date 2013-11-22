@@ -1,4 +1,5 @@
 from e2e_framework.page_object import PageObject
+from e2e_framework.promise import EmptyPromise, fulfill_after
 from ..lms import BASE_URL
 
 
@@ -32,6 +33,13 @@ class LoginPage(PageObject):
         """
         Attempt to log in using `email` and `password`.
         """
-        self.css_fill('input#email', email)
-        self.css_fill('input#password', password)
-        self.css_click('button#submit')
+        # Ensure that we make it to another page
+        on_next_page = EmptyPromise(
+            lambda: "login" not in self.browser.url,
+            "redirected from the login page"
+        )
+
+        with fulfill_after(on_next_page):
+            self.css_fill('input#email', email)
+            self.css_fill('input#password', password)
+            self.css_click('button#submit')

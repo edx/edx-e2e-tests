@@ -1,11 +1,6 @@
 """
 Variation on the "promise" design pattern.
 Promises make it easier to handle asynchronous operations correctly.
-
-Purists may complain that this does not match the usual meaning of "promise";
-see, for example, http://domenic.me/2012/10/14/youre-missing-the-point-of-promises/
-I'm using the word "promise" because I couldn't think of a better word
-to describe what this class does.
 """
 import time
 import logging
@@ -65,7 +60,7 @@ class Promise(object):
             # Ensure that the next operation executes only if the promise is satisfied
             # `result` will be "Hello world!", because that's what `check_func` returned
             # If the promise isn't satisfied, this will throw a `BrokenPromise` exception
-            with block_until(promise) as result:
+            with fulfill_before(promise) as result:
 
                 # This should print "Hello World!"
                 print result
@@ -94,7 +89,6 @@ class Promise(object):
         start_time = time.time()
 
         # Check whether the promise has been fulfilled until we run out of time or attempts
-        caught_exceptions = dict()
         while self._has_time_left(start_time) and self._has_more_tries():
 
             is_fulfilled, result = self._check_func()
@@ -130,8 +124,25 @@ class Promise(object):
             return self._num_tries < self._try_limit
 
 
+class EmptyPromise(Promise):
+    """
+    A promise that has no result value.
+    """
+
+    def __init__(self, check_func, description, **kwargs):
+        """
+        Configure the promise.
+
+        `check_func()` returns a boolean indicating whether the promise is fulfilled.
+        Unlike a regular `Promise`, the `check_func()` does NOT return a tuple
+        with a result value.  That's why the promise is "empty" -- you don't get anything back.
+        """
+        full_check_func = lambda: (check_func(), None)
+        super(EmptyPromise, self).__init__(full_check_func, description, **kwargs)
+
+
 @contextmanager
-def block_until(promise):
+def fulfill_before(promise):
     """
     Block execution until the `promise` is fulfilled.
     If not fulfilled, raise a `BrokenPromise` exception.
@@ -145,11 +156,10 @@ def block_until(promise):
         raise BrokenPromise(promise)
 
 @contextmanager
-def block_after(promise):
+def fulfill_after(promise):
     """
-    After the block executes, block until the `promise`
-    is fulfilled.  In this case, any output from the
-    promise is discarded.
+    After the block executes, block until the `promise` is fulfilled.
+    In this case, any output from the promise is discarded.
     """
 
     # Execute the 'with' block

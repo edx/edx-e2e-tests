@@ -18,7 +18,7 @@ if an operation cannot be performed.
 import time
 import json
 from textwrap import dedent
-from e2e_framework.promise import Promise, block_until, fulfill
+from e2e_framework.promise import Promise, fulfill_before, fulfill
 from selenium.common.exceptions import WebDriverException, StaleElementReferenceException
 from splinter.exceptions import ElementDoesNotExist
 
@@ -150,7 +150,7 @@ class SafeSelenium(object):
             "element '{0}' has value '{1}'".format(css_selector, text)
         )
 
-        with block_until(fill_promise):
+        with fulfill_before(fill_promise):
             return fulfill(check_fill_promise)
 
     def js_var_truthy(self, variable):
@@ -172,7 +172,7 @@ class SafeSelenium(object):
         Disable JQuery animations on the page.  Any state changes
         will occur immediately to the final state.
         """
-        with block_until(self.js_var_truthy("jQuery")):
+        with fulfill_before(self.js_var_truthy("jQuery")):
             self.browser.execute_script("jQuery.fx.off = true;")
 
     def _css_find(self, css_selector):

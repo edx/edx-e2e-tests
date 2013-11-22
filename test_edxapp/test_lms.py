@@ -3,7 +3,7 @@ E2E tests for the LMS.
 """
 
 from e2e_framework.web_app_test import WebAppTest
-from e2e_framework.promise import Promise, fulfill
+from e2e_framework.promise import EmptyPromise, fulfill_before
 from credentials import TestCredentials
 from fixtures import UserFixture
 from pages.lms.login import LoginPage
@@ -191,19 +191,21 @@ class LoggedInTest(WebAppTest):
         # We *should* wait for the video's elapsed time to increase,
         # but SauceLabs has difficulty downloading the full video through
         # the ssh tunnel.
-        fulfill(Promise(
-            lambda: (self.ui['lms.video'].duration > 0, None),
+        video_duration_loaded = EmptyPromise(
+            lambda: self.ui['lms.video'].duration == 194,
             'video has duration', timeout=20
-        ))
+        )
 
-        # Pause the video
-        self.ui['lms.video'].pause()
+        with fulfill_before(video_duration_loaded):
 
-        # Expect that the elapsed time and duration are reasonable
-        # Again, we can't expect the video to actually play because of
-        # latency through the ssh tunnel
-        self.assertGreaterEqual(self.ui['lms.video'].elapsed_time, 0)
-        self.assertEqual(self.ui['lms.video'].duration, 194)
+            # Pause the video
+            self.ui['lms.video'].pause()
+
+            # Expect that the elapsed time and duration are reasonable
+            # Again, we can't expect the video to actually play because of
+            # latency through the ssh tunnel
+            self.assertGreaterEqual(self.ui['lms.video'].elapsed_time, 0)
+            self.assertEqual(self.ui['lms.video'].duration, 194)
 
     def _login(self):
         """
