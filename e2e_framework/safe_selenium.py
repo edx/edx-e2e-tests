@@ -15,9 +15,6 @@ Note that these methods should NOT themselves make assertions;
 that's the job of the test.  They can, however, raise exceptions
 if an operation cannot be performed.
 """
-import time
-import json
-from textwrap import dedent
 from e2e_framework.promise import Promise, fulfill_before, fulfill
 from selenium.common.exceptions import WebDriverException, StaleElementReferenceException
 from splinter.exceptions import ElementDoesNotExist

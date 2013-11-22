@@ -47,7 +47,7 @@ class Promise(object):
         In the second two cases, the promise is "broken" and an exception will be raised.
         `description` is a string that will be included in the exception to make debugging easier.
 
-        Note: `try_limit` and `timeout` can be set to `None` to disable the limit.
+        Note: `try_limit` can be set to `None` to disable the limit.
 
         Example:
 
@@ -55,7 +55,7 @@ class Promise(object):
             check_func = lambda: (True, "Hello world!")
 
             # Check up to 5 times if the operation has completed
-            promise = Promise(check_func, "Operation has completed", try_limit=5, timeout=None)
+            promise = Promise(check_func, "Operation has completed", try_limit=5)
 
             # Ensure that the next operation executes only if the promise is satisfied
             # `result` will be "Hello world!", because that's what `check_func` returned
@@ -91,6 +91,9 @@ class Promise(object):
         # Check whether the promise has been fulfilled until we run out of time or attempts
         while self._has_time_left(start_time) and self._has_more_tries():
 
+            # Keep track of how many attempts we've made so far
+            self._num_tries += 1
+
             is_fulfilled, result = self._check_func()
 
             # If the promise is satisfied, then continue execution
@@ -105,12 +108,8 @@ class Promise(object):
     def _has_time_left(self, start_time):
         """
         Return True if the elapsed time is greater than the timeout.
-        If no timeout is set, always return True.
         """
-        if self._timeout is None:
-            return True
-        else:
-            return time.time() - start_time < self._timeout
+        return time.time() - start_time < self._timeout
 
     def _has_more_tries(self):
         """
@@ -120,7 +119,6 @@ class Promise(object):
         if self._try_limit is None:
             return True
         else:
-            self._num_tries += 1
             return self._num_tries < self._try_limit
 
 
