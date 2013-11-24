@@ -67,21 +67,3 @@ class WebAppTest(TestCase):
         Helper method to return a uuid.
         """
         return str(uuid4().int)
-
-    def wait_for(self, func, description, timeout_sec=5):
-        """
-        Helper method to wait for `func()` to return True
-        until `timeout_sec` is exceeded.
-
-        If we time out, raise a `TimeoutException`
-
-        `description` is a string used to provide helpful
-        logging if the wait times out.
-        """
-        start_time = time.time()
-        while abs(time.time() - start_time) < timeout_sec:
-            if func():
-                return
-
-        msg = "Timed out waiting for '{0}'".format(description)
-        raise TimeoutError(msg)

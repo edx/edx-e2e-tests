@@ -31,8 +31,10 @@ class RegisterPage(PageObject):
         return BASE_URL + "/register?course_id=" + course_id + "&enrollment_action=enroll"
 
     def is_browser_on_page(self):
-        title = self.css_text('span.title-sub')
-        return 'register' in title.lower()
+        return any([
+            'register' in title.lower()
+            for title in self.css_text('span.title-sub')
+        ])
 
     def provide_info(self, credentials):
         """
