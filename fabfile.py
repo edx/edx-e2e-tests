@@ -17,7 +17,7 @@ REPO_ROOT = path(__file__).dirname()
 CONFIG_PATH = os.environ.get("CONFIG_PATH", REPO_ROOT / "config.ini")
 
 # Number of tests to run in parallel, set by environment
-NUM_PARALLEL = os.environ.get('NUM_PARALLEL_TESTS', 1)
+NUM_PARALLEL = os.environ.get('NUM_PARALLEL', 1)
 
 # Process timeout for test results
 PROCESS_TIMEOUT = 600
