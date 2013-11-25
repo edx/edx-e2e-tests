@@ -2,22 +2,22 @@
 E2E tests for the LMS.
 """
 
-from e2e_framework.web_app_test import WebAppTest
-from e2e_framework.promise import EmptyPromise, fulfill_before
+from bok_choy.web_app_test import WebAppTest
+from bok_choy.promise import EmptyPromise, fulfill_before
 from credentials import TestCredentials
 from fixtures import UserFixture
 
-from pages.lms.login import LoginPage
-from pages.lms.find_courses import FindCoursesPage
-from pages.lms.info import InfoPage
-from pages.lms.course_about import CourseAboutPage
-from pages.lms.register import RegisterPage
-from pages.lms.dashboard import DashboardPage
-from pages.lms.course_info import CourseInfoPage
-from pages.lms.tab_nav import TabNavPage
-from pages.lms.course_nav import CourseNavPage
-from pages.lms.progress import ProgressPage
-from pages.lms.video import VideoPage
+from lms.selenium_pages.login import LoginPage
+from lms.selenium_pages.find_courses import FindCoursesPage
+from lms.selenium_pages.info import InfoPage
+from lms.selenium_pages.course_about import CourseAboutPage
+from lms.selenium_pages.register import RegisterPage
+from lms.selenium_pages.dashboard import DashboardPage
+from lms.selenium_pages.course_info import CourseInfoPage
+from lms.selenium_pages.tab_nav import TabNavPage
+from lms.selenium_pages.course_nav import CourseNavPage
+from lms.selenium_pages.progress import ProgressPage
+from lms.selenium_pages.video import VideoPage
 
 from .base import LoggedInTest
 

@@ -3,7 +3,7 @@ E2E tests for the Website.
 """
 
 
-from e2e_framework.web_app_test import WebAppTest
+from bok_choy.web_app_test import WebAppTest
 from pages.mktg.about_us import AboutUsPage
 from pages.mktg.bios import BiosPage
 from pages.mktg.contact import ContactPage

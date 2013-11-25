@@ -2,10 +2,10 @@
 E2E tests for Studio.
 """
 
-from e2e_framework.web_app_test import WebAppTest
-from pages.studio.login import LoginPage
-from pages.studio.howitworks import HowitworksPage
-from pages.studio.signup import SignupPage
+from bok_choy.web_app_test import WebAppTest
+from cms.selenium_pages.login import LoginPage
+from cms.selenium_pages.howitworks import HowitworksPage
+from cms.selenium_pages.signup import SignupPage
 
 
 class LoggedOutTest(WebAppTest):

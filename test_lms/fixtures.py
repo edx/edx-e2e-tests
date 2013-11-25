@@ -3,7 +3,7 @@ Test fixtures for LMS and Studio.
 """
 import os
 from fabric.api import sudo, settings
-from e2e_framework.web_app_fixture import RemoteCommandFixture, WebAppFixtureError
+from bok_choy.web_app_fixture import RemoteCommandFixture, WebAppFixtureError
 
 
 class UserFixture(RemoteCommandFixture):
