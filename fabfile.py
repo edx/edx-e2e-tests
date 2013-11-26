@@ -4,8 +4,7 @@ Commands for setting up test environments and running tests.
 
 import os
 from ConfigParser import SafeConfigParser
-from fabric.api import task, env, local
-from fabric.contrib import files
+from fabric.api import task, local
 from textwrap import dedent
 from path import path
 import requests
@@ -67,7 +66,7 @@ def test_lms(test_spec=None):
     `test_spec` is a nose-style test specifier (e.g. "test_module.py:TestCase.test_method")
     """
     config = _read_config('lms')
-    _abort_if_not_available(config['protocol'], config['test_host'])
+    _abort_if_not_available(config)
     _run_tests(_test_path('test_lms', test_spec), config)
 
 
@@ -78,7 +77,7 @@ def test_studio(test_spec=None):
     `test_spec` is a nose-style test specifier (e.g. "test_module.py:TestCase.test_method")
     """
     config = _read_config('studio')
-    _abort_if_not_available(config['protocol'], config['test_host'])
+    _abort_if_not_available(config)
     _run_tests(_test_path('test_studio', test_spec), config)
 
 
@@ -89,18 +88,16 @@ def test_mktg(test_spec=None):
     `test_spec` is a nose-style test specifier (e.g. "test_module.py:TestCase.test_method")
     """
     config = _read_config('mktg')
-    _abort_if_not_available(config['protocol'], config['test_host'])
+    _abort_if_not_available(config)
     _run_tests(_test_path('test_mktg', test_spec), config)
 
 
-def _available(protocol, hostname):
+def _available(url):
     """
-    Return a boolean indicating whether the host
-    at `hostname` is available (success HTTP response)
+    Return a boolean indicating whether `url` is available.
     """
 
     try:
-        url = "{0}://{1}".format(protocol, hostname)
         resp = requests.get(url)
     except requests.exceptions.ConnectionError:
         return False
@@ -108,12 +105,24 @@ def _available(protocol, hostname):
     return resp.status_code == 200
 
 
-def _abort_if_not_available(protocol, hostname):
+def _test_url(config):
     """
-    Check if the `hostname` is available using `protocol` and abort if not.
+    Given a dictionary of configuration values, return a URL for the test host.
     """
-    if not _available(protocol, hostname):
-        _abort("Could not contact '{0}' via {1}".format(hostname, protocol))
+    if 'basic_auth_user' in config and 'basic_auth_password' in config:
+        return "{protocol}://{basic_auth_user}:{basic_auth_password}@{test_host}".format(**config)
+
+    else:
+        return "{protocol}://{test_host}".format(**config)
+
+
+def _abort_if_not_available(config):
+    """
+    Use the values in `config` (dict) to check the host and abort if not available.
+    """
+    url = _test_url(config)
+    if not _available(url):
+        _abort("{0} is not available".format(url))
 
 
 def _set_config(suite, options_dict):
@@ -159,6 +168,11 @@ def _read_config(suite):
         key: config.get(suite, key) for key in config.options(suite)
     }
 
+    # Validate the required keys
+    for key in ['protocol', 'test_host']:
+        if key not in result:
+            _abort("Missing '{0}' in config file.".format(key))
+
     return result
 
 
@@ -186,6 +200,9 @@ def _run_tests(test_path, config):
     """
 
     cmd_to_execute = _cmd('nosetests', test_path)
+
+    # Add a special environment variable for the test host URL
+    cmd_to_execute = _cmd("test_url=" + _test_url(config), cmd_to_execute)
 
     # Expose configuration options as environment variables
     for key, val in config.iteritems():
