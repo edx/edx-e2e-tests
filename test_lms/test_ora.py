@@ -3,9 +3,9 @@ E2E tests for ORA/LMS integration.
 """
 
 from .base import LoggedInTest
-from pages.lms.tab_nav import TabNavPage
-from pages.lms.course_nav import CourseNavPage
-from pages.lms.open_response import OpenResponsePage
+from lms.selenium_pages.tab_nav import TabNavPage
+from lms.selenium_pages.course_nav import CourseNavPage
+from lms.selenium_pages.open_response import OpenResponsePage
 
 
 class OpenResponseTest(LoggedInTest):

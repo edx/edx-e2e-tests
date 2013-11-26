@@ -2,10 +2,10 @@
 Helpful base test case classes for testing the LMS.
 """
 
-from e2e_framework.web_app_test import WebAppTest
+from bok_choy.web_app_test import WebAppTest
 from .fixtures import UserFixture
-from pages.lms.login import LoginPage
-from pages.lms.dashboard import DashboardPage
+from lms.selenium_pages.login import LoginPage
+from lms.selenium_pages.dashboard import DashboardPage
 
 
 class LoggedInTest(WebAppTest):
