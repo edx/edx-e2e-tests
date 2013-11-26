@@ -1,8 +1,6 @@
 """
 E2E tests for the Website.
 """
-
-
 from e2e_framework.web_app_test import WebAppTest
 from pages.mktg.about_us import AboutUsPage
 from pages.mktg.bios import BiosPage
@@ -14,8 +12,10 @@ from pages.mktg.edx_terms_service import TermsOfServicePage
 from pages.mktg.home_page import HomePage
 from pages.mktg.how_it_works import HowItWorksPage
 from pages.mktg.jobs import JobsPage
+from pages.mktg.media_kit import MediaKitPage
 from pages.mktg.news import NewsPage
 from pages.mktg.org_faq import OrgFaqPage
+from pages.mktg.press_releases import PressReleasesPage
 from pages.mktg.research_pedagogy import ResearchPedagogyPage
 from pages.mktg.schools import SchoolsPage
 from pages.mktg.student_faq import StudentFaqPage
@@ -25,7 +25,7 @@ from pages.mktg.xseries import XSeriesPage
 
 class WebsiteTest(WebAppTest):
     """
-    Smoke test for accessing all website tests.
+    Smoke test for accessing all website pages.
     """
 
     @property
@@ -35,8 +35,8 @@ class WebsiteTest(WebAppTest):
         return [
             AboutUsPage, BiosPage, ContactPage, CourseListPage,
             EdxBlogPage, PrivacyPolicyPage, TermsOfServicePage,
-            HomePage, HowItWorksPage, JobsPage, NewsPage,
-            OrgFaqPage, ResearchPedagogyPage, SchoolsPage, StudentFaqPage,
+            HomePage, HowItWorksPage, JobsPage, MediaKitPage, NewsPage, OrgFaqPage,
+            PressReleasesPage, ResearchPedagogyPage, SchoolsPage, StudentFaqPage,
             VerifiedCertificatePage, XSeriesPage
         ]
 
@@ -49,8 +49,8 @@ class WebsiteTest(WebAppTest):
         pages = [
             'about_us', 'bios', 'contact', 'course_list',
             'edx_blog','edx_privacy_policy', 'edx_terms_service',
-            'home_page', 'how_it_works', 'jobs', 'news', 'org_faq',
-            'research_pedagogy', 'schools', 'student_faq',
+            'home_page', 'how_it_works', 'jobs', 'media_kit', 'news', 'org_faq',
+            'press_releases', 'research_pedagogy', 'schools', 'student_faq',
             'verified_certificate', 'xseries'
         ]
 

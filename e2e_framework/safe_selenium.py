@@ -89,6 +89,10 @@ class SafeSelenium(object):
         return len(self._css_find(css_selector))
 
     def css_text(self, css_selector):
+        """
+        Return a list of text values for all elements matching
+        the css selector given.
+        """
         return self.css_map(css_selector, lambda el: el.text)
 
     def css_value(self, css_selector):
