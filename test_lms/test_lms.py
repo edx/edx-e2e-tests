@@ -6,6 +6,7 @@ from e2e_framework.web_app_test import WebAppTest
 from e2e_framework.promise import EmptyPromise, fulfill_before
 from credentials import TestCredentials
 from fixtures import UserFixture
+
 from pages.lms.login import LoginPage
 from pages.lms.find_courses import FindCoursesPage
 from pages.lms.info import InfoPage
@@ -18,18 +19,19 @@ from pages.lms.course_nav import CourseNavPage
 from pages.lms.progress import ProgressPage
 from pages.lms.video import VideoPage
 
+from .base import LoggedInTest
+
 
 # The demo course is installed by default in the CI environment
 DEMO_COURSE_ID = 'edX/Open_DemoX/edx_demo_course'
 DEMO_COURSE_TITLE = 'Open_DemoX edX Demonstration Course'
 
 
-class LoggedOutTest(WebAppTest):
+class RegistrationTest(WebAppTest):
     """
-    Smoke test for pages in the LMS
-    that are visible when logged out.
+    Verify user-facing pages for unregistered users.
+    Test the registration process.
     """
-
 
     @property
     def page_object_classes(self):
@@ -71,36 +73,21 @@ class LoggedOutTest(WebAppTest):
         self.assertIn(DEMO_COURSE_TITLE, course_names)
 
 
-class LoggedInTest(WebAppTest):
+class HighLevelTabTest(LoggedInTest):
     """
-    Tests that log in as a user.
+    Tests that verify each of the high-level tabs available within a course.
     """
+
+    # Assume that the user is registered for the demo course
+    REGISTER_COURSE_ID = DEMO_COURSE_ID
+    REGISTER_COURSE_TITLE = DEMO_COURSE_TITLE
 
     @property
     def page_object_classes(self):
-        return [
-            LoginPage, DashboardPage, CourseInfoPage, TabNavPage,
-            CourseNavPage, ProgressPage, VideoPage
-        ]
-
-    @property
-    def fixtures(self):
-        """
-        Create a user account so we can log in.
-        The user account is automatically registered for the demo course.
-        """
-        self.username = 'test_' + self.unique_id
-        self.email = '{0}@example.com'.format(self.username)
-        self.password = 'password'
-
-        return [UserFixture(self.username, self.email, self.password, course=DEMO_COURSE_ID)]
-
-    def setUp(self):
-        """
-        Each test begins after registering for the demo course and logging in.
-        """
-        super(LoggedInTest, self).setUp()
-        self._login()
+        return (
+            super(HighLevelTabTest, self).page_object_classes +
+            [CourseInfoPage, TabNavPage, CourseNavPage, ProgressPage, VideoPage]
+        )
 
     def test_course_info(self):
         """

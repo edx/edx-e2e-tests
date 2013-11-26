@@ -1,5 +1,5 @@
 from e2e_framework.page_object import PageObject
-from ..cms import BASE_URL
+from ..studio import BASE_URL
 
 
 class LoginPage(PageObject):
@@ -9,7 +9,7 @@ class LoginPage(PageObject):
 
     @property
     def name(self):
-        return "cms.login"
+        return "studio.login"
 
     @property
     def requirejs(self):

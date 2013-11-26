@@ -22,18 +22,23 @@ NUM_PARALLEL = os.environ.get('NUM_PARALLEL', 1)
 # Process timeout for test results
 PROCESS_TIMEOUT = 600
 
-# Keys from the config file to use for the availibility check
-LMS_KEYS = {'protocol': 'lms_protocol', 'test_host': 'lms_test_host'}
-CMS_KEYS = {'protocol': 'cms_protocol', 'test_host': 'cms_test_host'}
-MKTG_KEYS = {'protocol': 'protocol', 'test_host': 'test_host'}
 
 @task
-def config_edxapp(**kwargs):
+def config_lms(**kwargs):
     """
-    Ensure that edxapp tests are configured with the keys/values in kwargs (idempotent).
+    Ensure that lms tests are configured with the keys/values in kwargs (idempotent).
     This is useful for generating config files on the fly (e.g. in Jenkins).
     """
-    _set_config('edxapp', kwargs)
+    _set_config('lms', kwargs)
+
+
+@task
+def config_studio(**kwargs):
+    """
+    Ensure that studio tests are configured with the keys/values in kwargs (idempotent).
+    This is useful for generating config files on the fly (e.g. in Jenkins).
+    """
+    _set_config('studio', kwargs)
 
 
 @task
@@ -46,68 +51,46 @@ def config_mktg(**kwargs):
 
 
 @task
-def test_edxapp(test_spec=None, availability_keys=[LMS_KEYS, CMS_KEYS]):
+def test():
     """
-    Execute the E2E test suite on an instance of the edxapp.
-
-    `test_spec` is a string of the form:
-
-        * "module.py"
-        * "module.py:TestCase"
-        * "module.py:TestCase.test_method"
-
-    to run only those tests.  If ommitted, run all the tests.
+    Run all tests.
     """
-    config = _read_config('edxapp')
-    test_path = str(REPO_ROOT / "test_edxapp")
-    _run_tests(test_path, test_spec, config, availability_keys=availability_keys)
+    test_mktg()
+    test_lms()
+    test_studio()
 
 
 @task
-def test_lms(test_case=None):
+def test_lms(test_spec=None):
     """
-    Execute only the lms test specs (from the test_lms.py file).
-
-    Optionally specify the test case or method in this form to limit execution
-    to that test case or method:
-
-        * "TestCase"
-        * "TestCase:test_method"
+    Execute the LMS tests.
+    `test_spec` is a nose-style test specifier (e.g. "test_module.py:TestCase.test_method")
     """
-    if test_case:
-        test_spec = 'test_lms.py:{}'.format(test_case)
-    else:
-        test_spec = 'test_lms.py'
-    test_edxapp(test_spec=test_spec, availability_keys=[LMS_KEYS])
+    config = _read_config('lms')
+    _abort_if_not_available(config['protocol'], config['test_host'])
+    _run_tests(_test_path('test_lms', test_spec), config)
 
 
 @task
-def test_cms(test_case=None):
+def test_studio(test_spec=None):
     """
-    Execute only the Studio test specs (from the test_cms.py file).
-
-    Optionally specify the test case or method in this form to limit execution
-    to that test case or method:
-
-        * "TestCase"
-        * "TestCase:test_method"
+    Execute the Studio tests.
+    `test_spec` is a nose-style test specifier (e.g. "test_module.py:TestCase.test_method")
     """
-    if test_case:
-        test_spec = 'test_cms.py:{}'.format(test_case)
-    else:
-        test_spec = 'test_cms.py'
-    test_edxapp(test_spec=test_spec, availability_keys=[CMS_KEYS])
+    config = _read_config('studio')
+    _abort_if_not_available(config['protocol'], config['test_host'])
+    _run_tests(_test_path('test_studio', test_spec), config)
 
 
 @task
-def test_mktg(test_spec=None, availability_keys=[MKTG_KEYS]):
+def test_mktg(test_spec=None):
     """
     Execute the E2E test suite on an instance of the website administered by marketing.
-    See test_edxapp docstring for 'test_spec' explanation and examples.
+    `test_spec` is a nose-style test specifier (e.g. "test_module.py:TestCase.test_method")
     """
     config = _read_config('mktg')
-    test_path = str(REPO_ROOT / "test_mktg")
-    _run_tests(test_path, test_spec, config, availability_keys=availability_keys)
+    _abort_if_not_available(config['protocol'], config['test_host'])
+    _run_tests(_test_path('test_mktg', test_spec), config)
 
 
 def _available(protocol, hostname):
@@ -123,6 +106,14 @@ def _available(protocol, hostname):
         return False
 
     return resp.status_code == 200
+
+
+def _abort_if_not_available(protocol, hostname):
+    """
+    Check if the `hostname` is available using `protocol` and abort if not.
+    """
+    if not _available(protocol, hostname):
+        _abort("Could not contact '{0}' via {1}".format(hostname, protocol))
 
 
 def _set_config(suite, options_dict):
@@ -171,33 +162,28 @@ def _read_config(suite):
     return result
 
 
-def _run_tests(test_path, test_spec, config, availability_keys=None):
+def _test_path(test_package, test_spec):
+    """
+    Return the absolute path to the Python package `test_package`
+    and append the nose-style test specifier `test_spec`.
+    """
+    test_path = str(REPO_ROOT / test_package)
+
+    if test_spec is not None:
+        test_path += "/" + test_spec
+
+    return test_path
+
+
+def _run_tests(test_path, config):
     """
     Assemble the test runner command and execute it.
 
     `test_path` is the path in which the tests are located
-        Use this to restrict execution to a particular set of tests (e.g. edxapp or mktg)
+        Use this to restrict execution to a particular set of tests.
 
     `test_spec` is a nose-style test identifier, used to run a subset of tests.
-
-    `config` is a dict of configuration values (see `_read_config()` for details)
-
-    `availability_keys` is a list of dicts containing protocol/server key name pairs
-        from the config dict that will be used to test that the application is available.
-        e.g. [{'protocol': 'protocol', 'test_host': 'test_host'}] or
-        [{'protocol': 'lms_protocol', 'test_host': 'lms_test_host'},
-         {'protocol': 'cms_protocol', 'test_host': 'cms_test_host'}]
     """
-    # Ensure that the service is available before running the test suite
-    if availability_keys:
-        for keypair in availability_keys:
-            if not _available(config[keypair['protocol']], config[keypair['test_host']]):
-                _abort("Could not contact '{0}' via {1}".format(
-                    config[keypair['test_host']], config[keypair['protocol']]))
-
-    # Restrict to a subset of tests based on command-line arguments
-    if test_spec is not None:
-        test_path += "/" + test_spec
 
     cmd_to_execute = _cmd('nosetests', test_path)
 

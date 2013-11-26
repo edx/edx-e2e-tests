@@ -3,9 +3,9 @@ E2E tests for Studio.
 """
 
 from e2e_framework.web_app_test import WebAppTest
-from pages.cms.login import LoginPage
-from pages.cms.howitworks import HowitworksPage
-from pages.cms.signup import SignupPage
+from pages.studio.login import LoginPage
+from pages.studio.howitworks import HowitworksPage
+from pages.studio.signup import SignupPage
 
 
 class LoggedOutTest(WebAppTest):
@@ -31,4 +31,4 @@ class LoggedOutTest(WebAppTest):
         ]
 
         for page in pages:
-            self.ui.visit('cms.{0}'.format(page))
+            self.ui.visit('studio.{0}'.format(page))
