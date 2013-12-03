@@ -6,4 +6,4 @@ requests==2.0.1
 nose
 
 # bok-choy framework
--e git+https://github.com/edx/bok-choy.git@22bb0e0bb7b33f9c12bfc5e7f1d8963ad1b766e3#egg=bok_choy
+-e git+https://github.com/edx/bok-choy.git@0866508e35497e5607f60b726998d40bc0311e70#egg=bok_choy
