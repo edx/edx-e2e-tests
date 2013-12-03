@@ -2,8 +2,8 @@
 E2E tests for the LMS.
 """
 
-from e2e_framework.web_app_test import WebAppTest
-from e2e_framework.promise import EmptyPromise, fulfill_before
+from bok_choy.web_app_test import WebAppTest
+from bok_choy.promise import EmptyPromise, fulfill_before
 from credentials import TestCredentials
 from fixtures import UserFixture
 

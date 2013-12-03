@@ -8,7 +8,6 @@ Overview
 
 UI-level tests for edX applications:
 
-- ``e2e_framework``: A framework for writing end-to-end Selenium tests using the `Page Object`__ design pattern.
 - ``pages``: PageObjects for interacting with pages under test.
 - ``test_lms``: Selenium tests for the Learning Management System (LMS).
 - ``test_studio``: Selenium tests for Studio.
