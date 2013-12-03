@@ -1,7 +1,7 @@
 """
 End to end tests for finding courses
 """
-from e2e_framework.web_app_test import WebAppTest
+from bok_choy.web_app_test import WebAppTest
 from pages.mktg.course_list import CourseListPage
 from nose.tools import assert_equal, assert_not_equal
 from nose.plugins.skip import SkipTest

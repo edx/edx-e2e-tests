@@ -1,6 +1,6 @@
 import time
 
-from e2e_framework.page_object import PageObject
+from bok_choy.page_object import PageObject
 from ..lms import BASE_URL
 
 

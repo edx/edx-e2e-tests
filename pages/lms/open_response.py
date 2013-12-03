@@ -1,5 +1,5 @@
-from e2e_framework.page_object import PageObject
-from e2e_framework.promise import EmptyPromise, fulfill_after, fulfill_before
+from bok_choy.page_object import PageObject
+from bok_choy.promise import EmptyPromise, fulfill_after, fulfill_before
 from selenium.common.exceptions import NoAlertPresentException
 
 
