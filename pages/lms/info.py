@@ -47,9 +47,14 @@ class InfoPage(PageObject):
         return BASE_URL + self.SECTION_PATH[section]
 
     def is_browser_on_page(self):
-        stripped_url = self.browser.url.replace(BASE_URL, "")
-        css_sel = self.EXPECTED_CSS[stripped_url]
-        return self.is_css_present(css_sel)
+
+        # Find the appropriate css based on the URL
+        for url_path, css_sel in self.EXPECTED_CSS.iteritems():
+            if self.browser.url.endswith(url_path):
+                return self.is_css_present(css_sel)
+
+        # Could not find the CSS based on the URL
+        return False
 
     @classmethod
     def sections(cls):
