@@ -1,6 +1,7 @@
 import time
 
 from bok_choy.page_object import PageObject
+from bok_choy.promise import EmptyPromise, fulfill_after
 from ..lms import BASE_URL
 
 
@@ -53,17 +54,30 @@ class VideoPage(PageObject):
         """
         return self.is_css_present('a.video_control') and self.is_css_present('a.video_control.pause')
 
+    @property
+    def is_paused(self):
+        """
+        Return a boolean indicating whether the video is paused.
+        """
+        return self.is_css_present('a.video_control') and self.is_css_present('a.video_control.play')
+
     def play(self):
         """
         Start playing the video.
         """
-        self.css_click('a.video_control.play')
+        with fulfill_after(
+            EmptyPromise(lambda: self.is_playing, "Video is playing")
+        ):
+            self.css_click('a.video_control.play')
 
     def pause(self):
         """
         Pause the video.
         """
-        self.css_click('a.video_control.pause')
+        with fulfill_after(
+            EmptyPromise(lambda: self.is_paused, "Video is paused")
+        ):
+            self.css_click('a.video_control.pause')
 
     def _video_time(self):
         """
