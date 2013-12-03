@@ -1,5 +1,6 @@
 from e2e_framework.page_object import PageObject
 from e2e_framework.promise import EmptyPromise, fulfill_after, fulfill_before
+from selenium.common.exceptions import NoAlertPresentException
 
 
 class OpenResponsePage(PageObject):
@@ -172,8 +173,13 @@ class OpenResponsePage(PageObject):
         Submit a response for grading.
         """
         with fulfill_after(self._submitted_promise(self.assessment_type)):
+            self.browser.execute_script('window.confirm = function(){return true;} ; window.alert = function(){return;}')
             self.css_click('input.submit-button')
-            self.browser.get_alert().accept()
+
+            try:
+                self.browser.get_alert().accept()
+            except NoAlertPresentException:
+                pass
 
     def submit_self_assessment(self, scores):
         """
