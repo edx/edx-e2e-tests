@@ -109,8 +109,11 @@ def _test_url(config):
     """
     Given a dictionary of configuration values, return a URL for the test host.
     """
-    if 'basic_auth_user' in config and 'basic_auth_password' in config:
-        return "{protocol}://{basic_auth_user}:{basic_auth_password}@{test_host}".format(**config)
+    # Make sure that both keys for the auth credentials exist
+    # and that their values are not the empty string.
+    if 'basic_auth_user' in config and bool(config['basic_auth_user']) \
+        and 'basic_auth_password' in config and bool(config['basic_auth_password']):
+            return "{protocol}://{basic_auth_user}:{basic_auth_password}@{test_host}".format(**config)
 
     else:
         return "{protocol}://{test_host}".format(**config)
