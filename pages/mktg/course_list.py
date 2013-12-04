@@ -84,9 +84,35 @@ class CourseListPage(PageObject):
         else:
             title = 'Go to page {0}'.format(text)
 
-        pagination_promise = EmptyPromise(
-            lambda: self.is_browser_on_page,
-            'redrew the page'
-        )
+        if text == 'next':
+            # Verify that you have a 'previous' link
+            previous = 'Go to previous page'
+            pagination_promise = EmptyPromise(
+                lambda: self.is_css_present('a[title="{0}"]'.format(previous)),
+                'Saw the "previous" link'
+            )
+
+        elif text == 'previous':
+            # Verify that you have a 'next' link
+            next = 'Go to next page'
+            pagination_promise = EmptyPromise(
+                lambda: self.is_css_present('a[title="{0}"]'.format(next)),
+                'Saw the "next" link'
+            )
+
+        elif text == 'last':
+            # Verify that you have a 'first' link
+            first = 'Go to first page'
+            pagination_promise = EmptyPromise(
+                lambda: self.is_css_present('a[title="{0}"]'.format(first)),
+                'Saw the "first" link'
+            )
+
+        else:
+            pagination_promise = EmptyPromise(
+                self.is_browser_on_page,
+                'Redrew the page'
+            )
+
         with fulfill_after(pagination_promise):
             self.css_click('a[title="{0}"]'.format(title))
