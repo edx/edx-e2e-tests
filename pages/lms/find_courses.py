@@ -1,6 +1,5 @@
 from bok_choy.page_object import PageObject
-from bok_choy.promise import BrokenPromise, EmptyPromise, fulfill_after
-from selenium.common.exceptions import WebDriverException
+from bok_choy.promise import BrokenPromise
 from ..lms import BASE_URL
 
 
@@ -41,33 +40,28 @@ class FindCoursesPage(PageObject):
         edx/999/2013_Spring, but this could change.
         """
 
+        # Try clicking the link directly
+        try:
+            css = 'a[href="/courses/{0}/about"]'.format(course_id)
+
+            # In most browsers, there are multiple links
+            # that match this selector, most without text
+            # In IE 10, only the second one works.
+            # In IE 9, there is only one link
+            if self.css_count(css) > 1:
+                index = 1
+            else:
+                index = 0
+
+            self.css_click(css + ":nth-of-type({0})".format(index))
+
+        # Chrome gives an error that another element would receive the click.
+        # So click higher up in the DOM
+        except BrokenPromise:
+            # We need to escape forward slashes in the course_id
+            # to create a valid CSS selector
+            course_id = course_id.replace('/', '\/')
+            self.css_click('article.course#{0}'.format(course_id))
+
         # Ensure that we end up on the next page
-        on_next_page = EmptyPromise(
-            lambda: "courses" in self.browser.url,
-            "got to the course page"
-        )
-
-        with fulfill_after(on_next_page):
-
-            # Try clicking the link directly
-            try:
-                css = 'a[href="/courses/{0}/about"]'.format(course_id)
-
-                # In most browsers, there are multiple links
-                # that match this selector, most without text
-                # In IE 10, only the second one works.
-                # In IE 9, there is only one link
-                if self.css_count(css) > 1:
-                    index = 1
-                else:
-                    index = 0
-
-                self.css_click(css + ":nth-of-type({0})".format(index))
-
-            # Chrome gives an error that another element would receive the click.
-            # So click higher up in the DOM
-            except BrokenPromise:
-                # We need to escape forward slashes in the course_id
-                # to create a valid CSS selector
-                course_id = course_id.replace('/', '\/')
-                self.css_click('article.course#{0}'.format(course_id))
+        self.ui.wait_for_page('lms.course_about')

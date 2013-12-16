@@ -1,5 +1,4 @@
 from bok_choy.page_object import PageObject
-from bok_choy.promise import EmptyPromise, fulfill_after
 from ..lms import BASE_URL
 
 
@@ -38,10 +37,5 @@ class CourseAboutPage(PageObject):
         """
         Register for the course on the page.
         """
-        next_page_promise = EmptyPromise(
-            lambda: "register" in self.browser.url,
-            "on the registration page"
-        )
-
-        with fulfill_after(next_page_promise):
-            self.css_click('a.register')
+        self.css_click('a.register')
+        self.ui.wait_for_page('lms.register')
