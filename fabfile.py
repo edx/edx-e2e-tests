@@ -3,8 +3,9 @@ Commands for setting up test environments and running tests.
 """
 
 import os
+import shutil
 from ConfigParser import SafeConfigParser
-from fabric.api import task, local
+from fabric.api import task, local, lcd
 from textwrap import dedent
 from path import path
 import requests
@@ -20,6 +21,13 @@ NUM_PARALLEL = os.environ.get('NUM_PARALLEL', 1)
 
 # Process timeout for test results
 PROCESS_TIMEOUT = 600
+
+# edx-platform git repo
+# Used to install the page objects for edxapp
+EDX_PLATFORM_REPO_NAME = "edx-platform"
+EDX_PLATFORM_REPO_URL = "https://github.com/edx/edx-platform.git"
+EDXAPP_PAGES_DIR = "common/test/bok_choy"
+EDX_PLATFORM_VERSION = "659e590fc9386e17f36ffa0e59ac10fd08cb7635"
 
 
 @task
@@ -47,6 +55,41 @@ def config_mktg(**kwargs):
     This is useful for generating config files on the fly (e.g. in Jenkins).
     """
     _set_config('mktg', kwargs)
+
+
+@task
+def install_pages(repo_dirname="/tmp"):
+    """
+    Install page objects from external repos.
+
+    `repo_dirname` is the directory in which to clone the repos.
+    If a copy of the repo does not yet exist under this directory
+    then it will first be cloned there.
+
+    WARNING: This operation is NOT safe to run concurrently.
+    """
+    try:
+
+        # Clone the repo and check out the commit
+        repo_path = os.path.join(repo_dirname, EDX_PLATFORM_REPO_NAME)
+        if not os.path.isdir(repo_path):
+            local(_cmd("git", "clone", EDX_PLATFORM_REPO_URL, repo_path))
+
+        with lcd(repo_path):
+            local(_cmd("git", "fetch"))
+            local(_cmd("git", "checkout", EDX_PLATFORM_VERSION))
+
+        # Install the page objects in the current virtualenv
+        with lcd(os.path.join(repo_path, EDXAPP_PAGES_DIR)):
+            local(_cmd("python", "setup.py", "install"))
+
+    # Fabric will fail-fast and exit if any of these commands fail
+    # This could leave the git repository in an unusable state
+    # Therefore, if we exit with a fatal error, assume that the git repository
+    # can no longer be trusted and delete it.
+    except SystemExit:
+        if os.path.isdir(repo_path):
+            shutil.rmtree(repo_path)
 
 
 @task

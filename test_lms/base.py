@@ -4,8 +4,8 @@ Helpful base test case classes for testing the LMS.
 
 from bok_choy.web_app_test import WebAppTest
 from .fixtures import UserFixture
-from edxapp_selenium_pages.lms.login import LoginPage
-from edxapp_selenium_pages.lms.dashboard import DashboardPage
+from edxapp_pages.lms.login import LoginPage
+from edxapp_pages.lms.dashboard import DashboardPage
 
 
 class LoggedInTest(WebAppTest):
