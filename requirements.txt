@@ -6,7 +6,7 @@ requests==2.0.1
 nose
 
 # bok-choy framework
--e git+https://github.com/edx/bok-choy.git@bc6f1adbe439618162079f1004b2b3db3b6f8916#egg=bok_choy
+-e git+https://github.com/edx/bok-choy.git@69eb162b0bd1e8bf4c4c2d88bd1ea01930b32f3d#egg=bok_choy
 
 # edx-platform page objects
 -e git+https://github.com/edx/edx-platform.git@04e66be70589612b0e5ffb6c55465932ca930e8d#egg=edxapp_selenium_pages

@@ -2,8 +2,61 @@
 Test fixtures for LMS and Studio.
 """
 import os
-from fabric.api import sudo, settings
-from bok_choy.web_app_fixture import RemoteCommandFixture, WebAppFixtureError
+from abc import ABCMeta, abstractmethod
+from fabric.api import sudo, settings, execute, env, hide
+from fabric.network import disconnect_all
+from bok_choy.web_app_fixture import WebAppFixture, WebAppFixtureError
+
+
+class RemoteCommandFixture(WebAppFixture):
+    """
+    A fixture created by executing ssh commands on the remote host.
+    """
+
+    __metaclass__ = ABCMeta
+
+    def __init__(self, hostname, ssh_user=None, ssh_keyfile=None):
+        """
+        Configure the fixture to execute on `hostname`.
+
+        `ssh_user` is the account to log in with via ssh
+        `ssh_keyfile` is the full path to the private ssh key
+        """
+        self.hostname = hostname
+        self.ssh_user = ssh_user
+        self.ssh_keyfile = ssh_keyfile
+
+    def install(self):
+        """
+        Execute ssh commands on the remote host.
+        """
+        try:
+            env.key_filename = self.ssh_keyfile
+
+            if self.ssh_user is not None:
+                host = "{0}@{1}".format(self.ssh_user, self.hostname)
+            else:
+                host = self.hostname
+
+            with hide('output', 'running'):
+                execute(self.execute, hosts=[host])
+
+        finally:
+            with hide('output', 'running'):
+                disconnect_all()
+
+    @abstractmethod
+    def execute(self):
+        """
+        Execute commands on the remote host using Fabric.
+        """
+        pass
+
+    def cmd(self, *args):
+        """
+        Helper method to construct a command string from component args.
+        """
+        return u" ".join([u"{0}".format(val) for val in args])
 
 
 class UserFixture(RemoteCommandFixture):
