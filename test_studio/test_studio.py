@@ -3,9 +3,9 @@ E2E tests for Studio.
 """
 
 from bok_choy.web_app_test import WebAppTest
-from edxapp_selenium_pages.studio.login import LoginPage
-from edxapp_selenium_pages.studio.howitworks import HowitworksPage
-from edxapp_selenium_pages.studio.signup import SignupPage
+from edxapp_pages.studio.login import LoginPage
+from edxapp_pages.studio.howitworks import HowitworksPage
+from edxapp_pages.studio.signup import SignupPage
 
 
 class LoggedOutTest(WebAppTest):

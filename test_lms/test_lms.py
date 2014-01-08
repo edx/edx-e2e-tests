@@ -8,17 +8,17 @@ from bok_choy.promise import EmptyPromise, fulfill_before
 from credentials import TestCredentials
 from fixtures import UserFixture
 
-from edxapp_selenium_pages.lms.login import LoginPage
-from edxapp_selenium_pages.lms.find_courses import FindCoursesPage
-from edxapp_selenium_pages.lms.info import InfoPage
-from edxapp_selenium_pages.lms.course_about import CourseAboutPage
-from edxapp_selenium_pages.lms.register import RegisterPage
-from edxapp_selenium_pages.lms.dashboard import DashboardPage
-from edxapp_selenium_pages.lms.course_info import CourseInfoPage
-from edxapp_selenium_pages.lms.tab_nav import TabNavPage
-from edxapp_selenium_pages.lms.course_nav import CourseNavPage
-from edxapp_selenium_pages.lms.progress import ProgressPage
-from edxapp_selenium_pages.lms.video import VideoPage
+from edxapp_pages.lms.login import LoginPage
+from edxapp_pages.lms.find_courses import FindCoursesPage
+from edxapp_pages.lms.info import InfoPage
+from edxapp_pages.lms.course_about import CourseAboutPage
+from edxapp_pages.lms.register import RegisterPage
+from edxapp_pages.lms.dashboard import DashboardPage
+from edxapp_pages.lms.course_info import CourseInfoPage
+from edxapp_pages.lms.tab_nav import TabNavPage
+from edxapp_pages.lms.course_nav import CourseNavPage
+from edxapp_pages.lms.progress import ProgressPage
+from edxapp_pages.lms.video import VideoPage
 
 from .base import LoggedInTest
 
