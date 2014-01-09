@@ -1,9 +1,0 @@
-splinter==0.5.4
-selenium==2.34.0
-fabric==1.8.0
-path.py==4.4
-requests==2.0.1
-nose
-
-# bok-choy framework
--e git+https://github.com/edx/bok-choy.git@d276a2b508820651ae6e20266dc8e584f128bd3a#egg=bok_choy

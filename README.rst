@@ -11,9 +11,6 @@ UI-level tests for edX applications:
 - ``pages``: PageObjects for interacting with pages under test.
 - ``test_lms``: Selenium tests for the Learning Management System (LMS).
 - ``test_studio``: Selenium tests for Studio.
-- ``test_mktg``: Selenium tests for the edX marketing site.
-
-__ https://code.google.com/p/selenium/wiki/PageObjects
 
 
 Installation
@@ -21,22 +18,20 @@ Installation
 
 We recommend using the provided Vagrant environment to develop and run tests.
 
-1. `Install Vagrant`__
-2. `Install Ansible`__
-3. In the `edx-e2e-tests/vagrant` directory, execute this command:
+1. `Install Vagrant <http://docs.vagrantup.com/v2/installation/index.html>`_
+
+
+2. In the `edx-e2e-tests` directory, execute this command:
 
 .. code:: bash
 
     vagrant up
 
-4. This will create and provision a new Vagrant environment.
+3. This will create and provision a new Vagrant environment.
 
 You will also need an installation of the edX to run the tests on.
-See `edx/configuration`__ for instructions on provisioning an edX instance.
+See `edx/configuration <http://github.com/edx/configuration>`_ for instructions on provisioning an edX instance.
 
-__ http://docs.vagrantup.com/v2/installation/index.html
-__ http://www.ansibleworks.com/docs/intro_installation.html
-__ https://github.com/edx/configuration
 
 
 Configuration
@@ -54,7 +49,7 @@ so before running the fabric commands:
 
 .. code:: bash
 
-    cd /opt/dev/edx-e2e-tests
+    cd $HOME/edx-e2e-tests
 
 
 You can use the following command to list the available fabric commands:
@@ -78,7 +73,6 @@ app or the marketing site:
 
     fab test_lms
     fab test_studio
-    fab test_mktg
 
 
 The commands also accept nose-style specifiers for test case or module:
@@ -89,44 +83,11 @@ The commands also accept nose-style specifiers for test case or module:
     fab test_studio:test_studio.py:LoggedOutTest
 
 
-By default, tests run locally in Firefox.  You can also use Chrome:
+To update page objects installed from external repos:
 
 .. code:: bash
 
-    SELENIUM_BROWSER=chrome fab test_lms
-
-
-
-Running Tests in SauceLabs
---------------------------
-
-By setting the appropriate environment variables, you can configure
-the tests to run using `SauceLabs`__.  This uses the same environment
-variables as the `Sauce OnDemand Plugin`__ for Jenkins
-
-1. Edit ``/opt/dev/jenkins_env`` to provide your SauceLabs credentials and specified browsers.
-2. Start Sauce Connect:
-
-.. code:: bash
-
-    /opt/dev/start_sauce.sh
-
-3. In another terminal, run the tests:
-
-.. code:: bash
-
-    source /opt/dev/jenkins_env
-    fab test_studio
-
-To speed things up, you can also run tests in parallel:
-
-.. code:: bash
-
-    NUM_PARALLEL=4 fab test_lms
-
-__ https://saucelabs.com/docs/connect
-__ https://wiki.jenkins-ci.org/display/JENKINS/Sauce+OnDemand+Plugin
-
+    fab install_pages
 
 
 License
