@@ -16,18 +16,20 @@
 # which are printed to make debugging easier
 
 set -e
+set -x
+
+# Clean up the repo
+# We ignore repos that we've cloned to install page objects (in .gitignore)
+# so that we don't have to download them again.
+git clean -xfd
 
 # Create the virtualenv and install requirements
 mkdir -p venv
 virtualenv venv
 . venv/bin/activate
-pip install -r requirements.txt
 
-# Install edxapp page objects
-# This operation is not safe to run concurrently,
-# so ensure the jobs use unique directories
-mkdir -p /mnt/tmp/${JOB_NAME}
-fab install_pages:/mnt/tmp/${JOB_NAME}
+pip install -r requirements/base.txt
+fab install_pages
 
 # Debug information
 echo "SELENIUM_BROWSER=$SELENIUM_BROWSER"
@@ -39,16 +41,11 @@ fab config_lms:protocol=http
 fab config_lms:test_host=$TEST_ENV_HOST
 fab config_lms:basic_auth_user=$BASIC_AUTH_USER
 fab config_lms:basic_auth_password=$BASIC_AUTH_PASSWORD
-fab config_lms:registration_email=$REGISTRATION_EMAIL
-fab config_lms:ssh_user=$SSH_USER
-fab config_lms:ssh_keyfile=$SSH_KEYFILE
 
 fab config_studio:protocol=http
 fab config_studio:test_host=studio.$TEST_ENV_HOST
 fab config_studio:basic_auth_user=$BASIC_AUTH_USER
 fab config_studio:basic_auth_password=$BASIC_AUTH_PASSWORD
-fab config_studio:ssh_user=$SSH_USER
-fab config_studio:ssh_keyfile=$SSH_KEYFILE
 
 # Run the tests
 fab test_lms
