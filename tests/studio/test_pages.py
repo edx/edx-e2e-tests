@@ -4,11 +4,10 @@ Acceptance tests for Studio.
 from bok_choy.web_app_test import WebAppTest
 
 from edxapp_pages.studio.asset_index import AssetIndexPage
-from edxapp_pages.studio.auto_auth import AutoAuthPage
 from edxapp_pages.studio.checklists import ChecklistsPage
 from edxapp_pages.studio.course_import import ImportPage
 from edxapp_pages.studio.course_info import CourseUpdatesPage
-from edxapp_pages.studio.edit_tabs import StaticPagesPage
+from edxapp_pages.studio.edit_tabs import PagesPage
 from edxapp_pages.studio.export import ExportPage
 from edxapp_pages.studio.howitworks import HowitworksPage
 from edxapp_pages.studio.index import DashboardPage
@@ -56,5 +55,5 @@ class PagesTest(WebAppTest):
         visit_all([
             clz(self.browser, *self.DEMO_COURSE_INFO) for clz in
             [AssetIndexPage, ChecklistsPage, ImportPage, CourseUpdatesPage,
-            StaticPagesPage, ExportPage, CourseTeamPage, CourseOutlinePage, SettingsPage,
+            PagesPage, ExportPage, CourseTeamPage, CourseOutlinePage, SettingsPage,
             AdvancedSettingsPage, GradingPage, TextbooksPage]])
