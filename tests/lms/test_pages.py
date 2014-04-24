@@ -1,7 +1,6 @@
 from bok_choy.web_app_test import WebAppTest
 from edxapp_pages.lms.course_about import CourseAboutPage
 from edxapp_pages.lms.course_info import CourseInfoPage
-from edxapp_pages.lms.dashboard import DashboardPage
 from edxapp_pages.lms.find_courses import FindCoursesPage
 from edxapp_pages.lms.login import LoginPage
 from edxapp_pages.lms.progress import ProgressPage
