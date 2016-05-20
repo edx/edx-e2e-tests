@@ -4,7 +4,7 @@ from edxapp_pages.lms.course_info import CourseInfoPage
 from edxapp_pages.lms.find_courses import FindCoursesPage
 from edxapp_pages.lms.login import LoginPage
 from edxapp_pages.lms.progress import ProgressPage
-from edxapp_pages.lms.register import RegisterPage
+#from edxapp_pages.lms.register import RegisterPage
 
 from ..helpers import visit_all
 
@@ -13,16 +13,10 @@ class PagesTest(WebAppTest):
     Smoke test that we can visit pages in the Demo Course.
     """
 
+    DEMO_COURSE_USER = os.environ.get('USER_LOGIN_EMAIL')
+    DEMO_COURSE_PASSWORD = os.environ.get('USER_LOGIN_PASSWORD')
     DEMO_COURSE_ID = "edX/Open_DemoX/edx_demo_course"
-    DEMO_COURSE_USER = 'honor@example.com'
-    DEMO_COURSE_PASSWORD = 'edx'
 
-    def test_logged_out_pages(self):
-        visit_all([
-            clz(self.browser) for clz in [FindCoursesPage, LoginPage]
-        ])
-
-        RegisterPage(self.browser, self.DEMO_COURSE_ID).visit()
 
     def test_course_pages(self):
 
