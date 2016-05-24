@@ -72,7 +72,7 @@ def test_lms(test_spec=None):
     """
     config = _read_config('lms')
     _abort_if_not_available(config)
-    _run_tests(_test_path('stage/tests/lms', test_spec), config)
+    _run_tests(_test_path('regression/tests/lms', test_spec), config)
 
 
 @task
@@ -83,7 +83,7 @@ def test_studio(test_spec=None):
     """
     config = _read_config('studio')
     _abort_if_not_available(config)
-    _run_tests(_test_path('stage/tests/studio', test_spec), config)
+    _run_tests(_test_path('regression/tests/studio', test_spec), config)
 
 
 def _available(url):

@@ -1,6 +1,7 @@
+import os
 from bok_choy.web_app_test import WebAppTest
-from ...pages.lms.login_lms import LmsLogin
-from ...pages.lms.dashboard_lms import DashboardPageExtended
+from regression.pages.lms.login_lms import LmsLogin
+from regression.pages.lms.dashboard_lms import DashboardPageExtended
 
 
 class DemoTest(WebAppTest):
@@ -20,6 +21,8 @@ class DemoTest(WebAppTest):
         self.dashboard_ext = DashboardPageExtended
 
     def test_login(self):
-        # Log in as a student
+        """
+        Log in as a student
+        """
         self.login_page.visit()
         self.login_page.login(self.DEMO_COURSE_USER, self.DEMO_COURSE_PASSWORD)

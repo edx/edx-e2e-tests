@@ -2,7 +2,12 @@ from bok_choy.promise import EmptyPromise
 from edxapp_pages.lms.login import LoginPage
 from edxapp_pages.lms.dashboard import DashboardPage
 
+
 class LmsLogin(LoginPage):
+    """
+    This class is an extended class of LoginPage,
+    where we add methods that are different or not used in LoginPage
+    """
     def is_browser_on_page(self):
         return self.q(css='.action.action-primary.action-update.js-login.login-button').present
 
