@@ -1,5 +1,6 @@
 from edxapp_pages.lms.dashboard import DashboardPage
 from bok_choy .promise import BrokenPromise
+from regression.pages.lms import BASE_URL
 
 
 class DashboardPageExtended(DashboardPage):
@@ -7,6 +8,8 @@ class DashboardPageExtended(DashboardPage):
     This class is an extended class of Dashboard Page,
     where we add methods that are different or not used in DashboardPage
     """
+    url = BASE_URL + '/dashboard'
+
     def select_course(self, course_title):
         """
         Selects the course we want to perform tests on
