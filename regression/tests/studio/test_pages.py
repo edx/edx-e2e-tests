@@ -20,7 +20,7 @@ from ..helpers import visit_all
 
 class PagesTest(WebAppTest):
     """
-    Smoke test that we can visit pages in Studio.
+    E2E test that we can visit pages in Studio.
     """
 
     # We use the global staff user to log in, because we know they will have access
