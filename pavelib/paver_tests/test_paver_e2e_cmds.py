@@ -1,8 +1,8 @@
 import os
 from path import Path as path
-from .utils import PaverTestCase
-from ..paver_utils import NoseCommand
-from ..paver_consts import TEST_DIR, LOG_DIR, REPORT_DIR
+from pavelib.paver_tests.utils import PaverTestCase
+from pavelib.paver_utils import NoseCommand
+from pavelib.paver_consts import TEST_DIR, LOG_DIR, REPORT_DIR
 
 
 class TestPaverE2ECommands(PaverTestCase):
