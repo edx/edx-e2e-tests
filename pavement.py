@@ -3,20 +3,23 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 
 from path import Path as path
-from pavelib.paver_utils import NoseCommand
+from pavelib.paver_utils import NoseCommand, PaverTestCommand
 from paver.easy import task, needs, consume_args, sh, BuildFailure
 
 from pavelib.paver_consts import (
     LOG_DIR,
     REPORT_DIR,
-    SMOKE_TEST_REPORT,
+    E2E_TEST_REPORT,
     SCREENSHOT_DIR,
-    BASELINE_DIR
+    BASELINE_DIR,
+    PAVER_TEST_REPORT_DIR
 )
 
 
 @task
-def check_env_vars():
+def configure_e2e_tests_pre_reqs():
+
+    # Make sure environment variables are set.
     env_vars = [
         'BASIC_AUTH_USER',
         'BASIC_AUTH_PASSWORD',
@@ -29,26 +32,35 @@ def check_env_vars():
         except:
             raise BuildFailure("Please set the environment variable :" + env_var)
 
-
-@task
-def set_screenshots_path():
+    # Set environment variables for screen shots.
     os.environ['NEEDLE_OUTPUT_DIR'] = SCREENSHOT_DIR
     os.environ['NEEDLE_BASELINE_DIR'] = BASELINE_DIR
 
-
-@task
-def create_log_directory():
+    # Create log directory
     LOG_DIR.makedirs_p()
 
-
-@task
-def create_reports_directory():
+    # Create report directory
     REPORT_DIR.makedirs_p()
 
 
 @task
-@needs('check_env_vars', 'set_screenshots_path', 'create_log_directory', 'create_reports_directory')
+@needs('configure_e2e_tests_pre_reqs')
 @consume_args
-def smoke_test(args):
+def e2e_test(args):
     commandline_arg = path(args[0])
-    sh(NoseCommand.command(SMOKE_TEST_REPORT, commandline_arg))
+    sh(NoseCommand.command(E2E_TEST_REPORT, commandline_arg))
+
+
+@task
+def create_paver_report_directory():
+    PAVER_TEST_REPORT_DIR.makedirs_p()
+
+
+@task
+@needs('create_paver_report_directory')
+@consume_args
+def paver_cmd_test(args):
+    commandline_arg = ''
+    if not not args:
+        commandline_arg = path(args[0])
+    sh(PaverTestCommand.command(commandline_arg, 'paver_cmd_report.xml'))

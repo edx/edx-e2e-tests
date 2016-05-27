@@ -7,7 +7,7 @@ from regression.tests.helpers import visit_all, LoginHelper
 
 class PagesTest(WebAppTest):
     """
-    Smoke test that we can visit pages in the Demo Course.
+    E2E test that we can visit pages in the Demo Course.
     """
     def test_course_pages(self):
 
