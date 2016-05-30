@@ -5,9 +5,6 @@ from paver_consts import LOG_DIR, TEST_DIR, REPORT_DIR, PAVER_TEST_DIR, PAVER_TE
 
 class NoseCommand(object):
 
-    def __init__(self):
-        pass
-
     @staticmethod
     def command(report_name="report.xml", test_name=""):
         """
@@ -41,9 +38,6 @@ class NoseCommand(object):
 
 class PaverTestCommand(object):
 
-    def __init__(self):
-        pass
-
     @staticmethod
     def command(test_name='', report_name='report.xml'):
         """
@@ -55,7 +49,7 @@ class PaverTestCommand(object):
         if not test_name:
             test_path = PAVER_TEST_DIR
         else:
-            test_path = path.joinpath(TEST_DIR, test_name)
+            test_path = path.joinpath(PAVER_TEST_DIR, test_name)
 
         # Create report path by concatenating report directory and report name
         report_path = path.joinpath(PAVER_TEST_REPORT_DIR, report_name)

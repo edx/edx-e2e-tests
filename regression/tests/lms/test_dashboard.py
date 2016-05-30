@@ -20,8 +20,9 @@ class DashboardTest(WebAppTest):
         """
         Verifies that we can successfully resume the course
         """
-        course_page = CourseInfoPageExtended(self.browser, 'course-v1:ArbiRaees+AR-1000+fall')
-        courseware_page = CoursewarePage(self.browser, 'course-v1:ArbiRaees+AR-1000+fall')
+        course_name = 'course-v1:ArbiRaees+AR-1000+fall'
+        course_page = CourseInfoPageExtended(self.browser, course_name)
+        courseware_page = CoursewarePage(self.browser, course_name)
         self.dashboard_page.select_course('Manual Smoke Test Course 1 - Auto')
         course_page.wait_for_page()
         course_page.click_resume_button()

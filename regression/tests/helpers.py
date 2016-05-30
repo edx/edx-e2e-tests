@@ -13,13 +13,10 @@ def visit_all(pages):
         page.visit()
 
 
-class LoginHelper():
+class LoginHelper(object):
     """
     Helper class to login to the studio.
     """
-    def __init__(self):
-        pass
-
     @staticmethod
     def get_login_email():
         """

@@ -12,18 +12,21 @@ class LmsLogin(LoginPage):
     url = BASE_URL + '/login'
 
     def is_browser_on_page(self):
-        return self.q(css='.action.action-primary.action-update.js-login.login-button').present
+        return self.q(css='.action.action-primary.action-update.js-login.login-button').visible
 
     def provide_info(self, email, password):
         """
         Fill in login info
         'Username' and 'Password' are the user's credentials
         """
-        EmptyPromise(self.q(css='input#login-email').is_present, "Click ready").fulfill()
-        EmptyPromise(self.q(css='input#login-password').is_present, "Click ready").fulfill()
+        email_selector = 'input#login-email'
+        password_selector = 'input#login-password'
 
-        self.q(css='input#login-email').fill(email)
-        self.q(css='input#login-password').fill(password)
+        self.wait_for_element_presence(email_selector, 'Email input area present')
+        self.wait_for_element_presence(password_selector, 'Password input are present')
+
+        self.q(css=email_selector).fill(email)
+        self.q(css=password_selector).fill(password)
         self.wait_for_ajax()
 
     def submit(self):

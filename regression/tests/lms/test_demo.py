@@ -26,3 +26,5 @@ class DemoTest(WebAppTest):
         """
         self.login_page.visit()
         self.login_page.login(self.DEMO_COURSE_USER, self.DEMO_COURSE_PASSWORD)
+        self.assertEquals(self.login_page.q(css='.wrapper-header-courses .header-courses').text[0].lower(),
+                          'my courses', 'Log-in successful')

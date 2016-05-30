@@ -18,13 +18,9 @@ class PaverTestCase(TestCase):
         # Create a mock Paver environment
         tasks.environment = MockEnvironment()
 
-        # Don't run pre-reqs
-        os.environ['NO_PREREQ_INSTALL'] = 'true'
-
     def tearDown(self):
         super(PaverTestCase, self).tearDown()
         tasks.environment = tasks.Environment()
-        del os.environ['NO_PREREQ_INSTALL']
 
     @property
     def task_messages(self):
