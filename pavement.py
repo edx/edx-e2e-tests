@@ -28,6 +28,7 @@ def install_pages():
     lib_path = path(os.path.join(repo_root, 'lib'))
     # Path to setup.py of pages package
     page_obj_setup_path = path(os.path.join(lib_path, 'edx-platform', 'common', 'test', 'acceptance', 'setup.py'))
+    print 'Installing the Page Objects'
     sh("pip install -r {req} --src={lib}".format(req=requirement_path, lib=lib_path))
     # Install pages
     sh("python {setup} install".format(setup=page_obj_setup_path))
