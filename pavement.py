@@ -17,6 +17,23 @@ from pavelib.paver_consts import (
 
 
 @task
+def install_pages():
+    """
+    Installs page object from edx-platform repo
+    """
+    repo_root = path(__file__).dirname()
+    # Path to find the git address of repo
+    requirement_path = path(os.path.join(repo_root, 'requirements', 'local.txt'))
+    # Path to store the repo
+    lib_path = path(os.path.join(repo_root, 'lib'))
+    # Path to setup.py of pages package
+    page_obj_setup_path = path(os.path.join(lib_path, 'edx-platform', 'common', 'test', 'acceptance', 'setup.py'))
+    sh("pip install -r {req} --src={lib}".format(req=requirement_path, lib=lib_path))
+    # Install pages
+    sh("python {setup} install".format(setup=page_obj_setup_path))
+
+
+@task
 def configure_e2e_tests_pre_reqs():
 
     # Make sure environment variables are set.
