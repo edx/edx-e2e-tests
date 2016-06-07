@@ -1,8 +1,6 @@
-selenium==2.39.0
-fabric==1.8.0
-path.py==4.4
+selenium==2.53.1
+path.py==7.2
 requests==2.0.1
-nose
-
-# bok-choy framework
--e git+https://github.com/edx/bok-choy.git@202faef941bee2cfc6e35154c8115e6d4fc0f1e6#egg=bok_choy
+nose==1.3.7
+Paver==1.2.4
+bok-choy==0.5.2

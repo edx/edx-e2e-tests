@@ -31,6 +31,11 @@ virtualenv venv
 pip install -r requirements/base.txt
 fab install_pages
 
+TEST_ENV_HOST=courses.stage.edx.org
+#BASIC_AUTH_USER=
+#BASIC_AUTH_PASSWORD=
+
+
 # Debug information
 echo "SELENIUM_BROWSER=$SELENIUM_BROWSER"
 echo "SELENIUM_VERSION=$SELENIUM_VERSION"
