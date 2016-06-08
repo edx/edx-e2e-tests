@@ -1,6 +1,12 @@
 from path import Path as path
 
-from paver_consts import LOG_DIR, TEST_DIR, REPORT_DIR, PAVER_TEST_DIR, PAVER_TEST_REPORT_DIR
+from paver_consts import (
+    LOG_DIR,
+    TEST_DIR,
+    REPORT_DIR,
+    PAVER_TEST_DIR,
+    PAVER_TEST_REPORT_DIR
+)
 
 
 class NoseCommand(object):
@@ -42,7 +48,8 @@ class PaverTestCommand(object):
     def command(test_name='', report_name='report.xml'):
         """
         Construct the nose command with all path and nose options and
-        return this command to paver tasks (Used for paver tests inside pavelib/paver_tests)
+        return this command to paver tasks which will be used for
+        paver tests located at pavelib/paver_tests.
         """
 
         # Default to running all tests if no specific test is specified

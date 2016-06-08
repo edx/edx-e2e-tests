@@ -23,9 +23,10 @@ class PagesTest(WebAppTest):
     E2E test that we can visit pages in Studio.
     """
 
-    # We use the global staff user to log in, because we know they will have access
-    # to Studio.  This is not ideal, and longer term we should install and test with
-    # instructor/course-staff users instead.
+    # We use the global staff user to log in, because
+    # we know they will have access to Studio.  This
+    # is not ideal, and longer term we should install
+    # and test with instructor/course-staff users instead.
     DEMO_COURSE_USER = os.environ.get('USER_LOGIN_EMAIL')
     DEMO_COURSE_PASSWORD = os.environ.get('USER_LOGIN_PASSWORD')
 
@@ -33,7 +34,8 @@ class PagesTest(WebAppTest):
 
     def test_logged_out_pages(self):
         visit_all([
-            clz(self.browser) for clz in [LoginPage, HowitworksPage, SignupPage]
+            clz(self.browser) for clz in [
+                LoginPage, HowitworksPage, SignupPage]
         ])
 
     def test_logged_in_pages(self):
@@ -50,5 +52,7 @@ class PagesTest(WebAppTest):
         visit_all([
             clz(self.browser, *self.DEMO_COURSE_INFO) for clz in
             [AssetIndexPage, ChecklistsPage, ImportPage, CourseUpdatesPage,
-            PagesPage, ExportPage, CourseTeamPage, CourseOutlinePage, SettingsPage,
-            AdvancedSettingsPage, GradingPage, TextbooksPage]])
+                PagesPage, ExportPage, CourseTeamPage,
+                CourseOutlinePage, SettingsPage,
+                AdvancedSettingsPage, GradingPage,
+                TextbooksPage]])

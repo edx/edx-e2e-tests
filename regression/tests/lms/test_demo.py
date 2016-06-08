@@ -26,5 +26,7 @@ class DemoTest(WebAppTest):
         """
         self.login_page.visit()
         self.login_page.login(self.DEMO_COURSE_USER, self.DEMO_COURSE_PASSWORD)
-        self.assertEqual(self.login_page.q(css='.wrapper-header-courses .header-courses').text[0].lower(),
-                          'my courses', msg='User not logged in as expected.')
+        self.assertEqual(self.login_page.q(
+            css='.wrapper-header-courses .header-courses').text[0].lower(),
+            'my courses',
+            msg='User not logged in as expected.')

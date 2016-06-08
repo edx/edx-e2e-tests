@@ -12,7 +12,8 @@ class LmsLogin(LoginPage):
     url = BASE_URL + '/login'
 
     def is_browser_on_page(self):
-        return self.q(css='.action.action-primary.action-update.js-login.login-button').visible
+        return self.q(css='.action.action-primary/'
+                          '.action-update.js-login.login-button').visible
 
     def provide_info(self, email, password):
         """
@@ -22,8 +23,10 @@ class LmsLogin(LoginPage):
         email_selector = 'input#login-email'
         password_selector = 'input#login-password'
 
-        self.wait_for_element_presence(email_selector, 'Email input area present')
-        self.wait_for_element_presence(password_selector, 'Password input are present')
+        self.wait_for_element_presence(
+            email_selector, 'Email input area present')
+        self.wait_for_element_presence(
+            password_selector, 'Password input are present')
 
         self.q(css=email_selector).fill(email)
         self.q(css=password_selector).fill(password)
