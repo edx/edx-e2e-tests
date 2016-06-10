@@ -17,7 +17,9 @@ class TestPaverE2ECommands(PaverTestCase):
         Returns the expected command according to arguments passed
         """
         root_path = path().abspath()
-        test_path = path(os.path.join(root_path, TEST_DIR, test_name)).abspath()
+        test_path = path(os.path.join(
+            root_path, TEST_DIR, test_name)).abspath()
+
         expected_command = [
             "SCREENSHOT_DIR='{}'".format(LOG_DIR),
             "SELENIUM_DRIVER_LOG_DIR='{}'".format(LOG_DIR),
@@ -25,7 +27,8 @@ class TestPaverE2ECommands(PaverTestCase):
             test_path,
             "-v",
             "--with-xunit",
-            "--xunit-file='{}'".format(path(os.path.join(REPORT_DIR, report_name)).abspath())
+            "--xunit-file='{}'".format(
+                path(os.path.join(REPORT_DIR, report_name)).abspath())
         ]
         return ' '.join(expected_command)
 
@@ -41,7 +44,8 @@ class TestPaverE2ECommands(PaverTestCase):
         Verify paver test with report name given but test name not given.
         """
         nose_command = NoseCommand.command(report_name='custom.xml')
-        self.assertEqual(nose_command, self._expected_command(report_name='custom.xml'))
+        self.assertEqual(
+            nose_command, self._expected_command(report_name='custom.xml'))
 
     def test_no_report_name_with_test_name(self):
         """
@@ -49,15 +53,18 @@ class TestPaverE2ECommands(PaverTestCase):
         """
         test_name = 'lms/test_file.py'
         nose_command = NoseCommand.command(test_name=test_name)
-        self.assertEqual(nose_command, self._expected_command(test_name=test_name))
+        self.assertEqual(nose_command, self._expected_command(
+            test_name=test_name))
 
         test_name = 'lms/test_file.py:TestClass'
         nose_command = NoseCommand.command(test_name=test_name)
-        self.assertEqual(nose_command, self._expected_command(test_name=test_name))
+        self.assertEqual(nose_command, self._expected_command(
+            test_name=test_name))
 
         test_name = 'lms/test_file.py:TestClass.test_function'
         nose_command = NoseCommand.command(test_name=test_name)
-        self.assertEqual(nose_command, self._expected_command(test_name=test_name))
+        self.assertEqual(nose_command, self._expected_command(
+            test_name=test_name))
 
     def test_custom_report_name_with_test_name(self):
         """
@@ -65,13 +72,22 @@ class TestPaverE2ECommands(PaverTestCase):
         """
         test_name = 'lms/test_file.py'
         report_name = 'custom.xml'
-        nose_command = NoseCommand.command(test_name=test_name, report_name=report_name)
-        self.assertEqual(nose_command, self._expected_command(test_name=test_name, report_name=report_name))
+        nose_command = NoseCommand.command(
+            test_name=test_name, report_name=report_name)
+
+        self.assertEqual(nose_command, self._expected_command(
+            test_name=test_name, report_name=report_name))
 
         test_name = 'lms/test_file.py:TestClass'
-        nose_command = NoseCommand.command(test_name=test_name, report_name=report_name)
-        self.assertEqual(nose_command, self._expected_command(test_name=test_name, report_name=report_name))
+        nose_command = NoseCommand.command(
+            test_name=test_name, report_name=report_name)
+
+        self.assertEqual(nose_command, self._expected_command(
+            test_name=test_name, report_name=report_name))
 
         test_name = 'lms/test_file.py:TestClass.test_function'
-        nose_command = NoseCommand.command(test_name=test_name, report_name=report_name)
-        self.assertEqual(nose_command, self._expected_command(test_name=test_name, report_name=report_name))
+        nose_command = NoseCommand.command(
+            test_name=test_name, report_name=report_name)
+
+        self.assertEqual(nose_command, self._expected_command(
+            test_name=test_name, report_name=report_name))
