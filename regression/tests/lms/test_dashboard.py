@@ -28,6 +28,7 @@ class DashboardTest(WebAppTest):
         course_page = CourseInfoPageExtended(
             self.browser, LoginHelper.course_id)
         courseware_page = CoursewarePage(self.browser, LoginHelper.course_id)
+
         self.dashboard_page.select_course('Manual Smoke Test Course 1 - Auto')
         course_page.wait_for_page()
         course_page.click_resume_button()
