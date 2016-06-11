@@ -25,7 +25,7 @@ class LoginTest(WebAppTest):
 
     def test_login(self):
         """
-        Log in as a staff
+        Verifies that user can Log in as a staff
         """
         self.login_page.visit()
         self.login_page.login(self.DEMO_COURSE_USER, self.DEMO_COURSE_PASSWORD)

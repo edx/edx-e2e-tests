@@ -37,8 +37,6 @@ class LoginHelper(object):
     """
     Helper class to login to the studio.
     """
-    course_id = '/course-v1:ArbiRaees+AR-1000+fall'
-
     @staticmethod
     def get_login_email():
         """
