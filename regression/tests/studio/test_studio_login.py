@@ -27,7 +27,7 @@ class StudioUserLogin(WebAppTest):
 
     def test_login(self):
         """
-        Test user can login successfully
+        Verifies that user can login successfully
         """
         self.studio_login_page.visit()
         self.studio_login_page.login(self.DEMO_COURSE_USER,
@@ -36,7 +36,7 @@ class StudioUserLogin(WebAppTest):
 
     def test_logout(self):
         """
-        Test user can logout successfully
+        Verifies that user can logout successfully
         """
         self.test_login()
         self.studio_home_page.click_logout_button()

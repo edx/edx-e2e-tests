@@ -12,7 +12,9 @@ class PagesTest(WebAppTest):
     E2E test that we can visit pages in the Selected Course.
     """
     def test_course_pages(self):
-
+        """
+        Verifies that user can navigate to LMS Pages
+        """
         # Log in as a student
         login_page = LmsLogin(self.browser)
         LoginHelper.login(login_page)
