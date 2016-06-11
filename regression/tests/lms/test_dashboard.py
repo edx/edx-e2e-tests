@@ -14,6 +14,7 @@ class DashboardTest(WebAppTest):
     """
     Regression tests on LMS Dashboard
     """
+
     def setUp(self):
         super(DashboardTest, self).setUp()
         self.login_page = LmsLogin(self.browser)
@@ -24,9 +25,9 @@ class DashboardTest(WebAppTest):
         """
         Verifies that we can successfully resume the course
         """
-        course_name = 'course-v1:ArbiRaees+AR-1000+fall'
-        course_page = CourseInfoPageExtended(self.browser, course_name)
-        courseware_page = CoursewarePage(self.browser, course_name)
+        course_id = 'course-v1:ArbiRaees+AR-1000+fall'
+        course_page = CourseInfoPageExtended(self.browser, course_id)
+        courseware_page = CoursewarePage(self.browser, course_id)
         self.dashboard_page.select_course('Manual Smoke Test Course 1 - Auto')
         course_page.wait_for_page()
         course_page.click_resume_button()

@@ -1,5 +1,5 @@
 """
-End to end demo test
+End to end tests for LMS Login
 """
 import os
 from bok_choy.web_app_test import WebAppTest
@@ -7,7 +7,7 @@ from regression.pages.lms.login_lms import LmsLogin
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
 
 
-class DemoTest(WebAppTest):
+class LoginTest(WebAppTest):
     """
     Sample Test for logging in and navigating to Courseware page
     """
@@ -19,13 +19,13 @@ class DemoTest(WebAppTest):
         """
         Initialize the page object
         """
-        super(DemoTest, self).setUp()
+        super(LoginTest, self).setUp()
         self.login_page = LmsLogin(self.browser)
         self.dashboard_ext = DashboardPageExtended
 
     def test_login(self):
         """
-        Log in as a student
+        Log in as a staff
         """
         self.login_page.visit()
         self.login_page.login(self.DEMO_COURSE_USER, self.DEMO_COURSE_PASSWORD)

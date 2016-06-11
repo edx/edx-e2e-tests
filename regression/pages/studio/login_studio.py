@@ -1,15 +1,14 @@
 """
-LMS login page
+Studio login page
 """
 from edxapp_acceptance.pages.studio.login import LoginPage
-
 from regression.pages.studio import BASE_URL
 
 
 class StudioLogin(LoginPage):
     """
     This class is an extended class of LoginPage.
-    We are overridding methods that are different or adding new
+    We are over ridding methods that are different or adding new
     ones as necessary.
     """
     url = BASE_URL + '/signin'
