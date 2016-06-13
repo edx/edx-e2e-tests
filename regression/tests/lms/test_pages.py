@@ -1,3 +1,6 @@
+"""
+End to end test for page's visit.
+"""
 from bok_choy.web_app_test import WebAppTest
 from edxapp_pages.lms.course_info import CourseInfoPage
 from edxapp_pages.lms.progress import ProgressPage

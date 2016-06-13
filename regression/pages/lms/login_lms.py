@@ -1,4 +1,6 @@
-from bok_choy.promise import EmptyPromise
+"""
+LMS login page
+"""
 from edxapp_pages.lms.login import LoginPage
 from edxapp_pages.lms.dashboard import DashboardPage
 from regression.pages.lms import BASE_URL
