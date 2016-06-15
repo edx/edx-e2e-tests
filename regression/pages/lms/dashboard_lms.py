@@ -1,3 +1,6 @@
+"""
+Student dashboard page.
+"""
 from edxapp_pages.lms.dashboard import DashboardPage
 from bok_choy .promise import BrokenPromise
 from regression.pages.lms import BASE_URL

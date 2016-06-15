@@ -1,8 +1,12 @@
+"""
+End to end tests for LMS dashboard.
+"""
 from bok_choy.web_app_test import WebAppTest
+from edxapp_pages.lms.courseware import CoursewarePage
+
 from regression.pages.lms.login_lms import LmsLogin
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.lms.course_page_lms import CourseInfoPageExtended
-from edxapp_pages.lms.courseware import CoursewarePage
 from regression.tests.helpers import LoginHelper
 
 

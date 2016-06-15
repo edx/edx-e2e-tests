@@ -14,7 +14,7 @@ from edxapp_pages.studio.settings import SettingsPage
 from edxapp_pages.studio.settings_advanced import AdvancedSettingsPage
 from edxapp_pages.studio.settings_graders import GradingPage
 from edxapp_pages.studio.signup import SignupPage
-from edxapp_pages.studio.textbooks import TextbooksPage
+from edxapp_pages.studio.textbook_upload import TextbookUploadPage
 from ..helpers import visit_all
 
 
@@ -51,8 +51,7 @@ class PagesTest(WebAppTest):
         # Check that we can get to course editing pages
         visit_all([
             clz(self.browser, *self.DEMO_COURSE_INFO) for clz in
-            [AssetIndexPage, ChecklistsPage, ImportPage, CourseUpdatesPage,
-                PagesPage, ExportPage, CourseTeamPage,
-                CourseOutlinePage, SettingsPage,
-                AdvancedSettingsPage, GradingPage,
-                TextbooksPage]])
+            [
+                AssetIndexPage, CourseUpdatesPage, PagesPage,
+                CourseOutlinePage, SettingsPage, AdvancedSettingsPage,
+                GradingPage, TextbookUploadPage]])
