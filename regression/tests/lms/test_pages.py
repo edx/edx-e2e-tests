@@ -2,8 +2,8 @@
 End to end test for page's visit.
 """
 from bok_choy.web_app_test import WebAppTest
-from edxapp_pages.lms.course_info import CourseInfoPage
-from edxapp_pages.lms.progress import ProgressPage
+from edxapp_acceptance.pages.lms.course_info import CourseInfoPage
+from edxapp_acceptance.pages.lms.progress import ProgressPage
 from regression.pages.lms.login_lms import LmsLogin
 from regression.tests.helpers import visit_all, LoginHelper
 
