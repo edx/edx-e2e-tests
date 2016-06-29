@@ -5,7 +5,6 @@ import os
 from bok_choy.web_app_test import WebAppTest
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.studio.login_studio import StudioLogin
-from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.studio.logout_studio import StudioLogout
 
 
