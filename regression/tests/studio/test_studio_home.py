@@ -15,7 +15,6 @@ class StudioHomeTest(WebAppTest):
 
     DEMO_COURSE_USER = os.environ.get('USER_LOGIN_EMAIL')
     DEMO_COURSE_PASSWORD = os.environ.get('USER_LOGIN_PASSWORD')
-    course_id = '/course-v1:ArbiRaees+AR-1000+fall'
 
     def setUp(self):
         """

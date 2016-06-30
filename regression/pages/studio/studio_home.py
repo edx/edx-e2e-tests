@@ -12,7 +12,7 @@ class DashboardPageExtended(DashboardPage):
     where we add methods that are different or not used in DashboardPage
     """
 
-    url = BASE_URL + '/home/'
+    url = BASE_URL + '/home'
 
     def is_browser_on_page(self):
         """
