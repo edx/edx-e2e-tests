@@ -1,7 +1,7 @@
 """
 Course info page
 """
-from edxapp_pages.lms.course_info import CourseInfoPage
+from edxapp_acceptance.pages.lms.course_info import CourseInfoPage
 from regression.pages.lms import BASE_URL
 
 
