@@ -32,7 +32,7 @@ class StudioUserLogin(WebAppTest):
         self.studio_login_page.visit()
         self.studio_login_page.login(self.DEMO_COURSE_USER,
                                      self.DEMO_COURSE_PASSWORD)
-        self.studio_home_page.is_browser_on_page()
+        self.studio_home_page.wait_for_page()
 
     def test_logout(self):
         """
@@ -40,4 +40,4 @@ class StudioUserLogin(WebAppTest):
         """
         self.test_login()
         self.studio_home_page.click_logout_button()
-        self.studio_logout_page.is_browser_on_page()
+        self.studio_logout_page.wait_for_page()

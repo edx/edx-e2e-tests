@@ -42,4 +42,4 @@ class StudioHomeTest(WebAppTest):
         self.studio_home_page.visit()
         self.studio_home_page.select_course(
             'Manual Smoke Test Course 1 - Auto')
-        self.studio_course_outline.is_browser_on_page()
+        self.studio_course_outline.wait_for_page()

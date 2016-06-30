@@ -16,4 +16,4 @@ class StudioLogout(PageObject):
         """
         Checks if we are on the correct page
         """
-        return 'Welcome | edX Studio' in self.browser.title
+        return self.q(css='.wrapper-text-welcome').present
