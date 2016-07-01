@@ -39,3 +39,12 @@ class DashboardPageExtended(DashboardPage):
         self.wait_for_element_visibility(
             '.action-signout', 'Sign out button visibility')
         self.q(css='.action-signout').click()
+
+    def click_view_live_button(self):
+        """
+        Clicks view live button as per sent course_id
+        """
+        self.browser.execute_script(
+            "document.querySelectorAll('[data-course-key = \"course-v1:"
+            "ArbiRaees+AR-1000+fall\"] .view-button')[0].click();")
+        self.browser.switch_to_window(self.browser.window_handles[-1])
