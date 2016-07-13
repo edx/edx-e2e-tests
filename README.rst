@@ -9,8 +9,7 @@ Overview
 UI-level tests for edX applications:
 
 - ``pages``: PageObjects for interacting with pages under test.
-- ``test_lms``: Selenium tests for the Learning Management System (LMS).
-- ``test_studio``: Selenium tests for Studio.
+- ``e2e_test``: Bokchoy tests for the Learning Management System (LMS) and Studio.
 
 
 Installation
@@ -36,58 +35,80 @@ See `edx/configuration <http://github.com/edx/configuration>`_ for instructions 
 
 Configuration
 -------------
+Before running the commands change your working directory to `edx-e2e-tests`
 
-Edit the configuration file ``config.ini`` to provide information about the system under test.
-You can specify another configuration file by setting the ``CONFIG_PATH`` environment variable.
+1. Install requirements:
+
+.. code:: bash
+
+    pip install -r requirements/base.txt
+
+2 - Install edx platform pages:
+
+.. code:: bash
+
+    paver install_pages
+
 
 
 Running Tests Locally
 ---------------------
 
 Within the Vagrant environment, the tests are installed in /opt/dev/edx-e2e-tests,
-so before running the fabric commands:
+so before running the paver commands:
 
 .. code:: bash
 
     cd $HOME/edx-e2e-tests
 
 
-You can use the following command to list the available fabric commands:
+To run the tests locally, following environmental variables needs to be changed before running tests.
 
 .. code:: bash
 
-    fab --list
+    ==> BASIC_AUTH_USER
+    ==> BASIC_AUTH_PASSWORD
+    ==> USER_LOGIN_EMAIL
+    ==> USER_LOGIN_PASSWORD
+
 
 
 To run all the tests:
 
 .. code:: bash
 
-    fab test
+    paver e2e_test
 
 
-The following commands can be used to execute the test suites for the edX
-app or the marketing site:
 
-.. code:: bash
-
-    fab test_lms
-    fab test_studio
 
 
 The commands also accept nose-style specifiers for test case or module:
 
+To run all the tests in the file:
+
 .. code:: bash
 
-    fab test_lms:test_lms.py:RegistrationTest.test_register
-    fab test_studio:test_studio.py:LoggedOutTest
+    paver e2e_test lms/test_dasboard.py
+
+To run all the tests in a particular class:
+
+.. code:: bash
+
+    paver e2e_test lms/test_dasboard.py: DashboardTest
+
+To run a single test:
+
+.. code:: bash
+
+    paver e2e_test lms/test_dasboard.py: DashboardTest.test_resume_course
 
 
 To update page objects installed from external repos:
 
 .. code:: bash
 
-    fab install_pages
+    paver install_pages
 
 
 License

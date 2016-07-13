@@ -3,18 +3,20 @@ Acceptance tests for Studio.
 """
 import os
 from bok_choy.web_app_test import WebAppTest
-from edxapp_pages.studio.asset_index import AssetIndexPage
-from edxapp_pages.studio.course_info import CourseUpdatesPage
-from edxapp_pages.studio.edit_tabs import PagesPage
-from edxapp_pages.studio.howitworks import HowitworksPage
-from edxapp_pages.studio.index import DashboardPage
-from edxapp_pages.studio.login import LoginPage
-from edxapp_pages.studio.overview import CourseOutlinePage
-from edxapp_pages.studio.settings import SettingsPage
-from edxapp_pages.studio.settings_advanced import AdvancedSettingsPage
-from edxapp_pages.studio.settings_graders import GradingPage
-from edxapp_pages.studio.signup import SignupPage
-from edxapp_pages.studio.textbook_upload import TextbookUploadPage
+from edxapp_acceptance.pages.studio.asset_index import AssetIndexPage
+from edxapp_acceptance.pages.studio.course_info import CourseUpdatesPage
+from edxapp_acceptance.pages.studio.edit_tabs import PagesPage
+from edxapp_acceptance.pages.studio.howitworks import HowitworksPage
+from edxapp_acceptance.pages.studio.index import DashboardPage
+from edxapp_acceptance.pages.studio.login import LoginPage
+from edxapp_acceptance.pages.studio.overview import CourseOutlinePage
+from edxapp_acceptance.pages.studio.settings import SettingsPage
+from edxapp_acceptance.pages.studio.settings_advanced import (
+    AdvancedSettingsPage
+)
+from edxapp_acceptance.pages.studio.settings_graders import GradingPage
+from edxapp_acceptance.pages.studio.signup import SignupPage
+from edxapp_acceptance.pages.studio.textbook_upload import TextbookUploadPage
 from ..helpers import visit_all
 
 
