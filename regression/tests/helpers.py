@@ -4,6 +4,26 @@ Test helper functions.
 import os
 
 
+COURSE_ORG = 'COURSE_ORG'
+COURSE_NUMBER = 'COURSE_NUMBER'
+COURSE_RUN = 'COURSE_RUN'
+COURSE_DISPLAY_NAME = 'COURSE_DISPLAY_NAME'
+
+
+def get_course_info():
+    """
+    Returns the course info of the course that we use for
+    the regression tests.
+    """
+    return {
+        'org': os.environ.get(COURSE_ORG),
+        'number': os.environ.get(COURSE_NUMBER),
+        'run': os.environ.get(COURSE_RUN),
+        'display_name': os.environ.get(
+            COURSE_DISPLAY_NAME)
+    }
+
+
 def visit_all(pages):
     """
     Visit each page object in `pages` (an iterable).
