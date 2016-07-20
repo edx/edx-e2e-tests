@@ -14,8 +14,10 @@ class LmsLogin(LoginPage):
     url = BASE_URL + '/login'
 
     def is_browser_on_page(self):
-        return self.q(css='.action.action-primary/'
-                          '.action-update.js-login.login-button').visible
+        """
+        Verifies if the browser is on the correct page
+        """
+        return self.q(css='.js-login.login-button').visible
 
     def provide_info(self, email, password):
         """
