@@ -42,7 +42,7 @@ class DashboardPageExtended(DashboardPage):
 
     def click_view_live_button(self):
         """
-        Clicks view live button as per sent course_id
+        Clicks view live button
         """
         self.browser.execute_script(
             "document.querySelectorAll('[data-course-key = \"course-v1:"

@@ -8,7 +8,7 @@ from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.lms.login_lms import LmsLogin
-from regression.tests.helpers import LoginHelper
+from regression.tests.helpers import LoginHelper, get_course_info
 
 
 class StudioHomeTest(WebAppTest):
@@ -30,8 +30,7 @@ class StudioHomeTest(WebAppTest):
                                      self.DEMO_COURSE_PASSWORD)
         self.studio_home_page = DashboardPageExtended(self.browser)
 
-        self.course_info = {
-            'org': 'ArbiRaees', 'number': 'AR-1000', 'run': 'fall'}
+        self.course_info = get_course_info()
 
         self.studio_course_outline = CourseOutlinePage(
             self.browser, self.course_info['org'], self.course_info['number'],
@@ -71,8 +70,7 @@ class StudioLmsTest(WebAppTest):
                                      self.DEMO_COURSE_PASSWORD)
         self.studio_home_page = DashboardPageExtended(self.browser)
 
-        self.course_info = {
-            'org': 'ArbiRaees', 'number': 'AR-1000', 'run': 'fall'}
+        self.course_info = get_course_info()
 
         self.studio_course_outline = CourseOutlinePage(
             self.browser, self.course_info['org'], self.course_info['number'],
@@ -85,5 +83,5 @@ class StudioLmsTest(WebAppTest):
         self.studio_home_page.visit()
         self.studio_home_page.click_view_live_button()
         courseware_page = CoursewarePage(
-            self.browser, LoginHelper.course_id)
+            self.browser, get_course_info())
         courseware_page.wait_for_page()
