@@ -30,7 +30,7 @@ def visit_all(pages):
     """
     for page in pages:
         print "Visiting: {}".format(page)
-    page.visit()
+        page.visit()
 
 
 class LoginHelper(object):

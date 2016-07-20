@@ -22,7 +22,7 @@ class DashboardTest(WebAppTest):
 
     def test_resume_course(self):
         """
-        Verifies that we can successfully resume the course
+        Verifies that user can successfully resume the course
         """
         course_page = CourseInfoPageExtended(
             self.browser, get_course_info())
