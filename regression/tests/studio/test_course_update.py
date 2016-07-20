@@ -32,8 +32,7 @@ class CourseUpdateTest(WebAppTest):
 
     def test_course_update(self):
         """
-        This single test tests creation, editing and
-        deletion of a course update.
+        Verifies tests creation, editing and deletion of a course update.
         """
         # Add a new course update.
         course_update_text = 'New update:{}'.format(uuid4().hex)
@@ -74,7 +73,7 @@ class CourseUpdateTest(WebAppTest):
 
     def test_edit_course_handout(self):
         """
-        Test edit course handout
+        Verifies that user can edit course handout
         """
         course_handout_content = 'New handout content:{}'.format(uuid4().hex)
         # Edit course handout

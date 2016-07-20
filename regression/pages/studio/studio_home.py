@@ -30,3 +30,21 @@ class DashboardPageExtended(DashboardPage):
                 vals.click()
                 return
         raise BrokenPromise('Course title not found')
+
+    def click_logout_button(self):
+        """
+        Clicks username drop down than logout button
+        """
+        self.q(css='.account-username').click()
+        self.wait_for_element_visibility(
+            '.action-signout', 'Sign out button visibility')
+        self.q(css='.action-signout').click()
+
+    def click_view_live_button(self):
+        """
+        Clicks view live button
+        """
+        self.browser.execute_script(
+            "document.querySelectorAll('[data-course-key = \"course-v1:"
+            "ArbiRaees+AR-1000+fall\"] .view-button')[0].click();")
+        self.browser.switch_to_window(self.browser.window_handles[-1])
