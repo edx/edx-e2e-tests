@@ -9,6 +9,7 @@ TEST_DIR = path(os.path.join('regression', 'tests')).abspath()
 REPORT_DIR = path(os.path.join('reports')).abspath()
 SCREENSHOT_DIR = path(os.path.join('screenshots')).abspath()
 BASELINE_DIR = path(os.path.join('certs', 'screenshots', 'baseline')).abspath()
+UPLOAD_FILE_DIR = path(os.path.join('upload_files')).abspath()
 
 # Constants for paver test in pavelib/paver_tests
 PAVER_TEST_LOG_DIR = path(os.path.join('logs', 'paver_tests')).abspath()

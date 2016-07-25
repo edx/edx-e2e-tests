@@ -12,7 +12,8 @@ from pavelib.paver_consts import (
     E2E_TEST_REPORT,
     SCREENSHOT_DIR,
     BASELINE_DIR,
-    PAVER_TEST_REPORT_DIR
+    PAVER_TEST_REPORT_DIR,
+    UPLOAD_FILE_DIR
 )
 
 
@@ -63,6 +64,7 @@ def configure_e2e_tests_pre_reqs():
     # Set environment variables for screen shots.
     os.environ['NEEDLE_OUTPUT_DIR'] = SCREENSHOT_DIR
     os.environ['NEEDLE_BASELINE_DIR'] = BASELINE_DIR
+    os.environ['UPLOAD_FILE_DIR'] = UPLOAD_FILE_DIR
 
     # Create log directory
     LOG_DIR.makedirs_p()
