@@ -4,6 +4,7 @@ Utility functions for studio page objects.
 from opaque_keys.edx.locator import CourseLocator
 from edxapp_acceptance.pages.common.utils import wait_for_notification
 
+from bok_choy.javascript import js_defined
 from regression.pages import UPLOAD_FILE_DIR
 
 
@@ -118,3 +119,19 @@ def upload_new_file(page, file_names):
     click_css_with_animation_enabled(page, '.close-button', 0, False)
     page.wait_for_element_invisibility(
         page.UPLOAD_FORM_CSS, 'New file upload prompt has been closed.')
+
+
+@js_defined('window.jQuery')
+def press_the_notification_button(page, name):
+    """
+    Clicks the Save notification button
+    """
+    # Because the notification uses a CSS transition,
+    # Selenium will always report it as being visible.
+    # This makes it very difficult to successfully click
+    # the "Save" button at the UI level.
+    # Instead, we use JavaScript to reliably click
+    # the button.
+    btn_css = 'div#page-notification button.action-%s' % name.lower()
+    page.browser.execute_script("$('{}').focus().click()".format(btn_css))
+    page.wait_for_ajax()
