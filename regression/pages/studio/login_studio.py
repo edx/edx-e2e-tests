@@ -3,6 +3,7 @@ Studio login page
 """
 from edxapp_acceptance.pages.studio.login import LoginPage
 from regression.pages.studio import BASE_URL
+from bok_choy.promise import EmptyPromise
 
 
 class StudioLogin(LoginPage):
@@ -13,14 +14,23 @@ class StudioLogin(LoginPage):
     """
     url = BASE_URL + '/signin'
 
-    def login(self, email, password):
+    def fill_field(self, css, value):
         """
-        Attempt to log in using `email` and `password`.
+        Fill the login form field with the value.
         """
-        self.q(css='input#email').fill(email)
-        self.q(css='input#password').fill(password)
+        self.q(css=css).fill(value)
+
+    def login(self, email, password, expect_success=True):
+        """
+        Attempt to log in using 'email' and 'password'.
+        """
+        self.fill_field('input#email', email)
+        self.fill_field('input#password', password)
         self.q(css='button#submit').first.click()
 
         # Ensure that we make it to another page
-        self.wait_for(lambda: 'signin' not in self.browser.current_url,
-                      description='Redirected from the login page')
+        if expect_success:
+            EmptyPromise(
+                lambda: "signin" not in self.browser.current_url,
+                "redirected from the login page"
+            ).fulfill()
