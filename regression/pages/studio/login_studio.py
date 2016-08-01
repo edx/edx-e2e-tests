@@ -2,8 +2,8 @@
 Studio login page
 """
 from edxapp_acceptance.pages.studio.login import LoginPage
-from regression.pages.studio import BASE_URL
 from bok_choy.promise import EmptyPromise
+from regression.pages.studio import BASE_URL
 
 
 class StudioLogin(LoginPage):
