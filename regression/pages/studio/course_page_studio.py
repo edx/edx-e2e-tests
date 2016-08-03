@@ -4,9 +4,7 @@ Extended CoursePage.
 import abc
 
 from edxapp_acceptance.pages.studio.course_page import CoursePage
-
-from regression.pages.studio.utils import get_course_key
-from regression.pages.studio import BASE_URL
+from regression.tests.helpers import get_url
 
 
 class CoursePageExtended(CoursePage):
@@ -22,5 +20,5 @@ class CoursePageExtended(CoursePage):
         """
         Construct a URL to the page within the course.
         """
-        course_key = get_course_key(self.course_info)
-        return "/".join([BASE_URL, self.url_path, unicode(course_key)])
+        url = get_url(self.url_path, self.course_info)
+        return url

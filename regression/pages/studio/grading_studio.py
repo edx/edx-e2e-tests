@@ -1,13 +1,11 @@
 """
 Grading Page for Studio
 """
-import urllib
 
 from edxapp_acceptance.pages.studio.settings_graders import GradingPage
 
 from regression.pages.studio.utils import press_the_notification_button
-from regression.pages.studio.utils import get_course_key
-from regression.pages.studio import BASE_URL
+from regression.tests.helpers import get_url
 
 
 class GradingPageExtended(GradingPage):
@@ -19,14 +17,14 @@ class GradingPageExtended(GradingPage):
         """
         Construct a URL to the page within the course.
         """
-        course_key = get_course_key(self.course_info)
-        url = "/".join(
-            [BASE_URL, self.url_path, urllib.quote_plus(unicode(course_key))])
-        return url if url[-1] is '/' else url + '/'
+        url = get_url(self.url_path, self.course_info)
+        return url
 
     def letter_grade(self, selector):
         """
-        Returns: first letter of grades on grading page
+        Returns: first letter of grade range on grading page
+        Example: if there are no manually added grades it would
+        return Pass, if a grade is added it will return 'A'
         """
         return self.q(css=selector)[0].text
 

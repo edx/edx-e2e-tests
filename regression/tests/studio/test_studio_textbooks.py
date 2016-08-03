@@ -27,9 +27,9 @@ class TextbookTest(WebAppTest):
 
         self.textbook_page.visit()
 
-    def test_textbook_edit_delete(self):
+    def test_textbook_edit(self):
         """
-        Uploads a new file, edits and then deletes
+        Verifies that textbook can be edited
         """
         # Pre-req
         self.textbook_page.open_add_textbook_form()
@@ -48,6 +48,24 @@ class TextbookTest(WebAppTest):
         self.textbook_page.click_textbook_submit_button()
         self.assertEquals(self.textbook_page.get_element_text(
             '.textbook-title'), 'book_1edit')
+        # Delete
+        self.textbook_page.click_delete_button()
+        message = self.textbook_page.get_element_text(
+            '.wrapper-content .no-textbook-content')
+        self.assertIn("You haven't added any textbooks", message)
+
+    def test_textbook_delete(self):
+        """
+        Verifies that the added textbook can be deleted
+        """
+        # Pre-req
+        self.textbook_page.open_add_textbook_form()
+        self.textbook_page.set_input_field_value(
+            '.edit-textbook #textbook-name-input', 'book_1')
+        self.textbook_page.set_input_field_value(
+            '.edit-textbook #chapter1-name', 'chap_1')
+        self.textbook_page.upload_textbook('test_pdf.pdf')
+        self.textbook_page.click_textbook_submit_button()
         # Delete
         self.textbook_page.click_delete_button()
         message = self.textbook_page.get_element_text(

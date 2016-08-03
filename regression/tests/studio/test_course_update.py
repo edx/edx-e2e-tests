@@ -32,7 +32,7 @@ class CourseUpdateTest(WebAppTest):
 
     def test_course_update(self):
         """
-        Verifies tests creation, editing and deletion of a course update.
+        Verifies creation, editing and deletion of a course update
         """
         # Add a new course update.
         course_update_text = 'New update:{}'.format(uuid4().hex)

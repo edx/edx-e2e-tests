@@ -18,18 +18,18 @@ class StudioGradingTest(WebAppTest):
         """
         super(StudioGradingTest, self).setUp()
         self.login_page = StudioLogin(self.browser)
-        LoginHelper.login(self.login_page)
         self.course_info = get_course_info()
-
         self.grading_page = GradingPageExtended(
             self.browser, self.course_info['org'], self.course_info['number'],
             self.course_info['run'])
+
+        LoginHelper.login(self.login_page)
 
         self.grading_page.visit()
 
     def test_grade_range(self):
         """
-        Tests default, addition and deletion of grade range
+        Verifies default, addition and deletion of grade range
         """
         # Default
         self.assertEquals(
@@ -37,12 +37,14 @@ class StudioGradingTest(WebAppTest):
         # Addition
         self.grading_page.click_new_grade_button()
         self.assertEquals(self.grading_page.letter_grade('.letter-grade'), 'A')
+        # Verify that after refreshing, changes remain intact
         self.browser.refresh()
         self.assertEquals(self.grading_page.letter_grade('.letter-grade'), 'A')
         # Deletion
         self.grading_page.click_remove_grade()
         self.assertEquals(
             self.grading_page.letter_grade('.letter-grade'), 'Pass')
+        # Verify that after refreshing, changes remain intact
         self.browser.refresh()
         self.assertEquals(
             self.grading_page.letter_grade('.letter-grade'), 'Pass')

@@ -4,8 +4,7 @@ Extended Textbooks page
 from edxapp_acceptance.pages.studio.textbook_upload import TextbookUploadPage
 
 from regression.pages import UPLOAD_FILE_DIR
-from regression.pages.studio.utils import get_course_key
-from regression.pages.studio import BASE_URL
+from regression.tests.helpers import get_url
 
 
 class TextbookPageExtended(TextbookUploadPage):
@@ -17,8 +16,8 @@ class TextbookPageExtended(TextbookUploadPage):
         """
         Construct a URL to the page within the course.
         """
-        course_key = get_course_key(self.course_info)
-        return "/".join([BASE_URL, self.url_path, unicode(course_key)])
+        url = get_url(self.url_path, self.course_info)
+        return url
 
     def upload_textbook(self, file_name):
         """
