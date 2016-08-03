@@ -20,5 +20,4 @@ class CoursePageExtended(CoursePage):
         """
         Construct a URL to the page within the course.
         """
-        url = get_url(self.url_path, self.course_info)
-        return url
+        return get_url(self.url_path, self.course_info)

@@ -4,7 +4,7 @@ Grading Page for Studio
 
 from edxapp_acceptance.pages.studio.settings_graders import GradingPage
 
-from regression.pages.studio.utils import press_the_notification_button
+from edxapp_acceptance.pages.studio.utils import press_the_notification_button
 from regression.tests.helpers import get_url
 
 
@@ -17,8 +17,7 @@ class GradingPageExtended(GradingPage):
         """
         Construct a URL to the page within the course.
         """
-        url = get_url(self.url_path, self.course_info)
-        return url
+        return get_url(self.url_path, self.course_info)
 
     def letter_grade(self, selector):
         """

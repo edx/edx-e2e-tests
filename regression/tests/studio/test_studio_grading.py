@@ -20,7 +20,9 @@ class StudioGradingTest(WebAppTest):
         self.login_page = StudioLogin(self.browser)
         self.course_info = get_course_info()
         self.grading_page = GradingPageExtended(
-            self.browser, self.course_info['org'], self.course_info['number'],
+            self.browser,
+            self.course_info['org'],
+            self.course_info['number'],
             self.course_info['run'])
 
         LoginHelper.login(self.login_page)

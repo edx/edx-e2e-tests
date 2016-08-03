@@ -16,8 +16,7 @@ class TextbookPageExtended(TextbookUploadPage):
         """
         Construct a URL to the page within the course.
         """
-        url = get_url(self.url_path, self.course_info)
-        return url
+        return get_url(self.url_path, self.course_info)
 
     def upload_textbook(self, file_name):
         """
