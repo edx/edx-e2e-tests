@@ -3,6 +3,9 @@ Test helper functions.
 """
 import os
 
+from regression.pages.studio.utils import get_course_key
+from regression.pages.studio import BASE_URL
+
 
 COURSE_ORG = 'COURSE_ORG'
 COURSE_NUMBER = 'COURSE_NUMBER'
@@ -31,6 +34,14 @@ def visit_all(pages):
     for page in pages:
         print "Visiting: {}".format(page)
         page.visit()
+
+
+def get_url(url_path, course_info):
+    """
+    Construct a URL to the page within the course.
+    """
+    course_key = get_course_key(course_info)
+    return "/".join([BASE_URL, url_path, unicode(course_key)])
 
 
 class LoginHelper(object):
