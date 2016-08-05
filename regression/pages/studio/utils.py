@@ -3,6 +3,8 @@ Utility functions for studio page objects.
 """
 from opaque_keys.edx.locator import CourseLocator
 from edxapp_acceptance.pages.common.utils import wait_for_notification
+from edxapp_acceptance.pages.studio.utils import press_the_notification_button
+from edxapp_acceptance.tests.helpers import disable_animations
 
 from regression.pages import UPLOAD_FILE_DIR
 
@@ -118,6 +120,28 @@ def upload_new_file(page, file_names):
     click_css_with_animation_enabled(page, '.close-button', 0, False)
     page.wait_for_element_invisibility(
         page.UPLOAD_FORM_CSS, 'New file upload prompt has been closed.')
+
+
+def save_changes_popup_for_studio(self):
+    """
+    Clicks Save button that displays on studio after addition/deletion
+    """
+    press_the_notification_button(self, "save")
+    self.wait_for_element_visibility(
+        '#alert-confirmation-title',
+        'Save confirmation message is visible'
+    )
+
+
+def click_confirmation_prompt_primary_button(self):
+    """
+    Clicks the main action presented by the prompt (such as 'Delete')
+    """
+    disable_animations(self)
+    self.q(css='.prompt button.action-primary').first.click()
+    self.wait_for_element_invisibility(
+        '.prompt', 'wait for pop up to disappear')
+    self.wait_for_ajax()
 
 
 def get_text(page, css, index=0):
