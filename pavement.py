@@ -33,11 +33,31 @@ def install_pages():
         lib_path, 'edx-platform', 'common',
         'test', 'acceptance', 'setup.py'))
 
+    xmodule_path = path(os.path.join(
+        lib_path,
+        'edx-platform',
+        'common',
+        'lib',
+        'xmodule'
+    ))
+
+    capa_path = path(os.path.join(
+        lib_path,
+        'edx-platform',
+        'common',
+        'lib',
+        'capa'
+    ))
+
     print 'Installing the Page Objects'
     sh("pip install -r {req} --src={lib}".format(
         req=requirement_path, lib=lib_path))
     # Install pages
     sh("python {setup} install".format(setup=page_obj_setup_path))
+
+    sh("cd {path_capa}; python setup.py install".format(path_capa=capa_path))
+
+    sh("cd {path_xmodule}; python setup.py install".format(path_xmodule=xmodule_path))
 
 
 @task
@@ -77,7 +97,9 @@ def configure_e2e_tests_pre_reqs():
 @needs('configure_e2e_tests_pre_reqs')
 @consume_args
 def e2e_test(args):
-    commandline_arg = path(args[0])
+    commandline_arg = ''
+    if not not args:
+        commandline_arg = path(args[0])
     sh(NoseCommand.command(E2E_TEST_REPORT, commandline_arg))
 
 
