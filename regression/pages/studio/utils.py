@@ -106,7 +106,7 @@ def upload_new_file(page, file_names):
         file_input_css, "Upload button is visible.")
     # Loop through each file and upload.
     for file_name in file_names:
-        page.q(css='.file-input').results[0].send_keys(
+        page.q(css=file_input_css).results[0].send_keys(
             UPLOAD_FILE_DIR + "/" + file_name)
         page.wait_for_element_visibility(
             '.progress-bar', 'Upload progress bar is visible.')
@@ -118,3 +118,15 @@ def upload_new_file(page, file_names):
     click_css_with_animation_enabled(page, '.close-button', 0, False)
     page.wait_for_element_invisibility(
         page.UPLOAD_FORM_CSS, 'New file upload prompt has been closed.')
+
+
+def get_text(page, css, index=0):
+    """
+    Get the text inside a DOM element.
+
+    Arguments:
+        page (PageObject): page object on which element resides.
+        css (str): css of element
+        index (int): index position of element.
+    """
+    return page.q(css=css).text[index]
