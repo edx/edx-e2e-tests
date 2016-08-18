@@ -44,6 +44,21 @@ def get_url(url_path, course_info):
     return "/".join([BASE_URL, url_path, unicode(course_key)])
 
 
+def get_data_id_of_component(page):
+    """
+    Returns:
+        List of data usage id for Components
+    """
+    component_list = page.q(
+        css='.xmodule_HtmlModule.xblock-initialized'
+    ).results
+    return [
+        component.get_attribute(
+            'data-usage-id'
+        ) for component in component_list
+    ]
+
+
 class LoginHelper(object):
     """
     Helper class to login to the studio.
