@@ -4,7 +4,9 @@ Test studio grading
 from bok_choy.web_app_test import WebAppTest
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.grading_studio import GradingPageExtended
-
+from regression.pages.studio.course_outline_page import (
+    CourseOutlinePageExtended
+)
 from regression.tests.helpers import LoginHelper, get_course_info
 
 
@@ -20,6 +22,12 @@ class StudioGradingTest(WebAppTest):
         self.login_page = StudioLogin(self.browser)
         self.course_info = get_course_info()
         self.grading_page = GradingPageExtended(
+            self.browser,
+            self.course_info['org'],
+            self.course_info['number'],
+            self.course_info['run'])
+
+        self.studio_course_outline = CourseOutlinePageExtended(
             self.browser,
             self.course_info['org'],
             self.course_info['number'],
@@ -50,3 +58,50 @@ class StudioGradingTest(WebAppTest):
         self.browser.refresh()
         self.assertEquals(
             self.grading_page.letter_grade('.letter-grade'), 'Pass')
+
+    def test_assignment_types(self):
+        """
+        Verifies that user can add/delete assignment types
+        """
+        self.grading_page.click_new_assignment_type()
+        self.grading_page.fill_assignment_type_fields(
+            name='Final',
+            abbreviation='Finale',
+            total_grade='100',
+            total_number='2',
+            drop='1'
+        )
+        self.assertEquals(
+            self.grading_page.assignment_name_field_value(), ['Final'])
+
+        # Navigating to course outline page to see if the added assignment
+        # is available to use on subsections
+        self.studio_course_outline.visit()
+
+        self.studio_course_outline.add_section_with_name('Test Section 1')
+        self.assertIn(
+            'Test Section 1',
+            self.studio_course_outline.q(css='.incontext-editor-value').text
+        )
+
+        self.studio_course_outline.add_subsection_with_name(
+            'Test Subsection 1'
+        )
+        self.assertIn(
+            'Test Subsection 1',
+            self.studio_course_outline.q(css='.incontext-editor-value').text
+        )
+
+        self.studio_course_outline.open_subsection_settings_dialog()
+        self.assertIn(
+            'Final',
+            self.studio_course_outline.get_subsection_grade()
+        )
+
+        # Remove this once addCleanup is added
+        # Cleanup Course Outline Page
+        self.studio_course_outline.cancel_subsection_settings()
+        self.studio_course_outline.delete_section()
+        # Cleanup Grading Page
+        self.grading_page.visit()
+        self.grading_page.delete_assignment_type()
