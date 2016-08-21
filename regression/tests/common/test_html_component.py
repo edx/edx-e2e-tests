@@ -2,6 +2,8 @@
 End to end tests for HTML Componenets
 """
 import os
+from uuid import uuid4
+
 from bok_choy.web_app_test import WebAppTest
 from regression.pages.studio.course_outline_page import (
     CourseOutlinePageExtended
@@ -58,17 +60,19 @@ class StudioLmsHTMLTest(WebAppTest):
         Verifies that user can add HTML components on Studio and LMS
         """
         self.studio_course_outline.visit()
-        self.studio_course_outline.add_section_with_name('Test Section 1')
+        section_name = 'Section :{}'.format(uuid4().hex)
+        self.studio_course_outline.add_section_with_name(section_name)
         self.assertIn(
-            'Test Section 1',
+            section_name,
             self.studio_course_outline.q(
                 css='.incontext-editor-value').text
         )
 
+        subsection_name = 'Subsection :{}'.format(uuid4().hex)
         self.studio_course_outline.add_subsection_with_name(
-            'Test Subsection 1')
+            subsection_name)
         self.assertIn(
-            'Test Subsection 1',
+            subsection_name,
             self.studio_course_outline.q(
                 css='.incontext-editor-value').text
         )

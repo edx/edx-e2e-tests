@@ -1,6 +1,8 @@
 """
 Test studio grading
 """
+from uuid import uuid4
+
 from bok_choy.web_app_test import WebAppTest
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.grading_studio import GradingPageExtended
@@ -78,18 +80,21 @@ class StudioGradingTest(WebAppTest):
         # is available to use on subsections
         self.studio_course_outline.visit()
 
-        self.studio_course_outline.add_section_with_name('Test Section 1')
+        section_name = 'Section :{}'.format(uuid4().hex)
+        self.studio_course_outline.add_section_with_name(section_name)
         self.assertIn(
-            'Test Section 1',
-            self.studio_course_outline.q(css='.incontext-editor-value').text
+            section_name,
+            self.studio_course_outline.q(
+                css='.incontext-editor-value').text
         )
 
+        subsection_name = 'Subsection :{}'.format(uuid4().hex)
         self.studio_course_outline.add_subsection_with_name(
-            'Test Subsection 1'
-        )
+            subsection_name)
         self.assertIn(
-            'Test Subsection 1',
-            self.studio_course_outline.q(css='.incontext-editor-value').text
+            subsection_name,
+            self.studio_course_outline.q(
+                css='.incontext-editor-value').text
         )
 
         self.studio_course_outline.open_subsection_settings_dialog()
