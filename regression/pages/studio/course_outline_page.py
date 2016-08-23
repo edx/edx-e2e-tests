@@ -3,10 +3,10 @@ Course Outline Page for Studio
 """
 
 from edxapp_acceptance.pages.studio.overview import CourseOutlinePage
-
 from regression.pages.studio.utils import (
     click_confirmation_prompt_primary_button
 )
+
 from regression.tests.helpers import get_url
 
 
@@ -35,6 +35,8 @@ class CourseOutlinePageExtended(CourseOutlinePage):
         ).results[0].send_keys(text)
 
         self.q(css='.content').first.click()
+        # Click initiates an ajax call
+        self.wait_for_ajax()
 
     def add_subsection_with_name(self, text):
         """
@@ -51,6 +53,15 @@ class CourseOutlinePageExtended(CourseOutlinePage):
         ).results[0].send_keys(text)
 
         self.q(css='.content').first.click()
+        # Click initiates an ajax call
+        self.wait_for_ajax()
+
+    def add_unit(self):
+        """
+        Adds Unit clicking the unit button of a sub section
+        Navigates to Add Components page
+        """
+        self.q(css='.button-new[data-default-name="Unit"]').click()
 
     def get_subsection_grade(self):
         """
