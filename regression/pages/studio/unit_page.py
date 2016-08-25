@@ -33,5 +33,37 @@ class UnitPageExtended(ContainerPage):
         # Click initiates an ajax call
         self.wait_for_ajax()
         self.wait_for_element_visibility(
-            '.xblock-header-word_cloud', 'Word Cloud Component did not display'
+            '.xblock-header-word_cloud', 'Word Cloud component displayed'
         )
+
+    def add_lti_component(self):
+        """
+        Clicks Advanced button in Add New Component then
+        Clicks LTI and verifies that it appears on Studio
+        """
+        self.q(
+            css='.add-xblock-component-button[data-type="advanced"]'
+        ).click()
+        self.q(css='.button-component[data-category="lti"]').click()
+        self.wait_for_ajax()
+        self.wait_for_element_visibility(
+            '.xblock-header-lti', 'Word Cloud Component did not display'
+        )
+
+    def add_custom_js_display_and_grading(self):
+        """
+        Clicks Problem button in Add New Component then
+        Advanced button and finally Clicks Custom Javascript Display and
+        Grading and verifies that it appears on Studio
+        Returns:
+            Xblock display name
+        """
+        self.q(
+            css='.add-xblock-component-button[data-type="problem"]'
+        ).click()
+        self.q(css='#ui-id-2').click()
+        self.q(
+            css='.button-component[data-boilerplate="jsinput_response.yaml"]'
+        ).click()
+        self.wait_for_ajax()
+        return self.q(css='.xblock-display-name').text[1]

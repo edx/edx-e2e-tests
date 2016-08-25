@@ -154,9 +154,9 @@ class StudioLmsAdvancedComponentTest(WebAppTest):
 
         self.lms_courseware = CoursewarePage(self.browser, self.course_info)
 
-    def test_word_cloud_advanced_components(self):
+    def test_word_cloud_advanced_component(self):
         """
-        Verifies that user can add Word Cloud components on Studio and LMS
+        Verifies that user can add Word Cloud component on Studio and LMS
         """
         self.studio_course_outline.visit()
         section_name = 'Section :{}'.format(uuid4().hex)
@@ -191,6 +191,99 @@ class StudioLmsAdvancedComponentTest(WebAppTest):
         self.unit_container_page.view_live_version()
         self.assertEqual(
             studio_word_cloud,
+            get_data_id_of_component(self.lms_courseware)
+        )
+        # Remove this after addCleanup is added for all tests
+        # Cleanup test
+        self.studio_course_outline.visit()
+        self.studio_course_outline.delete_section()
+
+    def test_lti_advanced_component(self):
+        """
+        Verifies that user can add LTI component on Studio and LMS
+        """
+        self.studio_course_outline.visit()
+        section_name = 'Section :{}'.format(uuid4().hex)
+        self.studio_course_outline.add_section_with_name(section_name)
+        self.assertIn(
+            section_name,
+            self.studio_course_outline.q(
+                css='.incontext-editor-value').text
+        )
+
+        subsection_name = 'Subsection :{}'.format(uuid4().hex)
+        self.studio_course_outline.add_subsection_with_name(
+            subsection_name)
+        self.assertIn(
+            subsection_name,
+            self.studio_course_outline.q(
+                css='.incontext-editor-value').text
+        )
+
+        self.studio_course_outline.add_unit()
+        self.unit_container_page.wait_for_page()
+
+        self.unit_container_page.add_lti_component()
+
+        studio_lti = get_data_id_of_component(
+            self.unit_container_page
+        )
+
+        # Publish Unit
+        self.studio_course_outline.publish()
+        # View Live
+        self.unit_container_page.view_live_version()
+        self.assertEqual(
+            studio_lti,
+            get_data_id_of_component(self.lms_courseware)
+        )
+        # Remove this after addCleanup is added for all tests
+        # Cleanup test
+        self.studio_course_outline.visit()
+        self.studio_course_outline.delete_section()
+
+    def test_custom_js_display_advanced_component(self):
+        """
+        Verifies that user can add Custom JavaScript Display and Grading
+        component on Studio and LMS
+        """
+        self.studio_course_outline.visit()
+        section_name = 'Section :{}'.format(uuid4().hex)
+        self.studio_course_outline.add_section_with_name(section_name)
+        self.assertIn(
+            section_name,
+            self.studio_course_outline.q(
+                css='.incontext-editor-value').text
+        )
+
+        subsection_name = 'Subsection :{}'.format(uuid4().hex)
+        self.studio_course_outline.add_subsection_with_name(
+            subsection_name
+        )
+        self.assertIn(
+            subsection_name,
+            self.studio_course_outline.q(
+                css='.incontext-editor-value').text
+        )
+
+        self.studio_course_outline.add_unit()
+        self.unit_container_page.wait_for_page()
+
+        self.assertEqual(
+            self.unit_container_page.add_custom_js_display_and_grading(),
+            'Custom Javascript Display and Grading'
+        )
+
+        studio_custom_js = get_data_id_of_component(
+            self.unit_container_page
+        )
+
+        # Publish Unit
+        self.studio_course_outline.publish()
+        # View Live
+        self.unit_container_page.view_live_version()
+        self.assertEqual(
+            studio_custom_js,
             get_data_id_of_component(self.lms_courseware)
         )
         # Remove this after addCleanup is added for all tests
