@@ -20,7 +20,16 @@ class UnitPageExtended(ContainerPage):
         ).click()
         self.browser.switch_to_window(self.browser.window_handles[-1])
 
-    def add_word_cloud_component(self):
+    def get_data_locator(self):
+        """
+        Returns unique data locator for the component
+        """
+        data_locator = self.q(
+            css='.studio-xblock-wrapper.is-draggable'
+        ).attrs('data-locator')[-1]
+        return data_locator
+
+    def add_word_cloud_component(self, publish=False):
         """
         Clicks Advanced button in Add New Component then
         Clicks Word Cloud and verifies that it appears on Studio
@@ -35,6 +44,9 @@ class UnitPageExtended(ContainerPage):
         self.wait_for_element_visibility(
             '.xblock-header-word_cloud', 'Word Cloud component displayed'
         )
+        if publish:
+            self.q(css='.action-publish.action-primary').click()
+            self.wait_for_ajax()
 
     def add_lti_component(self):
         """
@@ -43,8 +55,8 @@ class UnitPageExtended(ContainerPage):
         """
         self.q(
             css='.add-xblock-component-button[data-type="advanced"]'
-        ).click()
-        self.q(css='.button-component[data-category="lti"]').click()
+        ).first.click()
+        self.q(css='.button-component[data-category="lti"]').first.click()
         self.wait_for_ajax()
         self.wait_for_element_visibility(
             '.xblock-header-lti', 'Word Cloud Component did not display'
