@@ -66,13 +66,7 @@ def configure_e2e_tests_pre_reqs():
     # Make sure environment variables are set.
     env_vars = [
         'BASIC_AUTH_USER',
-        'BASIC_AUTH_PASSWORD',
-        'USER_LOGIN_EMAIL',
-        'USER_LOGIN_PASSWORD',
-        'COURSE_ORG',
-        'COURSE_NUMBER',
-        'COURSE_RUN',
-        'COURSE_DISPLAY_NAME'
+        'BASIC_AUTH_PASSWORD'
         ]
     for env_var in env_vars:
         try:
@@ -94,12 +88,59 @@ def configure_e2e_tests_pre_reqs():
 
 
 @task
-@needs('configure_e2e_tests_pre_reqs')
+def stage_env_vars():
+
+    # Make sure environment variables are set.
+    env_vars = [
+        'USER_LOGIN_EMAIL',
+        'USER_LOGIN_PASSWORD',
+        'COURSE_ORG',
+        'COURSE_NUMBER',
+        'COURSE_RUN',
+        'COURSE_DISPLAY_NAME'
+        ]
+    for env_var in env_vars:
+        try:
+            os.environ[env_var]
+        except:
+            raise BuildFailure(
+                "Please set the environment variable :" + env_var)
+
+
+@task
+def wl_env_vars():
+
+    # Make sure environment variables are set.
+    env_vars = [
+        'STAFF_USER_EMAIL',
+        'GLOBAL_PASSWORD',
+        'ACCESS_TOKEN'
+        ]
+    for env_var in env_vars:
+        try:
+            os.environ[env_var]
+        except:
+            raise BuildFailure(
+                "Please set the environment variable :" + env_var)
+
+
+@task
+@needs('configure_e2e_tests_pre_reqs', 'stage_env_vars')
 @consume_args
 def e2e_test(args):
     commandline_arg = ''
-    if not not args:
+    if args:
         commandline_arg = path(args[0])
+    sh(NoseCommand.command(E2E_TEST_REPORT, commandline_arg))
+
+
+@task
+@needs('configure_e2e_tests_pre_reqs', 'wl_env_vars')
+@consume_args
+def e2e_wl_test(args):
+    commandline_arg = path(os.path.join('whitelabel', 'general'))
+    if args:
+        commandline_arg = path(os.path.join('whitelabel', args[0]))
     sh(NoseCommand.command(E2E_TEST_REPORT, commandline_arg))
 
 

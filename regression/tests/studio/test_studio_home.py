@@ -8,7 +8,7 @@ from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.lms.login_lms import LmsLogin
-from regression.tests.helpers import (
+from regression.tests.helpers.helpers import (
     LoginHelper, get_course_info, get_course_display_name
 )
 

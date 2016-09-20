@@ -16,8 +16,10 @@ sdist
 develop-eggs
 .installed.cfg
 lib
+.idea
 lib64
 __pycache__
+*.DS_Store
 
 # Installer logs
 pip-log.txt
@@ -26,6 +28,7 @@ pip-log.txt
 .coverage
 .tox
 nosetests.xml
+*reports/*
 
 # Translations
 *.mo
@@ -44,3 +47,5 @@ src
 
 # Screenshots on failure
 log/*.png
+
+

@@ -1,0 +1,3 @@
+python-guerrillamail==0.2.0
+temp-mail==0.2
+edx-rest-api-client==1.6.0

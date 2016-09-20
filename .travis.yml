@@ -6,6 +6,7 @@ cache:
   - pip
 install:
   - pip install -r requirements/base.txt
+  - pip install -r requirements/whitelabel.txt
 # command to run tests
 script:
   - paver install_pages

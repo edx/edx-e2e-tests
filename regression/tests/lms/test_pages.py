@@ -4,7 +4,7 @@ End to end test for page's visit.
 from bok_choy.web_app_test import WebAppTest
 from regression.pages.lms.course_page_lms import CourseInfoPageExtended
 from regression.pages.lms.login_lms import LmsLogin
-from regression.tests.helpers import visit_all, LoginHelper
+from regression.tests.helpers.helpers import visit_all, LoginHelper
 
 
 class PagesTest(WebAppTest):

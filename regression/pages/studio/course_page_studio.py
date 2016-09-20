@@ -4,7 +4,7 @@ Extended CoursePage.
 import abc
 
 from edxapp_acceptance.pages.studio.course_page import CoursePage
-from regression.tests.helpers import get_url
+from regression.tests.helpers.helpers import get_url
 
 
 class CoursePageExtended(CoursePage):
