@@ -46,6 +46,9 @@ class UnitPageExtended(ContainerPage):
         )
         if publish:
             self.q(css='.action-publish.action-primary').click()
+            # Clicking on the publish button causes an ajax call.
+            # We should be waiting for this ajax call to be completed
+            # before exiting the function.
             self.wait_for_ajax()
 
     def add_lti_component(self):
