@@ -47,16 +47,10 @@ def get_url(url_path, course_info):
 def get_data_id_of_component(page):
     """
     Returns:
-        List of data usage id for Components
+        Data usage id for the component
     """
-    component_list = page.q(
-        css='.xmodule_HtmlModule.xblock-initialized'
-    ).results
-    return [
-        component.get_attribute(
-            'data-usage-id'
-        ) for component in component_list
-    ]
+    data_id = page.q(css='.vert-mod .vert.vert-0').attrs('data-id')[0]
+    return data_id
 
 
 class LoginHelper(object):

@@ -17,3 +17,9 @@ class CoursewarePageExtended(CoursewarePage):
         Construct a URL to the page within the course.
         """
         return BASE_URL + "/courses/" + self.course_id + "/courseware"
+
+    def view_unit_in_studio(self):
+        """
+        Clicks on the 'View unit in Studio' button
+        """
+        self.q(css='.instructor-info-action').click()

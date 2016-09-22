@@ -1,7 +1,6 @@
 """
 Course Outline Page for Studio
 """
-
 from edxapp_acceptance.pages.studio.overview import CourseOutlinePage
 from regression.pages.studio.utils import (
     click_confirmation_prompt_primary_button
@@ -29,9 +28,11 @@ class CourseOutlinePageExtended(CourseOutlinePage):
             text (str): The section added will be named to this
         """
         self.q(css='.wrapper-mast nav.nav-actions .button-new').click()
-        self.wait_for_ajax()
+        section_css = '.wrapper-section-title.wrapper-xblock-field.incontext-editor.is-editable.is-editing' \
+                      ' .xblock-field-input.incontext-editor-input'
+        self.wait_for_element_visibility(section_css, 'Section is visible')
         self.q(
-            css='.incontext-editor-input[value="Section"]'
+            css=section_css
         ).results[0].send_keys(text)
 
         self.q(css='.content').first.click()
@@ -46,22 +47,31 @@ class CourseOutlinePageExtended(CourseOutlinePage):
         Arguments:
             text (str): The sub section added will be named to this
         """
-        self.q(css='.button-new[data-default-name="Subsection"]').click()
+        subsection_css = '.wrapper-subsection-title.wrapper-xblock-field.' \
+                         'incontext-editor.is-editable.is-editing' \
+                         ' .xblock-field-input.incontext-editor-input'
+
+        self.q(
+            css='.button-new[data-default-name="Subsection"]'
+        ).results[-1].click()
+        self.wait_for_element_visibility(
+            subsection_css, 'subsection is visible'
+        )
         self.wait_for_ajax()
         self.q(
-            css='.incontext-editor-input[value="Subsection"]'
-        ).results[0].send_keys(text)
+            css=subsection_css
+        ).results[-1].send_keys(text)
 
         self.q(css='.content').first.click()
         # Click initiates an ajax call
         self.wait_for_ajax()
 
-    def add_unit(self):
+    def click_add_unit_button(self):
         """
         Adds Unit clicking the unit button of a sub section
         Navigates to Add Components page
         """
-        self.q(css='.button-new[data-default-name="Unit"]').click()
+        self.q(css='.button-new[data-default-name="Unit"]').results[-1].click()
 
     def get_subsection_grade(self):
         """
