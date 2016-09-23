@@ -9,6 +9,10 @@ from regression.pages.lms.course_page_lms import CourseInfoPageExtended
 from regression.tests.helpers import (
     LoginHelper, get_course_info, get_course_display_name
 )
+from regression.pages.lms.course_drupal_page import (
+    DemoCourseSelectionPage
+)
+from regression.pages.lms.checkout_page import PaymentPage
 
 
 class DashboardTest(WebAppTest):
@@ -19,8 +23,10 @@ class DashboardTest(WebAppTest):
     def setUp(self):
         super(DashboardTest, self).setUp()
         self.login_page = LmsLogin(self.browser)
-        LoginHelper.login(self.login_page)
         self.dashboard_page = DashboardPageExtended(self.browser)
+        self.drupal_course_page = DemoCourseSelectionPage(self.browser)
+        self.payment_page = PaymentPage(self.browser)
+        LoginHelper.login(self.login_page)
 
     def test_resume_course(self):
         """
