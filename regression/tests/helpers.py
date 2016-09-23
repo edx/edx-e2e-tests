@@ -27,6 +27,14 @@ def get_course_info():
     }
 
 
+def get_course_display_name():
+    """
+    Returns the course info of the course that we use for
+    the regression tests.
+    """
+    return os.environ.get(COURSE_DISPLAY_NAME)
+
+
 def visit_all(pages):
     """
     Visit each page object in `pages` (an iterable).

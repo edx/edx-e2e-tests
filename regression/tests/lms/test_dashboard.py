@@ -6,7 +6,9 @@ from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 from regression.pages.lms.login_lms import LmsLogin
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.lms.course_page_lms import CourseInfoPageExtended
-from regression.tests.helpers import LoginHelper, get_course_info
+from regression.tests.helpers import (
+    LoginHelper, get_course_info, get_course_display_name
+)
 
 
 class DashboardTest(WebAppTest):
@@ -28,7 +30,7 @@ class DashboardTest(WebAppTest):
             self.browser, get_course_info())
         courseware_page = CoursewarePage(self.browser, get_course_info())
 
-        self.dashboard_page.select_course('Manual Smoke Test Course 1 - Auto')
+        self.dashboard_page.select_course(get_course_display_name())
         course_page.wait_for_page()
         course_page.click_resume_button()
         courseware_page.wait_for_page()

@@ -8,7 +8,9 @@ from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.lms.login_lms import LmsLogin
-from regression.tests.helpers import LoginHelper, get_course_info
+from regression.tests.helpers import (
+    LoginHelper, get_course_info, get_course_display_name
+)
 
 
 class StudioHomeTest(WebAppTest):
@@ -42,8 +44,7 @@ class StudioHomeTest(WebAppTest):
         outline page
         """
         self.studio_home_page.visit()
-        self.studio_home_page.select_course(
-            'Manual Smoke Test Course 1 - Auto')
+        self.studio_home_page.select_course(get_course_display_name())
         self.studio_course_outline.wait_for_page()
 
 
