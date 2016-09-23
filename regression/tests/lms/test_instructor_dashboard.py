@@ -8,7 +8,9 @@ from regression.pages.lms.instructor_dashboard import (
     InstructorDashboardPageExtended
 )
 from regression.pages.lms.course_page_lms import CourseInfoPageExtended
-from regression.tests.helpers import LoginHelper, get_course_info
+from regression.tests.helpers import (
+    LoginHelper, get_course_info, get_course_display_name
+)
 from regression.pages.lms.utils import get_course_key
 
 
@@ -32,7 +34,7 @@ class AnalyticsTest(WebAppTest):
             get_course_key(course_info)
         )
 
-        self.dashboard_page.select_course('Manual Smoke Test Course 1 - Auto')
+        self.dashboard_page.select_course(get_course_display_name())
         self.course_page.wait_for_page()
         self.instructor_dashboard.visit()
 
@@ -42,6 +44,6 @@ class AnalyticsTest(WebAppTest):
         """
         self.instructor_dashboard.click_analytics_tab()
         self.assertEquals(
-            self.instructor_dashboard.click_edx_insights(),
+            self.instructor_dashboard.get_insights_title_text(),
             'INSIGHTS'
         )

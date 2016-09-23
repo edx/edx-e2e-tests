@@ -9,9 +9,7 @@ from regression.pages.lms import BASE_URL
 
 class InstructorDashboardPageExtended(InstructorDashboardPage):
     """
-    This class is an extended class of Instructor Dashboard Page,
-    where we add methods that are different or not used in
-    InstructorDashboardPage
+    This class is an extended class of Instructor Dashboard Page
     """
     @property
     def url(self):
@@ -28,7 +26,7 @@ class InstructorDashboardPageExtended(InstructorDashboardPage):
         # Click initiates an ajax call
         self.wait_for_ajax()
 
-    def click_edx_insights(self):
+    def get_insights_title_text(self):
         """
         Clicks edX Insights link on Analytics tab
         """
