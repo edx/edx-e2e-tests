@@ -17,7 +17,14 @@ virtualenv venv
 
 pip install -r requirements/base.txt
 
-# Install pages.
+# Install the page objects from the edx-platform repo.
+# Before doing so, we don't need optimizations for lxml,
+# so install it this way which doesn't bother compiling them.
+STATIC_DEPS=true CFLAGS="-O0"  pip install "lxml==3.4.4"
 paver install_pages
+
+# Set the display to the virtual frame buffer (Xvfb)
+export DISPLAY=:1
+
 # Run the tests
 paver e2e_test
