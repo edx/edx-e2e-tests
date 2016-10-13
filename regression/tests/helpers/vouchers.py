@@ -1,7 +1,6 @@
 """
 Common functions for Vouchers
 """
-# pylint: disable=attribute-defined-outside-init
 from datetime import datetime
 import uuid
 
@@ -119,10 +118,10 @@ class VouchersMixin(CourseEnrollmentMixin):
             discounted price:
         """
         if self.benefit_type == ABSOLUTE_BENEFIT_TYPE:
-            return int(self.course_price) - int(self.benefit_value)
+            return self.course_price - float(self.benefit_value)
         else:
-            return int(self.course_price) - \
-                (int(self.course_price) * int(self.benefit_value)) / 100
+            return self.course_price - \
+                (self.course_price * float(self.benefit_value)) / 100
 
     def enroll_using_discount_code(self, coupon_code):
         """

@@ -3,17 +3,23 @@ Tests for existing users using Otto
 """
 import unittest
 
+from regression.pages.common.utils import (
+    get_target_url_from_text,
+    get_coupon_request,
+    get_enrollment_codes_from_email_link
+)
 from regression.pages.ecommerce.back_to_basket_page import BackToBasketPage
 from regression.pages.ecommerce.basket_page import SingleSeatBasketPage
 from regression.pages.ecommerce.cancel_checkout_page import CancelCheckoutPage
 from regression.pages.whitelabel.const import (
-    URL_WITHOUT_AUTH,
+    GMAIL_USER,
     EXISTING_USER_EMAIL,
     ORG,
     PASSWORD,
     PROF_COURSE_ID,
     PROF_COURSE_TITLE,
-    PROF_COURSE_PRICE
+    PROF_COURSE_PRICE,
+    URL_WITHOUT_AUTH
 )
 from regression.pages.whitelabel.course_about_page import CourseAboutPage
 from regression.pages.whitelabel.course_info_page import CourseInfoPage
@@ -203,3 +209,58 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         # EMAIL_SENDER_ACCOUNT[ORG],
         # self.cancel_checkout.support_email_in_error_message
         # )
+
+    def test_07_multi_seat_flow(self):
+        """
+        Scenario: Otto Group Purchase - An existing user is able to register
+        for a course and make payment for multiple seats in the course using
+        the credit card
+        """
+        multi_seat_user_email = GMAIL_USER.format("+multiseat")
+        seat_counter = 3
+        # Login to application using the existing credentials
+        self.login_user(multi_seat_user_email)
+        # click on the target course to go to it's about page
+        self.dashboard.go_to_find_courses_page()
+        # find the target course and click on it to go to about page
+        self.find_courses.go_to_course_about_page(self.course_about)
+        # Verify that course price is correct on course about page
+        self.assertEqual(self.course_price, self.course_about.course_price)
+        # Check that group purchase button is now present
+        self.assertTrue(self.course_about.is_group_purchase_button_present())
+        # go to multi seat basket page
+        self.course_about.go_to_multi_seat_basket_page()
+        ecommerce_cookies = self.multi_seat_basket.site_cookies
+        # Verify course name, course price and total price on basket page
+        self.verify_course_name_on_basket()
+        self.verify_price_on_basket()
+        # increase number of seats
+        self.increase_seats(seat_counter)
+        # course price and total price after increasing seats
+        self.course_price = PROF_COURSE_PRICE[ORG] * seat_counter
+        self.total_price = PROF_COURSE_PRICE[ORG] * seat_counter
+        self.verify_price_on_basket()
+        # Go to next page to make the payment
+        self.basket.go_to_cybersource_page()
+        # Fill out all the billing and payment details and submit the form
+        self.otto_payment_using_cyber_source()
+        # Application should take user to the receipt page
+        # Verify on receipt page that information like course title, course
+        # price, total price order date and billing to is displayed correctly
+        self.verify_receipt_info()
+        email_text = self.mail_client.get_email_message(
+            multi_seat_user_email,
+            "Order"
+        )
+        enrollment_file_link = get_target_url_from_text(
+            'enrollment_code_csv',
+            email_text
+        )
+        enrollment_codes = get_coupon_request(
+            enrollment_file_link, ecommerce_cookies
+        )
+        coupons = get_enrollment_codes_from_email_link(enrollment_codes)
+        self.receipt.go_to_dashboard()
+        self.assertFalse(self.dashboard.is_course_present(self.course_id))
+        self.logout_user_from_lms()
+        self.assertEqual(len(coupons), seat_counter)

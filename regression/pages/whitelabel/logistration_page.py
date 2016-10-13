@@ -6,7 +6,7 @@ from bok_choy.page_object import PageObject
 from regression.pages.common.utils import (
     click_checkbox,
     fill_input_fields,
-    select_values_from_drop_downs
+    select_value_from_drop_down
 )
 from regression.pages.whitelabel.const import URL_WITH_AUTH
 
@@ -34,9 +34,11 @@ class LoginPage(PageObject):
             password:
             target_page:
         """
-        css_selectors = ['#login-email', '#login-password']
-        values = [email, password]
-        fill_input_fields(self, css_selectors, values)
+        elements_and_values = {
+            '#login-email': email,
+            '#login-password': password
+        }
+        fill_input_fields(self, elements_and_values)
         self.q(
             css='.action.action-primary.action-update.js-login.login-button'
         ).click()
@@ -101,39 +103,24 @@ class RegistrationPage(PageObject):
         """
         self.wait_for_element_visibility(
             '.register-form', 'Wait for registration form')
-        fill_css_selectors = [
-            '#register-email',
-            '#register-name',
-            '#register-username',
-            '#register-password',
-            '#register-first_name',
-            '#register-last_name',
-            '#register-state'
-        ]
-        fill_values = [
-            email,
-            reg_info['full_name'],
-            username,
-            password,
-            reg_info['first_name'],
-            reg_info['last_name'],
-            reg_info['state']
-        ]
-        fill_input_fields(self, fill_css_selectors, fill_values)
-        select_css_selectors = [
-            "country",
-            "gender",
-            "year_of_birth",
-            "level_of_education"
-        ]
-        select_values = [
-            reg_info['country'],
-            reg_info['gender'],
-            reg_info['yob'],
-            reg_info['edu_level']
-        ]
-        select_values_from_drop_downs(
-            self, select_css_selectors, select_values)
+        elements_and_values = {
+            '#register-email': email,
+            '#register-name': reg_info['full_name'],
+            '#register-username': username,
+            '#register-password': password,
+            '#register-first_name': reg_info['first_name'],
+            '#register-last_name': reg_info['last_name'],
+            '#register-state': reg_info['state']
+        }
+        fill_input_fields(self, elements_and_values)
+        select_names_and_values = {
+            "country": reg_info['country'],
+            "gender": reg_info['gender'],
+            "year_of_birth": reg_info['yob'],
+            "level_of_education": reg_info['edu_level']
+        }
+        for key, val in select_names_and_values.iteritems():
+            select_value_from_drop_down(self, key, val)
         if org == 'MITProfessionalX':
             self.q(css='#register-company').fill(reg_info['company'])
             self.q(css='#register-title').fill(reg_info['title'])

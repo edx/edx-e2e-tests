@@ -89,9 +89,11 @@ class EcommerceLoginPage(PageObject):
             email:
             password:
         """
-        css_selectors = ['#login-email', '#login-password']
-        values = [email, password]
-        fill_input_fields(self, css_selectors, values)
+        elements_and_values = {
+            '#login-email': email,
+            '#login-password': password
+        }
+        fill_input_fields(self, elements_and_values)
         self.q(
             css='.action.action-primary.action-update.js-login.login-button'
         ).click()

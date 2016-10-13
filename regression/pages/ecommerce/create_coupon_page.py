@@ -115,12 +115,11 @@ class CreateCouponPage(PageObject):
             start_date:
             end_date:
         """
-        fill_css_selectors = [
-            'input[name="start_date"]',
-            'input[name="end_date"]'
-        ]
-        fill_values = [start_date, end_date]
-        fill_input_fields(self, fill_css_selectors, fill_values)
+        elements_and_values = {
+            'input[name="start_date"]': start_date,
+            'input[name="end_date"]':end_date
+        }
+        fill_input_fields(self, elements_and_values)
 
     def fill_email_domains(self, email_domains):
         """

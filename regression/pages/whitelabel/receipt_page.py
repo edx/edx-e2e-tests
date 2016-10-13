@@ -1,12 +1,14 @@
 """
 Receipt page
 """
-import re
 import time
 
 from bok_choy.page_object import PageObject
 
-from regression.pages.common.utils import get_text
+from regression.pages.common.utils import (
+    extract_numerical_value_from_price_string,
+    get_text_against_page_elements
+)
 from regression.pages.whitelabel.const import (
     TIME_OUT_LIMIT,
     WAIT_TIME,
@@ -94,11 +96,9 @@ class ReceiptPage(PageObject):
         Raises:
             order date:
         """
-        date = self.q(
+        return self.q(
             css='.report.report-receipt>tbody>tr>td:nth-of-type(3)'
         ).text[0]
-        order_date = re.search(r'\d{4}[-/]\d{2}[-/]\d{2}(?=T)', date)
-        return order_date.group(0)
 
     @property
     def order_amount(self):
@@ -110,8 +110,7 @@ class ReceiptPage(PageObject):
         amount = self.q(
             css='.report.report-receipt>tbody>tr>td:nth-of-type(4)'
         ).text[0]
-        integer_amount = re.search(r'\d+', amount)
-        return int(integer_amount.group(0))
+        return extract_numerical_value_from_price_string(amount)
 
     @property
     def total_amount(self):
@@ -122,8 +121,7 @@ class ReceiptPage(PageObject):
         """
         total_amount = self.q(
             css='.report.report-receipt>tfoot>tr>td>.value-amount').text[0]
-        integer_total_amount = re.search(r'\d+', total_amount)
-        return int(integer_total_amount.group(0))
+        return extract_numerical_value_from_price_string(total_amount)
 
     @property
     def billed_to(self):
@@ -140,7 +138,7 @@ class ReceiptPage(PageObject):
             '.copy>p>.address-postalcode',
             '.copy>p>.address-country'
         ]
-        text_values = get_text(self, css_selectors)
+        text_values = get_text_against_page_elements(self, css_selectors)
         key_names = [
             'first_name',
             'last_name',

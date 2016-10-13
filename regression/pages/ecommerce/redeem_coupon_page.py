@@ -1,14 +1,15 @@
 """
 Redeem coupon page
 """
-import re
-
 from bok_choy.page_object import PageObject
 
 from regression.pages.whitelabel.const import ECOMMERCE_URL_WITH_AUTH
 from regression.pages.common.utils import (
+    extract_mmm_dd_yyyy_date_string_from_text,
     convert_date_format,
-    extract_numerical_value
+    extract_numerical_value_from_price_string,
+    get_course_key_from_asset,
+    substring_from
 )
 
 
@@ -20,9 +21,8 @@ def get_course_ids_from_link(link):
     Returns:
         Course Ids
     """
-    course_id = re.search(r'(?<=asset-v1:)\w+\+\w+\+\w+', link)
-    course_id = course_id.group(0)
-    return 'course-v1:' + course_id
+    opaque_asset_key = substring_from(link, 'asset-v1')
+    return get_course_key_from_asset(opaque_asset_key)
 
 
 class RedeemCouponPage(PageObject):
@@ -112,9 +112,15 @@ class RedeemCouponPage(PageObject):
             '>.discount-mc-price-group .course-new-price>span'
         ).text[0]
         return {
-            'course_price': extract_numerical_value(course_price_str),
-            'benefit_value': extract_numerical_value(benefit_value_str),
-            'discounted_price': extract_numerical_value(discounted_price_str),
+            'course_price': extract_numerical_value_from_price_string(
+                course_price_str
+            ),
+            'benefit_value': extract_numerical_value_from_price_string(
+                benefit_value_str
+            ),
+            'discounted_price': extract_numerical_value_from_price_string(
+                discounted_price_str
+            ),
             'benefit_type': self.benefit_type
         }
 
@@ -140,10 +146,15 @@ class RedeemCouponPage(PageObject):
             coupon expiry date:
         """
         date_string = self.q(
-            css='' + self.course_tile + ' .voucher-valid-until>p').text[0]
-        raw_date = re.search('(?<=until ).+', date_string)
-        raw_date = raw_date.group(0)
-        return convert_date_format(raw_date)
+            css='' + self.course_tile + ' .voucher-valid-until>p'
+        ).text[0]
+        date_string = extract_mmm_dd_yyyy_date_string_from_text(date_string)
+        # Convert date format to 0000-00-00T00:00:00
+        return convert_date_format(
+            date_string,
+            '%b %d, %Y',
+            '%Y-%m-%dT%H:%M:%S'
+        )
 
     @property
     def course_start_date(self):
@@ -153,10 +164,15 @@ class RedeemCouponPage(PageObject):
             course start date:
         """
         date_string = self.q(
-            css='' + self.course_tile + '>.course-start').text[0]
-        raw_date = re.search('(?<=: ).+', date_string)
-        raw_date = raw_date.group(0)
-        return convert_date_format(raw_date)
+            css='' + self.course_tile + '>.course-start'
+        ).text[0]
+        date_string = extract_mmm_dd_yyyy_date_string_from_text(date_string)
+        # Convert date format to 0000-00-00T00:00:00
+        return convert_date_format(
+            date_string,
+            '%b %d, %Y',
+            '%Y-%m-%dT%H:%M:%S'
+        )
 
     @property
     def course_image_text(self):

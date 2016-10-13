@@ -78,7 +78,7 @@ class CourseAboutPage(PageObject):
         price = None
         if 'Price' in self.q(css='.col.col-12.sm-col-12.md-col-2').text[0]:
             price = self.q(css='.col.col-12.sm-col-12.md-col-2>span').text[0]
-        return int(price[1:])
+        return float(price[1:])
 
     def register_using_enrollment_button(self):
         """

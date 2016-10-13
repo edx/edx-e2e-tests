@@ -3,28 +3,27 @@
 """
 Different utilities to be used in tests
 """
-
-import functools
-from datetime import datetime
-from itertools import izip
 import re
 import time
+import functools
+import datetime
+import imaplib
+import email
+
 import requests
 from requests.auth import HTTPBasicAuth
-
 from edx_rest_api_client.client import EdxRestApiClient
-from guerrillamail import GuerrillaMailSession
-from tempmail import TempMail
+from opaque_keys.edx.keys import AssetKey, CourseKey
 
 from regression.pages.whitelabel.const import (
     ACCESS_TOKEN,
     AUTH_PASSWORD,
     AUTH_USERNAME,
-    URL_WITHOUT_AUTH,
+    DEFAULT_GMAIL_USER,
     DEFAULT_TIMEOUT,
-    ECOMMERCE_URL_WITHOUT_AUTH,
     ECOMMERCE_API_URL,
     EMAIL_SENDER_ACCOUNT,
+    GMAIL_PASSWORD,
     INITIAL_WAIT_TIME,
     ORG,
     TIME_OUT_LIMIT,
@@ -46,204 +45,131 @@ class ApiException(Exception):
     pass
 
 
-class GuerrillaMailApi(object):
+class MailClient(object):
     """
-    Guerrilla Mail API for creating email accounts and reading emails
+    Connect to Gmail clinet using imap and read mails from Inbox
     """
 
     def __init__(self):
-        self.session = GuerrillaMailSession()
+        self.mail = imaplib.IMAP4_SSL('imap.gmail.com')
 
-    def get_email_account(self, user_name):
+    def login_to_email_account(self):
         """
-        This function will create an account on GuerrillaMail using given user
-        name and first of the available domains. The email address created by
-        joining user name and domain is returned
-        Args:
-            user_name:
-        Returns:
-            email address:
+        Login to gmail account
         """
-        self.session.set_email_address(user_name)
-        return self.session.get_session_state()['email_address']
+        self.mail.login(DEFAULT_GMAIL_USER, GMAIL_PASSWORD)
 
-    def get_email_text(self, pattern):
+    def open_inbox(self):
         """
-        This function will check the availability MIT enrollment email at
-        GuerrillaMail server at the intervals of 5 seconds and if the email
-        is found it's text is returned. If the email is not found after 40
-        seconds, this function will raise and error
+        Open inbox to get the list of emails
+        """
+        self.mail.list()
+        # Out: list of "folders" aka labels in gmail.
+        self.mail.select("inbox")  # connect to inbox.
+
+    def get_latest_email_uid(self, current_email_user, mail_topic):
+        """
+        This function will check the availability of target email at the
+        intervals of 5 seconds and if the email is found it's uuid is returned.
+        If the email is not found after predefined period of time seconds,
+        this function will raise an error
         Args:
-            pattern:
+            current_email_user:
+            mail_topic:
         Returns:
-            email text:
+            email_uuid:
         """
-        email_text = ""
+        self.login_to_email_account()
+        self.open_inbox()
+        latest_email_uid = None
         t_end = time.time() + TIME_OUT_LIMIT
         # Run the loop for a pre defined time
         time.sleep(INITIAL_WAIT_TIME)
         while time.time() < t_end:
             try:
-                # Check that mail box is not empty
-                email_list = self.session.get_email_list()
-                if not email_list:
-                    # raise an exception that waits 3 seconds before
-                    # restarting loop
+                # Check that target email is present in Inbox
+                # The target mail has to satisfy following criteria
+                # a) It has to be sent during the last 24 hours (this is used
+                # mainly to speed up the search)
+                # b) Mail From and Mail To are correct
+                # c) The partial subject string is present in the mail subject
+                result, data = self.mail.uid(
+                    'search',
+                    None,
+                    '(SENTSINCE {date} HEADER FROM {mail_from} TO '
+                    '{mail_to} SUBJECT {mail_subject})'.format(
+                        date=yesterday_date(),
+                        mail_from=EMAIL_SENDER_ACCOUNT[ORG],
+                        mail_to=current_email_user,
+                        mail_subject=mail_topic
+                    )
+                )
+                if not result:
                     raise MailException
-                # Get the email id of last email in the inbox
-                email_id = email_list[0].guid
-                # if last email is not sent by MIT raise the exception
-                email = self.session.get_email(email_id)
-                if email.sender != EMAIL_SENDER_ACCOUNT[ORG]:
-                    raise MailException
-                # Fetch the email text and stop the loop
-                email_text = email.body
-                if pattern not in email_text:
-                    raise MailException
+                # Get the uid of last email that satisfies the criteria
+                latest_email_uid = data[0].split()[-1]
                 break
             except MailException:
                 time.sleep(WAIT_TIME)
-        if email_text:
-            return email_text
+        if latest_email_uid:
+            return latest_email_uid
         else:
-            raise MailException('No Email from ' + EMAIL_SENDER_ACCOUNT[ORG])
+            raise MailException('No Email matching the search criteria')
 
-
-class TempMailApi(object):
-    """
-    Temp Mail API for creating email accounts and reading emails
-    """
-
-    def __init__(self):
-        self.session = TempMail()
-
-    def get_email_account(self, user_name):
+    def get_email_message(self, current_email_user, mail_topic):
         """
-        This function will create an account on TempMail using given user
-        name and first of the available domains. The email address created
-        by joining user name and domain is returned
+        Get the text message from Email
         Args:
-            user_name:
-        Returns:
-            email account:
-        """
-        self.session.login = user_name
-        self.session.domain = self.session.available_domains[0]
-        return self.session.get_email_address()
-
-    def get_email_text(self, pattern):
-        """
-        This function will check the availability MIT enrollment email at
-        TempMail server at the intervals of 5 seconds and if the email is
-        found it's text is returned. If the email is not found after 40
-        seconds, this function will raise and error
-        Args:
-            pattern:
+            current_email_user:
+            mail_topic:
         Returns:
             email text:
         """
-        email_text = ""
-        t_end = time.time() + TIME_OUT_LIMIT
-        # Run the loop for a pre defined time
-        time.sleep(INITIAL_WAIT_TIME)
-        while time.time() < t_end:
-            try:
-                # Check that mail box is not empty
-                tmp_email = self.session.get_mailbox()
-                if not isinstance(tmp_email, list):
-                    raise MailException
-                if tmp_email[-1]['mail_from'] != EMAIL_SENDER_ACCOUNT[ORG]:
-                    raise MailException
-                # Fetch the email text and stop the loop
-                email_text = tmp_email[-1]['mail_text']
-                if pattern not in email_text:
-                    raise MailException
-                break
-            except MailException:
-                time.sleep(WAIT_TIME)
-        if email_text:
-            return email_text
-        else:
-            raise MailException('No Email from ' + EMAIL_SENDER_ACCOUNT[ORG])
+        resulting_data = self.mail.uid(
+            'fetch',
+            self.get_latest_email_uid(current_email_user, mail_topic),
+            '(RFC822)'
+        )
+        mail_data = resulting_data[1]
+        raw_email = mail_data[0][1]
+        email_message = email.message_from_string(raw_email)
+        return self.get_first_text_block(email_message)
+
+    @staticmethod
+    def get_first_text_block(email_message_instance):
+        """
+        In case of multiple payloads return first text block
+        Args:
+            email_message_instance:
+        """
+        maintype = email_message_instance.get_content_maintype()
+        if maintype == 'multipart':
+            for part in email_message_instance.get_payload():
+                if part.get_content_maintype() == 'text':
+                    return part.get_payload()
+        elif maintype == 'text':
+            return email_message_instance.get_payload()
 
 
-class EmailReader(object):
+def get_target_url_from_text(partial_url_string, text_chunk):
     """
-    Email reader for reading mail text
+    Search and return the target url from text chunk, the url is searched
+    on the basis of partial string embedded in url
+    Args:
+        partial_url_string:
+        text_chunk:
+    Returns:
+        target url:
     """
-
-    def __init__(self, account):
-        self.email = account
-
-    @property
-    def activation_link_from_email(self):
-        """
-        This function will find the activation link embedded in email text and
-        returns it
-        Returns:
-            activation link:
-        """
-        pattern = URL_WITHOUT_AUTH + 'activate/'
-        search_pattern = r'(?<={id})\w+'.format(id=pattern)
-        search_activation_code = re.search(
-            search_pattern, self.email.get_email_text(pattern))
-        activation_code = search_activation_code.group(0)
-        activation_link = pattern + activation_code
-        return activation_link
-
-    @property
-    def reset_password_link_from_email(self):
-        """
-        This function will find the reset password link embedded in email
-        text and returns it
-        Returns:
-            reset password link:
-        """
-        pattern = URL_WITHOUT_AUTH + 'password_reset_confirm/'
-        search_reset_password_link = re.search(
-            pattern + r'(.*?)/', self.email.get_email_text(pattern))
-        reset_password_link = search_reset_password_link.group(0)
-        return reset_password_link
-
-    @property
-    def download_csv_file_link_from_email(self):
-        """
-        This function will find the download csv file link embedded in
-        email text and returns it
-        Returns:
-            download csv link:
-        """
-        pattern = 'enrollment_code_csv/'
-        search_pattern = r'(?<={})\w+\-\d+/'.format(pattern)
-        search_activation_code = re.search(
-            search_pattern,
-            self.email.get_email_text(pattern)
-        )
-        order_number = search_activation_code.group(0)
-        download_csv_file_link = (
-            ECOMMERCE_URL_WITHOUT_AUTH +
-            'coupons/' +
-            pattern +
-            order_number
-        )
-        return download_csv_file_link
-
-    @property
-    def password_from_email(self):
-        """
-        This function will find the password embedded in email text and
-        returns it
-        Returns:
-            password:
-        """
-        pattern = 'password: '
-        search_pattern = r'(?<={})\w+'.format(pattern)
-        search_password = re.search(
-            search_pattern,
-            self.email.get_email_text(pattern)
-        )
-        email_password = search_password.group(0)
-        return email_password
+    pattern = r"(?P<url>http[s]?://[^\s]+(/{}/)[^\s]+)".format(
+        partial_url_string
+    )
+    regex_result = re.search(pattern, text_chunk)
+    if regex_result:
+        target_url = regex_result.group("url")
+        return target_url.rstrip('.')
+    else:
+        return 'Target URL not found in the text'
 
 
 class EcommerceApiClient(object):
@@ -300,6 +226,13 @@ class EcommerceApiClient(object):
         return coupon_codes
 
 
+def yesterday_date():
+    """
+    Get and return yesterday's date in dd-mmm-yyyy format
+    """
+    return (datetime.date.today() - datetime.timedelta(1)).strftime("%d-%b-%Y")
+
+
 def get_required_cookies(cookies_dict_list):
     """
     Format required cookies
@@ -345,10 +278,10 @@ def get_coupon_request(target_url, cookie_str):
         raise ApiException(msg)
 
 
-def get_coupons_from_email(coupon_string):
+def get_enrollment_codes_from_email(coupon_string):
     """
-    Read coupon codes and urls from email
-    Ignore first two lines of file as these are headers
+    Read enrollment codes and urls from email
+    Ignore first four lines of file as these are just headers
     Args:
         coupon_string:
     Returns:
@@ -356,11 +289,15 @@ def get_coupons_from_email(coupon_string):
     """
     coupons = {}
     for i, row in enumerate(coupon_string.splitlines()):
+        # Read the coupons starting from line 5
         if i > 3:
             if row:
                 new_row = row.split(',')
                 coupons.update({new_row[0]: new_row[1]})
-    return coupons
+    if coupons:
+        return coupons
+    else:
+        return 'Coupons not found'
 
 
 def skip_cleanup_if_test_passed():
@@ -388,16 +325,15 @@ def skip_cleanup_if_test_passed():
     return decorator
 
 
-def fill_input_fields(page, css_selectors, values):
+def fill_input_fields(page, selectors_and_values_dict):
     """
     A helper function to fill multiple fields in a form
     Args:
         page:
-        css_selectors:
-        values:
+        selectors_and_values_dict:
     """
-    for css_selector, value in izip(css_selectors, values):
-        page.q(css=css_selector).fill(value)
+    for key, value in selectors_and_values_dict.iteritems():
+        page.q(css=key).fill(value)
 
 
 def select_value_from_drop_down(page, drop_down_name, value):
@@ -409,42 +345,18 @@ def select_value_from_drop_down(page, drop_down_name, value):
         value:
     """
     page.wait_for_element_visibility(
-        'select[name=' + drop_down_name + ']', 'Drop down is visible')
+        'select[name={}]'.format(drop_down_name), 'Drop down is visible')
     page.q(
-        css='select[name=' + drop_down_name + '] option[value="{}"]'.format(
-            value)).click()
+        css='select[name={}] option[value="{}"]'.format(drop_down_name, value)
+    ).click()
     page.wait_for(
         lambda: page.q(
-            css='select[name=' + drop_down_name + '] option[value="{}"]'.
-            format(value)).selected,
+            css='select[name={}] option[value="{}"]'.
+            format(drop_down_name, value)
+        ).selected,
         "Correct value is selected",
         timeout=DEFAULT_TIMEOUT
     )
-
-
-def select_values_from_drop_downs(page, drop_down_names, values):
-    """
-    A helper function to select values from multiple drop downs on a page
-    Args:
-        page:
-        drop_down_names:
-        values:
-    """
-    for drop_down_name, value in izip(
-            drop_down_names, values
-    ):  # pylint: disable=cell-var-from-loop
-        page.wait_for_element_visibility(
-            'select[name=' + drop_down_name + ']', 'Drop down is visible')
-        page.q(
-            css='select[name=' + drop_down_name + '] option[value="{}"]'.
-            format(value)).click()
-        page.wait_for(
-            lambda: page.q(
-                css='select[name=' + drop_down_name + '] option[value="{}"]'.
-                format(value)).selected,
-            "Correct value is selected",
-            timeout=DEFAULT_TIMEOUT
-        )
 
 
 def click_checkbox(page, css_selector):
@@ -474,7 +386,7 @@ def remove_spaces_from_list_elements(list_with_spaces):
     return [x.replace(' ', '') for x in list_with_spaces]
 
 
-def get_text(page, css_selectors):
+def get_text_against_page_elements(page, css_selectors):
     """
     A helper function to get text values for a list of web elements
     Args:
@@ -489,38 +401,95 @@ def get_text(page, css_selectors):
     return list_of_text
 
 
-def convert_date_format(target_date):
+def extract_mmm_dd_yyyy_date_string_from_text(original_string):
     """
-    Convert date format to 0000-00-00T00:00:00
+    Extract date of MM dd, yyyy from text
     Args:
-       target_date:
+        original_string:
+    Returns:
+        date_string
+    """
+    regex_result = re.search(
+        r'(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s\d{2},\s\d{4}',
+        original_string
+    )
+    if regex_result:
+        date_string = regex_result.group(0)
+        return date_string
+    else:
+        return 'Required date pattern not found in search string'
+
+
+def convert_date_format(original_date, original_format, required_format):
+    """
+    Convert dates format to required pattern
+    Args:
+       original_date:
+       original_format:
+       required_format:
     Returns:
        modified date:
     """
-    old_format_date = datetime.strptime(target_date, '%b %d, %Y')
-    return old_format_date.strftime('%Y-%m-%dT%H:%M:%S')
+    try:
+        return datetime.datetime.strptime(
+            original_date,
+            original_format
+        ).strftime(required_format)
+    except ValueError:
+        return 'Invalid date or format'
 
 
-def extract_numerical_value(target_str):
+def extract_numerical_value_from_price_string(raw_price_string):
     """
-    Extract numerical value from a given string
-    Args:
-        target_str:
-    Returns:
-        numerical values:
-    """
-    val = re.search(r'\d+', target_str)
-    return int(val.group(0))
-
-
-def extract_numerical_value_price(raw_price_string):
-    """
-    Get full price string and return numerical value
+    Extract numerical value from a string containing price
     Args:
         raw_price_string:
     Returns:
         numerical price:
     """
-    regex_result = re.search(r'(?<=\$)\d+,\d+|\d+', raw_price_string)
-    regex_result = regex_result.group(0)
-    return int(regex_result.replace(",", ""))
+    regex_result = re.search(
+        r'\d+,\d+\.\d+|\d+\.\d+|\d+,\d+|\d+',
+        raw_price_string
+    )
+    if regex_result is not None:
+        price_value = regex_result.group(0)
+        return float(price_value.replace(",", ""))
+    else:
+        return 'No numerical value found in search string'
+
+
+def substring_from(s, delim):
+    """
+    Get a substring starting from a given delimiter
+    Args:
+        s: original string
+        delim: delimiter
+    Returns:
+        substring:
+    """
+    if s.partition(delim)[1]:
+        return s.partition(delim)[1] + s.partition(delim)[2]
+    else:
+        return 'Target substring not found'
+
+
+def get_course_key_from_asset(asset_string):
+    """
+    Get course id using asset keys
+    Args:
+        asset_string:
+    Returns:
+        course key:
+    """
+    return AssetKey.from_string(asset_string).course_key
+
+
+def get_course_number_from_course_id(course_id):
+    """
+    Get course number from course id using opaque course key
+    Args:
+        course_id:
+    Returns:
+        course number:
+    """
+    return CourseKey.from_string(course_id).course

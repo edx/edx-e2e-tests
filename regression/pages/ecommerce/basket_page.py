@@ -5,7 +5,7 @@ from bok_choy.page_object import PageObject
 
 from regression.pages.common.utils import (
     get_required_cookies,
-    extract_numerical_value_price
+    extract_numerical_value_from_price_string
 )
 from regression.pages.ecommerce.cybersource_page import CyberSourcePage
 from regression.pages.whitelabel.const import (
@@ -47,7 +47,7 @@ class BasketPage(PageObject):
             course price:
         """
         raw_price = self.q(css='.price').text[0]
-        return extract_numerical_value_price(raw_price)
+        return extract_numerical_value_from_price_string(raw_price)
 
     @property
     def total_price(self):
@@ -57,7 +57,7 @@ class BasketPage(PageObject):
             total price:
         """
         raw_price = self.q(css='#basket_totals').text[0]
-        return extract_numerical_value_price(raw_price)
+        return extract_numerical_value_from_price_string(raw_price)
 
     def go_to_cybersource_page(self):
         """
@@ -123,7 +123,7 @@ class SingleSeatBasketPage(BasketPage):
             discount amount:
         """
         raw_discount = self.q(css='.benefit').text[0]
-        return extract_numerical_value_price(raw_discount)
+        return extract_numerical_value_from_price_string(raw_discount)
 
     @property
     def discounted_amount(self):
@@ -133,7 +133,7 @@ class SingleSeatBasketPage(BasketPage):
             discounted price:
         """
         raw_discounted_price = self.q(css='.price.discounted').text[0]
-        return extract_numerical_value_price(raw_discounted_price)
+        return extract_numerical_value_from_price_string(raw_discounted_price)
 
     @property
     def total_price_after_discount(self):
@@ -142,7 +142,7 @@ class SingleSeatBasketPage(BasketPage):
         :return: Total price
         """
         raw_price = self.q(css='#basket_totals').text[0]
-        return extract_numerical_value_price(raw_price)
+        return extract_numerical_value_from_price_string(raw_price)
 
     def is_voucher_applied(self):
         """
@@ -203,7 +203,7 @@ class MultiSeatBasketPage(BasketPage):
         """
         raw_price = self.q(
             css='.basket-items .course-price-label~span').text[0]
-        return extract_numerical_value_price(raw_price)
+        return extract_numerical_value_from_price_string(raw_price)
 
     def is_single_seat_basket_link_visible(self):
         """
@@ -231,12 +231,11 @@ class MultiSeatBasketPage(BasketPage):
         Args:
              final_val:
         """
-        # pylint: disable=cell-var-from-loop
         for val in range(1, final_val):
             self.q(css='.checkout-quantity button>.fa.fa-caret-up').click()
             self.wait_for(
-                lambda:
-                self.student_counter_value == val + 1,
+                lambda x=val:
+                self.student_counter_value == x + 1,
                 'Increment is successful',
                 timeout=DEFAULT_TIMEOUT
             )

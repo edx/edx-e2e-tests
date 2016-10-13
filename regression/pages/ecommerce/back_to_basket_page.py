@@ -15,7 +15,6 @@ class BackToBasketPage(PageObject):
 
     def is_browser_on_page(self):
         """
-        Is browser on the page?
         Returns:
                 True if error message container is present on the page:
         """

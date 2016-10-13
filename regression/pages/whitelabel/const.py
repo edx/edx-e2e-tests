@@ -16,8 +16,10 @@ ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
 # Select the Org for which to run the tests, Default is MITProfessionalX
 ORG = os.getenv('ORG', 'MITProfessionalX')
 
-# Select the Email API to be used, default is TempMAil
-EMAIL_API = os.getenv('EMAIL_API', 'GuerrillaMail')
+# GMAIL account
+GMAIL_USER = os.environ['GMAIL_USER']
+DEFAULT_GMAIL_USER = GMAIL_USER.format("")
+GMAIL_PASSWORD = os.environ['GMAIL_PASSWORD']
 
 # Global password
 PASSWORD = os.environ['GLOBAL_PASSWORD']
@@ -50,6 +52,9 @@ URL_WITH_AUTH = RAW_URL[ORG].format(BASIC_AUTH)
 
 ECOMMERCE_API_URL = ECOMMERCE_URL_WITHOUT_AUTH + 'api/v2/'
 
+CYBERSOURCE_CHECKOUT_URL = \
+    u'https://testsecureacceptance.cybersource.com/checkout'
+
 PROF_COURSE_ID = {
     'HarvardXPLUS': u'course-v1:HarvardXPLUS+MCB63xPLUS+3T2016',
     'MITProfessionalX': u'course-v1:MITProfessionalX+IOTx+2016_T1'
@@ -61,8 +66,8 @@ PROF_COURSE_TITLE = {
 }
 
 PROF_COURSE_PRICE = {
-    'HarvardXPLUS': 295,
-    'MITProfessionalX': 100
+    'HarvardXPLUS': 295.0,
+    'MITProfessionalX': 100.0
 }
 
 EMAIL_SENDER_ACCOUNT = {

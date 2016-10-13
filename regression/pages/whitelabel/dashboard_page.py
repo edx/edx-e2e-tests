@@ -1,10 +1,9 @@
 """
 Dashboard page
 """
-import re
-
 from bok_choy.page_object import PageObject
 
+from regression.pages.common.utils import get_course_number_from_course_id
 from regression.pages.whitelabel.const import URL_WITH_AUTH, DEFAULT_TIMEOUT
 from regression.pages.whitelabel.course_info_page import CourseInfoPage
 from regression.pages.whitelabel.courses_page import CoursesPage
@@ -32,8 +31,7 @@ class DashboardPage(PageObject):
         Args:
          course_id:
         """
-        course_number_search = re.search(r'(?<=\+)\w+(?=\+)', course_id)
-        course_number = course_number_search.group(0)
+        course_number = get_course_number_from_course_id(course_id)
         return self.q(
             css='#actions-dropdown-link-0[data-course-number="' +
             course_number + '"]'
@@ -51,8 +49,7 @@ class DashboardPage(PageObject):
         Args:
              course_id:
         """
-        course_number_search = re.search(r'(?<=\+)\w+(?=\+)', course_id)
-        course_number = course_number_search.group(0)
+        course_number = get_course_number_from_course_id(course_id)
         course_link = '#actions-dropdown-link-0[data-course-number="' + \
                       course_number + '"]'
         unenroll_item = '#actions-dropdown-list-0>#actions-item-unenroll-0>' \

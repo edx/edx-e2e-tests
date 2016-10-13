@@ -49,8 +49,8 @@ class CourseEnrollmentMixin(UserAuthenticationMixin):
         # Initialize all common variables
         self.course_id = ''
         self.course_title = ''
-        self.course_price = 0
-        self.total_price = 0
+        self.course_price = 0.0
+        self.total_price = 0.0
         self.full_cleanup = True
 
     def login_and_go_to_basket(self, user_email, bulk_purchase=False):
@@ -126,7 +126,9 @@ class CourseEnrollmentMixin(UserAuthenticationMixin):
         self.assertTrue(self.receipt.is_receipt_displayed())
         self.assertIn(self.course_title, self.receipt.order_desc)
         self.assertEqual(
-            datetime.utcnow().strftime("%Y-%m-%d"), self.receipt.order_date)
+            datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+            self.receipt.order_date
+        )
         self.assertEqual(
             [self.receipt.order_amount, self.receipt.total_amount],
             [self.course_price, self.total_price]

@@ -6,9 +6,8 @@ import uuid
 from bok_choy.web_app_test import WebAppTest
 
 from regression.pages.common.utils import (
-    GuerrillaMailApi,
-    TempMailApi,
-    EmailReader
+    MailClient,
+    get_target_url_from_text
 )
 from regression.pages.whitelabel.activate_account import ActivateAccount
 from regression.pages.whitelabel.dashboard_page import DashboardPage
@@ -21,7 +20,7 @@ from regression.pages.whitelabel.logout_page import (
     EcommerceLogoutPage
 )
 from regression.pages.whitelabel.const import (
-    EMAIL_API,
+    GMAIL_USER,
     ORG,
     PASSWORD,
     REG_INFO,
@@ -42,6 +41,7 @@ class UserAuthenticationMixin(WebAppTest):
         self.dashboard = DashboardPage(self.browser)
         self.login_page = LoginPage(self.browser)
         self.registration = RegistrationPage(self.browser)
+        self.mail_client = MailClient()
 
     def login_user(self, user_email):
         """
@@ -75,14 +75,9 @@ class UserAuthenticationMixin(WebAppTest):
         """
         Prepare and fill registration data
         """
-        # pylint: disable=redefined-variable-type
-        if EMAIL_API == 'GuerrillaMail':
-            self.email_account = GuerrillaMailApi()
-        elif EMAIL_API == 'TempMail':
-            self.email_account = TempMailApi()
         user_name = str(uuid.uuid4().node)
-        self.user_email = self.email_account.get_email_account(user_name)
-        self.read_email = EmailReader(self.email_account)
+        partial_email_account_name = '+' + user_name
+        self.user_email = GMAIL_USER.format(partial_email_account_name)
         self.registration.fill_registration_form(
             self.user_email, PASSWORD, user_name, REG_INFO, ORG)
 
@@ -91,9 +86,13 @@ class UserAuthenticationMixin(WebAppTest):
         Fetch activation url from email, open the activation link in a new
         window, verify that account is activated
         """
+        email_text = self.mail_client.get_email_message(
+            self.user_email,
+            'Activate'
+        )
         main_window = self.browser.current_window_handle
         # Get activation link from email
-        activation_url = self.read_email.activation_link_from_email
+        activation_url = get_target_url_from_text('activate', email_text)
         # Open a new window and go to activation link in this window
         self.browser.execute_script("window.open('');")
         self.browser.switch_to.window(self.browser.window_handles[-1])

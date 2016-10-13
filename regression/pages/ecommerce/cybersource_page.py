@@ -5,11 +5,12 @@ from bok_choy.page_object import PageObject
 
 from regression.pages.common.utils import (
     fill_input_fields,
-    select_values_from_drop_downs,
+    select_value_from_drop_down,
     click_checkbox
 )
 from regression.pages.ecommerce.back_to_basket_page import BackToBasketPage
 from regression.pages.ecommerce.cancel_checkout_page import CancelCheckoutPage
+from regression.pages.whitelabel.const import CYBERSOURCE_CHECKOUT_URL
 
 
 class CyberSourcePage(PageObject):
@@ -17,11 +18,10 @@ class CyberSourcePage(PageObject):
     Cybersource payment page
     """
 
-    url = 'https://testsecureacceptance.cybersource.com/checkout'
+    url = CYBERSOURCE_CHECKOUT_URL
 
     def is_browser_on_page(self):
         """
-        Is browser on the page?
         Returns:
             True if payment button is present:
         """
@@ -33,31 +33,22 @@ class CyberSourcePage(PageObject):
         Args:
              bill_info:
         """
-        fill_css_selectors = [
-            '#bill_to_forename',
-            '#bill_to_surname',
-            '#bill_to_address_line1',
-            '#bill_to_address_line2',
-            '#bill_to_address_city',
-            '#bill_to_address_postal_code',
-            '#bill_to_email'
-        ]
-        fill_values = [
-            bill_info['first_name'],
-            bill_info['last_name'],
-            bill_info['address01'],
-            bill_info['address02'],
-            bill_info['city'],
-            bill_info['postal_code'],
-            bill_info['email']
-        ]
-        select_names = [
-            "bill_to_address_country",
-            "bill_to_address_state_us_ca"
-        ]
-        select_values = [bill_info['country'], bill_info['state']]
-        fill_input_fields(self, fill_css_selectors, fill_values)
-        select_values_from_drop_downs(self, select_names, select_values)
+        elements_and_values = {
+            '#bill_to_forename': bill_info['first_name'],
+            '#bill_to_surname': bill_info['last_name'],
+            '#bill_to_address_line1': bill_info['address01'],
+            '#bill_to_address_line2': bill_info['address02'],
+            '#bill_to_address_city': bill_info['city'],
+            '#bill_to_address_postal_code': bill_info['postal_code'],
+            '#bill_to_email': bill_info['email']
+        }
+        select_names_and_values = {
+            "bill_to_address_country": bill_info['country'],
+            "bill_to_address_state_us_ca": bill_info['state']
+        }
+        fill_input_fields(self, elements_and_values)
+        for key, val in select_names_and_values.iteritems():
+            select_value_from_drop_down(self, key, val)
 
     def set_payment_details(self, payment_details):
         """
@@ -66,15 +57,17 @@ class CyberSourcePage(PageObject):
              payment_details:
         """
         click_checkbox(self, '#card_type_001')
-        fill_css_selectors = ['#card_number', '#card_cvn']
-        fill_values = [payment_details['card_number'], payment_details['cvn']]
-        fill_input_fields(self, fill_css_selectors, fill_values)
-        select_names = ["card_expiry_month", "card_expiry_year"]
-        select_values = [
-            payment_details['expiry_month'],
-            payment_details['expiry_year'],
-        ]
-        select_values_from_drop_downs(self, select_names, select_values)
+        elements_and_values = {
+            '#card_number': payment_details['card_number'],
+            '#card_cvn': payment_details['cvn']
+        }
+        fill_input_fields(self, elements_and_values)
+        select_names_and_values = {
+            "card_expiry_month": payment_details['expiry_month'],
+            "card_expiry_year": payment_details['expiry_year']
+        }
+        for key, val in select_names_and_values.iteritems():
+            select_value_from_drop_down(self, key, val)
 
     def make_payment(self, target_page):
         """
