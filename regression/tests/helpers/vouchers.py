@@ -181,7 +181,7 @@ class VouchersMixin(CourseEnrollmentMixin):
         self.verify_course_info_on_coupon_redeem_page(redeem_coupon)
         redeem_coupon.redeem_enrollment(target_page)
 
-    def use_discount_redeem_url_by_active_user(self):
+    def use_discount_redeem_url(self):
         """
         Payment by active user after discount redeem url was applied
         """
@@ -195,24 +195,6 @@ class VouchersMixin(CourseEnrollmentMixin):
         # order date and billing to is displayed correctly
         self.verify_receipt_info_for_discounted_course()
         self.receipt.go_to_dashboard()
-
-    def use_discount_redeem_url_by_inactive_user(self):
-        """
-        Payment by inactive user after discount redeeem url was applied
-        """
-        self.verify_info_is_populated_on_basket()
-        self.basket.go_to_cybersource_page()
-        # Fill out all the billing and payment details and submit the form
-        self.otto_payment_using_cyber_source()
-        # Application should take user to the receipt page
-        # Verify on receipt page that information like course title,
-        # course price, total price
-        # order date and billing to is displayed correctly
-        # ****Commenting receipt verification as currently the receipt
-        # is not generated******
-        # self.verify_receipt_info('Discount')
-        # self.receipt.go_to_dashboard()
-        self.dashboard.visit()
 
     def error_message_on_invalid_coupon_code(self, coupon_code):
         """

@@ -3,7 +3,6 @@ Single course Enrollment coupons tests
 """
 import random
 from itertools import izip
-import unittest
 
 from regression.pages.common.utils import skip_cleanup_if_test_passed
 from regression.pages.ecommerce.coupon_const import (
@@ -29,6 +28,7 @@ from regression.pages.ecommerce.coupon_const import (
 from regression.pages.ecommerce.redeem_coupon_page import RedeemCouponPage
 from regression.pages.whitelabel.const import (
     ORG,
+    PASSWORD,
     PROF_COURSE_ID,
     PROF_COURSE_TITLE,
     PROF_COURSE_PRICE
@@ -235,10 +235,10 @@ class TestSingleCourseEnrollment(VouchersMixin):
             SINGLE_USE_REDEEM_URL_REUSE_ERROR
         )
 
-    @unittest.skip('To be fixed soon')
+    @skip_cleanup_if_test_passed()
     def test_06_apply_enrollment_once_per_customer_redeem_url(self):
         """
-        Scenario: Unregistered Users: Enrollment Once Per Customer Redeem URL:
+        Scenario: Registered Users: Enrollment Once Per Customer Redeem URL:
         Each URL can be used up to the number of allowed uses and after that
         it is not usable by any user
         """
@@ -250,14 +250,20 @@ class TestSingleCourseEnrollment(VouchersMixin):
             max_uses=2
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
-        self.addCleanup(self.run_partial_cleanup)
-        for val in range(3):
-            if val < 2:
+        # Login to application using the existing credentials
+        coupon_users = list(COUPON_USERS.values())
+        last_user = len(coupon_users) - 1
+        self.addCleanup(self.run_full_cleanup)
+        for i, coupon_user in enumerate(coupon_users):
+            if i != last_user:
                 self.home.visit()
                 self.redeem_single_course_enrollment_coupon(
                     coupon_code, self.login_page)
-                self.login_page.toggle_to_registration_page()
-                self.register_user(self.dashboard)
+                self.login_page.authenticate_user(
+                    coupon_user,
+                    PASSWORD,
+                    self.dashboard
+                )
                 self.assert_enrollment_and_un_enroll()
                 self.logout_user_from_lms()
             else:

@@ -36,6 +36,9 @@ ONCE_PER_CUSTOMER_REDEEM_URL_SAME_USER_REUSE = \
 INVALID_DOMAIN_ERROR_MESSAGE_ON_REDEEM_URL = \
     'You are not eligible to use this coupon.'
 
+INACTIVE_ACCOUNT_ERROR_MESSAGE = \
+    'You need to activate your account in order to redeem this coupon.'
+
 # Coupons info
 
 DEFAULT_START_DATE = (datetime.today() -

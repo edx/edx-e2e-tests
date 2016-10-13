@@ -3,7 +3,6 @@ Single course Discount coupons tests
 """
 import random
 from itertools import izip
-import unittest
 
 from regression.pages.common.utils import skip_cleanup_if_test_passed
 from regression.pages.ecommerce.coupon_const import (
@@ -16,6 +15,7 @@ from regression.pages.ecommerce.coupon_const import (
     EXPIRED_END_DATE,
     FUTURE_START_DATE,
     FUTURE_REDEEM_URL_ERROR,
+    INACTIVE_ACCOUNT_ERROR_MESSAGE,
     INVALID_DOMAIN_ERROR_MESSAGE_ON_BASKET,
     INVALID_DOMAIN_ERROR_MESSAGE_ON_REDEEM_URL,
     INVALID_DOMAIN_USERS,
@@ -264,7 +264,7 @@ class TestSingleCourseDiscount(VouchersMixin):
         for coupon_user, coupon_code in izip(coupon_users, coupon_codes):
             self.login_user(coupon_user)
             self.redeem_single_course_discount_coupon(coupon_code, self.basket)
-            self.use_discount_redeem_url_by_active_user()
+            self.use_discount_redeem_url()
             self.assert_enrollment_and_un_enroll()
             self.logout_user_from_lms()
 
@@ -288,7 +288,7 @@ class TestSingleCourseDiscount(VouchersMixin):
         self.register_user(self.dashboard)
         self.activate_new_user()
         self.redeem_single_course_discount_coupon(coupon_code, self.basket)
-        self.use_discount_redeem_url_by_active_user()
+        self.use_discount_redeem_url()
         self.assert_enrollment_and_un_enroll()
         self.logout_user_from_lms()
         self.login_user(COUPON_USERS['coupon_user_01'])
@@ -299,12 +299,11 @@ class TestSingleCourseDiscount(VouchersMixin):
             SINGLE_USE_REDEEM_URL_REUSE_ERROR
         )
 
-    @unittest.skip('To be fixed soon')
+    @skip_cleanup_if_test_passed()
     def test_08_discount_once_per_customer_fixed_redeem_url(self):
         """
-        Scenario: Inactive New Users - Discount Once Per Customer Fixed Redeem
-        URL: Each URL can be used up to the number of allowed uses by
-        different users
+        Scenario: Discount Once Per Customer Fixed Redeem URL: Each URL can
+        be used up to the number of allowed uses by different users
         """
         coupon = self.coupon_data(
             SINGLE_COURSE_CATALOG_TYPE,
@@ -316,16 +315,18 @@ class TestSingleCourseDiscount(VouchersMixin):
             max_uses=2
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
-        self.addCleanup(self.run_partial_cleanup)
-        for val in range(3):
-            # Go to registration page and register for the course
-            self.home.visit()
-            self.home.go_to_registration_page()
-            self.register_user(self.dashboard)
-            if val < 2:
+        coupon_users = list(COUPON_USERS.values())
+        last_user = len(coupon_users) - 1
+        self.addCleanup(self.run_full_cleanup)
+        for i, coupon_user in enumerate(coupon_users):
+            # Login to course and use coupon
+            self.login_user(coupon_user)
+            if i != last_user:
                 self.redeem_single_course_discount_coupon(
-                    coupon_code, self.basket)
-                self.use_discount_redeem_url_by_inactive_user()
+                    coupon_code,
+                    self.basket
+                )
+                self.use_discount_redeem_url()
                 self.assert_enrollment_and_un_enroll()
                 self.logout_user_from_lms()
             else:
@@ -336,11 +337,10 @@ class TestSingleCourseDiscount(VouchersMixin):
                     ONCE_PER_CUSTOMER_REDEEM_URL_MAX_LIMIT
                 )
 
-    @unittest.skip('To be fixed soon')
     def test_09_discount_once_per_customer_percentage_redeem_url(self):
         """
-        Scenario: Registered, Logged Out Users - Discount Once Per Customer
-        Percentage Redeem URL: URL cannot be used twice by he same user
+        Scenario: Inactive Users - Discount Once Per Customer Percentage
+        Redeem URL: URL cannot be used twice by he same user
         """
         coupon = self.coupon_data(
             SINGLE_COURSE_CATALOG_TYPE,
@@ -356,9 +356,16 @@ class TestSingleCourseDiscount(VouchersMixin):
         self.redeem_single_course_discount_coupon(coupon_code, self.login_page)
         self.login_page.toggle_to_registration_page()
         self.prepare_and_fill_registration_data()
-        self.registration.submit_registration_form_data(self.basket)
+        self.registration.submit_registration_form_data(
+            self.redeem_coupon_error_page
+        )
+        self.assertEqual(
+            self.redeem_coupon_error_page.error_message,
+            INACTIVE_ACCOUNT_ERROR_MESSAGE
+        )
+        self.account_activation()
         self.verify_info_is_populated_on_basket()
-        self.use_discount_redeem_url_by_inactive_user()
+        self.use_discount_redeem_url()
         self.assert_enrollment_and_un_enroll()
         redeem_coupon = RedeemCouponPage(self.browser, coupon_code).visit()
         self.assertEqual(
@@ -410,7 +417,7 @@ class TestSingleCourseDiscount(VouchersMixin):
         valid_domain_user = random.choice(valid_domain_users)
         self.login_user(valid_domain_user)
         self.redeem_single_course_discount_coupon(coupon_code, self.basket)
-        self.use_discount_redeem_url_by_active_user()
+        self.use_discount_redeem_url()
         self.assert_enrollment_and_un_enroll()
         self.logout_user_from_lms()
 
