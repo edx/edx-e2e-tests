@@ -28,6 +28,7 @@ class UploadedFileTest(WebAppTest):
         )
         self.asset_page.visit()
         self.file_names = [
+            'test.pdf'
             'README.rst',
             'Image.png'
         ]
