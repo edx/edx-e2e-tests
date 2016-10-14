@@ -15,7 +15,7 @@ export DISPLAY=":1"
 virtualenv venv
 . venv/bin/activate
 
-pip install -r requirements/whitelabel.txt
+pip install -r requirements/base.txt
 
 
 # Run the tests
