@@ -42,16 +42,16 @@ INACTIVE_ACCOUNT_ERROR_MESSAGE = \
 # Coupons info
 
 DEFAULT_START_DATE = (datetime.today() -
-                      timedelta(days=15)).strftime('%Y-%m-%dT%H:%M:%S')
+                      timedelta(days=15)).strftime('%Y-%m-%dT%H:%M:%SZ')
 
 EXPIRED_END_DATE = (datetime.today() -
-                    timedelta(days=5)).strftime('%Y-%m-%dT%H:%M:%S')
+                    timedelta(days=5)).strftime('%Y-%m-%dT%H:%M:%SZ')
 
 DEFAULT_END_DATE = (datetime.today() +
-                    timedelta(days=15)).strftime('%Y-%m-%dT%H:%M:%S')
+                    timedelta(days=15)).strftime('%Y-%m-%dT%H:%M:%SZ')
 
 FUTURE_START_DATE = (datetime.today() +
-                     timedelta(days=5)).strftime('%Y-%m-%dT%H:%M:%S')
+                     timedelta(days=5)).strftime('%Y-%m-%dT%H:%M:%SZ')
 
 SINGLE_COURSE_CATALOG_TYPE = 'Single course'
 
