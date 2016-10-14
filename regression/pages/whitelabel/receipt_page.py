@@ -6,6 +6,7 @@ import time
 from bok_choy.page_object import PageObject
 
 from regression.pages.common.utils import (
+    convert_date_format,
     extract_numerical_value_from_price_string,
     get_text_against_page_elements
 )
@@ -96,9 +97,14 @@ class ReceiptPage(PageObject):
         Raises:
             order date:
         """
-        return self.q(
+        date_string = self.q(
             css='.report.report-receipt>tbody>tr>td:nth-of-type(3)'
         ).text[0]
+        return convert_date_format(
+            date_string,
+            '%Y-%m-%dT%H:%M:%SZ',
+            '%Y-%m-%d'
+        )
 
     @property
     def order_amount(self):

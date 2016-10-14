@@ -6,7 +6,7 @@ import unittest
 from regression.pages.common.utils import (
     get_target_url_from_text,
     get_coupon_request,
-    get_enrollment_codes_from_email_link
+    get_enrollment_codes_from_email
 )
 from regression.pages.ecommerce.back_to_basket_page import BackToBasketPage
 from regression.pages.ecommerce.basket_page import SingleSeatBasketPage
@@ -259,7 +259,7 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         enrollment_codes = get_coupon_request(
             enrollment_file_link, ecommerce_cookies
         )
-        coupons = get_enrollment_codes_from_email_link(enrollment_codes)
+        coupons = get_enrollment_codes_from_email(enrollment_codes)
         self.receipt.go_to_dashboard()
         self.assertFalse(self.dashboard.is_course_present(self.course_id))
         self.logout_user_from_lms()

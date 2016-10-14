@@ -213,6 +213,12 @@ CONVERT_DATE = {
         'required_format': '%a %b %d %Y',
         'result': 'Mon Feb 15 2010'
     },
+    'fifth': {
+        'original_date': '2016-10-13T22:09:36Z',
+        'original_format': '%Y-%m-%dT%H:%M:%SZ',
+        'required_format': '%Y-%m-%d',
+        'result': '2016-10-14'
+    },
     'invalid_date': {
         'original_date': 'ABC-1-25',
         'original_format': '%d/%m/%Y',

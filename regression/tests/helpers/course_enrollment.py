@@ -2,7 +2,7 @@
 Common features related to course enrollment
 """
 import time
-from datetime import datetime
+import datetime
 from regression.pages.ecommerce.basket_page import (
     BasketPage,
     MultiSeatBasketPage
@@ -126,7 +126,7 @@ class CourseEnrollmentMixin(UserAuthenticationMixin):
         self.assertTrue(self.receipt.is_receipt_displayed())
         self.assertIn(self.course_title, self.receipt.order_desc)
         self.assertEqual(
-            datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+            unicode(datetime.datetime.utcnow().date()),
             self.receipt.order_date
         )
         self.assertEqual(
