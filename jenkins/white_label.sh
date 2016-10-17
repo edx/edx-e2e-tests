@@ -5,10 +5,10 @@
 set -e
 set -x
 
+cd edx-e2e-tests
+
 # Clean up previous builds
 git clean -qxfd
-
-cd edx-e2e-tests
 
 export DISPLAY=":1"
 

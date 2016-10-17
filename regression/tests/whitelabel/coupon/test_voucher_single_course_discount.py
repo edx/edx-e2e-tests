@@ -268,7 +268,7 @@ class TestSingleCourseDiscount(VouchersMixin):
             self.assert_enrollment_and_un_enroll()
             self.logout_user_from_lms()
 
-    def test_07_discount_single_use_percentage_redeem_ur(self):
+    def test_07_discount_single_use_percentage_redeem_url(self):
         """
         Scenario: New Activated Users - Discount Single Use Percentage Redeem
         URL: URL cannot be reused
