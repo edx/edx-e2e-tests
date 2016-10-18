@@ -3,7 +3,7 @@ Test studio grading
 """
 from uuid import uuid4
 
-from bok_choy.web_app_test import WebAppTest
+from regression.tests.studio.studio_base_test import StudioBaseTestClass
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.grading_studio import GradingPageExtended
 from regression.pages.studio.course_outline_page import (
@@ -12,7 +12,7 @@ from regression.pages.studio.course_outline_page import (
 from regression.tests.helpers import LoginHelper, get_course_info
 
 
-class StudioGradingTest(WebAppTest):
+class StudioGradingTest(StudioBaseTestClass):
     """
     Test studio grading
     """

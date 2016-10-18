@@ -44,6 +44,13 @@ class GradingPageExtended(GradingPage):
         self.wait_for_ajax()
         save_changes_popup_for_studio(self)
 
+    def remove_all_grades(self):
+        """
+        Removes all grades
+        """
+        while len(self.q(css='.remove-button')) > 0:
+            self.click_remove_grade()
+
     def click_new_assignment_type(self):
         """
         Clicks New Assignment type button on Grading page
@@ -92,3 +99,10 @@ class GradingPageExtended(GradingPage):
         """
         self.q(css='.remove-grading-data').first.click()
         save_changes_popup_for_studio(self)
+
+    def delete_all_assignment_types(self):
+        """
+        Deletes all assignment types
+        """
+        while len(self.q(css='.remove-grading-data')) > 0:
+            self.delete_assignment_type()

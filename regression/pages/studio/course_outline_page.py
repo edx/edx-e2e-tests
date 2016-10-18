@@ -81,6 +81,19 @@ class CourseOutlinePageExtended(CourseOutlinePage):
         """
         return self.q(css='#grading_type option').text
 
+    def get_section_count(self):
+        """
+        Returns total number of sections
+        """
+        return len(
+            self.q(
+                css='.section-header-actions ul.actions-list '
+                    'li.action-item.action-delete a.delete-button.'
+                    'action-button '
+                    'span.icon.fa.fa-trash-o'
+            )
+        )
+
     def cancel_subsection_settings(self):
         """
         Clicks cancel button of Subsection Settings pop up
@@ -110,3 +123,10 @@ class CourseOutlinePageExtended(CourseOutlinePage):
         ActionChains(
             self.browser
         ).move_to_element(button).click(button).perform()
+
+    def make_sure_only_one_section_is_present(self):
+        """
+        Makes sure there is only one section present
+        """
+        while self.get_section_count() > 1:
+            self.delete_section()

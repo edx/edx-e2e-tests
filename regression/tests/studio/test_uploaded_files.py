@@ -1,8 +1,7 @@
 """
 Test uploaded files.
 """
-from bok_choy.web_app_test import WebAppTest
-
+from regression.tests.studio.studio_base_test import StudioBaseTestClass
 from regression.pages.studio.utils import upload_new_file
 from regression.pages.studio.login_studio import StudioLogin
 from regression.tests.helpers import LoginHelper, get_course_info
@@ -10,7 +9,7 @@ from regression.tests.helpers import LoginHelper, get_course_info
 from regression.pages.studio.asset_index_studio import AssetIndexPageExtended
 
 
-class UploadedFileTest(WebAppTest):
+class UploadedFileTest(StudioBaseTestClass):
     """
     Test uploaded files.
     """
@@ -62,7 +61,7 @@ class UploadedFileTest(WebAppTest):
 
     def test_sort_files(self):
         """
-        Scenario: Lock the files
+        Scenario: Sort the files
         Given that I am on the 'Files & uploads" section of the course.
         And I sort the files.
         Then I should see files in sorted order.
