@@ -23,3 +23,9 @@ class DashboardPageExtended(DashboardPage):
                 vals.click()
                 return
         raise BrokenPromise('Course title not found')
+
+    def click_donate_button(self):
+        """
+        Clicks donate button on Dashboard
+        """
+        self.q(css='.action-donate').click()
