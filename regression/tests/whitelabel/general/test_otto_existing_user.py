@@ -3,11 +3,6 @@ Tests for existing users using Otto
 """
 import unittest
 
-from regression.pages.common.utils import (
-    get_target_url_from_text,
-    get_coupon_request,
-    get_enrollment_codes_from_email
-)
 from regression.pages.ecommerce.back_to_basket_page import BackToBasketPage
 from regression.pages.ecommerce.basket_page import SingleSeatBasketPage
 from regression.pages.ecommerce.cancel_checkout_page import CancelCheckoutPage
@@ -230,7 +225,6 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         self.assertTrue(self.course_about.is_group_purchase_button_present())
         # go to multi seat basket page
         self.course_about.go_to_multi_seat_basket_page()
-        ecommerce_cookies = self.multi_seat_basket.site_cookies
         # Verify course name, course price and total price on basket page
         self.verify_course_name_on_basket()
         self.verify_price_on_basket()
@@ -248,18 +242,16 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         # Verify on receipt page that information like course title, course
         # price, total price order date and billing to is displayed correctly
         self.verify_receipt_info()
-        email_text = self.mail_client.get_email_message(
+        enrollment_file_link = self.get_url_from_email(
             multi_seat_user_email,
-            "Order"
+            'Order',
+            'enrollment_code_csv'
         )
-        enrollment_file_link = get_target_url_from_text(
-            'enrollment_code_csv',
-            email_text
+        coupons = self.get_bulk_purchase_enrollment_codes(
+            multi_seat_user_email,
+            PASSWORD,
+            enrollment_file_link
         )
-        enrollment_codes = get_coupon_request(
-            enrollment_file_link, ecommerce_cookies
-        )
-        coupons = get_enrollment_codes_from_email(enrollment_codes)
         self.receipt.go_to_dashboard()
         self.assertFalse(self.dashboard.is_course_present(self.course_id))
         self.logout_user_from_lms()

@@ -5,10 +5,8 @@ import uuid
 
 from bok_choy.web_app_test import WebAppTest
 
-from regression.pages.common.utils import (
-    MailClient,
-    get_target_url_from_text
-)
+from regression.pages.common.email_client import MailClient
+from regression.pages.common.utils import get_target_url_from_text
 from regression.pages.whitelabel.activate_account import ActivateAccount
 from regression.pages.whitelabel.dashboard_page import DashboardPage
 from regression.pages.whitelabel.logistration_page import (
@@ -37,11 +35,11 @@ class UserAuthenticationMixin(WebAppTest):
         Setup for all common features
         """
         super(UserAuthenticationMixin, self).setUp()
+        self.mail_client = MailClient()
         # Initialize all page objects
         self.dashboard = DashboardPage(self.browser)
         self.login_page = LoginPage(self.browser)
         self.registration = RegistrationPage(self.browser)
-        self.mail_client = MailClient()
 
     def login_user(self, user_email):
         """
@@ -86,13 +84,13 @@ class UserAuthenticationMixin(WebAppTest):
         Fetch activation url from email, open the activation link in a new
         window, verify that account is activated
         """
-        email_text = self.mail_client.get_email_message(
-            self.user_email,
-            'Activate'
-        )
         main_window = self.browser.current_window_handle
         # Get activation link from email
-        activation_url = get_target_url_from_text('activate', email_text)
+        activation_url = self.get_url_from_email(
+            self.user_email,
+            'Activate',
+            'activate'
+        )
         # Open a new window and go to activation link in this window
         self.browser.execute_script("window.open('');")
         self.browser.switch_to.window(self.browser.window_handles[-1])
@@ -104,6 +102,24 @@ class UserAuthenticationMixin(WebAppTest):
         # Switch back to original window and refresh the page
         self.browser.switch_to.window(main_window)
         self.browser.refresh()
+
+    def get_url_from_email(self, user_email, email_subject, matching_string):
+        """
+        Connect to the email client
+        Get text of target email
+        fetch desired url from the email text
+        Args:
+            user_email:
+            email_subject:
+            matching_string:
+        Returns:
+            target url:
+        """
+        email_text = self.mail_client.get_email_message(
+            user_email,
+            email_subject
+        )
+        return get_target_url_from_text(matching_string, email_text)
 
     def logout_user_from_lms(self):
         """

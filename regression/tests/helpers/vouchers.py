@@ -4,6 +4,7 @@ Common functions for Vouchers
 from datetime import datetime
 import uuid
 
+from regression.pages.common.api_clients import EcommerceApiClient
 from regression.pages.ecommerce.basket_page import SingleSeatBasketPage
 from regression.pages.ecommerce.redeem_coupon_page import (
     RedeemCouponPage,
@@ -17,7 +18,6 @@ from regression.pages.ecommerce.coupon_const import (
     PERCENTAGE_BENEFIT_TYPE,
     STOCK_RECORD_IDS
 )
-from regression.pages.common.utils import EcommerceApiClient
 from regression.pages.whitelabel.home_page import HomePage
 from regression.pages.whitelabel.const import ORG
 
@@ -35,8 +35,8 @@ class VouchersMixin(CourseEnrollmentMixin):
         Setup Voucher Mixin
         """
         super(VouchersMixin, self).setUp()
-        # Initialize all objects
         self.ecommerce_api = EcommerceApiClient()
+        # Initialize all objects
         self.home = HomePage(self.browser)
         self.redeem_coupon_error_page = RedeemCouponErrorPage(self.browser)
         self.single_seat_basket = SingleSeatBasketPage(self.browser)
@@ -62,7 +62,8 @@ class VouchersMixin(CourseEnrollmentMixin):
             "voucher_type": voucher_type,
             "benefit_type": PERCENTAGE_BENEFIT_TYPE,
             "benefit_value": 100,
-            "category": {"id": 3, "name": "Affiliate Promotion"},
+            "category": 6,
+            "category_ids": [6],
             "start_datetime": DEFAULT_START_DATE,
             "end_datetime": DEFAULT_END_DATE,
             "client": "Test Client",
@@ -309,19 +310,6 @@ class VouchersMixin(CourseEnrollmentMixin):
         """
         self.delete_coupon_after_use()
 
-    @property
-    def coupon_codes(self):
-        """
-        Get coupon codes from coupon report
-        """
-        return self.ecommerce_api.get_coupon_codes(self.coupon_id)
-
-    def delete_coupon_after_use(self):
-        """
-        Delete coupon using api
-        """
-        self.ecommerce_api.delete_coupon(self.coupon_id)
-
     def remove_voucher_from_basket(self):
         """
         This function removes an already applied voucher from the basket
@@ -330,3 +318,17 @@ class VouchersMixin(CourseEnrollmentMixin):
             self.basket.visit()
         if self.single_seat_basket.is_voucher_applied():
             self.single_seat_basket.remove_applied_voucher()
+
+    @property
+    def coupon_codes(self):
+        """
+        Get coupon codes from coupon report
+        """
+
+        return self.ecommerce_api.get_coupon_codes(self.coupon_id)
+
+    def delete_coupon_after_use(self):
+        """
+        Delete coupon using api
+        """
+        self.ecommerce_api.delete_coupon(self.coupon_id)

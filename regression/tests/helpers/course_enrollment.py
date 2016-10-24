@@ -3,6 +3,11 @@ Common features related to course enrollment
 """
 import time
 import datetime
+
+from regression.pages.common.api_clients import (
+    LmsApiClient,
+    EnrollmentApiClient
+)
 from regression.pages.ecommerce.basket_page import (
     BasketPage,
     MultiSeatBasketPage
@@ -40,6 +45,8 @@ class CourseEnrollmentMixin(UserAuthenticationMixin):
         Setup for all common features
         """
         super(CourseEnrollmentMixin, self).setUp()
+        self.lms_api_client = LmsApiClient()
+        self.enrollment_api_client = EnrollmentApiClient()
         # Initialize all page objects
         self.basket = BasketPage(self.browser)
         self.cyber_source = CyberSourcePage(self.browser)
@@ -185,6 +192,24 @@ class CourseEnrollmentMixin(UserAuthenticationMixin):
                 time.sleep(WAIT_TIME)
                 self.dashboard.visit()
 
+    def get_bulk_purchase_enrollment_codes(
+                self,
+                user_email,
+                password,
+                file_url
+            ):
+        """
+        Get bulk purchase enrollment codes from email
+        Args:
+            user_email:
+            password:
+            file_url:
+        Returns:
+            dict containing enrollment codes and urls:
+        """
+        self.lms_api_client.get_login_session(user_email, password)
+        self.lms_api_client.get_coupon_request(file_url)
+
     def un_enroll(self):
         """
         This function un-enrolls a user from the course.
@@ -204,3 +229,25 @@ class CourseEnrollmentMixin(UserAuthenticationMixin):
             self.dashboard.visit()
         if self.dashboard.is_course_present(self.course_id):
             self.dashboard.unenroll_course(self.course_id)
+
+    def unenroll_using_api(self, user_name, course_id, user_email, password):
+        """
+        First check if user is enrolled in the course, if so unenroll
+        using api
+        Args:
+            user_email:
+            user_name:
+            password:
+            course_id:
+        """
+        # open a connection to enrollment api and check if user is enrolled in
+        # course
+        is_enrolled = self.enrollment_api_client.is_use_enrolled_in_the_course(
+            user_name,
+            course_id
+        )
+        # If user is enrolled proceed with unenrollment
+        if is_enrolled:
+            lms_api_client = LmsApiClient()
+            lms_api_client.get_login_session(user_email, password)
+            lms_api_client.change_enrollment(course_id, 'unenroll')

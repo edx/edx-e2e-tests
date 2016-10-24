@@ -3,8 +3,6 @@ User profile page
 """
 from bok_choy.page_object import PageObject
 
-from regression.pages.common.utils import remove_spaces_from_list_elements
-
 
 class ProfilePage(PageObject):
     """
@@ -49,9 +47,9 @@ class ProfilePage(PageObject):
             'editable-toggle.mode-edit',
             'wait for edit mode'
         )
-        countries_list_with_spaces = self.q(
-            css='select[id="u-field-select-country"] option').text
-        return remove_spaces_from_list_elements(countries_list_with_spaces)
+        return self.q(
+            css='select[id="u-field-select-country"] option'
+        ).text
 
     @property
     def selected_language(self):
@@ -81,7 +79,6 @@ class ProfilePage(PageObject):
             'editable-toggle.mode-edit',
             'wait for edit mode'
         )
-        languages_list_with_spaces = self.q(
+        return self.q(
             css='select[id="u-field-select-language_proficiencies"] option'
         ).text
-        return remove_spaces_from_list_elements(languages_list_with_spaces)

@@ -52,6 +52,8 @@ URL_WITH_AUTH = RAW_URL[ORG].format(BASIC_AUTH)
 
 ECOMMERCE_API_URL = ECOMMERCE_URL_WITHOUT_AUTH + 'api/v2/'
 
+ENROLLMENT_API_URL = URL_WITHOUT_AUTH + 'api/enrollment/v1'
+
 CYBERSOURCE_CHECKOUT_URL = \
     u'https://testsecureacceptance.cybersource.com/checkout'
 
@@ -180,7 +182,7 @@ STUDENT_USER_EMAIL = 'mit_smoke_test02@yopmail.com'
 VISUAL_USER_EMAIL = 'wl_visual_test01@yopmail.com'
 
 # Countries list
-COUNTRIES_WITH_SPACES = [
+COUNTRIES = [
     u'Afghanistan', u'\xc5land Islands', u'Albania', u'Algeria',
     u'American Samoa', u'Andorra', u'Angola',
     u'Anguilla', u'Antarctica', u'Antigua and Barbuda', u'Argentina',
@@ -261,9 +263,7 @@ COUNTRIES_WITH_SPACES = [
     u'Zambia', u'Zimbabwe'
 ]
 
-COUNTRIES = [x.replace(' ', '') for x in COUNTRIES_WITH_SPACES]
-
-LANGUAGES_WITH_SPACES = [
+LANGUAGES = [
     u'', u'Afar', u'Abkhazian', u'Afrikaans', u'Akan', u'Albanian',
     u'Amharic', u'Arabic', u'Aragonese',
     u'Armenian', u'Assamese', u'Avaric', u'Avestan', u'Aymara',
@@ -311,8 +311,6 @@ LANGUAGES_WITH_SPACES = [
     u'Volap\xfck', u'Welsh', u'Walloon', u'Wolof', u'Xhosa',
     u'Yiddish', u'Yoruba', u'Zhuang', u'Zulu'
 ]
-
-LANGUAGES = [x.replace(' ', '') for x in LANGUAGES_WITH_SPACES]
 
 # Default Threshold for visual difference
 DIFF_THRESHOLD = 5000

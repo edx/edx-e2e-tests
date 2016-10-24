@@ -136,27 +136,15 @@ class ReceiptPage(PageObject):
         Returns:
             billed_to_info:
         """
-        css_selectors = [
-            '.copy>p>.name-first',
-            '.copy>p>.name-last',
-            '.copy>p>.address-city',
-            '.copy>p>.address-state',
-            '.copy>p>.address-postalcode',
-            '.copy>p>.address-country'
-        ]
-        text_values = get_text_against_page_elements(self, css_selectors)
-        key_names = [
-            'first_name',
-            'last_name',
-            'city',
-            'state',
-            'postal_code',
-            'country'
-        ]
-        info = {}
-        for key, value in zip(key_names, text_values):
-            info[key] = value
-        return info
+        elements = {
+            'first_name': '.copy>p>.name-first',
+            'last_name': '.copy>p>.name-last',
+            'city': '.copy>p>.address-city',
+            'state': '.copy>p>.address-state',
+            'postal_code': '.copy>p>.address-postalcode',
+            'country': '.copy>p>.address-country'
+        }
+        return get_text_against_page_elements(self, elements)
 
     def go_to_dashboard(self):
         """

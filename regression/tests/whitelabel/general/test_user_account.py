@@ -3,7 +3,6 @@ Tests for new users using Otto
 """
 import uuid
 
-from regression.pages.common.utils import get_target_url_from_text
 from regression.pages.whitelabel.const import GMAIL_USER
 from regression.pages.whitelabel.home_page import HomePage
 from regression.pages.whitelabel.inactive_account import InactiveAccount
@@ -57,13 +56,10 @@ class TestUSerAccount(UserAuthenticationMixin):
         self.assertTrue(
             self.login_page.is_password_reset_email_message_visible()
         )
-        email_text = self.mail_client.get_email_message(
+        reset_password_url = self.get_url_from_email(
             reset_password_user_email,
-            'Password'
-        )
-        reset_password_url = get_target_url_from_text(
-            'password_reset_confirm',
-            email_text
+            'Password',
+            'password_reset_confirm'
         )
         self.reset_password = ResetPassword(self.browser, reset_password_url)
         self.reset_password.visit()

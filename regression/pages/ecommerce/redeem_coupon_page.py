@@ -2,13 +2,13 @@
 Redeem coupon page
 """
 from bok_choy.page_object import PageObject
+from opaque_keys.edx.keys import AssetKey
 
 from regression.pages.whitelabel.const import ECOMMERCE_URL_WITH_AUTH
 from regression.pages.common.utils import (
     extract_mmm_dd_yyyy_date_string_from_text,
     convert_date_format,
     extract_numerical_value_from_price_string,
-    get_course_key_from_asset,
     substring_from
 )
 
@@ -21,8 +21,8 @@ def get_course_ids_from_link(link):
     Returns:
         Course Ids
     """
-    opaque_asset_key = substring_from(link, 'asset-v1')
-    return get_course_key_from_asset(opaque_asset_key)
+    asset_string = substring_from(link, 'asset-v1')
+    return AssetKey.from_string(asset_string).course_key
 
 
 class RedeemCouponPage(PageObject):
