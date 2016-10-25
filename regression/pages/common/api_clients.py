@@ -82,7 +82,8 @@ class EcommerceApiClient(object):
             coupon_id:
         """
         response = self.ecommerce_api_client.products(coupon_id).get()
-        check_response(response)
+        if not response:
+            raise ApiException('No coupon report found')
         return response
 
     def delete_coupon(self, coupon_id):
@@ -105,7 +106,6 @@ class EcommerceApiClient(object):
         items = (
             self.get_coupon_report(coupon_id)['attribute_values'][0]['value']
         )
-        check_response(items)
         for item in items:
             coupon_codes.append(item['code'])
         return coupon_codes

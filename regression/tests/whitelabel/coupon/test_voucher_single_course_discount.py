@@ -85,7 +85,6 @@ class TestSingleCourseDiscount(VouchersMixin):
             self.login_and_go_to_basket(coupon_user)
             self.enroll_using_discount_code(coupon_code)
             self.assert_enrollment_and_logout()
-            self.logout_user_from_lms()
 
     def test_01_discount_single_use_percentage_code(self):
         """
@@ -109,7 +108,6 @@ class TestSingleCourseDiscount(VouchersMixin):
         )
         self.enroll_using_discount_code(coupon_code)
         self.assert_enrollment_and_logout()
-        self.logout_user_from_lms()
         self.login_and_go_to_basket(COUPON_USERS['coupon_user_02'])
         self.assertEqual(
             self.error_message_on_invalid_coupon_code(coupon_code),
@@ -302,7 +300,6 @@ class TestSingleCourseDiscount(VouchersMixin):
         self.redeem_single_course_discount_coupon(coupon_code, self.basket)
         self.use_discount_redeem_url()
         self.assert_enrollment_and_logout()
-        self.logout_user_from_lms()
         self.login_user(COUPON_USERS['coupon_user_01'])
         self.redeem_single_course_discount_coupon(
             coupon_code, self.redeem_coupon_error_page)
@@ -343,7 +340,6 @@ class TestSingleCourseDiscount(VouchersMixin):
                 )
                 self.use_discount_redeem_url()
                 self.assert_enrollment_and_logout()
-                self.logout_user_from_lms()
             else:
                 redeem_coupon = RedeemCouponPage(
                     self.browser, coupon_code).visit()
@@ -436,7 +432,6 @@ class TestSingleCourseDiscount(VouchersMixin):
         self.redeem_single_course_discount_coupon(coupon_code, self.basket)
         self.use_discount_redeem_url()
         self.assert_enrollment_and_logout()
-        self.logout_user_from_lms()
 
     def test_11_discount_once_per_customer_fixed_redeem_url_future(self):
         """

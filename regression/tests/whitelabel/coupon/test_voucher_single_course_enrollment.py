@@ -77,7 +77,6 @@ class TestSingleCourseEnrollment(VouchersMixin):
             self.login_and_go_to_basket(coupon_user)
             self.enroll_using_enrollment_code(coupon_code)
             self.assert_enrollment_and_logout()
-            self.logout_user_from_lms()
 
     def test_01_enrollment_once_per_customer_code_max_limit(self):
         """
@@ -106,7 +105,6 @@ class TestSingleCourseEnrollment(VouchersMixin):
                 )
                 self.enroll_using_enrollment_code(coupon_code)
                 self.assert_enrollment_and_logout()
-                self.logout_user_from_lms()
             else:
                 self.assertEqual(
                     self.error_message_on_invalid_coupon_code(coupon_code),
@@ -188,7 +186,6 @@ class TestSingleCourseEnrollment(VouchersMixin):
         self.login_and_go_to_basket(valid_domain_user)
         self.enroll_using_enrollment_code(coupon_code)
         self.assert_enrollment_and_logout()
-        self.logout_user_from_lms()
 
     def test_04_enrollment_single_use_code_future(self):
         """
@@ -231,7 +228,6 @@ class TestSingleCourseEnrollment(VouchersMixin):
             self.dashboard
         )
         self.assert_enrollment_and_logout()
-        self.logout_user_from_lms()
         self.login_user(COUPON_USERS['coupon_user_01'])
         self.addCleanup(
             self.unenroll_using_api,
@@ -280,7 +276,6 @@ class TestSingleCourseEnrollment(VouchersMixin):
                     self.dashboard
                 )
                 self.assert_enrollment_and_logout()
-                self.logout_user_from_lms()
             else:
                 redeem_coupon = RedeemCouponPage(
                     self.browser,
@@ -341,7 +336,6 @@ class TestSingleCourseEnrollment(VouchersMixin):
             self.dashboard
         )
         self.assert_enrollment_and_logout()
-        self.logout_user_from_lms()
 
     def test_08_enrollment_once_per_customer_redeem_url_expired(self):
         """
