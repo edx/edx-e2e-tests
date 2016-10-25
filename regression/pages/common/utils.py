@@ -7,10 +7,6 @@ import re
 import datetime
 
 
-class InvalidState(Exception):
-    pass
-
-
 def get_target_url_from_text(url_matching_string, text_chunk):
     """
     Search and return the target url from text chunk, the url is searched
@@ -99,23 +95,14 @@ def click_checkbox(page, css_selector):
     page.wait_for_element_visibility(css_selector, 'wait for target checkbox')
     page_elem = page.q(css=css_selector).results[0]
     page.wait_for(
-            lambda: not page_elem.is_selected(),
-            'Target checkbox is not selected'
+        lambda: not page_elem.is_selected(),
+        'Target checkbox is not selected'
         )
     page.browser.execute_script("arguments[0].click();", page_elem)
     page.wait_for(
         lambda: page_elem.is_selected(),
         'Target checkbox is selected'
     )
-
-
-def remove_spaces_from_list_elements(list_with_spaces):
-    """
-    A helper function to remove spaces from all items in the list
-    Args:
-      list_with_spaces:
-    """
-    return [x.replace(' ', '') for x in list_with_spaces]
 
 
 def get_text_from_page_elements(page, elements):

@@ -25,11 +25,6 @@ class ActivateAccount(PageObject):
         return self.activate_account_url
 
     def is_browser_on_page(self):
-        """
-        Is browser on the page?
-        Returns:
-            True if message element is present:
-        """
         return self.q(css='.message>.valid').present
 
     def is_account_activation_complete(self):

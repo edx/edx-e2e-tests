@@ -12,13 +12,9 @@ class ProfilePage(PageObject):
     url = None
 
     def is_browser_on_page(self):
-        """
-        Is browser on the page?
-        Returns:
-            True if profile section is present
-        """
         return self.q(
-            css=".wrapper-profile-sections.account-settings-container").present
+            css=".wrapper-profile-sections.account-settings-container"
+        ).present
 
     @property
     def selected_country(self):
@@ -47,9 +43,13 @@ class ProfilePage(PageObject):
             'editable-toggle.mode-edit',
             'wait for edit mode'
         )
-        return self.q(
+        countries_list = self.q(
             css='select[id="u-field-select-country"] option'
         ).text
+        if 'Falkland Islands  [Malvinas]' in countries_list:
+            i = countries_list.index('Falkland Islands  [Malvinas]')
+            countries_list[i] = 'Falkland Islands [Malvinas]'
+        return countries_list
 
     @property
     def selected_language(self):

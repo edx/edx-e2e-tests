@@ -76,9 +76,9 @@ STOCK_RECORD_IDS = {'MITProfessionalX': [4230], 'HarvardXPLUS': [4493]}
 # Coupon users
 
 COUPON_USERS = {
-    'coupon_user_01': 'wl_coupon_user01@yopmail.com',
-    'coupon_user_02': 'wl_coupon_user02@yopmail.com',
-    'coupon_user_03': 'wl_coupon_user03@yopmail.com'
+    'coupon_user_01': 'wl_coupon_user01@example.com',
+    'coupon_user_02': 'wl_coupon_user02@example.com',
+    'coupon_user_03': 'wl_coupon_user03@example.com'
 }
 
 VALID_DOMAIN_USERS = {

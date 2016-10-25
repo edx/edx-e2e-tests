@@ -3,7 +3,7 @@ Tests for new users using Otto
 """
 import uuid
 
-from regression.pages.whitelabel.const import GMAIL_USER
+from regression.pages.whitelabel.const import TEST_EMAIL_ACCOUNT
 from regression.pages.whitelabel.home_page import HomePage
 from regression.pages.whitelabel.inactive_account import InactiveAccount
 from regression.pages.whitelabel.reset_password_page import (
@@ -27,6 +27,7 @@ class TestUSerAccount(UserAuthenticationMixin):
         super(TestUSerAccount, self).setUp()
         self.home = HomePage(self.browser)
         self.inactive_account = InactiveAccount(self.browser)
+        self.reset_password_complete = ResetPasswordComplete(self.browser)
 
     def test_00_activate_account_and_reset_password(self):
         """
@@ -48,7 +49,7 @@ class TestUSerAccount(UserAuthenticationMixin):
         """
         Scenario: A user is able to reset the password
         """
-        reset_password_user_email = GMAIL_USER.format("+passwordreset")
+        reset_password_user_email = TEST_EMAIL_ACCOUNT.format("+passwordreset")
         new_password = str(uuid.uuid4().node)
         # Got to login page and use the forgot password functionality
         self.login_page.visit()
@@ -61,10 +62,9 @@ class TestUSerAccount(UserAuthenticationMixin):
             'Password',
             'password_reset_confirm'
         )
-        self.reset_password = ResetPassword(self.browser, reset_password_url)
-        self.reset_password.visit()
-        self.reset_password.reset_password(new_password)
-        self.reset_password_complete = ResetPasswordComplete(self.browser)
+        reset_password = ResetPassword(self.browser, reset_password_url)
+        reset_password.visit()
+        reset_password.reset_password(new_password)
         self.reset_password_complete.go_to_login_page()
         self.login_page.authenticate_user(
             reset_password_user_email,

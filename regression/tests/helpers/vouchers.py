@@ -302,7 +302,7 @@ class VouchersMixin(CourseEnrollmentMixin):
                     self.cyber_source.is_browser_on_page():
                 self.remove_voucher_from_basket()
             else:
-                self.un_enroll_student_from_course()
+                self.unenroll_using_ui()
 
     def run_partial_cleanup(self):
         """

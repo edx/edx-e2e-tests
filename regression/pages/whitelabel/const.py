@@ -3,7 +3,6 @@
 List of constants to be used throughout the tests
 """
 import os
-import uuid
 
 # Get HTTP Authentication credentials from environment variables
 AUTH_USERNAME = os.environ['BASIC_AUTH_USER']
@@ -16,10 +15,11 @@ ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
 # Select the Org for which to run the tests, Default is MITProfessionalX
 ORG = os.getenv('ORG', 'MITProfessionalX')
 
-# GMAIL account
-GMAIL_USER = os.environ['GMAIL_USER']
-DEFAULT_GMAIL_USER = GMAIL_USER.format("")
-GMAIL_PASSWORD = os.environ['GMAIL_PASSWORD']
+# TEST EMAIL account
+TEST_EMAIL_SERVICE = os.environ['TEST_EMAIL_SERVICE']
+TEST_EMAIL_ACCOUNT = os.environ['TEST_EMAIL_ACCOUNT']
+DEFAULT_TEST_EMAIL_ACCOUNT = TEST_EMAIL_ACCOUNT.format("")
+TEST_EMAIL_PASSWORD = os.environ['TEST_EMAIL_PASSWORD']
 
 # Global password
 PASSWORD = os.environ['GLOBAL_PASSWORD']
@@ -30,12 +30,16 @@ BASIC_AUTH = AUTH_USERNAME + ":" + AUTH_PASSWORD + "@"
 ##############################################################################
 # E-commerce raw url
 RAW_ECOMMERCE_URL = {
+    'HarvardMedGlobalAcademy':
+        u'https://{}payments.globalacademy-stage.hms.harvard.edu/',
     'HarvardXPLUS': u'https://{}stage-payments.harvardxplus.harvard.edu/',
     'MITProfessionalX': u'https://{}payments.mitprofessionalx-stage.mit.edu/'
 }
 
 # BASIC raw URL
 RAW_URL = {
+    'HarvardMedGlobalAcademy':
+        u'https://{}globalacademy-stage.hms.harvard.edu/',
     'HarvardXPLUS': u'https://{}stage-courses.harvardxplus.harvard.edu/',
     'MITProfessionalX': u'https://{}mitprofessionalx-stage.mit.edu/'
 }
@@ -57,37 +61,44 @@ ENROLLMENT_API_URL = URL_WITHOUT_AUTH + 'api/enrollment/v1'
 CYBERSOURCE_CHECKOUT_URL = \
     u'https://testsecureacceptance.cybersource.com/checkout'
 
-PROF_COURSE_ID = {
-    'HarvardXPLUS': u'course-v1:HarvardXPLUS+MCB63xPLUS+3T2016',
-    'MITProfessionalX': u'course-v1:MITProfessionalX+IOTx+2016_T1'
-}
+PROF_COURSE_ID = u'course-v1:{}+RT01+2016'.format(ORG)
 
-PROF_COURSE_TITLE = {
-    'HarvardXPLUS': u'Principles of Biochemistry',
-    'MITProfessionalX': u'Internet of Things: Roadmap to a Connected World'
-}
 
-PROF_COURSE_PRICE = {
-    'HarvardXPLUS': 295.0,
-    'MITProfessionalX': 100.0
-}
+PROF_COURSE_TITLE = u'Regression Test'
 
-EMAIL_SENDER_ACCOUNT = {
+PROF_COURSE_PRICE = 150.0
+
+EMAIL_SENDER_ACCOUNTS = {
+    'HarvardMedGlobalAcademy': 'hmsga-support@edx.org',
     'HarvardXPLUS': 'hxplus-support@edx.org',
-    'MITProfessionalX': 'mitprofessionalx@mit.edu'
+    'MITProfessionalX': 'mitprofessionalx@mit.edu',
 }
 
-LOGO_LINK = {
+EMAIL_SENDER_ACCOUNT = EMAIL_SENDER_ACCOUNTS[ORG]
+
+LOGO_LINKS = {
+    'HarvardMedGlobalAcademy': 'hms-logo',
     'HarvardXPLUS': 'harvardX-logo',
-    'MITProfessionalX': 'mit-prof-logo',
+    'MITProfessionalX': 'mit-prof-logo'
 }
 
-LOGO_ALT_TEXT = {
+LOGO_LINK = LOGO_LINKS[ORG]
+
+LOGO_ALT_TEXTS = {
+    'HarvardMedGlobalAcademy': 'HMS Logo',
     'HarvardXPLUS': 'HarvardX Logo',
-    'MITProfessionalX': 'MIT Logo',
+    'MITProfessionalX': 'MIT Logo'
 }
 
-SOCIAL_MEDIA_LINK = {
+LOGO_ALT_TEXT = LOGO_ALT_TEXTS[ORG]
+
+SOCIAL_MEDIA_LINKS = {
+    'HarvardMedGlobalAcademy': [
+        'https://www.facebook.com/HarvardMed',
+        'https://twitter.com/harvardmed',
+        'https://www.linkedin.com/edu/harvard-medical-school-18482',
+        'https://instagram.com/harvardmed/?hl=en'
+    ],
     'HarvardXPLUS': [
         'https://www.facebook.com/HarvardX-187429968296722/',
         'https://twitter.com/harvardonline'
@@ -97,34 +108,39 @@ SOCIAL_MEDIA_LINK = {
         'https://twitter.com/mitprofessional',
         'https://www.linkedin.com/groups/73833/profile',
         'https://www.youtube.com/user/MITProfessionalEd'
-    ],
+    ]
 }
 
+SOCIAL_MEDIA_LINK = SOCIAL_MEDIA_LINKS[ORG]
+
 COUPON_COURSES = {
+    'HarvardMedGlobalAcademy': {
+        'course-v1:HarvardMedGlobalAcademy+HMGA01+2016': 100.0,
+        'course-v1:HarvardMedGlobalAcademy+HMGA02+2016': 100.0,
+        'course-v1:HarvardMedGlobalAcademy+HMGA03+2016': 200.0,
+        'course-v1:HarvardMedGlobalAcademy+HMGA04+2016': 200.0,
+        'course-v1:HarvardMedGlobalAcademy+HMGA05+2016': 300.0,
+        'course-v1:HarvardMedGlobalAcademy+HMGA06+2016': 300.0
+    },
     'HarvardXPLUS': {
-        'course-v1:HarvardXPLUS+PHCT01+2016': 100,
-        'course-v1:HarvardXPLUS+PHCT02+2016': 200,
-        'course-v1:HarvardXPLUS+PHCT03+2016': 300,
-        'course-v1:HarvardXPLUS+PHCT04+2016': 400,
-        'course-v1:HarvardXPLUS+PHCT05+2016': 500,
-        'course-v1:HarvardXPLUS+PHCT06+2016': 600
+        'course-v1:MITProfessionalX+MITPX01+2016': 100.0,
+        'course-v1:MITProfessionalX+MITPX02+2016': 100.0,
+        'course-v1:MITProfessionalX+MITPX03+2016': 200.0,
+        'course-v1:MITProfessionalX+MITPX04+2016': 200.0,
+        'course-v1:MITProfessionalX+MITPX05+2016': 300.0,
+        'course-v1:MITProfessionalX+MITPX06+2016': 300.0,
     },
     'MITProfessionalX': {
-        'course-v1:MITProfessionalX+PMCT01+2016': 100,
-        'course-v1:MITProfessionalX+PMCT02+2017': 200,
-        'course-v1:MITProfessionalX+PMCT03+2018': 300,
-        'course-v1:MITProfessionalX+PMCT04+2016': 400,
-        'course-v1:MITProfessionalX+PMCT05+2017': 500,
-        'course-v1:MITProfessionalX+PMCT06+2016': 600
+        'course-v1:HarvardXPLUS+HXP01+2016 ': 100.0,
+        'course-v1:HarvardXPLUS+HXP02+2016 ': 100.0,
+        'course-v1:HarvardXPLUS+HXP03+2016 ': 200.0,
+        'course-v1:HarvardXPLUS+HXP04+2016 ': 200.0,
+        'course-v1:HarvardXPLUS+HXP05+2016 ': 300.0,
+        'course-v1:HarvardXPLUS+HXP06+2016 ': 300.0
     }
 }
 
 ##############################################################################
-
-# COURSE DETAILS
-HONOR_COURSE_ID = u'course-v1:MITProfessionalX+XM101+2016'
-HONOR_COURSE_TITLE = u'X-men Series'
-HONOR_COURSE_PRICE = 450
 
 # REGISTRATION INFORMATION
 REG_INFO = {
@@ -165,21 +181,15 @@ PAYMENT_DETAILS = {
 INITIAL_STAGE = 'Review'
 FINAL_STAGE = 'Confirmation'
 
-# Single seat user credentials
-STUDENT_USERNAME = 'ST' + str(uuid.uuid4().node)
-STUDENT_EMAIL = STUDENT_USERNAME + '@guerrillamailblock.com'
 
 # Existing user email
-EXISTING_USER_EMAIL = 'wl_smoke_user01@yopmail.com'
+EXISTING_USER_EMAIL = 'wl_smoke_user01@example.com'
 
 # Staff user email
 STAFF_EMAIL = os.environ['STAFF_USER_EMAIL']
 
 # Student user email
-STUDENT_USER_EMAIL = 'mit_smoke_test02@yopmail.com'
-
-# Student user email
-VISUAL_USER_EMAIL = 'wl_visual_test01@yopmail.com'
+VISUAL_USER_EMAIL = 'wl_visual_test01@example.com'
 
 # Countries list
 COUNTRIES = [
@@ -223,7 +233,7 @@ COUNTRIES = [
     u'Malawi', u'Malaysia', u'Maldives',
     u'Mali', u'Malta', u'Marshall Islands', u'Martinique', u'Mauritania',
     u'Mauritius', u'Mayotte', u'Mexico',
-    u'Micronesia (Federated States of)', u'Moldovia', u'Monaco', u'Mongolia',
+    u'Micronesia (Federated States of)', u'Moldova', u'Monaco', u'Mongolia',
     u'Montenegro', u'Montserrat',
     u'Morocco', u'Mozambique', u'Myanmar', u'Namibia', u'Nauru', u'Nepal',
     u'Netherlands', u'New Caledonia',
@@ -254,7 +264,7 @@ COUNTRIES = [
     u'Turkmenistan',
     u'Turks and Caicos Islands', u'Tuvalu', u'Uganda', u'Ukraine',
     u'United Arab Emirates',
-    u'United Kingdom of Great Britain and Northern Ireland',
+    u'United Kingdom',
     u'United States Minor Outlying Islands',
     u'United States of America', u'Uruguay', u'Uzbekistan', u'Vanuatu',
     u'Venezuela', u'Vietnam',

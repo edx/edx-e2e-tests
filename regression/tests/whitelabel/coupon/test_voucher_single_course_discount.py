@@ -4,7 +4,6 @@ Single course Discount coupons tests
 import random
 from itertools import izip
 
-from regression.pages.common.utils import skip_cleanup_if_test_passed
 from regression.pages.ecommerce.coupon_const import (
     ABSOLUTE_BENEFIT_TYPE,
     COUPON_USERS,
@@ -34,7 +33,6 @@ from regression.pages.ecommerce.coupon_const import (
 )
 from regression.pages.ecommerce.redeem_coupon_page import RedeemCouponPage
 from regression.pages.whitelabel.const import (
-    ORG,
     PROF_COURSE_ID,
     PROF_COURSE_TITLE,
     PROF_COURSE_PRICE
@@ -54,14 +52,13 @@ class TestSingleCourseDiscount(VouchersMixin):
         """
         super(TestSingleCourseDiscount, self).setUp()
         # Initialize all page objects
-        self.course_about = CourseAboutPage(self.browser, PROF_COURSE_ID[ORG])
+        self.course_about = CourseAboutPage(self.browser, PROF_COURSE_ID)
         # Initialize common variables
-        self.course_id = PROF_COURSE_ID[ORG]
-        self.course_price = PROF_COURSE_PRICE[ORG]
-        self.course_title = PROF_COURSE_TITLE[ORG]
-        self.total_price = PROF_COURSE_PRICE[ORG]
+        self.course_id = PROF_COURSE_ID
+        self.course_price = PROF_COURSE_PRICE
+        self.course_title = PROF_COURSE_TITLE
+        self.total_price = PROF_COURSE_PRICE
 
-    @skip_cleanup_if_test_passed()
     def test_00_discount_single_use_fixed_code(self):
         """
         Scenario: Discount Single Use Fixed Code: Each code can be used by one
@@ -71,7 +68,7 @@ class TestSingleCourseDiscount(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             DISCOUNT_COUPON_TYPE,
             SINGLE_USE_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             benefit_type=ABSOLUTE_BENEFIT_TYPE,
             benefit_value=DEFAULT_FIXED_BENEFIT_VALUE,
             quantity=3
@@ -79,14 +76,17 @@ class TestSingleCourseDiscount(VouchersMixin):
         coupon_codes = self.setup_coupons_using_ui(coupon)
         coupon_users = list(COUPON_USERS.values())
         # Login to application using the existing credentials
-        self.addCleanup(self.run_full_cleanup)
         for coupon_user, coupon_code in izip(coupon_users, coupon_codes):
+            self.addCleanup(
+                self.unenroll_using_api,
+                coupon_user,
+                self.course_id
+            )
             self.login_and_go_to_basket(coupon_user)
             self.enroll_using_discount_code(coupon_code)
-            self.assert_enrollment_and_un_enroll()
+            self.assert_enrollment_and_logout()
             self.logout_user_from_lms()
 
-    @skip_cleanup_if_test_passed()
     def test_01_discount_single_use_percentage_code(self):
         """
         Scenario: Discount Single Use Percentage Code: Code cannot be reused
@@ -95,16 +95,20 @@ class TestSingleCourseDiscount(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             DISCOUNT_COUPON_TYPE,
             SINGLE_USE_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             benefit_type=PERCENTAGE_BENEFIT_TYPE,
             benefit_value=DEFAULT_PERCENTAGE_BENEFIT_VALUE
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
         # Login to application using the existing credentials
-        self.addCleanup(self.run_full_cleanup)
         self.login_and_go_to_basket(COUPON_USERS['coupon_user_01'])
+        self.addCleanup(
+            self.unenroll_using_api,
+            COUPON_USERS['coupon_user_01'],
+            self.course_id
+        )
         self.enroll_using_discount_code(coupon_code)
-        self.assert_enrollment_and_un_enroll()
+        self.assert_enrollment_and_logout()
         self.logout_user_from_lms()
         self.login_and_go_to_basket(COUPON_USERS['coupon_user_02'])
         self.assertEqual(
@@ -112,7 +116,6 @@ class TestSingleCourseDiscount(VouchersMixin):
             SINGLE_USE_CODE_REUSE_ERROR.format(coupon_code)
         )
 
-    @skip_cleanup_if_test_passed()
     def test_02_discount_once_per_customer_fixed_code(self):
         """
         Scenario: Discount Once Per Customer Fixed Code: Code can be used up
@@ -122,7 +125,7 @@ class TestSingleCourseDiscount(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             DISCOUNT_COUPON_TYPE,
             ONCE_PER_CUSTOMER_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             benefit_type=ABSOLUTE_BENEFIT_TYPE,
             benefit_value=DEFAULT_FIXED_BENEFIT_VALUE,
             max_uses=2
@@ -131,20 +134,22 @@ class TestSingleCourseDiscount(VouchersMixin):
         # Login to application using the existing credentials
         coupon_users = list(COUPON_USERS.values())
         last_user = len(coupon_users) - 1
-        self.addCleanup(self.run_full_cleanup)
         for i, coupon_user in enumerate(coupon_users):
             self.login_and_go_to_basket(coupon_user)
             if i != last_user:
+                self.addCleanup(
+                    self.unenroll_using_api,
+                    coupon_user,
+                    self.course_id
+                )
                 self.enroll_using_discount_code(coupon_code)
-                self.assert_enrollment_and_un_enroll()
-                self.logout_user_from_lms()
+                self.assert_enrollment_and_logout()
             else:
                 self.assertEqual(
                     self.error_message_on_invalid_coupon_code(coupon_code),
                     ONCE_PER_CUSTOMER_CODE_MAX_LIMIT
                 )
 
-    @skip_cleanup_if_test_passed()
     def test_03_discount_once_per_customer_percentage_code(self):
         """
         Scenario: Discount Once Per Customer Percentage Code: A code cannot
@@ -154,16 +159,20 @@ class TestSingleCourseDiscount(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             DISCOUNT_COUPON_TYPE,
             ONCE_PER_CUSTOMER_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             benefit_type=PERCENTAGE_BENEFIT_TYPE,
             benefit_value=DEFAULT_PERCENTAGE_BENEFIT_VALUE
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
-        self.addCleanup(self.run_full_cleanup)
         # Login to application using the existing credentials
         self.login_and_go_to_basket(COUPON_USERS['coupon_user_01'])
+        self.addCleanup(
+            self.unenroll_using_api,
+            COUPON_USERS['coupon_user_01'],
+            self.course_id
+        )
         self.enroll_using_discount_code(coupon_code)
-        self.assert_enrollment_and_un_enroll()
+        self.assert_enrollment_and_logout()
         self.dashboard.go_to_find_courses_page()
         # find the target course and click on it to go to about page
         self.find_courses.go_to_course_about_page(self.course_about)
@@ -176,7 +185,6 @@ class TestSingleCourseDiscount(VouchersMixin):
             ONCE_PER_CUSTOMER_CODE_SAME_USER_REUSE.format(coupon_code)
         )
 
-    @skip_cleanup_if_test_passed()
     def test_04_discount_once_per_customer_fixed_code_email_domain(self):
         """
         Scenario: Discount Once Per Customer Fixed Code: Code can be used only
@@ -186,7 +194,7 @@ class TestSingleCourseDiscount(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             DISCOUNT_COUPON_TYPE,
             ONCE_PER_CUSTOMER_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             benefit_type=ABSOLUTE_BENEFIT_TYPE,
             benefit_value=DEFAULT_FIXED_BENEFIT_VALUE,
             email_domains=VALID_EMAIL_DOMAINS,
@@ -196,7 +204,6 @@ class TestSingleCourseDiscount(VouchersMixin):
         # Login to application using the existing credentials
         valid_domain_users = list(VALID_DOMAIN_USERS.values())
         invalid_domain_users = list(INVALID_DOMAIN_USERS.values())
-        self.addCleanup(self.run_full_cleanup)
         # Verify that coupon code cannot be added for unauthorized email domain
         # In each test we are selecting a random user from the invalid domain
         # list to bring down the test run time. Since multiple tests will be
@@ -215,10 +222,14 @@ class TestSingleCourseDiscount(VouchersMixin):
         # running for domain checks, use of random user in all of these will
         # pretty much cover most of the possibilities
         valid_domain_user = random.choice(valid_domain_users)
+        self.addCleanup(
+            self.unenroll_using_api,
+            valid_domain_user,
+            self.course_id
+        )
         self.login_and_go_to_basket(valid_domain_user)
         self.enroll_using_discount_code(coupon_code)
-        self.assert_enrollment_and_un_enroll()
-        self.logout_user_from_lms()
+        self.assert_enrollment_and_logout()
 
     def test_05_discount_single_use_fixed_code_expired(self):
         """
@@ -230,7 +241,7 @@ class TestSingleCourseDiscount(VouchersMixin):
             DISCOUNT_COUPON_TYPE,
             SINGLE_USE_VOUCHER_TYPE,
             end_datetime=EXPIRED_END_DATE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             benefit_type=ABSOLUTE_BENEFIT_TYPE,
             benefit_value=DEFAULT_FIXED_BENEFIT_VALUE
         )
@@ -242,7 +253,6 @@ class TestSingleCourseDiscount(VouchersMixin):
             EXPIRED_CODE_ERROR.format(coupon_code)
         )
 
-    @skip_cleanup_if_test_passed()
     def test_06_discount_single_use_fixed_redeem_url(self):
         """
         Scenario: Existing Users - Discount Single Use Fixed Redeem URL: Each
@@ -252,7 +262,7 @@ class TestSingleCourseDiscount(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             DISCOUNT_COUPON_TYPE,
             SINGLE_USE_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             benefit_type=ABSOLUTE_BENEFIT_TYPE,
             benefit_value=DEFAULT_FIXED_BENEFIT_VALUE,
             quantity=3
@@ -260,13 +270,16 @@ class TestSingleCourseDiscount(VouchersMixin):
         coupon_codes = self.setup_coupons_using_api(coupon)
         # Login to application using the existing credentials
         coupon_users = list(COUPON_USERS.values())
-        self.addCleanup(self.run_full_cleanup)
         for coupon_user, coupon_code in izip(coupon_users, coupon_codes):
+            self.addCleanup(
+                self.unenroll_using_api,
+                coupon_user,
+                self.course_id
+            )
             self.login_user(coupon_user)
             self.redeem_single_course_discount_coupon(coupon_code, self.basket)
             self.use_discount_redeem_url()
-            self.assert_enrollment_and_un_enroll()
-            self.logout_user_from_lms()
+            self.assert_enrollment_and_logout()
 
     def test_07_discount_single_use_percentage_redeem_url(self):
         """
@@ -277,19 +290,18 @@ class TestSingleCourseDiscount(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             DISCOUNT_COUPON_TYPE,
             SINGLE_USE_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             benefit_type=PERCENTAGE_BENEFIT_TYPE,
             benefit_value=DEFAULT_PERCENTAGE_BENEFIT_VALUE
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
-        self.addCleanup(self.run_partial_cleanup)
         self.home.visit()
         self.home.go_to_registration_page()
         self.register_user(self.dashboard)
         self.activate_new_user()
         self.redeem_single_course_discount_coupon(coupon_code, self.basket)
         self.use_discount_redeem_url()
-        self.assert_enrollment_and_un_enroll()
+        self.assert_enrollment_and_logout()
         self.logout_user_from_lms()
         self.login_user(COUPON_USERS['coupon_user_01'])
         self.redeem_single_course_discount_coupon(
@@ -299,7 +311,6 @@ class TestSingleCourseDiscount(VouchersMixin):
             SINGLE_USE_REDEEM_URL_REUSE_ERROR
         )
 
-    @skip_cleanup_if_test_passed()
     def test_08_discount_once_per_customer_fixed_redeem_url(self):
         """
         Scenario: Discount Once Per Customer Fixed Redeem URL: Each URL can
@@ -309,7 +320,7 @@ class TestSingleCourseDiscount(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             DISCOUNT_COUPON_TYPE,
             ONCE_PER_CUSTOMER_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             benefit_type=ABSOLUTE_BENEFIT_TYPE,
             benefit_value=DEFAULT_FIXED_BENEFIT_VALUE,
             max_uses=2
@@ -317,17 +328,21 @@ class TestSingleCourseDiscount(VouchersMixin):
         coupon_code = self.setup_coupons_using_api(coupon)[0]
         coupon_users = list(COUPON_USERS.values())
         last_user = len(coupon_users) - 1
-        self.addCleanup(self.run_full_cleanup)
         for i, coupon_user in enumerate(coupon_users):
             # Login to course and use coupon
             self.login_user(coupon_user)
             if i != last_user:
+                self.addCleanup(
+                    self.unenroll_using_api,
+                    coupon_user,
+                    self.course_id
+                )
                 self.redeem_single_course_discount_coupon(
                     coupon_code,
                     self.basket
                 )
                 self.use_discount_redeem_url()
-                self.assert_enrollment_and_un_enroll()
+                self.assert_enrollment_and_logout()
                 self.logout_user_from_lms()
             else:
                 redeem_coupon = RedeemCouponPage(
@@ -346,12 +361,11 @@ class TestSingleCourseDiscount(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             DISCOUNT_COUPON_TYPE,
             ONCE_PER_CUSTOMER_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             benefit_type=PERCENTAGE_BENEFIT_TYPE,
             benefit_value=DEFAULT_PERCENTAGE_BENEFIT_VALUE
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
-        self.addCleanup(self.run_partial_cleanup)
         self.home.visit()
         self.redeem_single_course_discount_coupon(coupon_code, self.login_page)
         self.login_page.toggle_to_registration_page()
@@ -366,14 +380,13 @@ class TestSingleCourseDiscount(VouchersMixin):
         self.account_activation()
         self.verify_info_is_populated_on_basket()
         self.use_discount_redeem_url()
-        self.assert_enrollment_and_un_enroll()
+        self.assert_enrollment_and_logout()
         redeem_coupon = RedeemCouponPage(self.browser, coupon_code).visit()
         self.assertEqual(
             redeem_coupon.error_message,
             ONCE_PER_CUSTOMER_REDEEM_URL_SAME_USER_REUSE
         )
 
-    @skip_cleanup_if_test_passed()
     def test_10_discount_once_per_customer_percentage_redeem_url_email(self):
         """
         Scenario: Discount Once Per Customer Fixed Code: Code can be used only
@@ -383,7 +396,7 @@ class TestSingleCourseDiscount(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             DISCOUNT_COUPON_TYPE,
             ONCE_PER_CUSTOMER_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             benefit_type=PERCENTAGE_BENEFIT_TYPE,
             benefit_value=DEFAULT_PERCENTAGE_BENEFIT_VALUE,
             email_domains=VALID_EMAIL_DOMAINS,
@@ -392,7 +405,6 @@ class TestSingleCourseDiscount(VouchersMixin):
         coupon_code = self.setup_coupons_using_api(coupon)[0]
         valid_domain_users = list(VALID_DOMAIN_USERS.values())
         invalid_domain_users = list(INVALID_DOMAIN_USERS.values())
-        self.addCleanup(self.run_full_cleanup)
         # Verify that coupon url cannot be used for unauthorized email domain
         # In each test we are selecting a random user from the invalid domain
         # list to bring down the test run time. Since multiple tests will be
@@ -416,9 +428,14 @@ class TestSingleCourseDiscount(VouchersMixin):
         # pretty much cover most of the possibilities
         valid_domain_user = random.choice(valid_domain_users)
         self.login_user(valid_domain_user)
+        self.addCleanup(
+            self.unenroll_using_api,
+            valid_domain_user,
+            self.course_id
+        )
         self.redeem_single_course_discount_coupon(coupon_code, self.basket)
         self.use_discount_redeem_url()
-        self.assert_enrollment_and_un_enroll()
+        self.assert_enrollment_and_logout()
         self.logout_user_from_lms()
 
     def test_11_discount_once_per_customer_fixed_redeem_url_future(self):
@@ -431,13 +448,17 @@ class TestSingleCourseDiscount(VouchersMixin):
             DISCOUNT_COUPON_TYPE,
             ONCE_PER_CUSTOMER_VOUCHER_TYPE,
             start_datetime=FUTURE_START_DATE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             benefit_type=ABSOLUTE_BENEFIT_TYPE,
             benefit_value=DEFAULT_FIXED_BENEFIT_VALUE,
             max_uses=2
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
-        self.addCleanup(self.run_partial_cleanup)
         self.login_user(COUPON_USERS['coupon_user_01'])
+        self.addCleanup(
+            self.unenroll_using_api,
+            COUPON_USERS['coupon_user_01'],
+            self.course_id
+        )
         redeem_coupon = RedeemCouponPage(self.browser, coupon_code).visit()
         self.assertEqual(redeem_coupon.error_message, FUTURE_REDEEM_URL_ERROR)

@@ -8,7 +8,7 @@ from bok_choy.page_object import PageObject
 from regression.pages.common.utils import (
     convert_date_format,
     extract_numerical_value_from_price_string,
-    get_text_against_page_elements
+    get_text_from_page_elements
 )
 from regression.pages.whitelabel.const import (
     TIME_OUT_LIMIT,
@@ -144,7 +144,7 @@ class ReceiptPage(PageObject):
             'postal_code': '.copy>p>.address-postalcode',
             'country': '.copy>p>.address-country'
         }
-        return get_text_against_page_elements(self, elements)
+        return get_text_from_page_elements(self, elements)
 
     def go_to_dashboard(self):
         """

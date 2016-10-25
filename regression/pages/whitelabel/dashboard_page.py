@@ -33,8 +33,9 @@ class DashboardPage(PageObject):
         """
         course_number = CourseKey.from_string(course_id).course
         return self.q(
-            css='#actions-dropdown-link-0[data-course-number="' +
-            course_number + '"]'
+            css='#actions-dropdown-link-0[data-course-number="{}"]'.format(
+                course_number
+            )
         ).present
 
     def check_activation_message(self):

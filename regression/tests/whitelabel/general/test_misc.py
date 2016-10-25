@@ -7,7 +7,6 @@ from regression.pages.whitelabel.const import (
     LANGUAGES,
     LOGO_LINK,
     LOGO_ALT_TEXT,
-    ORG,
     SOCIAL_MEDIA_LINK
 )
 from regression.pages.whitelabel.home_page import HomePage
@@ -36,7 +35,7 @@ class TestMisc(UserAuthenticationMixin):
         footer section
         """
         self.home.visit()
-        self.assertEqual(SOCIAL_MEDIA_LINK[ORG], self.home.social_links)
+        self.assertEqual(SOCIAL_MEDIA_LINK, self.home.social_links)
 
     def test_01_verify_logos(self):
         """
@@ -45,13 +44,13 @@ class TestMisc(UserAuthenticationMixin):
         """
         self.home.visit()
         # Get the link for header logo and verify it
-        self.assertIn(LOGO_LINK[ORG], self.home.header_logo_link)
+        self.assertIn(LOGO_LINK, self.home.header_logo_link)
         # Get the alt text for header logo and verify it
-        self.assertEqual(LOGO_ALT_TEXT[ORG], self.home.header_logo_alt_text)
+        self.assertEqual(LOGO_ALT_TEXT, self.home.header_logo_alt_text)
         # Get the link for footer logo and verify it
-        self.assertIn(LOGO_LINK[ORG], self.home.footer_logo_link)
+        self.assertIn(LOGO_LINK, self.home.footer_logo_link)
         # Get the alt text for footer logo and verify it
-        self.assertEqual(LOGO_ALT_TEXT[ORG], self.home.footer_logo_alt_text)
+        self.assertEqual(LOGO_ALT_TEXT, self.home.footer_logo_alt_text)
 
     def test_02_verify_countries_data(self):
         """

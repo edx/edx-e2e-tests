@@ -19,7 +19,7 @@ pip install -r requirements/base.txt
 
 
 # Run the tests
-organizations="MITProfessionalX HarvardXPLUS"
+organizations="MITProfessionalX HarvardXPLUS HarvardMedGlobalAcademy"
 
 # Run General tests on all organizations using Firefox
 for organization in ${organizations}; do

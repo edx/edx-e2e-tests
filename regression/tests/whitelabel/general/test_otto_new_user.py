@@ -3,7 +3,6 @@ Tests for new users using Otto
 """
 
 from regression.pages.whitelabel.const import (
-    ORG,
     PROF_COURSE_ID,
     PROF_COURSE_TITLE,
     PROF_COURSE_PRICE
@@ -25,15 +24,15 @@ class TestNewUserOtto(CourseEnrollmentMixin):
         Initialize all page objects
         """
         super(TestNewUserOtto, self).setUp()
-        self.course_about = CourseAboutPage(self.browser, PROF_COURSE_ID[ORG])
-        self.course_info = CourseInfoPage(self.browser, PROF_COURSE_ID[ORG])
+        self.course_about = CourseAboutPage(self.browser, PROF_COURSE_ID)
+        self.course_info = CourseInfoPage(self.browser, PROF_COURSE_ID)
         self.home = HomePage(self.browser)
         self.inactive_account = InactiveAccount(self.browser)
         # Initialize common objects
-        self.course_id = PROF_COURSE_ID[ORG]
-        self.course_title = PROF_COURSE_TITLE[ORG]
-        self.course_price = PROF_COURSE_PRICE[ORG]
-        self.total_price = PROF_COURSE_PRICE[ORG]
+        self.course_id = PROF_COURSE_ID
+        self.course_title = PROF_COURSE_TITLE
+        self.course_price = PROF_COURSE_PRICE
+        self.total_price = PROF_COURSE_PRICE
 
     def test_01_select_course_and_register(self):
         """
@@ -136,8 +135,8 @@ class TestNewUserOtto(CourseEnrollmentMixin):
         # increase number of seats
         self.increase_seats(seat_counter)
         # course price and total price after increasing seats
-        self.course_price = PROF_COURSE_PRICE[ORG] * seat_counter
-        self.total_price = PROF_COURSE_PRICE[ORG] * seat_counter
+        self.course_price = PROF_COURSE_PRICE * seat_counter
+        self.total_price = PROF_COURSE_PRICE * seat_counter
         self.verify_price_on_basket()
         # Go to next page to make the payment
         self.basket.go_to_cybersource_page()

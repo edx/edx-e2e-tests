@@ -35,20 +35,24 @@ class HomePage(PageObject):
         Returns:
             social media links:
         """
+        footer_css = '.footer-main a'
         social_links = []
         face_book = self.q(
-            css='.footer-main a'
+            css=footer_css
         ).filter(lambda elem: elem.text == 'Facebook')
         twitter = self.q(
-            css='.footer-main a'
+            css=footer_css
         ).filter(lambda elem: elem.text == 'Twitter')
         linked_in = self.q(
-            css='.footer-main a'
+            css=footer_css
         ).filter(lambda elem: elem.text == 'LinkedIn')
         you_tube = self.q(
-            css='.footer-main a'
+            css=footer_css
         ).filter(lambda elem: elem.text == 'YouTube')
-        for link in [face_book, twitter, linked_in, you_tube]:
+        instagram = self.q(
+            css=footer_css
+        ).filter(lambda elem: elem.text == 'Instagram')
+        for link in [face_book, twitter, linked_in, you_tube, instagram]:
             if link:
                 social_links.append(link.attrs('href')[0])
         return social_links

@@ -26,11 +26,6 @@ class CourseInfoPage(PageObject):
         return URL_WITH_AUTH + u"courses/" + self.course_id + u"/info"
 
     def is_browser_on_page(self):
-        """
-        Is browser on the page?
-        Returns:
-            True if course info tab is selected:
-        """
         return self.q(
             css='.active[href="/courses/' + self.course_id + '/info"]'
         ).present

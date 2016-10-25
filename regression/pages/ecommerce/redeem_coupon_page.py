@@ -8,8 +8,7 @@ from regression.pages.whitelabel.const import ECOMMERCE_URL_WITH_AUTH
 from regression.pages.common.utils import (
     extract_mmm_dd_yyyy_date_string_from_text,
     convert_date_format,
-    extract_numerical_value_from_price_string,
-    substring_from
+    extract_numerical_value_from_price_string
 )
 
 
@@ -21,8 +20,8 @@ def get_course_ids_from_link(link):
     Returns:
         Course Ids
     """
-    asset_string = substring_from(link, 'asset-v1')
-    return AssetKey.from_string(asset_string).course_key
+    asset_str = link.partition('asset-v1')[1] + link.partition('asset-v1')[2]
+    return AssetKey.from_string(asset_str).course_key
 
 
 class RedeemCouponPage(PageObject):

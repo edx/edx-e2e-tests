@@ -1,6 +1,9 @@
 """
 API classes for different tasks
 """
+import Cookie
+import json
+
 import requests
 from requests.auth import AuthBase
 from edx_rest_api_client.client import EdxRestApiClient
@@ -117,7 +120,7 @@ class EnrollmentApiClient(object):
         self.host = host or ENROLLMENT_API_URL
         self.key = key or ACCESS_TOKEN
 
-    def is_use_enrolled_in_the_course(self, username, course_id):
+    def is_user_enrolled(self, username, course_id):
         """
         Retrieve the enrollment status for given user in a given course.
         Args:
@@ -149,6 +152,7 @@ class LmsApiClient(object):
         self.host = host or URL_WITHOUT_AUTH
         self.session = requests.Session()
         self.session.auth = (AUTH_USERNAME, AUTH_PASSWORD)
+        self.login_response = None
 
     def _post_headers(self, x_csrf=None):
         """
@@ -164,7 +168,7 @@ class LmsApiClient(object):
             'X-CSRFToken': x_csrf,
         }
 
-    def get_target_site_session(self):
+    def create_base_session(self):
         """
         Open target site using requests and return cookies
         Returns:
@@ -177,14 +181,14 @@ class LmsApiClient(object):
             response.cookies['csrftoken']
         )
 
-    def get_login_session(self, user_email, user_password):
+    def create_login_session(self, user_email, user_password):
         """
         Create a session and assign cookies to it after successful login
         Args:
             user_email:
             user_password:
         """
-        self.get_target_site_session()
+        self.create_base_session()
         login_url = self.host + 'user_api/v1/account/login_session/'
         payload = {
             'email': user_email,
@@ -197,6 +201,32 @@ class LmsApiClient(object):
         self.session.headers = self._post_headers(
             response.cookies['csrftoken']
         )
+        self.login_response = response
+
+    @property
+    def login_response_cookies(self):
+        """
+        get cookie info from response headers
+        Returns:
+
+        """
+        set_cookie = self.login_response.headers['Set-Cookie']
+        if not set_cookie:
+            raise ApiException('Login response cookie not found')
+        return Cookie.SimpleCookie(set_cookie)
+
+    @property
+    def user_name(self):
+        """
+        Extract user name from response
+        Returns:
+            username
+        """
+        user_info = self.login_response_cookies['stage-edx-user-info'].value
+        user_info_dict = json.loads(user_info)
+        if not user_info_dict:
+            raise ApiException('User Info Dictionary not found')
+        return user_info_dict['username']
 
     def change_enrollment(self, course_id, enrollment_action):
         """
@@ -204,8 +234,6 @@ class LmsApiClient(object):
         Args:
             course_id:
             enrollment_action:
-        Returns:
-            True if no exception is generated
         """
         change_enrollment_url = self.host + 'change_enrollment'
         payload = {
@@ -217,7 +245,6 @@ class LmsApiClient(object):
             data=payload
         )
         check_response(response)
-        return True
 
     def get_coupon_request(self, target_url):
         """

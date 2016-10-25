@@ -7,11 +7,11 @@ import imaplib
 import email
 
 from regression.pages.whitelabel.const import (
-    DEFAULT_GMAIL_USER,
+    DEFAULT_TEST_EMAIL_ACCOUNT,
     EMAIL_SENDER_ACCOUNT,
-    GMAIL_PASSWORD,
     INITIAL_WAIT_TIME,
-    ORG,
+    TEST_EMAIL_PASSWORD,
+    TEST_EMAIL_SERVICE,
     TIME_OUT_LIMIT,
     WAIT_TIME
 )
@@ -33,24 +33,25 @@ def yesterday_date():
 
 class MailClient(object):
     """
-    Connect to Gmail client using imap and read mails from Inbox
+    Connect to email client using imap and read mails from Inbox
     """
 
     def __init__(self):
-        self.mail = imaplib.IMAP4_SSL('imap.gmail.com')
+        self.mail = imaplib.IMAP4_SSL(TEST_EMAIL_SERVICE)
 
     def login_to_email_account(self):
         """
-        Login to gmail account
+        Login to email account
         """
-        self.mail.login(DEFAULT_GMAIL_USER, GMAIL_PASSWORD)
+        self.mail.login(
+            DEFAULT_TEST_EMAIL_ACCOUNT, TEST_EMAIL_PASSWORD)
 
     def open_inbox(self):
         """
         Open inbox to get the list of emails
         """
         self.mail.list()
-        # Out: list of "folders" aka labels in gmail.
+        # Out: list of "folders" aka labels in email.
         self.mail.select("inbox")  # connect to inbox.
 
     def get_latest_email_uid(self, current_email_user, mail_topic):
@@ -85,7 +86,7 @@ class MailClient(object):
                     '(SENTSINCE {date} HEADER FROM {mail_from} TO '
                     '{mail_to} SUBJECT {mail_subject})'.format(
                         date=yesterday_date(),
-                        mail_from=EMAIL_SENDER_ACCOUNT[ORG],
+                        mail_from=EMAIL_SENDER_ACCOUNT,
                         mail_to=current_email_user,
                         mail_subject=mail_topic
                     )

@@ -4,7 +4,6 @@ Pages for single course and multi course purchase baskets
 from bok_choy.page_object import PageObject
 
 from regression.pages.common.utils import (
-    get_required_cookies,
     extract_numerical_value_from_price_string
 )
 from regression.pages.ecommerce.cybersource_page import CyberSourcePage
@@ -251,12 +250,3 @@ class MultiSeatBasketPage(BasketPage):
             css='.btn.btn-link[href^="/basket"]'
         ).filter(lambda elem: elem.text == link_text).click()
         SingleSeatBasketPage(self.browser).wait_for_page()
-
-    @property
-    def site_cookies(self):
-        """
-        Get site cookies from ecommerce site
-        Returns:
-            cookies
-        """
-        return get_required_cookies(self.browser.get_cookies())

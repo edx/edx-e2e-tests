@@ -66,7 +66,7 @@ class LoginPage(PageObject):
         """
         return self.q(
             css='.message-title'
-        ).filter(lambda elem: elem.text == 'Password Reset Email Sent').visible
+        ).filter(lambda elem: elem.text == 'Check Your Email').visible
 
     def toggle_to_registration_page(self):
         """
@@ -115,10 +115,15 @@ class RegistrationPage(PageObject):
         fill_input_fields(self, elements_and_values)
         select_names_and_values = {
             "country": reg_info['country'],
-            "gender": reg_info['gender'],
             "year_of_birth": reg_info['yob'],
-            "level_of_education": reg_info['edu_level']
         }
+        for key, val in select_names_and_values.iteritems():
+            select_value_from_drop_down(self, key, val)
+        if org == 'HarvardMedGlobalAcademy':
+            select_names_and_values = {
+                "gender": reg_info['gender'],
+                "level_of_education": reg_info['edu_level']
+            }
         for key, val in select_names_and_values.iteritems():
             select_value_from_drop_down(self, key, val)
         if org == 'MITProfessionalX':

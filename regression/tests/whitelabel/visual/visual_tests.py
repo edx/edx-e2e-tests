@@ -5,7 +5,6 @@ from bok_choy.web_app_test import WebAppTest
 from regression.pages.whitelabel.const import (
     VISUAL_USER_EMAIL,
     PASSWORD,
-    ORG,
     PROF_COURSE_ID
 )
 from regression.pages.whitelabel.home_page import HomePage
@@ -238,7 +237,7 @@ class VisualTest(WebAppTest):
         """
         page = self.page_name_prefix_builder('Course')
         course_about = CourseAboutPage(
-            self.browser, PROF_COURSE_ID[ORG]).visit()
+            self.browser, PROF_COURSE_ID).visit()
         css_locator_course_banner = '.hero-image'
         css_locator_course_detail = '.course-detail.light-bg'
         css_locator_course_info = '.course-info>.grid-manual.grid-container'

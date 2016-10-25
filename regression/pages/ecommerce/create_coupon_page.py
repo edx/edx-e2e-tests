@@ -117,7 +117,7 @@ class CreateCouponPage(PageObject):
         """
         elements_and_values = {
             'input[name="start_date"]': start_date,
-            'input[name="end_date"]':end_date
+            'input[name="end_date"]': end_date
         }
         fill_input_fields(self, elements_and_values)
 

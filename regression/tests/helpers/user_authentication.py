@@ -18,7 +18,7 @@ from regression.pages.whitelabel.logout_page import (
     EcommerceLogoutPage
 )
 from regression.pages.whitelabel.const import (
-    GMAIL_USER,
+    TEST_EMAIL_ACCOUNT,
     ORG,
     PASSWORD,
     REG_INFO,
@@ -75,7 +75,7 @@ class UserAuthenticationMixin(WebAppTest):
         """
         user_name = str(uuid.uuid4().node)
         partial_email_account_name = '+' + user_name
-        self.user_email = GMAIL_USER.format(partial_email_account_name)
+        self.user_email = TEST_EMAIL_ACCOUNT.format(partial_email_account_name)
         self.registration.fill_registration_form(
             self.user_email, PASSWORD, user_name, REG_INFO, ORG)
 

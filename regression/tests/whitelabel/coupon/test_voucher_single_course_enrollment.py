@@ -4,7 +4,6 @@ Single course Enrollment coupons tests
 import random
 from itertools import izip
 
-from regression.pages.common.utils import skip_cleanup_if_test_passed
 from regression.pages.ecommerce.coupon_const import (
     COUPON_USERS,
     ENROLLMENT_COUPON_TYPE,
@@ -27,7 +26,6 @@ from regression.pages.ecommerce.coupon_const import (
 )
 from regression.pages.ecommerce.redeem_coupon_page import RedeemCouponPage
 from regression.pages.whitelabel.const import (
-    ORG,
     PASSWORD,
     PROF_COURSE_ID,
     PROF_COURSE_TITLE,
@@ -48,14 +46,13 @@ class TestSingleCourseEnrollment(VouchersMixin):
         """
         super(TestSingleCourseEnrollment, self).setUp()
         # Initialize all page objects
-        self.course_about = CourseAboutPage(self.browser, PROF_COURSE_ID[ORG])
+        self.course_about = CourseAboutPage(self.browser, PROF_COURSE_ID)
         # Initialize common variables
-        self.course_id = PROF_COURSE_ID[ORG]
-        self.course_title = PROF_COURSE_TITLE[ORG]
-        self.course_price = PROF_COURSE_PRICE[ORG]
-        self.total_price = PROF_COURSE_PRICE[ORG]
+        self.course_id = PROF_COURSE_ID
+        self.course_title = PROF_COURSE_TITLE
+        self.course_price = PROF_COURSE_PRICE
+        self.total_price = PROF_COURSE_PRICE
 
-    @skip_cleanup_if_test_passed()
     def test_00_enrollment_single_use_code(self):
         """
         Scenario: Enrollment Single Use Code: Each code can be used by one
@@ -65,20 +62,23 @@ class TestSingleCourseEnrollment(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             ENROLLMENT_COUPON_TYPE,
             SINGLE_USE_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             quantity=3
         )
         coupon_codes = self.setup_coupons_using_ui(coupon)
         coupon_users = list(COUPON_USERS.values())
         # Login to application using the existing credentials
-        self.addCleanup(self.run_full_cleanup)
         for coupon_user, coupon_code in izip(coupon_users, coupon_codes):
+            self.addCleanup(
+                self.unenroll_using_api,
+                coupon_user,
+                self.course_id
+            )
             self.login_and_go_to_basket(coupon_user)
             self.enroll_using_enrollment_code(coupon_code)
-            self.assert_enrollment_and_un_enroll()
+            self.assert_enrollment_and_logout()
             self.logout_user_from_lms()
 
-    @skip_cleanup_if_test_passed()
     def test_01_enrollment_once_per_customer_code_max_limit(self):
         """
         Scenario: Enrollment Once Per Customer - Code Max Limit: Each code can
@@ -89,19 +89,23 @@ class TestSingleCourseEnrollment(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             ENROLLMENT_COUPON_TYPE,
             ONCE_PER_CUSTOMER_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             max_uses=2
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
         # Login to application using the existing credentials
         coupon_users = list(COUPON_USERS.values())
         last_user = len(coupon_users) - 1
-        self.addCleanup(self.run_full_cleanup)
         for i, coupon_user in enumerate(coupon_users):
             self.login_and_go_to_basket(coupon_user)
             if i != last_user:
+                self.addCleanup(
+                    self.unenroll_using_api,
+                    coupon_user,
+                    self.course_id
+                )
                 self.enroll_using_enrollment_code(coupon_code)
-                self.assert_enrollment_and_un_enroll()
+                self.assert_enrollment_and_logout()
                 self.logout_user_from_lms()
             else:
                 self.assertEqual(
@@ -109,7 +113,6 @@ class TestSingleCourseEnrollment(VouchersMixin):
                     ONCE_PER_CUSTOMER_CODE_MAX_LIMIT
                 )
 
-    @skip_cleanup_if_test_passed()
     def test_02_enrollment_once_per_customer_code_reuse_by_same_user(self):
         """
         Scenario: Enrollment Once Per Customer - Code Reuse: A code cannot
@@ -119,15 +122,19 @@ class TestSingleCourseEnrollment(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             ENROLLMENT_COUPON_TYPE,
             ONCE_PER_CUSTOMER_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             max_uses=2
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
-        self.addCleanup(self.run_full_cleanup)
         # Login to application using the existing credentials
         self.login_and_go_to_basket(COUPON_USERS['coupon_user_01'])
+        self.addCleanup(
+            self.unenroll_using_api,
+            COUPON_USERS['coupon_user_01'],
+            self.course_id
+        )
         self.enroll_using_enrollment_code(coupon_code)
-        self.assert_enrollment_and_un_enroll()
+        self.assert_enrollment_and_logout()
         self.dashboard.go_to_find_courses_page()
         # find the target course and click on it to go to about page
         self.find_courses.go_to_course_about_page(self.course_about)
@@ -138,7 +145,6 @@ class TestSingleCourseEnrollment(VouchersMixin):
             ONCE_PER_CUSTOMER_CODE_SAME_USER_REUSE.format(coupon_code)
         )
 
-    @skip_cleanup_if_test_passed()
     def test_03_enrollment_once_per_customer_code_email_domain(self):
         """
         Scenario: Enrollment Once Per Customer Code - Email domains: Code can
@@ -148,7 +154,7 @@ class TestSingleCourseEnrollment(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             ENROLLMENT_COUPON_TYPE,
             ONCE_PER_CUSTOMER_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             email_domains=VALID_EMAIL_DOMAINS,
             max_uses=5
         )
@@ -156,7 +162,6 @@ class TestSingleCourseEnrollment(VouchersMixin):
         # Login to application using the existing credentials
         valid_domain_users = list(VALID_DOMAIN_USERS.values())
         invalid_domain_users = list(INVALID_DOMAIN_USERS.values())
-        self.addCleanup(self.run_full_cleanup)
         # Verify that coupon code cannot be added for unauthorized email domain
         # In each test we are selecting a random user from the invalid domain
         # list to bring down the test run time. Since multiple tests will be
@@ -175,9 +180,14 @@ class TestSingleCourseEnrollment(VouchersMixin):
         # running for domain checks, use of random user in all of these will
         # pretty much cover most of the possibilities
         valid_domain_user = random.choice(valid_domain_users)
+        self.addCleanup(
+            self.unenroll_using_api,
+            valid_domain_user,
+            self.course_id
+        )
         self.login_and_go_to_basket(valid_domain_user)
         self.enroll_using_enrollment_code(coupon_code)
-        self.assert_enrollment_and_un_enroll()
+        self.assert_enrollment_and_logout()
         self.logout_user_from_lms()
 
     def test_04_enrollment_single_use_code_future(self):
@@ -190,10 +200,9 @@ class TestSingleCourseEnrollment(VouchersMixin):
             ENROLLMENT_COUPON_TYPE,
             SINGLE_USE_VOUCHER_TYPE,
             start_datetime=FUTURE_START_DATE,
-            course_id=PROF_COURSE_ID[ORG]
+            course_id=PROF_COURSE_ID
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
-        self.addCleanup(self.run_partial_cleanup)
         # Login to application using the existing credentials
         self.login_and_go_to_basket(COUPON_USERS['coupon_user_01'])
         self.assertEqual(
@@ -201,7 +210,6 @@ class TestSingleCourseEnrollment(VouchersMixin):
             FUTURE_CODE_ERROR.format(coupon_code)
         )
 
-    @skip_cleanup_if_test_passed()
     def test_05_apply_enrollment_single_use_redeem_url(self):
         """
         Scenario: Unregistered Users: Enrollment Single Use Redeem URL: URL
@@ -211,10 +219,9 @@ class TestSingleCourseEnrollment(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             ENROLLMENT_COUPON_TYPE,
             SINGLE_USE_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG]
+            course_id=PROF_COURSE_ID
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
-        self.addCleanup(self.run_full_cleanup)
         self.home.visit()
         self.home.go_to_registration_page()
         self.register_user(self.dashboard)
@@ -223,9 +230,14 @@ class TestSingleCourseEnrollment(VouchersMixin):
             coupon_code,
             self.dashboard
         )
-        self.assert_enrollment_and_un_enroll()
+        self.assert_enrollment_and_logout()
         self.logout_user_from_lms()
         self.login_user(COUPON_USERS['coupon_user_01'])
+        self.addCleanup(
+            self.unenroll_using_api,
+            COUPON_USERS['coupon_user_01'],
+            self.course_id
+        )
         self.redeem_single_course_enrollment_coupon(
             coupon_code,
             self.redeem_coupon_error_page
@@ -235,7 +247,6 @@ class TestSingleCourseEnrollment(VouchersMixin):
             SINGLE_USE_REDEEM_URL_REUSE_ERROR
         )
 
-    @skip_cleanup_if_test_passed()
     def test_06_apply_enrollment_once_per_customer_redeem_url(self):
         """
         Scenario: Registered Users: Enrollment Once Per Customer Redeem URL:
@@ -246,16 +257,20 @@ class TestSingleCourseEnrollment(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             ENROLLMENT_COUPON_TYPE,
             ONCE_PER_CUSTOMER_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             max_uses=2
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
         # Login to application using the existing credentials
         coupon_users = list(COUPON_USERS.values())
         last_user = len(coupon_users) - 1
-        self.addCleanup(self.run_full_cleanup)
         for i, coupon_user in enumerate(coupon_users):
             if i != last_user:
+                self.addCleanup(
+                    self.unenroll_using_api,
+                    coupon_user,
+                    self.course_id
+                )
                 self.home.visit()
                 self.redeem_single_course_enrollment_coupon(
                     coupon_code, self.login_page)
@@ -264,7 +279,7 @@ class TestSingleCourseEnrollment(VouchersMixin):
                     PASSWORD,
                     self.dashboard
                 )
-                self.assert_enrollment_and_un_enroll()
+                self.assert_enrollment_and_logout()
                 self.logout_user_from_lms()
             else:
                 redeem_coupon = RedeemCouponPage(
@@ -276,7 +291,6 @@ class TestSingleCourseEnrollment(VouchersMixin):
                     ONCE_PER_CUSTOMER_REDEEM_URL_MAX_LIMIT
                 )
 
-    @skip_cleanup_if_test_passed()
     def test_07_enrollment_once_per_customer_redeem_url_email_domain(self):
         """
         Scenario: Enrollment Once Per Customer URL: URL can be used only by
@@ -286,7 +300,7 @@ class TestSingleCourseEnrollment(VouchersMixin):
             SINGLE_COURSE_CATALOG_TYPE,
             ENROLLMENT_COUPON_TYPE,
             ONCE_PER_CUSTOMER_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID[ORG],
+            course_id=PROF_COURSE_ID,
             email_domains=VALID_EMAIL_DOMAINS,
             max_uses=5
         )
@@ -294,7 +308,6 @@ class TestSingleCourseEnrollment(VouchersMixin):
         # Login to application using the existing credentials
         valid_domain_users = list(VALID_DOMAIN_USERS.values())
         invalid_domain_users = list(INVALID_DOMAIN_USERS.values())
-        self.addCleanup(self.run_full_cleanup)
         # Verify that coupon url cannot be used for unauthorized email domain
         # In each test we are selecting a random user from the invalid domain
         # list to bring down the test run time. Since multiple tests will be
@@ -317,12 +330,17 @@ class TestSingleCourseEnrollment(VouchersMixin):
         # running for domain checks, use of random user in all of these will
         # pretty much cover most of the possibilities
         valid_domain_user = random.choice(valid_domain_users)
+        self.addCleanup(
+            self.unenroll_using_api,
+            valid_domain_user,
+            self.course_id
+        )
         self.login_user(valid_domain_user)
         self.redeem_single_course_enrollment_coupon(
             coupon_code,
             self.dashboard
         )
-        self.assert_enrollment_and_un_enroll()
+        self.assert_enrollment_and_logout()
         self.logout_user_from_lms()
 
     def test_08_enrollment_once_per_customer_redeem_url_expired(self):
@@ -335,10 +353,9 @@ class TestSingleCourseEnrollment(VouchersMixin):
             ENROLLMENT_COUPON_TYPE,
             ONCE_PER_CUSTOMER_VOUCHER_TYPE,
             end_datetime=EXPIRED_END_DATE,
-            course_id=PROF_COURSE_ID[ORG]
+            course_id=PROF_COURSE_ID
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
-        self.addCleanup(self.run_partial_cleanup)
         self.login_user(COUPON_USERS['coupon_user_01'])
         redeem_coupon = RedeemCouponPage(self.browser, coupon_code).visit()
         self.assertEqual(redeem_coupon.error_message, EXPIRED_REDEEM_URL_ERROR)

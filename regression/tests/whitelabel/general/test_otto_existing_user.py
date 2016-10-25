@@ -7,7 +7,7 @@ from regression.pages.ecommerce.back_to_basket_page import BackToBasketPage
 from regression.pages.ecommerce.basket_page import SingleSeatBasketPage
 from regression.pages.ecommerce.cancel_checkout_page import CancelCheckoutPage
 from regression.pages.whitelabel.const import (
-    GMAIL_USER,
+    TEST_EMAIL_ACCOUNT,
     EXISTING_USER_EMAIL,
     ORG,
     PASSWORD,
@@ -34,32 +34,40 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         super(TestExistingUserOtto, self).setUp()
         self.back_to_basket_page = BackToBasketPage(self.browser)
         self.cancel_checkout_page = CancelCheckoutPage(self.browser)
-        self.course_about = CourseAboutPage(self.browser, PROF_COURSE_ID[ORG])
-        self.course_info = CourseInfoPage(self.browser, PROF_COURSE_ID[ORG])
+        self.course_about = CourseAboutPage(self.browser, PROF_COURSE_ID)
+        self.course_info = CourseInfoPage(self.browser, PROF_COURSE_ID)
         self.home = HomePage(self.browser)
         self.single_seat_basket = SingleSeatBasketPage(self.browser)
         # Initialize common objects
-        self.course_id = PROF_COURSE_ID[ORG]
-        self.course_title = PROF_COURSE_TITLE[ORG]
-        self.course_price = PROF_COURSE_PRICE[ORG]
-        self.total_price = PROF_COURSE_PRICE[ORG]
+        self.course_id = PROF_COURSE_ID
+        self.course_title = PROF_COURSE_TITLE
+        self.course_price = PROF_COURSE_PRICE
+        self.total_price = PROF_COURSE_PRICE
 
     def test_00_login_and_select_course(self):
         """
         Scenario: Otto flow - A registered user is able to login, select a
         course and make payment for the course using the credit card
         """
-        self.addCleanup(self.un_enroll)
+        self.addCleanup(
+            self.unenroll_using_api,
+            EXISTING_USER_EMAIL,
+            self.course_id
+        )
         self.login_and_go_to_basket(EXISTING_USER_EMAIL)
         self.pay_with_cybersource()
-        self.assert_enrollment_and_un_enroll()
+        self.assert_enrollment_and_logout()
 
     def test_01_select_course_and_login(self):
         """
         Scenario: Otto flow - A registered user is able to select a course,
         login  and make payment for the course using the credit card
         """
-        self.addCleanup(self.un_enroll)
+        self.addCleanup(
+            self.unenroll_using_api,
+            EXISTING_USER_EMAIL,
+            self.course_id
+        )
         self.home.visit()
         self.home.go_to_courses_page()
         self.find_courses.go_to_course_about_page(self.course_about)
@@ -76,7 +84,7 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         self.verify_course_name_on_basket()
         self.verify_price_on_basket()
         self.pay_with_cybersource()
-        self.assert_enrollment_and_un_enroll()
+        self.assert_enrollment_and_logout()
 
     def test_02_switch_between_single_seat_and_multi_seat_baskets(self):
         """
@@ -135,7 +143,7 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         )
         # Condition commented due to existing bug WL-578
         # self.assertIn(
-        # EMAIL_SENDER_ACCOUNT[ORG],
+        # EMAIL_SENDER_ACCOUNT,
         # self.back_to_basket_page.support_email_in_error_message
         # )
 
@@ -155,7 +163,7 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         # Verify that correct support email address is present in error message
         # Condition commented due to existing bug WL-579
         # self.assertIn(
-        # EMAIL_SENDER_ACCOUNT[ORG],
+        # EMAIL_SENDER_ACCOUNT,
         # self.cancel_checkout.support_email_in_error_message
         # )
 
@@ -181,7 +189,7 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         )
         # Condition commented due to existing bug WL-579
         # self.assertIn(
-        # EMAIL_SENDER_ACCOUNT[ORG],
+        # EMAIL_SENDER_ACCOUNT,
         # self.back_to_basket_page.support_email_in_error_message
         # )
 
@@ -201,7 +209,7 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         # Verify that correct support email address is present in error message
         # Condition commented due to existing bug WL-579
         # self.assertIn(
-        # EMAIL_SENDER_ACCOUNT[ORG],
+        # EMAIL_SENDER_ACCOUNT,
         # self.cancel_checkout.support_email_in_error_message
         # )
 
@@ -211,7 +219,7 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         for a course and make payment for multiple seats in the course using
         the credit card
         """
-        multi_seat_user_email = GMAIL_USER.format("+multiseat")
+        multi_seat_user_email = TEST_EMAIL_ACCOUNT.format("+multiseat")
         seat_counter = 3
         # Login to application using the existing credentials
         self.login_user(multi_seat_user_email)
@@ -231,8 +239,8 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         # increase number of seats
         self.increase_seats(seat_counter)
         # course price and total price after increasing seats
-        self.course_price = PROF_COURSE_PRICE[ORG] * seat_counter
-        self.total_price = PROF_COURSE_PRICE[ORG] * seat_counter
+        self.course_price = PROF_COURSE_PRICE * seat_counter
+        self.total_price = PROF_COURSE_PRICE * seat_counter
         self.verify_price_on_basket()
         # Go to next page to make the payment
         self.basket.go_to_cybersource_page()
@@ -242,6 +250,9 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         # Verify on receipt page that information like course title, course
         # price, total price order date and billing to is displayed correctly
         self.verify_receipt_info()
+        self.receipt.go_to_dashboard()
+        self.assertFalse(self.dashboard.is_course_present(self.course_id))
+        self.logout_user_from_lms()
         enrollment_file_link = self.get_url_from_email(
             multi_seat_user_email,
             'Order',
@@ -252,7 +263,4 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
             PASSWORD,
             enrollment_file_link
         )
-        self.receipt.go_to_dashboard()
-        self.assertFalse(self.dashboard.is_course_present(self.course_id))
-        self.logout_user_from_lms()
         self.assertEqual(len(coupons), seat_counter)
