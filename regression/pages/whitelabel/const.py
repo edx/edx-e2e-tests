@@ -61,12 +61,11 @@ ENROLLMENT_API_URL = URL_WITHOUT_AUTH + 'api/enrollment/v1'
 CYBERSOURCE_CHECKOUT_URL = \
     u'https://testsecureacceptance.cybersource.com/checkout'
 
-PROF_COURSE_ID = u'course-v1:{}+RT01+2016'.format(ORG)
+PROF_COURSE_ID = u'course-v1:{}+RTX_101+2016_02'.format(ORG)
 
+PROF_COURSE_TITLE = u'{} Regression Test'.format(ORG)
 
-PROF_COURSE_TITLE = u'Regression Test'
-
-PROF_COURSE_PRICE = 150.0
+PROF_COURSE_PRICE = 167.0
 
 EMAIL_SENDER_ACCOUNTS = {
     'HarvardMedGlobalAcademy': 'hmsga-support@edx.org',
@@ -177,11 +176,6 @@ PAYMENT_DETAILS = {
     'expiry_year': '2018'
 }
 
-# STAGES IN PAYMENT SECTION
-INITIAL_STAGE = 'Review'
-FINAL_STAGE = 'Confirmation'
-
-
 # Existing user email
 EXISTING_USER_EMAIL = 'wl_smoke_user01@example.com'
 
@@ -190,6 +184,18 @@ STAFF_EMAIL = os.environ['STAFF_USER_EMAIL']
 
 # Student user email
 VISUAL_USER_EMAIL = 'wl_visual_test01@example.com'
+
+# Default Threshold for visual difference
+DIFF_THRESHOLD = 5000
+
+# Timeouts
+DEFAULT_TIMEOUT = 30
+
+TIME_OUT_LIMIT = 90
+
+INITIAL_WAIT_TIME = 3
+
+WAIT_TIME = 5
 
 # Countries list
 COUNTRIES = [
@@ -321,15 +327,3 @@ LANGUAGES = [
     u'Volap\xfck', u'Welsh', u'Walloon', u'Wolof', u'Xhosa',
     u'Yiddish', u'Yoruba', u'Zhuang', u'Zulu'
 ]
-
-# Default Threshold for visual difference
-DIFF_THRESHOLD = 5000
-
-# Timeouts
-DEFAULT_TIMEOUT = 30
-
-TIME_OUT_LIMIT = 90
-
-INITIAL_WAIT_TIME = 3
-
-WAIT_TIME = 5

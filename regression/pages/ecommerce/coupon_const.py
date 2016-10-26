@@ -74,9 +74,9 @@ SINGLE_USE_VOUCHER_TYPE = 'Single use'
 ONCE_PER_CUSTOMER_VOUCHER_TYPE = 'Once per customer'
 
 STOCK_RECORD_IDS = {
-    'HarvardMedGlobalAcademy': [8266],
-    'HarvardXPLUS': [8264],
-    'MITProfessionalX': [8262],
+    'HarvardMedGlobalAcademy': [8398],
+    'HarvardXPLUS': [8396],
+    'MITProfessionalX': [8400],
 }
 
 STOCK_RECORD_ID = STOCK_RECORD_IDS[ORG]
