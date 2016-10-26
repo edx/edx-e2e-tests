@@ -72,7 +72,8 @@ class EcommerceApiClient(object):
             payload:
         """
         response = self.ecommerce_api_client.coupons.post(data=payload)
-        check_response(response)
+        if 'coupon_id' not in response.keys():
+            raise ApiException('Coupon not created')
         return response['coupon_id']
 
     def get_coupon_report(self, coupon_id):
@@ -94,7 +95,8 @@ class EcommerceApiClient(object):
             coupon_id:
         """
         response = self.ecommerce_api_client.coupons(coupon_id).delete()
-        check_response(response)
+        if not response:
+            raise ApiException('Failed to delete the coupon using API')
 
     def get_coupon_codes(self, coupon_id):
         """

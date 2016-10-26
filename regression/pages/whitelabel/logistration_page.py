@@ -119,13 +119,13 @@ class RegistrationPage(PageObject):
         }
         for key, val in select_names_and_values.iteritems():
             select_value_from_drop_down(self, key, val)
-        if org == 'HarvardMedGlobalAcademy':
+        if org != 'HarvardXPLUS':
             select_names_and_values = {
                 "gender": reg_info['gender'],
                 "level_of_education": reg_info['edu_level']
             }
-        for key, val in select_names_and_values.iteritems():
-            select_value_from_drop_down(self, key, val)
+            for key, val in select_names_and_values.iteritems():
+                select_value_from_drop_down(self, key, val)
         if org == 'MITProfessionalX':
             self.q(css='#register-company').fill(reg_info['company'])
             self.q(css='#register-title').fill(reg_info['title'])

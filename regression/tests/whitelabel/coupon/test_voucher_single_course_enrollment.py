@@ -52,6 +52,8 @@ class TestSingleCourseEnrollment(VouchersMixin):
         self.course_title = PROF_COURSE_TITLE
         self.course_price = PROF_COURSE_PRICE
         self.total_price = PROF_COURSE_PRICE
+        # coupon cleanup
+        self.addCleanup(self.delete_coupon_after_use)
 
     def test_00_enrollment_single_use_code(self):
         """
@@ -132,7 +134,7 @@ class TestSingleCourseEnrollment(VouchersMixin):
             self.course_id
         )
         self.enroll_using_enrollment_code(coupon_code)
-        self.assert_enrollment_and_logout()
+        self.assert_enrollment_and_unenroll()
         self.dashboard.go_to_find_courses_page()
         # find the target course and click on it to go to about page
         self.find_courses.go_to_course_about_page(self.course_about)
@@ -229,11 +231,6 @@ class TestSingleCourseEnrollment(VouchersMixin):
         )
         self.assert_enrollment_and_logout()
         self.login_user(COUPON_USERS['coupon_user_01'])
-        self.addCleanup(
-            self.unenroll_using_api,
-            COUPON_USERS['coupon_user_01'],
-            self.course_id
-        )
         self.redeem_single_course_enrollment_coupon(
             coupon_code,
             self.redeem_coupon_error_page

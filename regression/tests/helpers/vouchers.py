@@ -16,7 +16,7 @@ from regression.pages.ecommerce.coupon_const import (
     DEFAULT_START_DATE,
     DISCOUNT_COUPON_TYPE,
     PERCENTAGE_BENEFIT_TYPE,
-    STOCK_RECORD_IDS
+    STOCK_RECORD_ID
 )
 from regression.pages.whitelabel.home_page import HomePage
 from regression.pages.whitelabel.const import ORG
@@ -51,7 +51,7 @@ class VouchersMixin(CourseEnrollmentMixin):
             "title": str(uuid.uuid4().node),
             "catalog_type": catalog_type,
             "seat_type": "Professional",
-            "stock_record_ids": STOCK_RECORD_IDS[ORG],
+            "stock_record_ids": STOCK_RECORD_ID,
             "code": "",
             "price": "0",
             "quantity": 1,
@@ -62,8 +62,7 @@ class VouchersMixin(CourseEnrollmentMixin):
             "voucher_type": voucher_type,
             "benefit_type": PERCENTAGE_BENEFIT_TYPE,
             "benefit_value": 100,
-            "category": 6,
-            "category_ids": [6],
+            "category": {"id": 3, "name": "Affiliate Promotion"},
             "start_datetime": DEFAULT_START_DATE,
             "end_datetime": DEFAULT_END_DATE,
             "client": "Test Client",
@@ -303,12 +302,6 @@ class VouchersMixin(CourseEnrollmentMixin):
                 self.remove_voucher_from_basket()
             else:
                 self.unenroll_using_ui()
-
-    def run_partial_cleanup(self):
-        """
-        This is cleanup for coupons which deletes created coupons
-        """
-        self.delete_coupon_after_use()
 
     def remove_voucher_from_basket(self):
         """

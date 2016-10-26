@@ -1,3 +1,5 @@
+from regression.pages.whitelabel.const import ORG
+
 """
 Constant used in coupon tests
 """
@@ -71,7 +73,13 @@ SINGLE_USE_VOUCHER_TYPE = 'Single use'
 
 ONCE_PER_CUSTOMER_VOUCHER_TYPE = 'Once per customer'
 
-STOCK_RECORD_IDS = {'MITProfessionalX': [4230], 'HarvardXPLUS': [4493]}
+STOCK_RECORD_IDS = {
+    'HarvardMedGlobalAcademy': [8266],
+    'HarvardXPLUS': [8264],
+    'MITProfessionalX': [8262],
+}
+
+STOCK_RECORD_ID = STOCK_RECORD_IDS[ORG]
 
 # Coupon users
 

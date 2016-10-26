@@ -110,10 +110,17 @@ class CourseEnrollmentMixin(UserAuthenticationMixin):
         """
         Verify that course is added to user dashboard and user can access
         the course. After that logout from application
-        :return:
         """
         self.assertTrue(self.is_course_added_to_dashboard())
         self.logout_user_from_lms()
+
+    def assert_enrollment_and_unenroll(self):
+        """
+        Verify that course is added to user dashboard and user can access
+        the course. After that un-enroll from the course
+        """
+        self.assertTrue(self.is_course_added_to_dashboard())
+        self.unenroll_using_ui()
 
     def otto_payment_using_cyber_source(self):
         """

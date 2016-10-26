@@ -58,6 +58,8 @@ class TestSingleCourseDiscount(VouchersMixin):
         self.course_price = PROF_COURSE_PRICE
         self.course_title = PROF_COURSE_TITLE
         self.total_price = PROF_COURSE_PRICE
+        # coupon cleanup
+        self.addCleanup(self.delete_coupon_after_use)
 
     def test_00_discount_single_use_fixed_code(self):
         """
@@ -170,7 +172,7 @@ class TestSingleCourseDiscount(VouchersMixin):
             self.course_id
         )
         self.enroll_using_discount_code(coupon_code)
-        self.assert_enrollment_and_logout()
+        self.assert_enrollment_and_unenroll()
         self.dashboard.go_to_find_courses_page()
         # find the target course and click on it to go to about page
         self.find_courses.go_to_course_about_page(self.course_about)
@@ -376,7 +378,7 @@ class TestSingleCourseDiscount(VouchersMixin):
         self.account_activation()
         self.verify_info_is_populated_on_basket()
         self.use_discount_redeem_url()
-        self.assert_enrollment_and_logout()
+        self.assert_enrollment_and_unenroll()
         redeem_coupon = RedeemCouponPage(self.browser, coupon_code).visit()
         self.assertEqual(
             redeem_coupon.error_message,
