@@ -5,6 +5,7 @@ import uuid
 
 from bok_choy.web_app_test import WebAppTest
 
+from regression.pages.common.email_client import MailClient
 from regression.pages.common.utils import get_target_url_from_text
 from regression.pages.whitelabel.activate_account import ActivateAccount
 from regression.pages.whitelabel.dashboard_page import DashboardPage
@@ -113,7 +114,6 @@ class UserAuthenticationMixin(WebAppTest):
         Returns:
             target url:
         """
-        from regression.pages.common.email_client import MailClient
         self.mail_client = MailClient()
         email_text = self.mail_client.get_email_message(
             user_email,
