@@ -23,6 +23,7 @@ organizations="MITProfessionalX HarvardXPLUS HarvardMedGlobalAcademy"
 
 # Run General tests on all organizations using Firefox
 for organization in ${organizations}; do
+    export SELENIUM_BROWSER=chrome
     export ORG=${organization}
     echo "Running General tests using Firefox on" ${organization}
     paver e2e_wl_test general || EXIT=1
