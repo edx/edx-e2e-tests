@@ -1,9 +1,10 @@
-from regression.pages.whitelabel.const import ORG
-
+# -*- coding: utf-8 -*-
 """
 Constant used in coupon tests
 """
 from datetime import datetime, timedelta
+
+from regression.pages.whitelabel.const import ORG
 
 # Coupon Error messages on basket page
 
@@ -102,3 +103,31 @@ INVALID_DOMAIN_USERS = {
 # Email domains
 
 VALID_EMAIL_DOMAINS = "emaildomainfour.com, emaildomainfive.com"
+
+# Courses for dynamic coupons testing
+COUPON_COURSES = {
+    'HarvardMedGlobalAcademy': {
+        'course-v1:HarvardMedGlobalAcademy+HMGA01+2016': 100.0,
+        'course-v1:HarvardMedGlobalAcademy+HMGA02+2016': 100.0,
+        'course-v1:HarvardMedGlobalAcademy+HMGA03+2016': 200.0,
+        'course-v1:HarvardMedGlobalAcademy+HMGA04+2016': 200.0,
+        'course-v1:HarvardMedGlobalAcademy+HMGA05+2016': 300.0,
+        'course-v1:HarvardMedGlobalAcademy+HMGA06+2016': 300.0
+    },
+    'HarvardXPLUS': {
+        'course-v1:MITProfessionalX+MITPX01+2016': 100.0,
+        'course-v1:MITProfessionalX+MITPX02+2016': 100.0,
+        'course-v1:MITProfessionalX+MITPX03+2016': 200.0,
+        'course-v1:MITProfessionalX+MITPX04+2016': 200.0,
+        'course-v1:MITProfessionalX+MITPX05+2016': 300.0,
+        'course-v1:MITProfessionalX+MITPX06+2016': 300.0,
+    },
+    'MITProfessionalX': {
+        'course-v1:HarvardXPLUS+HXP01+2016 ': 100.0,
+        'course-v1:HarvardXPLUS+HXP02+2016 ': 100.0,
+        'course-v1:HarvardXPLUS+HXP03+2016 ': 200.0,
+        'course-v1:HarvardXPLUS+HXP04+2016 ': 200.0,
+        'course-v1:HarvardXPLUS+HXP05+2016 ': 300.0,
+        'course-v1:HarvardXPLUS+HXP06+2016 ': 300.0
+    }
+}

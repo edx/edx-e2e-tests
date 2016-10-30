@@ -46,9 +46,6 @@ class ProfilePage(PageObject):
         countries_list = self.q(
             css='select[id="u-field-select-country"] option'
         ).text
-        if 'Falkland Islands  [Malvinas]' in countries_list:
-            i = countries_list.index('Falkland Islands  [Malvinas]')
-            countries_list[i] = 'Falkland Islands [Malvinas]'
         return countries_list
 
     @property

@@ -112,33 +112,6 @@ SOCIAL_MEDIA_LINKS = {
 
 SOCIAL_MEDIA_LINK = SOCIAL_MEDIA_LINKS[ORG]
 
-COUPON_COURSES = {
-    'HarvardMedGlobalAcademy': {
-        'course-v1:HarvardMedGlobalAcademy+HMGA01+2016': 100.0,
-        'course-v1:HarvardMedGlobalAcademy+HMGA02+2016': 100.0,
-        'course-v1:HarvardMedGlobalAcademy+HMGA03+2016': 200.0,
-        'course-v1:HarvardMedGlobalAcademy+HMGA04+2016': 200.0,
-        'course-v1:HarvardMedGlobalAcademy+HMGA05+2016': 300.0,
-        'course-v1:HarvardMedGlobalAcademy+HMGA06+2016': 300.0
-    },
-    'HarvardXPLUS': {
-        'course-v1:MITProfessionalX+MITPX01+2016': 100.0,
-        'course-v1:MITProfessionalX+MITPX02+2016': 100.0,
-        'course-v1:MITProfessionalX+MITPX03+2016': 200.0,
-        'course-v1:MITProfessionalX+MITPX04+2016': 200.0,
-        'course-v1:MITProfessionalX+MITPX05+2016': 300.0,
-        'course-v1:MITProfessionalX+MITPX06+2016': 300.0,
-    },
-    'MITProfessionalX': {
-        'course-v1:HarvardXPLUS+HXP01+2016 ': 100.0,
-        'course-v1:HarvardXPLUS+HXP02+2016 ': 100.0,
-        'course-v1:HarvardXPLUS+HXP03+2016 ': 200.0,
-        'course-v1:HarvardXPLUS+HXP04+2016 ': 200.0,
-        'course-v1:HarvardXPLUS+HXP05+2016 ': 300.0,
-        'course-v1:HarvardXPLUS+HXP06+2016 ': 300.0
-    }
-}
-
 ##############################################################################
 
 # REGISTRATION INFORMATION
@@ -197,133 +170,28 @@ INITIAL_WAIT_TIME = 3
 
 WAIT_TIME = 5
 
-# Countries list
-COUNTRIES = [
-    u'Afghanistan', u'\xc5land Islands', u'Albania', u'Algeria',
-    u'American Samoa', u'Andorra', u'Angola',
-    u'Anguilla', u'Antarctica', u'Antigua and Barbuda', u'Argentina',
-    u'Armenia', u'Aruba', u'Australia',
-    u'Austria', u'Azerbaijan', u'Bahamas', u'Bahrain', u'Bangladesh',
-    u'Barbados', u'Belarus', u'Belgium',
-    u'Belize', u'Benin', u'Bermuda', u'Bhutan', u'Bolivia',
-    u'Bonaire, Sint Eustatius and Saba',
-    u'Bosnia and Herzegovina', u'Botswana', u'Bouvet Island', u'Brazil',
-    u'British Indian Ocean Territory',
-    u'Brunei', u'Bulgaria', u'Burkina Faso', u'Burundi', u'Cabo Verde',
-    u'Cambodia', u'Cameroon', u'Canada',
-    u'Cayman Islands', u'Central African Republic', u'Chad', u'Chile',
-    u'China', u'Christmas Island',
-    u'Cocos (Keeling) Islands', u'Colombia', u'Comoros', u'Congo',
-    u'Congo (the Democratic Republic of the)',
-    u'Cook Islands', u'Costa Rica', u"C\xf4te d'Ivoire", u'Croatia', u'Cuba',
-    u'Cura\xe7ao', u'Cyprus',
-    u'Czech Republic', u'Denmark', u'Djibouti', u'Dominica',
-    u'Dominican Republic', u'Ecuador', u'Egypt',
-    u'El Salvador', u'Equatorial Guinea', u'Eritrea', u'Estonia',
-    u'Ethiopia', u'Falkland Islands [Malvinas]',
-    u'Faroe Islands', u'Fiji', u'Finland', u'France', u'French Guiana',
-    u'French Polynesia',
-    u'French Southern Territories', u'Gabon', u'Gambia', u'Georgia',
-    u'Germany', u'Ghana', u'Gibraltar',
-    u'Greece', u'Greenland', u'Grenada', u'Guadeloupe', u'Guam',
-    u'Guatemala', u'Guernsey', u'Guinea',
-    u'Guinea-Bissau', u'Guyana', u'Haiti',
-    u'Heard Island and McDonald Islands', u'Holy See', u'Honduras',
-    u'Hong Kong', u'Hungary', u'Iceland', u'India', u'Indonesia', u'Iran',
-    u'Iraq', u'Ireland', u'Isle of Man',
-    u'Israel', u'Italy', u'Jamaica', u'Japan', u'Jersey', u'Jordan',
-    u'Kazakhstan', u'Kenya', u'Kiribati', u'Kosovo',
-    u'Kuwait', u'Kyrgyzstan', u'Laos', u'Latvia', u'Lebanon', u'Lesotho',
-    u'Liberia', u'Libya', u'Liechtenstein',
-    u'Lithuania', u'Luxembourg', u'Macao', u'Macedonia', u'Madagascar',
-    u'Malawi', u'Malaysia', u'Maldives',
-    u'Mali', u'Malta', u'Marshall Islands', u'Martinique', u'Mauritania',
-    u'Mauritius', u'Mayotte', u'Mexico',
-    u'Micronesia (Federated States of)', u'Moldova', u'Monaco', u'Mongolia',
-    u'Montenegro', u'Montserrat',
-    u'Morocco', u'Mozambique', u'Myanmar', u'Namibia', u'Nauru', u'Nepal',
-    u'Netherlands', u'New Caledonia',
-    u'New Zealand', u'Nicaragua', u'Niger', u'Nigeria', u'Niue',
-    u'Norfolk Island', u'North Korea',
-    u'Northern Mariana Islands', u'Norway', u'Oman', u'Pakistan', u'Palau',
-    u'Palestine, State of',
-    u'Panama', u'Papua New Guinea', u'Paraguay', u'Peru', u'Philippines',
-    u'Pitcairn', u'Poland', u'Portugal',
-    u'Puerto Rico', u'Qatar', u'R\xe9union', u'Romania', u'Russia',
-    u'Rwanda', u'Saint Barth\xe9lemy',
-    u'Saint Helena, Ascension and Tristan da Cunha', u'Saint Kitts and Nevis',
-    u'Saint Lucia',
-    u'Saint Martin (French part)', u'Saint Pierre and Miquelon',
-    u'Saint Vincent and the Grenadines',
-    u'Samoa', u'San Marino', u'Sao Tome and Principe', u'Saudi Arabia',
-    u'Senegal', u'Serbia', u'Seychelles',
-    u'Sierra Leone', u'Singapore', u'Sint Maarten (Dutch part)', u'Slovakia',
-    u'Slovenia', u'Solomon Islands',
-    u'Somalia', u'South Africa',
-    u'South Georgia and the South Sandwich Islands', u'South Korea',
-    u'South Sudan',
-    u'Spain', u'Sri Lanka', u'Sudan', u'Suriname', u'Svalbard and Jan Mayen',
-    u'Swaziland', u'Sweden',
-    u'Switzerland', u'Syria', u'Taiwan', u'Tajikistan', u'Tanzania',
-    u'Thailand', u'Timor-Leste', u'Togo',
-    u'Tokelau', u'Tonga', u'Trinidad and Tobago', u'Tunisia', u'Turkey',
-    u'Turkmenistan',
-    u'Turks and Caicos Islands', u'Tuvalu', u'Uganda', u'Ukraine',
-    u'United Arab Emirates',
-    u'United Kingdom',
-    u'United States Minor Outlying Islands',
-    u'United States of America', u'Uruguay', u'Uzbekistan', u'Vanuatu',
-    u'Venezuela', u'Vietnam',
-    u'Virgin Islands (British)', u'Virgin Islands (U.S.)',
-    u'Wallis and Futuna', u'Western Sahara', u'Yemen',
-    u'Zambia', u'Zimbabwe'
+# Countries and Languages Data
+
+NO_OF_COUNTRIES = 250
+
+NO_OF_LANGUAGES = 187
+
+SAMPLE_COUNTRIES = [
+    u'\xc5land Islands',
+    u"C\xf4te d'Ivoire",
+    u'Cura\xe7ao',
+    u'Saint Helena, Ascension and Tristan da Cunha',
+    u'Sint Maarten (Dutch part)'
 ]
 
-LANGUAGES = [
-    u'', u'Afar', u'Abkhazian', u'Afrikaans', u'Akan', u'Albanian',
-    u'Amharic', u'Arabic', u'Aragonese',
-    u'Armenian', u'Assamese', u'Avaric', u'Avestan', u'Aymara',
-    u'Azerbaijani', u'Bashkir', u'Bambara',
-    u'Basque', u'Belarusian', u'Bengali', u'Bihari languages',
-    u'Bislama', u'Bosnian', u'Breton',
-    u'Bulgarian', u'Burmese', u'Catalan', u'Chamorro', u'Chechen',
-    u'Chinese', u'Simplified Chinese',
-    u'Traditional Chinese', u'Church Slavic', u'Chuvash', u'Cornish',
-    u'Corsican', u'Cree', u'Czech',
-    u'Danish', u'Divehi', u'Dutch', u'Dzongkha', u'English',
-    u'Esperanto', u'Estonian', u'Ewe', u'Faroese',
-    u'Fijian', u'Finnish', u'French', u'Western Frisian',
-    u'Fulah', u'Georgian', u'German', u'Gaelic',
-    u'Irish', u'Galician', u'Manx', u'Greek', u'Guarani',
-    u'Gujarati', u'Haitian', u'Hausa', u'Hebrew',
-    u'Herero', u'Hindi', u'Hiri Motu', u'Croatian', u'Hungarian',
-    u'Igbo', u'Icelandic', u'Ido', u'Sichuan Yi',
-    u'Inuktitut', u'Interlingue', u'Interlingua', u'Indonesian',
-    u'Inupiaq', u'Italian', u'Javanese',
-    u'Japanese', u'Kalaallisut', u'Kannada', u'Kashmiri', u'Kanuri',
-    u'Kazakh', u'Central Khmer', u'Kikuyu',
-    u'Kinyarwanda', u'Kirghiz', u'Komi', u'Kongo', u'Korean',
-    u'Kuanyama', u'Kurdish', u'Lao', u'Latin',
-    u'Latvian', u'Limburgan', u'Lingala', u'Lithuanian',
-    u'Luxembourgish', u'Luba-Katanga', u'Ganda',
-    u'Macedonian', u'Marshallese', u'Malayalam', u'Maori',
-    u'Marathi', u'Malay', u'Malagasy', u'Maltese',
-    u'Mongolian', u'Nauru', u'Navajo', u'Ndebele, South',
-    u'Ndebele, North', u'Ndonga', u'Nepali',
-    u'Norwegian Nynorsk', u'Bokm\xe5l, Norwegian', u'Norwegian',
-    u'Chichewa', u'Occitan', u'Ojibwa', u'Oriya',
-    u'Oromo', u'Ossetian', u'Panjabi', u'Persian', u'Pali',
-    u'Polish', u'Portuguese', u'Pushto', u'Quechua',
-    u'Romansh', u'Romanian', u'Rundi', u'Russian', u'Sango',
-    u'Sanskrit', u'Sinhala', u'Slovak', u'Slovenian',
-    u'Northern Sami', u'Samoan', u'Shona', u'Sindhi', u'Somali',
-    u'Sotho, Southern', u'Spanish', u'Sardinian',
-    u'Serbian', u'Swati', u'Sundanese', u'Swahili', u'Swedish',
-    u'Tahitian', u'Tamil', u'Tatar', u'Telugu',
-    u'Tajik', u'Tagalog', u'Thai', u'Tibetan', u'Tigrinya',
-    u'Tonga (Tonga Islands)', u'Tswana', u'Tsonga',
-    u'Turkmen', u'Turkish', u'Twi', u'Uighur', u'Ukrainian',
-    u'Urdu', u'Uzbek', u'Venda', u'Vietnamese',
-    u'Volap\xfck', u'Welsh', u'Walloon', u'Wolof', u'Xhosa',
-    u'Yiddish', u'Yoruba', u'Zhuang', u'Zulu'
+SAMPLE_LANGUAGES = [
+    u'Afrikaans',
+    u'Sichuan Yi',
+    u'Bokm\xe5l, Norwegian',
+    u'Volap\xfck',
+    u'Tonga (Tonga Islands)'
 ]
+
+SELECTED_COUNTRY = u'Pakistan'
+
+SELECTED_LANGUAGE = u'Urdu'
