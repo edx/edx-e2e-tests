@@ -5,7 +5,7 @@ from bok_choy.web_app_test import WebAppTest
 
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.settings_studio import SettingsPageExtended
-from regression.tests.helpers import LoginHelper, get_course_info
+from regression.tests.helpers.helpers import LoginHelper, get_course_info
 
 from regression.pages.studio.utils import (
     get_text

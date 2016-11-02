@@ -6,7 +6,7 @@ from regression.pages.studio.utils import (
     click_confirmation_prompt_primary_button
 )
 
-from regression.tests.helpers import get_url
+from regression.tests.helpers.helpers import get_url
 
 
 class CourseOutlinePageExtended(CourseOutlinePage):
@@ -28,7 +28,8 @@ class CourseOutlinePageExtended(CourseOutlinePage):
             text (str): The section added will be named to this
         """
         self.q(css='.wrapper-mast nav.nav-actions .button-new').click()
-        section_css = '.wrapper-section-title.wrapper-xblock-field.incontext-editor.is-editable.is-editing' \
+        section_css = '.wrapper-section-title.wrapper-xblock-field.' \
+                      'incontext-editor.is-editable.is-editing' \
                       ' .xblock-field-input.incontext-editor-input'
         self.wait_for_element_visibility(section_css, 'Section is visible')
         self.q(

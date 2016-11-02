@@ -9,7 +9,7 @@ from regression.pages.studio.grading_studio import GradingPageExtended
 from regression.pages.studio.course_outline_page import (
     CourseOutlinePageExtended
 )
-from regression.tests.helpers import LoginHelper, get_course_info
+from regression.tests.helpers.helpers import LoginHelper, get_course_info
 
 
 class StudioGradingTest(WebAppTest):

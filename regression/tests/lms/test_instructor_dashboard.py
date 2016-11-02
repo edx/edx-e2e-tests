@@ -8,7 +8,7 @@ from regression.pages.lms.instructor_dashboard import (
     InstructorDashboardPageExtended
 )
 from regression.pages.lms.course_page_lms import CourseInfoPageExtended
-from regression.tests.helpers import (
+from regression.tests.helpers.helpers import (
     LoginHelper, get_course_info, get_course_display_name
 )
 from regression.pages.lms.utils import get_course_key

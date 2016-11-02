@@ -9,7 +9,7 @@ from regression.pages.studio.course_info_studio import (
     CourseUpdatesPageExtended
 )
 
-from regression.tests.helpers import LoginHelper, get_course_info
+from regression.tests.helpers.helpers import LoginHelper, get_course_info
 
 
 class CourseUpdateTest(WebAppTest):

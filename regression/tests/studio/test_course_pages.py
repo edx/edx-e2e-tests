@@ -5,7 +5,7 @@ from uuid import uuid4
 from bok_choy.web_app_test import WebAppTest
 
 from regression.pages.studio.login_studio import StudioLogin
-from regression.tests.helpers import LoginHelper, get_course_info
+from regression.tests.helpers.helpers import LoginHelper, get_course_info
 from regression.pages.studio.pages_page_studio import PagesPageExtended
 
 
