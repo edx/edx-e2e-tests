@@ -48,3 +48,17 @@ class DashboardPageExtended(DashboardPage):
             "document.querySelectorAll('[data-course-key = \"course-v1:"
             "ArbiRaees+AR-1000+fall\"] .view-button')[0].click();")
         self.browser.switch_to_window(self.browser.window_handles[-1])
+
+    def click_terms_of_service(self):
+        """
+        Clicks Terms of Service link
+        """
+        self.q(css='a[href="https://stage.edx.org/edx-terms-service"]').click()
+
+    def click_privacy_policy(self):
+        """
+        Clicks Privacy Policy link
+        """
+        self.q(
+            css='a[href="https://stage.edx.org/edx-privacy-policy"]'
+        ).click()
