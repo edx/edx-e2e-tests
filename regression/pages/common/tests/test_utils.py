@@ -11,7 +11,8 @@ from regression.pages.common.utils import (
     read_enrollment_codes_from_text,
     extract_mmm_dd_yyyy_date_string_from_text,
     convert_date_format,
-    extract_numerical_value_from_price_string
+    extract_numerical_value_from_price_string,
+    verify_trailing_slash
 )
 
 
@@ -330,6 +331,9 @@ class TestUtils(unittest.TestCase):
             original_format:
             required_format:
             result:
+
+        Returns:
+
         """
         self.assertEqual(
             convert_date_format(
@@ -474,3 +478,23 @@ class TestUtils(unittest.TestCase):
             extract_numerical_value_from_price_string(value),
             'No numerical value found in search string'
         )
+
+    @data(
+        {
+            "input_url": 'https://www.example.com',
+            "resulting_url": 'https://www.example.com/'
+        },
+        {
+            "input_url": 'https://www.example.com/',
+            "resulting_url": 'https://www.example.com/'
+        }
+    )
+    @unpack
+    def test_verify_trailing_slash(self, input_url, resulting_url):
+        """
+        Test that verify trailing slash function is behaving correctly
+        Args:
+            input_url:
+            resulting_url
+        """
+        self.assertEqual(verify_trailing_slash(input_url), resulting_url)

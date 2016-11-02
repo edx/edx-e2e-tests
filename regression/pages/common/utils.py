@@ -17,7 +17,7 @@ def get_target_url_from_text(url_matching_string, text_chunk):
     Returns:
         target url:
     """
-    pattern = r"(?P<url>http[s]?://[^\s]+(/{}/)[^\s]+)".format(
+    pattern = r"(?P<url>http[s]?://[^\s\"]+(/{}/)[^\s\"]+)".format(
         url_matching_string
     )
     regex_result = re.search(pattern, text_chunk)
@@ -175,3 +175,18 @@ def extract_numerical_value_from_price_string(raw_price_string):
         return float(price_value.replace(",", ""))
     else:
         return 'No numerical value found in search string'
+
+
+def verify_trailing_slash(url):
+    """
+    It takes a url as input and check if it has a trailing slash, if not
+    it adds the slash
+    Args:
+        url:
+    Returns:
+        url with trailing slash
+    """
+    if url[-1] == '/':
+        return url
+    else:
+        return url + '/'

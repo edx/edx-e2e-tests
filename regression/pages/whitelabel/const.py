@@ -15,12 +15,6 @@ ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
 # Select the Org for which to run the tests, Default is MITProfessionalX
 ORG = os.getenv('ORG', 'MITProfessionalX')
 
-# TEST EMAIL account
-TEST_EMAIL_SERVICE = os.environ['TEST_EMAIL_SERVICE']
-TEST_EMAIL_ACCOUNT = os.environ['TEST_EMAIL_ACCOUNT']
-DEFAULT_TEST_EMAIL_ACCOUNT = TEST_EMAIL_ACCOUNT.format("")
-TEST_EMAIL_PASSWORD = os.environ['TEST_EMAIL_PASSWORD']
-
 # Global password
 PASSWORD = os.environ['GLOBAL_PASSWORD']
 
@@ -68,7 +62,7 @@ PROF_COURSE_TITLE = u'{} Regression Test'.format(ORG)
 PROF_COURSE_PRICE = 167.0
 
 EMAIL_SENDER_ACCOUNTS = {
-    'HarvardMedGlobalAcademy': 'hmsga-support@edx.org',
+    'HarvardMedGlobalAcademy': 'globalacademy@hms.harvard.edu',
     'HarvardXPLUS': 'hxplus-support@edx.org',
     'MITProfessionalX': 'mitprofessionalx@mit.edu',
 }
@@ -95,7 +89,8 @@ SOCIAL_MEDIA_LINKS = {
     'HarvardMedGlobalAcademy': [
         'https://www.facebook.com/HarvardMed',
         'https://twitter.com/harvardmed',
-        'https://www.linkedin.com/edu/harvard-medical-school-18482',
+        'https://www.linkedin.com/company/harvard-medical-school-global-'
+        'education',
         'https://instagram.com/harvardmed/?hl=en'
     ],
     'HarvardXPLUS': [
@@ -129,7 +124,7 @@ REG_INFO = {
 }
 
 # BILLING INFORMATION
-BILLING_INFO = {
+CARD_HOLDER_INFO = {
     'first_name': 'billing',
     'last_name': 'user',
     'address01': '23-b',
@@ -142,7 +137,8 @@ BILLING_INFO = {
 }
 
 # PAYMENT DETAILS
-PAYMENT_DETAILS = {
+BILLING_INFO = {
+    'card_type': 'visa',
     'card_number': '4111111111111111',
     'cvn': '123',
     'expiry_month': '07',
@@ -165,6 +161,8 @@ DIFF_THRESHOLD = 5000
 DEFAULT_TIMEOUT = 30
 
 TIME_OUT_LIMIT = 90
+
+SHORT_TIME_OUT_LIMIT = 30
 
 INITIAL_WAIT_TIME = 3
 
