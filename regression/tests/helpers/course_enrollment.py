@@ -219,7 +219,6 @@ class CourseEnrollmentMixin(UserAuthenticationMixin):
         coupons_text = self.lms_api_client.get_coupon_request(file_url)
         return read_enrollment_codes_from_text(coupons_text)
 
-
     def unenroll_using_ui(self):
         """
         Un-enroll student from the course

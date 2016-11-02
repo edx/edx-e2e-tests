@@ -65,8 +65,9 @@ class TestMisc(UserAuthenticationMixin):
         # Open the profile page
         self.dashboard.go_to_profile_page()
         # Get selected country and validate it
-        countries = self.profile.countries_list
         self.assertEqual(SELECTED_COUNTRY, self.profile.selected_country)
+        # Get countries list and validate it
+        countries = self.profile.countries_list
         self.assertEqual(NO_OF_COUNTRIES, len(countries))
         [self.assertIn(country, countries) for country in SAMPLE_COUNTRIES]
 
@@ -82,6 +83,5 @@ class TestMisc(UserAuthenticationMixin):
         self.assertEqual(SELECTED_LANGUAGE, self.profile.selected_language)
         # Get languages list and validate it
         languages = self.profile.languages_list
-        self.assertEqual(SELECTED_LANGUAGE, self.profile.selected_language)
         self.assertEqual(NO_OF_LANGUAGES, len(languages))
         [self.assertIn(language, languages) for language in SAMPLE_LANGUAGES]

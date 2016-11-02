@@ -114,8 +114,7 @@ class UserAuthenticationMixin(WebAppTest):
         Returns:
             target url:
         """
-        self.mail_client = MailClient()
-        email_text = self.mail_client.get_email_message(
+        email_text = MailClient().get_email_message(
             user_email,
             email_subject
         )
