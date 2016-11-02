@@ -4,9 +4,11 @@ Course pages test
 from uuid import uuid4
 from bok_choy.web_app_test import WebAppTest
 
+from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 from regression.pages.studio.login_studio import StudioLogin
 from regression.tests.helpers import LoginHelper, get_course_info
 from regression.pages.studio.pages_page_studio import PagesPageExtended
+from regression.pages.lms.login_lms import LmsLogin
 
 
 class CoursePagesTest(WebAppTest):
@@ -106,3 +108,41 @@ class CoursePagesTest(WebAppTest):
         self.assertEqual(
             page_count, self.pages_page.get_page_count()
         )
+
+    def test_see_an_example_popup(self):
+        """
+        Verifies that user can click and view See an Example pop up
+        """
+        self.pages_page.visit()
+        self.pages_page.click_and_verify_see_an_example()
+
+
+class PagesTestWithLms(WebAppTest):
+    """
+    Course Pages test where we verify on Lms too
+    """
+    def setUp(self):
+        super(PagesTestWithLms, self).setUp()
+        self.course_info = get_course_info()
+        # Login to Lms first to avoid authentication
+        self.login_page = LmsLogin(self.browser)
+        LoginHelper.login(self.login_page)
+
+        self.studio_login_page = StudioLogin(self.browser)
+        LoginHelper.login(self.studio_login_page)
+        self.pages_page = PagesPageExtended(
+            self.browser,
+            self.course_info['org'],
+            self.course_info['number'],
+            self.course_info['run']
+        )
+        self.pages_page.visit()
+
+    def test_view_live_pages(self):
+        """
+        Verifies that user can View live course from pages page
+        """
+        self.pages_page.click_view_live_button()
+        courseware_page = CoursewarePage(
+            self.browser, get_course_info())
+        courseware_page.wait_for_page()
