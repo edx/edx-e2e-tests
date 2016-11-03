@@ -102,7 +102,7 @@ INVALID_DOMAIN_USERS = {
 
 # Email domains
 
-VALID_EMAIL_DOMAINS = "emaildomainfour.com, emaildomainfive.com"
+VALID_EMAIL_DOMAINS = "emaildomainfour.com,emaildomainfive.com"
 
 # Courses for dynamic coupons testing
 COUPON_COURSES = {

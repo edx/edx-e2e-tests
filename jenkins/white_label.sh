@@ -21,11 +21,11 @@ pip install -r requirements/base.txt
 # Run the tests
 organizations="MITProfessionalX HarvardXPLUS HarvardMedGlobalAcademy"
 
-# Run General tests on all organizations using Firefox
+# Run General tests on all organizations using Chrome
 for organization in ${organizations}; do
     export SELENIUM_BROWSER=chrome
     export ORG=${organization}
-    echo "Running General tests using Firefox on" ${organization}
+    echo "Running General tests using Chrome on" ${organization}
     paver e2e_wl_test general || EXIT=1
 done
 
