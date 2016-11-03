@@ -86,3 +86,19 @@ class PagesPageExtended(CoursePageExtended):
         return self.browser.execute_script(
             'return tinyMCE.activeEditor.getContent()'
         )
+
+    def click_view_live_button(self):
+        """
+        Clicks view live button on pages page and switches to new window
+        """
+        self.q(css='.view-live-button').click()
+        self.browser.switch_to_window(self.browser.window_handles[-1])
+
+    def click_and_verify_see_an_example(self):
+        """
+        Clicks see an example pop up on pages page and verifies pop up displays
+        """
+        self.q(css='a[href="#preview-lms-staticpages"]').click()
+        self.wait_for_element_visibility(
+            'img[alt="Preview of Pages in your course"]', 'Pop up visibility'
+        )
