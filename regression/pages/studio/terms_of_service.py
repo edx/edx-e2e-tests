@@ -12,4 +12,6 @@ class TermsOfService(PageObject):
     url = BASE_URL + '/edx-terms-service'
 
     def is_browser_on_page(self):
-        return 'edX Terms of Service' in self.browser.title
+        return "Please read these Terms of Service" in self.q(
+            css='.field-page-body'
+        ).text[0]
