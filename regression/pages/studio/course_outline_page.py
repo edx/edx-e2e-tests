@@ -2,6 +2,7 @@
 Course Outline Page for Studio
 """
 from edxapp_acceptance.pages.studio.overview import CourseOutlinePage
+from selenium.webdriver.common.action_chains import ActionChains
 from regression.pages.studio.utils import (
     click_confirmation_prompt_primary_button
 )
@@ -98,3 +99,14 @@ class CourseOutlinePageExtended(CourseOutlinePage):
         ).first.click()
         self.wait_for_ajax()
         click_confirmation_prompt_primary_button(self)
+
+    def click_edit_start_date_button(self):
+        """
+        Clicks edit start date button on Course Outline page
+        """
+        button = self.q(css='.action-button span.icon.fa.fa-pencil').results[0]
+        # This button is hidden, hovering on it makes it visible
+        # Using ActionChains to handle this
+        ActionChains(
+            self.browser
+        ).move_to_element(button).click(button).perform()
