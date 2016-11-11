@@ -15,8 +15,7 @@ class BackToBasketPage(PageObject):
 
     def is_browser_on_page(self):
         """
-        Returns:
-                True if error message container is present on the page:
+        Verifies that error message container is present on the page
         """
         return self.q(css='.depth.depth-2.message-error').present
 

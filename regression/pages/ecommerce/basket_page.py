@@ -23,9 +23,7 @@ class BasketPage(PageObject):
 
     def is_browser_on_page(self):
         """
-        Is browser on the page?
-        Returns:
-            True if total price is visible on the page:
+        Verifies that total price element is visible on the page
         """
         return self.q(css='#basket_totals').visible
 

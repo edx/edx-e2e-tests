@@ -22,9 +22,7 @@ class Ecommerce(PageObject):
 
     def is_browser_on_page(self):
         """
-        Is browser on the page
-        Returns:
-            True if sign in button is visible:
+        Verifies that login button is visible on the page
         """
         return self.q(
             css='.action.action-primary.action-update.js-login.login-button'
