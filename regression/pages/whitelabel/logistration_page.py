@@ -119,7 +119,7 @@ class RegistrationPage(PageObject):
         }
         for key, val in select_names_and_values.iteritems():
             select_value_from_drop_down(self, key, val)
-        if org != 'HarvardXPLUS':
+        if org != 'HarvardMedGlobalAcademy':
             select_names_and_values = {
                 "gender": reg_info['gender'],
                 "level_of_education": reg_info['edu_level']
