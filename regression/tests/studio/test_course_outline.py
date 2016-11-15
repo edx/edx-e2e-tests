@@ -3,6 +3,8 @@ End to end tests for Studio Course Outline page
 """
 import os
 from bok_choy.web_app_test import WebAppTest
+from edxapp_acceptance.tests.helpers import assert_side_bar_help_link
+
 from regression.pages.studio.course_outline_page import (
     CourseOutlinePageExtended
 )
@@ -53,3 +55,27 @@ class StudioCourseOutlineTest(WebAppTest):
         """
         self.studio_course_outline.click_edit_start_date_button()
         self.schedule_page.wait_for_page()
+
+    def test_content_visibility_help(self):
+        """
+        Scenario: Help link for
+        'Learn more about content visibility settings' is working
+        Given that I am on the 'Course Outline' page.
+        And I want help about the content visibility settings.
+        And I click 'Learn more about content visibility settings'
+        in the sidebar
+        Then Help link should open.
+        And url should point to the content visibility help page.
+        """
+        # The url we want to see in anchor help element.
+        expected_href = 'https://edx.readthedocs.io/projects/' \
+                        'edx-partner-course-staff/en/latest/' \
+                        'developing_course/controlling_content_visibility.html'
+        # Assert that help link is correct.
+        assert_side_bar_help_link(
+            test=self,
+            page=self.studio_course_outline,
+            href=expected_href,
+            help_text='Learn more about content visibility settings',
+            as_list_item=False
+        )
