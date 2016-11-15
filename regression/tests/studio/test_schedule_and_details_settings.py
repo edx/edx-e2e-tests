@@ -1,8 +1,7 @@
 """
 Regression tests for Studio's Setting page.
 """
-from bok_choy.web_app_test import WebAppTest
-
+from regression.tests.studio.studio_base_test import StudioBaseTestClass
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.settings_studio import SettingsPageExtended
 from regression.tests.helpers import LoginHelper, get_course_info
@@ -12,7 +11,7 @@ from regression.pages.studio.utils import (
 )
 
 
-class ScheduleAndDetailsTest(WebAppTest):
+class ScheduleAndDetailsTest(StudioBaseTestClass):
     """
     Tests for Studio's Setting page.
     """

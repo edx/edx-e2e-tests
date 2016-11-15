@@ -48,12 +48,28 @@ class CourseUpdatesPageExtended(CoursePageExtended):
         """
         Delete a course update.
         """
-        click_css(self, '#course-update-view .delete-button', index, False)
-        click_css(self, '.prompt.warning.has-actions .action-primary', 0, True)
-        self.wait_for_element_invisibility(
-            '.prompt.warning.has-actions .action-primary',
-            'Delete prompt is not visible'
-        )
+        if self.get_course_update_count() > 0:
+            click_css(self, '#course-update-view .delete-button', index, False)
+            click_css(
+                self, '.prompt.warning.has-actions .action-primary', 0, True
+            )
+            self.wait_for_element_invisibility(
+                '.prompt.warning.has-actions .action-primary',
+                'Delete prompt is not visible'
+            )
+
+    def get_course_update_count(self):
+        """
+        Get course update count.
+        """
+        return len(self.q(css='#course-update-view .delete-button').results)
+
+    def delete_all_course_updates(self):
+        """
+        Delete all course updates.
+        """
+        while self.get_course_update_count() > 0:
+            self.delete_course_update()
 
     def edit_course_handout(self, update_handout_text):
         """

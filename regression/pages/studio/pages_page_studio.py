@@ -3,8 +3,9 @@ Extended Pages page for a course.
 """
 from edxapp_acceptance.pages.common.utils import (
     wait_for_notification,
-    click_css)
-
+    click_css
+)
+from regression.pages.studio.utils import click_css_with_animation_enabled
 from regression.pages.studio.course_page_studio import CoursePageExtended
 
 
@@ -21,7 +22,12 @@ class PagesPageExtended(CoursePageExtended):
         """
         Adds a new empty page.
         """
-        click_css(self, '.button.new-button.new-tab', 0, False)
+        click_css_with_animation_enabled(
+            page=self,
+            css='.button.new-button.new-tab',
+            source_index=0,
+            require_notification=False
+        )
         self.wait_for_element_visibility(
             '.component.course-tab.is-movable', 'New page is not visible'
         )
@@ -34,7 +40,12 @@ class PagesPageExtended(CoursePageExtended):
             new_content (str): New content to set.
             index (int): Index of page
         """
-        click_css(self, '.action-button-text', index, False)
+        click_css_with_animation_enabled(
+            page=self,
+            css='.action-button-text',
+            source_index=index,
+            require_notification=False
+        )
         self.browser.execute_script(
             'tinyMCE.activeEditor.setContent("{}")'.format(new_content)
         )
@@ -51,15 +62,33 @@ class PagesPageExtended(CoursePageExtended):
         Arguments:
             index (int): Index of page
         """
-        click_css(self, '.delete-button.action-button', index, False)
+        click_css_with_animation_enabled(
+            page=self,
+            css='.delete-button.action-button',
+            source_index=index,
+            require_notification=False
+        )
         self.q(css='.prompt.warning button.action-primary ').first.click()
         wait_for_notification(self)
+
+    def delete_all_pages(self):
+        """
+        Deletes all pages.
+        """
+        while self.get_page_count() > 0:
+            self.delete_page()
 
     def reload_and_wait_for_page(self):
         """
         Reloads and waits for the newly added page to appear.
         """
         self.browser.refresh()
+        self.wait_for_the_visibility_of_new_page()
+
+    def wait_for_the_visibility_of_new_page(self):
+        """
+        Ensures that newly added page is rendered and is visible.
+        """
         self.wait_for_element_visibility(
             '.delete-button.action-button', 'Added pages have been loaded.'
         )
@@ -82,10 +111,22 @@ class PagesPageExtended(CoursePageExtended):
         Returns:
             str: Content of page.
         """
-        click_css(self, '.action-button-text', index, False)
-        return self.browser.execute_script(
+        click_css(
+            page=self,
+            css='.action-button-text',
+            source_index=index,
+            require_notification=False
+        )
+        content = self.browser.execute_script(
             'return tinyMCE.activeEditor.getContent()'
         )
+        click_css(
+            page=self,
+            css='.button.action-cancel',
+            source_index=0,
+            require_notification=False
+        )
+        return content
 
     def click_view_live_button(self):
         """

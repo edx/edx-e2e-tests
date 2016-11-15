@@ -2,16 +2,18 @@
 Course pages test
 """
 from uuid import uuid4
-from bok_choy.web_app_test import WebAppTest
 
+from bok_choy.web_app_test import WebAppTest
 from edxapp_acceptance.pages.lms.courseware import CoursewarePage
+
+from regression.tests.studio.studio_base_test import StudioBaseTestClass
 from regression.pages.studio.login_studio import StudioLogin
 from regression.tests.helpers import LoginHelper, get_course_info
 from regression.pages.studio.pages_page_studio import PagesPageExtended
 from regression.pages.lms.login_lms import LmsLogin
 
 
-class CoursePagesTest(WebAppTest):
+class CoursePagesTest(StudioBaseTestClass):
     """
     Course Pages test
     """

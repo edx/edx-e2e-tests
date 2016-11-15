@@ -47,6 +47,12 @@ class AssetIndexPageExtended(AssetIndexPage):
         """
         return self.q(css='.assets-table tbody tr .title').text
 
+    def get_files_count(self):
+        """
+        Returns the count of files uploaded.
+        """
+        return len(self.q(css='#asset-table-body tr'))
+
     def delete_file(self, file_indexes):
         """
         Delete the file(s)
