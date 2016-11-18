@@ -1,10 +1,13 @@
 """
 Extended Pages page for a course.
 """
+from selenium.webdriver import ActionChains
 from edxapp_acceptance.pages.common.utils import (
     wait_for_notification,
     click_css
 )
+from edxapp_acceptance.pages.studio.utils import drag
+
 from regression.pages.studio.utils import click_css_with_animation_enabled
 from regression.pages.studio.course_page_studio import CoursePageExtended
 
@@ -75,7 +78,7 @@ class PagesPageExtended(CoursePageExtended):
         """
         Deletes all pages.
         """
-        while self.get_page_count() > 0:
+        while self.get_custom_page_count() > 0:
             self.delete_page()
 
     def reload_and_wait_for_page(self):
@@ -93,12 +96,9 @@ class PagesPageExtended(CoursePageExtended):
             '.delete-button.action-button', 'Added pages have been loaded.'
         )
 
-    def get_page_count(self):
+    def get_custom_page_count(self):
         """
-        Get the count of all new pages added.
-
-        Returns:
-            int: Count of pages
+        Returns the count of custom pages
         """
         return len(self.q(css='.component.course-tab.is-movable'))
 
@@ -143,3 +143,67 @@ class PagesPageExtended(CoursePageExtended):
         self.wait_for_element_visibility(
             'img[alt="Preview of Pages in your course"]', 'Pop up visibility'
         )
+
+    def click_hide_show_toggle(self, index=0):
+        """
+        Clicks hide/show toggle button
+        """
+        toggle_checkbox_css = '.toggle-checkbox'
+        toggle_checkbox = self.q(css=toggle_checkbox_css).results[index]
+        ActionChains(self.browser).move_to_element(
+            toggle_checkbox
+        ).click().perform()
+        wait_for_notification(self)
+        # Complicated query, so executing using jQuery.
+        return self.browser.execute_script(
+            "return $('{}:eq({})').parents().eq(3).find("
+            "'.course-nav-item-header .title').text()".format(
+                toggle_checkbox_css, index
+            )
+        )
+
+    def get_all_pages(self):
+        """
+        Returns all pages
+        """
+        temp = self.q(css='.course-tab .course-nav-item-header').text
+
+        all_pages = temp + self.q(css='.course-tab .xblock').text
+        return all_pages
+
+    def get_all_pages_count(self):
+        """
+        Returns the count of all pages.
+        """
+        return len(
+            self.q(
+                css='.course-tab'
+            ).results
+        )
+
+    def is_page_configured_to_show(self, index=0):
+        """
+        Check whether a page is configured to show of not.
+
+        Arguments:
+            index (int): Index of the page.
+
+        Returns:
+            bool: True if shown otherwise False.
+        """
+        toggle_value = self.q(
+            css='.toggle-checkbox'
+        ).results[index].get_attribute('checked')
+        if toggle_value:
+            return False
+        return True
+
+    def drag_and_drop(self, source_index, target_index):
+        """
+        Drags and drops the page at source_index to the page at target_index
+
+        Args:
+            source_index (int):The index of element to be dragged and dropped
+            target_index (int):The index element to be dragged and dropped upon
+        """
+        drag(self, source_index, target_index)
