@@ -3,6 +3,7 @@ Extended Textbooks page
 """
 from edxapp_acceptance.pages.studio.textbook_upload import TextbookUploadPage
 
+from selenium.webdriver.common.action_chains import ActionChains
 from regression.pages import UPLOAD_FILE_DIR
 from regression.tests.helpers import get_url
 
@@ -69,3 +70,14 @@ class TextbookPageExtended(TextbookUploadPage):
         """
         while self.get_textbook_count() > 0:
             self.click_delete_button()
+
+    def click_view_live_textbook(self):
+        """
+        Clicks View Live button on the first textbook available
+        """
+        button = self.q(css='.view').results[0]
+        # This button is hidden, hovering on it makes it visible
+        # Using ActionChains to handle this
+        ActionChains(
+            self.browser
+        ).move_to_element(button).click(button).perform()
