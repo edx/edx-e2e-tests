@@ -11,4 +11,4 @@ class TextbookPage(PageObject):
     url = None
 
     def is_browser_on_page(self):
-        return self.q(css='.chapter').present
+        return self.q(css='.chapter').visible
