@@ -8,6 +8,8 @@ from regression.tests.studio.studio_base_test import StudioBaseTestClass
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.studio_textbooks import TextbookPageExtended
 from regression.tests.helpers import LoginHelper, get_course_info
+from regression.pages.lms.login_lms import LmsLogin
+from regression.pages.lms.lms_textbook import TextbookPage
 
 
 class TextbookTest(StudioBaseTestClass):
@@ -16,7 +18,12 @@ class TextbookTest(StudioBaseTestClass):
     """
     def setUp(self):
         super(TextbookTest, self).setUp()
+        # Login to Lms first to avoid authentication
+        self.lms_login_page = LmsLogin(self.browser)
+        LoginHelper.login(self.lms_login_page)
+
         self.login_page = StudioLogin(self.browser)
+        self.lms_textbook = TextbookPage(self.browser)
         LoginHelper.login(self.login_page)
         self.course_info = get_course_info()
 
@@ -28,6 +35,7 @@ class TextbookTest(StudioBaseTestClass):
 
         self.textbook_page.visit()
         self.textbook_name = 'book_{}'.format(uuid4().hex)
+        self.chapter_name = 'chap_1'
         # Add textbook
         self.add_textbook()
 
@@ -40,10 +48,21 @@ class TextbookTest(StudioBaseTestClass):
             '.edit-textbook #textbook-name-input', self.textbook_name
         )
         self.textbook_page.set_input_field_value(
-            '.edit-textbook #chapter1-name', 'chap_1'
+            '.edit-textbook #chapter1-name', self.chapter_name
         )
         self.textbook_page.upload_textbook('test_pdf.pdf')
         self.textbook_page.click_textbook_submit_button()
+
+    def test_textbook_verify_on_lms(self):
+        """
+        Verifies that user can add and visit textbook on LMS
+        """
+        self.add_textbook()
+        self.textbook_page.click_view_live_textbook()
+        self.lms_textbook.wait_for_page()
+        self.assertIn(
+            self.chapter_name, self.lms_textbook.q(css='.chapter').text
+        )
 
     def test_textbook_edit(self):
         """
