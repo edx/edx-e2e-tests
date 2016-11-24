@@ -27,9 +27,9 @@ class LmsLogin(LoginPage):
         email_selector = 'input#login-email'
         password_selector = 'input#login-password'
 
-        self.wait_for_element_presence(
+        self.wait_for_element_visibility(
             email_selector, 'Email input area present')
-        self.wait_for_element_presence(
+        self.wait_for_element_visibility(
             password_selector, 'Password input are present')
 
         self.q(css=email_selector).fill(email)
@@ -46,3 +46,11 @@ class LmsLogin(LoginPage):
         dashboard = DashboardPage(self.browser)
         dashboard.wait_for_page()
         return dashboard
+
+    def click_remember_me(self):
+        """
+        Clicks Remember Me checkbox
+        """
+        self.q(css='#login-remember').click()
+        # Click initiates an ajax call
+        self.wait_for_ajax()
