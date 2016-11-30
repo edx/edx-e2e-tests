@@ -37,7 +37,7 @@ class MailClient(object):
     """
 
     def __init__(self):
-        self.mail = imaplib.IMAP4_SSL(TEST_EMAIL_SERVICE, port=993)
+        self.mail = imaplib.IMAP4_SSL(TEST_EMAIL_SERVICE)
 
     def login_to_email_account(self):
         """
