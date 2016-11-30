@@ -10,6 +10,8 @@ $script = <<SCRIPT
     # Install system requirements
     apt-get update -y
     apt-get install -y git python2.7 python-pip python2.7-dev firefox dbus-x11 vim
+    apt-get install -y libtiff4-dev libjpeg8-dev zlib1g-dev     libfreetype6-dev liblcms2-dev libwebp-dev tcl8.5-dev tk8.5-dev python-tk
+    apt-get install -y libxslt1-dev libxml2-dev
     pip install virtualenv==1.10.1
     pip install virtualenvwrapper
 
@@ -23,7 +25,7 @@ INIT
 
     # Install Python requirements and page objects
     sudo -u vagrant virtualenv /home/vagrant/.virtualenvs/e2e
-    sudo -u vagrant PYTHONUNBUFFERED=1 sh -c ". /home/vagrant/.virtualenvs/e2e/bin/activate && pip install -r /home/vagrant/edx-e2e-tests/requirements/base.txt && fab -f /home/vagrant/edx-e2e-tests/fabfile.py install_pages"
+    sudo -u vagrant PYTHONUNBUFFERED=1 sh -c ". /home/vagrant/.virtualenvs/e2e/bin/activate && pip install -r /home/vagrant/edx-e2e-tests/requirements/base.txt && cd /home/vagrant/edx-e2e-tests/; paver install_pages"
 
 SCRIPT
 
