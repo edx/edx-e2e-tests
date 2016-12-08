@@ -10,9 +10,7 @@ from regression.pages.studio.course_outline_page import (
 )
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.studio_home import DashboardPageExtended
-from regression.pages.studio.schedule_and_details_page import (
-    StudioScheduleDetails
-)
+from regression.pages.studio.settings_studio import SettingsPageExtended
 from regression.tests.helpers import (
     get_course_info, get_course_display_name
 )
@@ -33,7 +31,6 @@ class StudioCourseOutlineTest(WebAppTest):
         super(StudioCourseOutlineTest, self).setUp()
         self.studio_login_page = StudioLogin(self.browser)
         self.studio_home_page = DashboardPageExtended(self.browser)
-        self.schedule_page = StudioScheduleDetails(self.browser)
         self.studio_login_page.visit()
         self.studio_login_page.login(self.DEMO_COURSE_USER,
                                      self.DEMO_COURSE_PASSWORD)
@@ -41,6 +38,10 @@ class StudioCourseOutlineTest(WebAppTest):
         self.course_info = get_course_info()
 
         self.studio_course_outline = CourseOutlinePageExtended(
+            self.browser, self.course_info['org'], self.course_info['number'],
+            self.course_info['run'])
+
+        self.schedule_page = SettingsPageExtended(
             self.browser, self.course_info['org'], self.course_info['number'],
             self.course_info['run'])
 
