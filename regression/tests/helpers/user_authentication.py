@@ -5,7 +5,7 @@ import uuid
 
 from bok_choy.web_app_test import WebAppTest
 
-from regression.pages.common.email_client import MailClient
+from regression.pages.common.email_client import TempMailApi
 from regression.pages.common.utils import get_target_url_from_text
 from regression.pages.whitelabel.activate_account import ActivateAccount
 from regression.pages.whitelabel.dashboard_page import DashboardPage
@@ -18,7 +18,6 @@ from regression.pages.whitelabel.logout_page import (
     EcommerceLogoutPage
 )
 from regression.pages.whitelabel.const import (
-    TEST_EMAIL_ACCOUNT,
     ORG,
     PASSWORD,
     REG_INFO,
@@ -72,11 +71,11 @@ class UserAuthenticationMixin(WebAppTest):
         """
         Prepare and fill registration data
         """
-        user_name = str(uuid.uuid4().node)
-        partial_email_account_name = '+' + user_name
-        self.user_email = TEST_EMAIL_ACCOUNT.format(partial_email_account_name)
+        self.temp_mail = TempMailApi()
+        self.user_name = str(uuid.uuid4().node)
+        self.user_email = self.temp_mail.get_email_account(self.user_name)
         self.registration.fill_registration_form(
-            self.user_email, PASSWORD, user_name, REG_INFO, ORG)
+            self.user_email, PASSWORD, self.user_name, REG_INFO, ORG)
 
     def account_activation(self):
         """
@@ -87,7 +86,6 @@ class UserAuthenticationMixin(WebAppTest):
         # Get activation link from email
         activation_url = self.get_url_from_email(
             self.user_email,
-            'Activate',
             'activate'
         )
         # Open a new window and go to activation link in this window
@@ -102,21 +100,19 @@ class UserAuthenticationMixin(WebAppTest):
         self.browser.switch_to.window(main_window)
         self.browser.refresh()
 
-    def get_url_from_email(self, user_email, email_subject, matching_string):
+    def get_url_from_email(self, user_email, matching_string):
         """
         Connect to the email client
         Get text of target email
         fetch desired url from the email text
         Args:
             user_email:
-            email_subject:
             matching_string:
         Returns:
             target url:
         """
-        email_text = MailClient().get_email_message(
-            user_email,
-            email_subject
+        email_text = self.temp_mail.get_email_text(
+            user_email
         )
         return get_target_url_from_text(matching_string, email_text)
 

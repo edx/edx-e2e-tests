@@ -3,6 +3,7 @@ Tests for new users using Otto
 """
 
 from regression.pages.whitelabel.const import (
+    PASSWORD,
     PROF_COURSE_ID,
     PROF_COURSE_TITLE,
     PROF_COURSE_PRICE
@@ -149,3 +150,58 @@ class TestNewUserOtto(CourseEnrollmentMixin):
         self.receipt.go_to_dashboard()
         self.assertFalse(self.dashboard.is_course_present(self.course_id))
         self.logout_user_from_lms()
+
+
+    def test_04_multi_seat_flow(self):
+        """
+        Scenario: Otto Group Purchase - A new user is able to select a course, register and make
+        payment for the course using the credit card
+        """
+        self.course_id = PROF_COURSE_ID
+        self.course_title = PROF_COURSE_TITLE
+        self.item_price = PROF_COURSE_PRICE
+        self.course_price = PROF_COURSE_PRICE
+        self.total_price = PROF_COURSE_PRICE
+        seat_counter = 2
+        # Login to application using the existing credentials
+        # Go to registration page and register for the course
+        self.find_courses.visit()
+        # click on the target course to go to it's about page
+        self.find_courses.go_to_course_about_page(self.course_about)
+        # Verify that course price is correct on course about page
+        self.assertEqual(self.course_price, self.course_about.course_price)
+        # register for course
+        self.course_about.register_using_group_purchase_button()
+        self.register_user(self.inactive_account)
+        # Application should take user to the page where activate account message is displayed
+        self.assertTrue(self.inactive_account.is_activation_message_present())
+        self.account_activation()
+        # Verify course name, course price and total price on basket page
+        self.verify_course_name_on_basket()
+        # increase number of seats
+        self.increase_seats(seat_counter)
+        # course price and total price after increasing seats
+        self.course_price = PROF_COURSE_PRICE * seat_counter
+        self.total_price = PROF_COURSE_PRICE * seat_counter
+        # Go to next page to make the payment
+        self.basket.go_to_cybersource_page()
+        # Fill out all the billing and payment details and submit the form
+        self.otto_payment_using_cyber_source()
+        # Application should take user to the receipt page
+        # Verify on receipt page that information like course title, course price, total price
+        # order date and billing to is displayed correctly
+        self.verify_receipt_info()
+        self.receipt.go_to_dashboard()
+        self.assertFalse(self.dashboard.is_course_present(self.course_id))
+        self.logout_user_from_lms()
+        enrollment_file_link = self.get_url_from_email(
+            self.user_email,
+            'enrollment_code_csv'
+        )
+        coupons = self.get_bulk_purchase_enrollment_codes(
+            self.user_email,
+            PASSWORD,
+            enrollment_file_link
+        )
+        self.assertEqual(len(coupons), seat_counter)
+

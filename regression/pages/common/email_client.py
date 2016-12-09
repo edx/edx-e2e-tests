@@ -3,15 +3,11 @@ Email Client for reading emails
 """
 import time
 import datetime
-import imaplib
-import email
+from tempmail import TempMail
 
 from regression.pages.whitelabel.const import (
-    DEFAULT_TEST_EMAIL_ACCOUNT,
     EMAIL_SENDER_ACCOUNT,
     INITIAL_WAIT_TIME,
-    TEST_EMAIL_PASSWORD,
-    TEST_EMAIL_SERVICE,
     TIME_OUT_LIMIT,
     WAIT_TIME
 )
@@ -31,108 +27,51 @@ def yesterday_date():
     return (datetime.date.today() - datetime.timedelta(1)).strftime("%d-%b-%Y")
 
 
-class MailClient(object):
-    """
-    Connect to email client using imap and read mails from Inbox
-    """
+class TempMailApi(object):
 
     def __init__(self):
-        self.mail = imaplib.IMAP4_SSL(TEST_EMAIL_SERVICE)
+        self.session = TempMail()
 
-    def login_to_email_account(self):
+    def get_email_account(self, user_name):
         """
-        Login to email account
+        This function will create an account on TempMail using given user name and first
+        of the available domains. The email address created by joining user name and domain
+        is returned
+        :param user_name:
+        :return: email address:
         """
-        self.mail.login(
-            DEFAULT_TEST_EMAIL_ACCOUNT, TEST_EMAIL_PASSWORD)
+        self.session.login = user_name
+        self.session.domain = self.session.available_domains[0]
+        return self.session.get_email_address()
 
-    def open_inbox(self):
+    def get_email_text(self, pattern):
         """
-        Open inbox to get the list of emails
+        This function will check the availability MIT enrollment email at TempMail server at the
+        intervals of 5 seconds and if the email is found it's text is returned.
+        If the email is not found after 40 seconds, this function will raise and error
+        :param pattern:
+        :return: email text
         """
-        self.mail.list()
-        # Out: list of "folders" aka labels in email.
-        self.mail.select("inbox")  # connect to inbox.
-
-    def get_latest_email_uid(self, current_email_user, mail_topic):
-        """
-        This function will check the availability of target email at the
-        intervals of 5 seconds and if the email is found it's uuid is returned.
-        If the email is not found after predefined period of time seconds,
-        this function will raise an error
-        Args:
-            current_email_user:
-            mail_topic:
-        Returns:
-            email_uuid:
-        """
-        self.login_to_email_account()
-        self.open_inbox()
-        latest_email_uid = None
+        email_text = ""
         t_end = time.time() + TIME_OUT_LIMIT
         # Run the loop for a pre defined time
         time.sleep(INITIAL_WAIT_TIME)
         while time.time() < t_end:
             try:
-                # Check that target email is present in Inbox
-                # The target mail has to satisfy following criteria
-                # a) It has to be sent during the last 24 hours (this is used
-                # mainly to speed up the search)
-                # b) Mail From and Mail To are correct
-                # c) The partial subject string is present in the mail subject
-                result, data = self.mail.uid(
-                    'search',
-                    None,
-                    '(SENTSINCE {date} HEADER FROM {mail_from} TO '
-                    '{mail_to} SUBJECT {mail_subject})'.format(
-                        date=yesterday_date(),
-                        mail_from=EMAIL_SENDER_ACCOUNT,
-                        mail_to=current_email_user,
-                        mail_subject=mail_topic
-                    )
-                )
-                if not result:
+                # Check that mail box is not empty
+                tmp_email = self.session.get_mailbox()
+                if not isinstance(tmp_email, list):
                     raise MailException
-                # Get the uid of last email that satisfies the criteria
-                latest_email_uid = data[0].split()[-1]
+                if tmp_email[-1]['mail_from'] != EMAIL_SENDER_ACCOUNT:
+                    raise MailException
+                # Fetch the email text and stop the loop
+                email_text = tmp_email[-1]['mail_text']
+                if pattern not in email_text:
+                    raise MailException
                 break
             except MailException:
                 time.sleep(WAIT_TIME)
-        if latest_email_uid:
-            return latest_email_uid
+        if email_text:
+            return email_text
         else:
-            raise MailException('No Email matching the search criteria')
-
-    def get_email_message(self, current_email_user, mail_topic):
-        """
-        Get the text message from Email
-        Args:
-            current_email_user:
-            mail_topic:
-        Returns:
-            email text:
-        """
-        resulting_data = self.mail.uid(
-            'fetch',
-            self.get_latest_email_uid(current_email_user, mail_topic),
-            '(RFC822)'
-        )
-        mail_data = resulting_data[1]
-        raw_email = mail_data[0][1]
-        email_message = email.message_from_string(raw_email)
-        return self.get_first_text_block(email_message)
-
-    @staticmethod
-    def get_first_text_block(email_message_instance):
-        """
-        In case of multiple payloads return first text block
-        Args:
-            email_message_instance:
-        """
-        maintype = email_message_instance.get_content_maintype()
-        if maintype == 'multipart':
-            for part in email_message_instance.get_payload():
-                if part.get_content_maintype() == 'text':
-                    return part.get_payload()
-        elif maintype == 'text':
-            return email_message_instance.get_payload()
+            raise MailException('No Email from ' + EMAIL_SENDER_ACCOUNT)

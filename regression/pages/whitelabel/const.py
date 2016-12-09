@@ -15,12 +15,6 @@ ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
 # Select the Org for which to run the tests, Default is MITProfessionalX
 ORG = os.getenv('ORG', 'MITProfessionalX')
 
-# TEST EMAIL account
-TEST_EMAIL_SERVICE = os.environ['TEST_EMAIL_SERVICE']
-TEST_EMAIL_ACCOUNT = os.environ['TEST_EMAIL_ACCOUNT']
-DEFAULT_TEST_EMAIL_ACCOUNT = TEST_EMAIL_ACCOUNT.format("")
-TEST_EMAIL_PASSWORD = os.environ['TEST_EMAIL_PASSWORD']
-
 # Global password
 PASSWORD = os.environ['GLOBAL_PASSWORD']
 
