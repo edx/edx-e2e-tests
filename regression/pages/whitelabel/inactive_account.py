@@ -13,9 +13,7 @@ class InactiveAccount(PageObject):
 
     def is_browser_on_page(self):
         """
-        Is browser on the page?
-        Returns:
-            True if activate element is found:
+        Verify if activate element is found on the page
         """
         return self.q(css='.activate').visible
 

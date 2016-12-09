@@ -142,5 +142,6 @@ class CourseAboutPage(PageObject):
             '.course-detail .btn-enroll.register',
             'Enrollment button is visible'
         )
+        import time; time.sleep(5)
         self.q(css='.course-detail .btn-enroll').click()
         InactiveAccount(self.browser).wait_for_page()
