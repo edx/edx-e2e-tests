@@ -99,4 +99,6 @@ class StudioBaseTestClass(WebAppTest):
 
         asset_page.visit()
         asset_count = asset_page.get_files_count()
-        asset_page.delete_file(list(range(asset_count)))
+        while asset_count != 0:
+            asset_page.click_delete_file()
+            asset_count = asset_page.get_files_count()
