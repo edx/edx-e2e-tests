@@ -29,3 +29,13 @@ class DashboardPageExtended(DashboardPage):
         Clicks donate button on Dashboard
         """
         self.q(css='.action-donate').click()
+
+    def logout_lms(self):
+        """
+        Clicks Drop down then SignOut button
+        """
+        self.q(css='.dropdown').click()
+        self.wait_for_element_visibility(
+            '.item a[href="/logout"]', 'SignOut button'
+        )
+        self.q(css='.item a[href="/logout"]').click()
