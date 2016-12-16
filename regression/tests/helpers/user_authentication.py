@@ -5,7 +5,7 @@ import uuid
 
 from bok_choy.web_app_test import WebAppTest
 
-from regression.pages.common.email_client import TempMailApi
+from regression.pages.common.email_client import GuerrillaMailApi
 from regression.pages.common.utils import get_target_url_from_text
 from regression.pages.whitelabel.activate_account import ActivateAccount
 from regression.pages.whitelabel.dashboard_page import DashboardPage
@@ -71,7 +71,7 @@ class UserAuthenticationMixin(WebAppTest):
         """
         Prepare and fill registration data
         """
-        self.temp_mail = TempMailApi()
+        self.temp_mail = GuerrillaMailApi()
         self.user_name = str(uuid.uuid4().node)
         self.user_email = self.temp_mail.get_email_account(self.user_name)
         self.registration.fill_registration_form(

@@ -1,7 +1,7 @@
 """
 Tests for new users using Otto
 """
-
+from unittest import skip
 from regression.pages.whitelabel.const import (
     PASSWORD,
     PROF_COURSE_ID,
@@ -35,39 +35,40 @@ class TestNewUserOtto(CourseEnrollmentMixin):
         self.course_price = PROF_COURSE_PRICE
         self.total_price = PROF_COURSE_PRICE
 
-    # def test_01_select_course_and_register(self):
-    #     """
-    #     Scenario: Otto Flow - A new user is able to select a course, register
-    #     and make payment for the course using the credit card
-    #     """
-    #     # Open the home page as a new unregistered used
-    #     self.find_courses.visit()
-    #     # click on the target course to go to it's about page
-    #     self.find_courses.go_to_course_about_page(self.course_about)
-    #     # Verify that course price is correct on course about page
-    #     self.assertEqual(self.course_price, self.course_about.course_price)
-    #     # register for course
-    #     self.course_about.register_using_enrollment_button()
-    #     self.register_user(self.inactive_account)
-    #     # Application should take user to the page where activate account
-    #     # message is displayed
-    #     self.assertTrue(self.inactive_account.is_activation_message_present())
-    #     self.account_activation()
-    #     # Verify course name, course price and total price on basket page
-    #     self.verify_course_name_on_basket()
-    #     self.verify_price_on_basket()
-    #     # Go to next page to make the payment
-    #     self.basket.go_to_cybersource_page()
-    #     # Fill out all the billing and payment details and submit the form
-    #     self.otto_payment_using_cyber_source()
-    #     # Application should take user to the receipt page
-    #     # Verify on receipt page that information like course title, course
-    #     # price, total price order date and billing to is displayed correctly
-    #     self.verify_receipt_info()
-    #     self.receipt.go_to_dashboard()
-    #     # Verify that course is added to user dashboard and user can access
-    #     # the course
-    #     self.assertTrue(self.is_course_added_to_dashboard())
+    @skip('disabling temporarily due to an issue with chrome om jenkins')
+    def test_01_select_course_and_register(self):
+        """
+        Scenario: Otto Flow - A new user is able to select a course, register
+        and make payment for the course using the credit card
+        """
+        # Open the home page as a new unregistered used
+        self.find_courses.visit()
+        # click on the target course to go to it's about page
+        self.find_courses.go_to_course_about_page(self.course_about)
+        # Verify that course price is correct on course about page
+        self.assertEqual(self.course_price, self.course_about.course_price)
+        # register for course
+        self.course_about.register_using_enrollment_button()
+        self.register_user(self.inactive_account)
+        # Application should take user to the page where activate account
+        # message is displayed
+        self.assertTrue(self.inactive_account.is_activation_message_present())
+        self.account_activation()
+        # Verify course name, course price and total price on basket page
+        self.verify_course_name_on_basket()
+        self.verify_price_on_basket()
+        # Go to next page to make the payment
+        self.basket.go_to_cybersource_page()
+        # Fill out all the billing and payment details and submit the form
+        self.otto_payment_using_cyber_source()
+        # Application should take user to the receipt page
+        # Verify on receipt page that information like course title, course
+        # price, total price order date and billing to is displayed correctly
+        self.verify_receipt_info()
+        self.receipt.go_to_dashboard()
+        # Verify that course is added to user dashboard and user can access
+        # the course
+        self.assertTrue(self.is_course_added_to_dashboard())
 
     def test_02_register_and_select_course(self):
         """
@@ -109,7 +110,7 @@ class TestNewUserOtto(CourseEnrollmentMixin):
     def test_03_multi_seat_flow(self):
         """
         Scenario: Otto Group Purchase - A new user is able to register,
-        selct a course and make payment for the course using the credit card
+        select a course and make payment for the course using the credit card
         """
         seat_counter = 3
         # Login to application using the existing credentials

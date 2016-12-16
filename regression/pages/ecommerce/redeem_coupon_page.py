@@ -54,7 +54,7 @@ class RedeemCouponPage(PageObject):
         Returns:
             True if offer is present:
         """
-        return self.q(css='#offer').present
+        return self.q(css='.container').present
 
     def wait_for_course_tile(self):
         """
@@ -71,7 +71,7 @@ class RedeemCouponPage(PageObject):
         Returns:
             error message:
         """
-        return self.q(css='.depth.depth-2.message-error>h3').text[0]
+        return self.q(css='.depth.depth-2.message-error-content>h3').text[0]
 
     @property
     def course_info(self):
@@ -244,7 +244,7 @@ class RedeemCouponErrorPage(PageObject):
         Returns:
             True if error message is present:
         """
-        return self.q(css='.depth.depth-2.message-error').present
+        return self.q(css='.depth.depth-2.message-error-content').present
 
     @property
     def error_message(self):
@@ -253,4 +253,4 @@ class RedeemCouponErrorPage(PageObject):
         Returns:
             error message:
         """
-        return self.q(css='.depth.depth-2.message-error>h3').text[0]
+        return self.q(css='.depth.depth-2.message-error-content>h3').text[0]

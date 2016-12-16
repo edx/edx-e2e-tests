@@ -17,7 +17,7 @@ def get_target_url_from_text(url_matching_string, text_chunk):
     Returns:
         target url:
     """
-    pattern = r"(?P<url>http[s]?://[^\s]+(/{}/)[^\s]+)".format(
+    pattern = r"(?P<url>http[s]?://[^\s\"]+(/{}/)[^\s\"]+)".format(
         url_matching_string
     )
     regex_result = re.search(pattern, text_chunk)

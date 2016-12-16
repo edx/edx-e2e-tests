@@ -3,7 +3,7 @@ Single course Discount coupons tests
 """
 import random
 from itertools import izip
-from unittest import skipUnless
+from unittest import skip
 
 from regression.pages.ecommerce.coupon_const import (
     ABSOLUTE_BENEFIT_TYPE,
@@ -36,8 +36,7 @@ from regression.pages.ecommerce.redeem_coupon_page import RedeemCouponPage
 from regression.pages.whitelabel.const import (
     PROF_COURSE_ID,
     PROF_COURSE_TITLE,
-    PROF_COURSE_PRICE,
-    ORG
+    PROF_COURSE_PRICE
 )
 from regression.pages.whitelabel.course_about_page import CourseAboutPage
 from regression.tests.helpers.vouchers import VouchersMixin
@@ -63,6 +62,7 @@ class TestSingleCourseDiscount(VouchersMixin):
         # coupon cleanup
         self.addCleanup(self.delete_coupon_after_use)
 
+    @skip('ajax loading too slow on coupons page')
     def test_00_discount_single_use_fixed_code(self):
         """
         Scenario: Discount Single Use Fixed Code: Each code can be used by one
@@ -90,7 +90,7 @@ class TestSingleCourseDiscount(VouchersMixin):
             self.enroll_using_discount_code(coupon_code)
             self.assert_enrollment_and_logout()
 
-    @skipUnless(ORG == 'MITProfessionalX', 'run for just one site')
+    # @skipUnless(ORG == 'MITProfessionalX', 'run for just one site')
     def test_01_discount_single_use_percentage_code(self):
         """
         Scenario: Discount Single Use Percentage Code: Code cannot be reused
@@ -119,7 +119,7 @@ class TestSingleCourseDiscount(VouchersMixin):
             SINGLE_USE_CODE_REUSE_ERROR.format(coupon_code)
         )
 
-    @skipUnless(ORG == 'HarvardXPLUS', 'run for just one site')
+    # @skipUnless(ORG == 'HarvardXPLUS', 'run for just one site')
     def test_02_discount_once_per_customer_fixed_code(self):
         """
         Scenario: Discount Once Per Customer Fixed Code: Code can be used up
@@ -154,7 +154,7 @@ class TestSingleCourseDiscount(VouchersMixin):
                     ONCE_PER_CUSTOMER_CODE_MAX_LIMIT
                 )
 
-    @skipUnless(ORG == 'HarvardMedGlobalAcademy', 'run for just one site')
+    # @skipUnless(ORG == 'HarvardMedGlobalAcademy', 'run for just one site')
     def test_03_discount_once_per_customer_percentage_code(self):
         """
         Scenario: Discount Once Per Customer Percentage Code: A code cannot
@@ -190,7 +190,7 @@ class TestSingleCourseDiscount(VouchersMixin):
             ONCE_PER_CUSTOMER_CODE_SAME_USER_REUSE.format(coupon_code)
         )
 
-    @skipUnless(ORG == 'MITProfessionalX', 'run for just one site')
+    # @skipUnless(ORG == 'MITProfessionalX', 'run for just one site')
     def test_04_discount_once_per_customer_fixed_code_email_domain(self):
         """
         Scenario: Discount Once Per Customer Fixed Code: Code can be used only
@@ -237,7 +237,7 @@ class TestSingleCourseDiscount(VouchersMixin):
         self.enroll_using_discount_code(coupon_code)
         self.assert_enrollment_and_logout()
 
-    @skipUnless(ORG == 'HarvardXPLUS', 'run for just one site')
+    # @skipUnless(ORG == 'HarvardXPLUS', 'run for just one site')
     def test_05_discount_single_use_fixed_code_expired(self):
         """
         Scenario: Discount Single Use Fixed Code: Relevant error message is
@@ -260,7 +260,7 @@ class TestSingleCourseDiscount(VouchersMixin):
             EXPIRED_CODE_ERROR.format(coupon_code)
         )
 
-    @skipUnless(ORG == 'HarvardMedGlobalAcademy', 'run for just one site')
+    # @skipUnless(ORG == 'HarvardMedGlobalAcademy', 'run for just one site')
     def test_06_discount_single_use_fixed_redeem_url(self):
         """
         Scenario: Existing Users - Discount Single Use Fixed Redeem URL: Each
@@ -289,7 +289,7 @@ class TestSingleCourseDiscount(VouchersMixin):
             self.use_discount_redeem_url()
             self.assert_enrollment_and_logout()
 
-    @skipUnless(ORG == 'MITProfessionalX', 'run for just one site')
+    # @skipUnless(ORG == 'MITProfessionalX', 'run for just one site')
     def test_07_discount_single_use_percentage_redeem_url(self):
         """
         Scenario: New Activated Users - Discount Single Use Percentage Redeem
@@ -319,7 +319,7 @@ class TestSingleCourseDiscount(VouchersMixin):
             SINGLE_USE_REDEEM_URL_REUSE_ERROR
         )
 
-    @skipUnless(ORG == 'HarvardXPLUS', 'run for just one site')
+    # @skipUnless(ORG == 'HarvardXPLUS', 'run for just one site')
     def test_08_discount_once_per_customer_fixed_redeem_url(self):
         """
         Scenario: Discount Once Per Customer Fixed Redeem URL: Each URL can
@@ -360,7 +360,7 @@ class TestSingleCourseDiscount(VouchersMixin):
                     ONCE_PER_CUSTOMER_REDEEM_URL_MAX_LIMIT
                 )
 
-    @skipUnless(ORG == 'HarvardMedGlobalAcademy', 'run for just one site')
+    # @skipUnless(ORG == 'HarvardMedGlobalAcademy', 'run for just one site')
     def test_09_discount_once_per_customer_percentage_redeem_url(self):
         """
         Scenario: Inactive Users - Discount Once Per Customer Percentage
@@ -396,7 +396,7 @@ class TestSingleCourseDiscount(VouchersMixin):
             ONCE_PER_CUSTOMER_REDEEM_URL_SAME_USER_REUSE
         )
 
-    @skipUnless(ORG == 'MITProfessionalX', 'run for just one site')
+    # @skipUnless(ORG == 'MITProfessionalX', 'run for just one site')
     def test_10_discount_once_per_customer_percentage_redeem_url_email(self):
         """
         Scenario: Discount Once Per Customer Fixed Code: Code can be used only
@@ -447,7 +447,7 @@ class TestSingleCourseDiscount(VouchersMixin):
         self.use_discount_redeem_url()
         self.assert_enrollment_and_logout()
 
-    @skipUnless(ORG == 'HarvardXPLUS', 'run for just one site')
+    # @skipUnless(ORG == 'HarvardXPLUS', 'run for just one site')
     def test_11_discount_once_per_customer_fixed_redeem_url_future(self):
         """
         Scenario: Discount Once Per Customer Fixed Redeem URL: Relevant error
