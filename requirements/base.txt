@@ -11,3 +11,4 @@ edx-rest-api-client==1.6.0
 ddt==1.1.1
 mock==1.0.1
 temp-mail==0.2
+python-guerrillamail==0.2.0
