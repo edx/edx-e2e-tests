@@ -70,6 +70,7 @@ class TestNewUserOtto(CourseEnrollmentMixin):
         # the course
         self.assertTrue(self.is_course_added_to_dashboard())
 
+    @skip('disabling temporarily due to an issue with chrome om jenkins')
     def test_02_register_and_select_course(self):
         """
         Scenario: Otto flow - A new user is able to register, select a course
