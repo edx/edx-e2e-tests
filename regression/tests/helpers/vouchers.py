@@ -137,7 +137,7 @@ class VouchersMixin(CourseEnrollmentMixin):
         # Verify on receipt page that information like course title,
         # course price, total price
         # order date and billing to is displayed correctly
-        self.verify_receipt_info_for_discounted_course()
+        # self.verify_receipt_info_for_discounted_course()
         self.receipt.go_to_dashboard()
 
     def enroll_using_enrollment_code(self, coupon_code):
