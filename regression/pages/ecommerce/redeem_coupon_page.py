@@ -35,7 +35,7 @@ class RedeemCouponPage(PageObject):
         """
         super(RedeemCouponPage, self).__init__(browser)
         self.coupon_code = coupon_code
-        self.course_tile = '.discount-multiple-courses>.box-shadow>div'
+        self.course_tile = '.discount-multiple-courses'
 
     @property
     def url(self):
@@ -73,6 +73,18 @@ class RedeemCouponPage(PageObject):
         """
         return self.q(css='.depth.depth-2.message-error-content>h3').text[0]
 
+    def set_course_tile_index(self, course_title):
+        """
+        Get the course tile index place based on course title
+        Args:
+            course_title:
+        """
+        names = self.q(css='.discount-multiple-courses .course-name').text
+        for index, name in enumerate(names):
+            if name == course_title:
+                self.course_tile += ':nth-of-type(' + str(index + 1) + ')'
+                break
+
     @property
     def course_info(self):
         """
@@ -82,10 +94,10 @@ class RedeemCouponPage(PageObject):
         """
         return {
             'course_name': self.q(
-                css='' + self.course_tile + '>.course-name'
+                css='' + self.course_tile + ' .course-name'
             ).text[0],
             'course_org': self.q(
-                css='' + self.course_tile + '>.course-org'
+                css='' + self.course_tile + ' .course-org'
             ).text[0],
             'course_start_date': self.course_start_date
         }
@@ -100,7 +112,7 @@ class RedeemCouponPage(PageObject):
         """
         course_price_str = self.q(
             css=self.course_tile +
-            '>.discount-mc-price-group .course-price>span'
+            ' .discount-mc-price-group .course-price>span'
         ).text[0]
         benefit_value_str = self.q(
             css=self.course_tile +
@@ -108,7 +120,7 @@ class RedeemCouponPage(PageObject):
         ).text[0]
         discounted_price_str = self.q(
             css=self.course_tile +
-            '>.discount-mc-price-group .course-new-price>span'
+            ' .discount-mc-price-group .course-new-price>span'
         ).text[0]
         return {
             'course_price': extract_numerical_value_from_price_string(
@@ -163,7 +175,7 @@ class RedeemCouponPage(PageObject):
             course start date:
         """
         date_string = self.q(
-            css='' + self.course_tile + '>.course-start'
+            css='' + self.course_tile + ' .course-start'
         ).text[0]
         date_string = extract_mmm_dd_yyyy_date_string_from_text(date_string)
         # Convert date format to 0000-00-00T00:00:00
@@ -181,7 +193,7 @@ class RedeemCouponPage(PageObject):
             alt text
         """
         return self.q(
-            css='.discount-multiple-courses>.box-shadow img').attrs('alt')
+            css=self.course_tile + ' img').attrs('alt')
 
     @property
     def course_ids_list(self):
@@ -191,7 +203,7 @@ class RedeemCouponPage(PageObject):
             Course Ids
         """
         image_links_list = self.q(
-            css='.image-container>.img-responsive').attrs('src')
+            css=self.course_tile + ' img').attrs('src')
         ids_list = [
             get_course_ids_from_link(elem) for elem in image_links_list]
         return ids_list
@@ -214,7 +226,7 @@ class RedeemCouponPage(PageObject):
         Args:
              target_page:
         """
-        self.q(css='#RedeemEnrollment').click()
+        self.q(css=self.course_tile + ' #RedeemEnrollment').click()
         target_page.wait_for_page()
 
     def display_error_message(self, course_id):

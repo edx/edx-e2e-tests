@@ -11,12 +11,10 @@ from regression.pages.ecommerce.redeem_coupon_page import (
     RedeemCouponErrorPage
 )
 from regression.pages.ecommerce.coupon_const import (
-    ABSOLUTE_BENEFIT_TYPE,
+    BENEFIT_TYPE,
+    COUPON_TYPE,
     DEFAULT_END_DATE,
-    DEFAULT_START_DATE,
-    DISCOUNT_COUPON_TYPE,
-    PERCENTAGE_BENEFIT_TYPE,
-    STOCK_RECORD_ID
+    DEFAULT_START_DATE
 )
 from regression.pages.whitelabel.home_page import HomePage
 from regression.pages.whitelabel.const import ORG
@@ -50,17 +48,14 @@ class VouchersMixin(CourseEnrollmentMixin):
             "id": "null",
             "title": str(uuid.uuid4().node),
             "catalog_type": catalog_type,
-            "seat_type": "Professional",
-            "stock_record_ids": STOCK_RECORD_ID,
             "code": "",
             "price": "0",
             "quantity": 1,
             "seats": [],
             "course_seats": [],
-            "course_seat_types": [],
             "coupon_type": coupon_type,
             "voucher_type": voucher_type,
-            "benefit_type": PERCENTAGE_BENEFIT_TYPE,
+            "benefit_type": BENEFIT_TYPE['per'],
             "benefit_value": 100,
             "category": {"id": 3, "name": "Affiliate Promotion"},
             "start_datetime": DEFAULT_START_DATE,
@@ -104,8 +99,8 @@ class VouchersMixin(CourseEnrollmentMixin):
             coupon:
         """
         self.benefit_value = 100
-        self.benefit_type = PERCENTAGE_BENEFIT_TYPE
-        if coupon['coupon_type'] == DISCOUNT_COUPON_TYPE:
+        self.benefit_type = BENEFIT_TYPE['per']
+        if coupon['coupon_type'] == COUPON_TYPE['disc']:
             self.benefit_type = coupon['benefit_type']
             self.benefit_value = coupon['benefit_value']
 
@@ -116,7 +111,7 @@ class VouchersMixin(CourseEnrollmentMixin):
         Returns:
             discounted price:
         """
-        if self.benefit_type == ABSOLUTE_BENEFIT_TYPE:
+        if self.benefit_type == BENEFIT_TYPE['abs']:
             return self.course_price - float(self.benefit_value)
         else:
             return self.course_price - \
@@ -137,7 +132,7 @@ class VouchersMixin(CourseEnrollmentMixin):
         # Verify on receipt page that information like course title,
         # course price, total price
         # order date and billing to is displayed correctly
-        # self.verify_receipt_info_for_discounted_course()
+        self.verify_receipt_info_for_discounted_course()
         self.receipt.go_to_dashboard()
 
     def enroll_using_enrollment_code(self, coupon_code):
@@ -177,6 +172,25 @@ class VouchersMixin(CourseEnrollmentMixin):
         """
         redeem_coupon = RedeemCouponPage(self.browser, coupon_url).visit()
         redeem_coupon.wait_for_course_tile()
+        self.verify_course_info_on_coupon_redeem_page(redeem_coupon)
+        redeem_coupon.redeem_enrollment(target_page)
+
+    def redeem_multi_course_enrollment_coupon(
+            self,
+            coupon_url,
+            target_page,
+            course_title
+        ):
+        """
+        Redeem single course enrollment coupon
+        Args
+            coupon_url:
+            target_page:
+            course_title:
+        """
+        redeem_coupon = RedeemCouponPage(self.browser, coupon_url).visit()
+        redeem_coupon.wait_for_course_tile()
+        redeem_coupon.set_course_tile_index(course_title)
         self.verify_course_info_on_coupon_redeem_page(redeem_coupon)
         redeem_coupon.redeem_enrollment(target_page)
 

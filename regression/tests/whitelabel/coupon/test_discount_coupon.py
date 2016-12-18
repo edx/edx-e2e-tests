@@ -6,11 +6,11 @@ from itertools import izip
 from unittest import skip
 
 from regression.pages.ecommerce.coupon_const import (
-    ABSOLUTE_BENEFIT_TYPE,
+    BENEFIT_TYPE,
+    BENEFIT_VALUE,
     COUPON_USERS,
-    DEFAULT_FIXED_BENEFIT_VALUE,
-    DEFAULT_PERCENTAGE_BENEFIT_VALUE,
-    DISCOUNT_COUPON_TYPE,
+    COUPON_TYPE,
+    COURSE_CATALOG_TYPE,
     EXPIRED_CODE_ERROR,
     EXPIRED_END_DATE,
     FUTURE_START_DATE,
@@ -23,14 +23,13 @@ from regression.pages.ecommerce.coupon_const import (
     ONCE_PER_CUSTOMER_CODE_SAME_USER_REUSE,
     ONCE_PER_CUSTOMER_REDEEM_URL_MAX_LIMIT,
     ONCE_PER_CUSTOMER_REDEEM_URL_SAME_USER_REUSE,
-    ONCE_PER_CUSTOMER_VOUCHER_TYPE,
-    PERCENTAGE_BENEFIT_TYPE,
-    SINGLE_COURSE_CATALOG_TYPE,
+    SEAT_TYPE,
     SINGLE_USE_CODE_REUSE_ERROR,
     SINGLE_USE_REDEEM_URL_REUSE_ERROR,
-    SINGLE_USE_VOUCHER_TYPE,
+    STOCK_RECORD_ID,
     VALID_DOMAIN_USERS,
-    VALID_EMAIL_DOMAINS
+    VALID_EMAIL_DOMAINS,
+    VOUCHER_TYPE
 )
 from regression.pages.ecommerce.redeem_coupon_page import RedeemCouponPage
 from regression.pages.whitelabel.const import (
@@ -42,7 +41,7 @@ from regression.pages.whitelabel.course_about_page import CourseAboutPage
 from regression.tests.helpers.vouchers import VouchersMixin
 
 
-class TestSingleCourseDiscount(VouchersMixin):
+class TestDiscountCoupon(VouchersMixin):
     """
     Tests for Single Course Discount Coupons
     """
@@ -51,7 +50,7 @@ class TestSingleCourseDiscount(VouchersMixin):
         """
         Prepare setup for running tests
         """
-        super(TestSingleCourseDiscount, self).setUp()
+        super(TestDiscountCoupon, self).setUp()
         # Initialize all page objects
         self.course_about = CourseAboutPage(self.browser, PROF_COURSE_ID)
         # Initialize common variables
@@ -69,12 +68,14 @@ class TestSingleCourseDiscount(VouchersMixin):
         person successfully
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            DISCOUNT_COUPON_TYPE,
-            SINGLE_USE_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['disc'],
+            VOUCHER_TYPE['single'],
             course_id=PROF_COURSE_ID,
-            benefit_type=ABSOLUTE_BENEFIT_TYPE,
-            benefit_value=DEFAULT_FIXED_BENEFIT_VALUE,
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
+            benefit_type=BENEFIT_TYPE['abs'],
+            benefit_value=BENEFIT_VALUE['fixed'],
             quantity=3
         )
         coupon_codes = self.setup_coupons_using_ui(coupon)
@@ -96,12 +97,14 @@ class TestSingleCourseDiscount(VouchersMixin):
         Scenario: Discount Single Use Percentage Code: Code cannot be reused
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            DISCOUNT_COUPON_TYPE,
-            SINGLE_USE_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['disc'],
+            VOUCHER_TYPE['single'],
             course_id=PROF_COURSE_ID,
-            benefit_type=PERCENTAGE_BENEFIT_TYPE,
-            benefit_value=DEFAULT_PERCENTAGE_BENEFIT_VALUE
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
+            benefit_type=BENEFIT_TYPE['per'],
+            benefit_value=BENEFIT_VALUE['per']
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
         # Login to application using the existing credentials
@@ -126,12 +129,14 @@ class TestSingleCourseDiscount(VouchersMixin):
         to the number of allowed uses and after that it is not usable by anyone
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            DISCOUNT_COUPON_TYPE,
-            ONCE_PER_CUSTOMER_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['disc'],
+            VOUCHER_TYPE['once_per_cust'],
             course_id=PROF_COURSE_ID,
-            benefit_type=ABSOLUTE_BENEFIT_TYPE,
-            benefit_value=DEFAULT_FIXED_BENEFIT_VALUE,
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
+            benefit_type=BENEFIT_TYPE['abs'],
+            benefit_value=BENEFIT_VALUE['fixed'],
             max_uses=2
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
@@ -161,12 +166,14 @@ class TestSingleCourseDiscount(VouchersMixin):
         be used twice by the same user
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            DISCOUNT_COUPON_TYPE,
-            ONCE_PER_CUSTOMER_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['disc'],
+            VOUCHER_TYPE['once_per_cust'],
             course_id=PROF_COURSE_ID,
-            benefit_type=PERCENTAGE_BENEFIT_TYPE,
-            benefit_value=DEFAULT_PERCENTAGE_BENEFIT_VALUE
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
+            benefit_type=BENEFIT_TYPE['per'],
+            benefit_value=BENEFIT_VALUE['per']
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
         # Login to application using the existing credentials
@@ -197,12 +204,14 @@ class TestSingleCourseDiscount(VouchersMixin):
         by users of valid email domains
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            DISCOUNT_COUPON_TYPE,
-            ONCE_PER_CUSTOMER_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['disc'],
+            VOUCHER_TYPE['once_per_cust'],
             course_id=PROF_COURSE_ID,
-            benefit_type=ABSOLUTE_BENEFIT_TYPE,
-            benefit_value=DEFAULT_FIXED_BENEFIT_VALUE,
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
+            benefit_type=BENEFIT_TYPE['abs'],
+            benefit_value=BENEFIT_VALUE['fixed'],
             email_domains=VALID_EMAIL_DOMAINS,
             max_uses=5
         )
@@ -244,13 +253,15 @@ class TestSingleCourseDiscount(VouchersMixin):
         displayed on the use of Expired coupon
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            DISCOUNT_COUPON_TYPE,
-            SINGLE_USE_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['disc'],
+            VOUCHER_TYPE['single'],
             end_datetime=EXPIRED_END_DATE,
             course_id=PROF_COURSE_ID,
-            benefit_type=ABSOLUTE_BENEFIT_TYPE,
-            benefit_value=DEFAULT_FIXED_BENEFIT_VALUE
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
+            benefit_type=BENEFIT_TYPE['abs'],
+            benefit_value=BENEFIT_VALUE['fixed']
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
         # Login to application using the existing credentials
@@ -267,12 +278,14 @@ class TestSingleCourseDiscount(VouchersMixin):
         redeem url can be used by one person successfully
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            DISCOUNT_COUPON_TYPE,
-            SINGLE_USE_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['disc'],
+            VOUCHER_TYPE['single'],
             course_id=PROF_COURSE_ID,
-            benefit_type=ABSOLUTE_BENEFIT_TYPE,
-            benefit_value=DEFAULT_FIXED_BENEFIT_VALUE,
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
+            benefit_type=BENEFIT_TYPE['abs'],
+            benefit_value=BENEFIT_VALUE['fixed'],
             quantity=3
         )
         coupon_codes = self.setup_coupons_using_api(coupon)
@@ -296,12 +309,14 @@ class TestSingleCourseDiscount(VouchersMixin):
         URL: URL cannot be reused
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            DISCOUNT_COUPON_TYPE,
-            SINGLE_USE_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['disc'],
+            VOUCHER_TYPE['single'],
             course_id=PROF_COURSE_ID,
-            benefit_type=PERCENTAGE_BENEFIT_TYPE,
-            benefit_value=DEFAULT_PERCENTAGE_BENEFIT_VALUE
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
+            benefit_type=BENEFIT_TYPE['per'],
+            benefit_value=BENEFIT_VALUE['per']
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
         self.home.visit()
@@ -326,12 +341,14 @@ class TestSingleCourseDiscount(VouchersMixin):
         be used up to the number of allowed uses by different users
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            DISCOUNT_COUPON_TYPE,
-            ONCE_PER_CUSTOMER_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['disc'],
+            VOUCHER_TYPE['once_per_cust'],
             course_id=PROF_COURSE_ID,
-            benefit_type=ABSOLUTE_BENEFIT_TYPE,
-            benefit_value=DEFAULT_FIXED_BENEFIT_VALUE,
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
+            benefit_type=BENEFIT_TYPE['abs'],
+            benefit_value=BENEFIT_VALUE['fixed'],
             max_uses=2
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
@@ -367,12 +384,14 @@ class TestSingleCourseDiscount(VouchersMixin):
         Redeem URL: URL cannot be used twice by he same user
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            DISCOUNT_COUPON_TYPE,
-            ONCE_PER_CUSTOMER_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['disc'],
+            VOUCHER_TYPE['once_per_cust'],
             course_id=PROF_COURSE_ID,
-            benefit_type=PERCENTAGE_BENEFIT_TYPE,
-            benefit_value=DEFAULT_PERCENTAGE_BENEFIT_VALUE
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
+            benefit_type=BENEFIT_TYPE['per'],
+            benefit_value=BENEFIT_VALUE['per']
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
         self.home.visit()
@@ -403,12 +422,14 @@ class TestSingleCourseDiscount(VouchersMixin):
         by users of valid email domains
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            DISCOUNT_COUPON_TYPE,
-            ONCE_PER_CUSTOMER_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['disc'],
+            VOUCHER_TYPE['once_per_cust'],
             course_id=PROF_COURSE_ID,
-            benefit_type=PERCENTAGE_BENEFIT_TYPE,
-            benefit_value=DEFAULT_PERCENTAGE_BENEFIT_VALUE,
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
+            benefit_type=BENEFIT_TYPE['per'],
+            benefit_value=BENEFIT_VALUE['fixed'],
             email_domains=VALID_EMAIL_DOMAINS,
             max_uses=5
         )
@@ -454,13 +475,15 @@ class TestSingleCourseDiscount(VouchersMixin):
         message is displayed on the use of future redeem url
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            DISCOUNT_COUPON_TYPE,
-            ONCE_PER_CUSTOMER_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['disc'],
+            VOUCHER_TYPE['once_per_cust'],
             start_datetime=FUTURE_START_DATE,
             course_id=PROF_COURSE_ID,
-            benefit_type=ABSOLUTE_BENEFIT_TYPE,
-            benefit_value=DEFAULT_FIXED_BENEFIT_VALUE,
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
+            benefit_type=BENEFIT_TYPE['abs'],
+            benefit_value=BENEFIT_VALUE['fixed'],
             max_uses=2
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]

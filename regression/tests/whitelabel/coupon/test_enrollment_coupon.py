@@ -7,7 +7,8 @@ from unittest import skip
 
 from regression.pages.ecommerce.coupon_const import (
     COUPON_USERS,
-    ENROLLMENT_COUPON_TYPE,
+    COUPON_TYPE,
+    COURSE_CATALOG_TYPE,
     EXPIRED_END_DATE,
     EXPIRED_REDEEM_URL_ERROR,
     FUTURE_CODE_ERROR,
@@ -18,12 +19,12 @@ from regression.pages.ecommerce.coupon_const import (
     ONCE_PER_CUSTOMER_CODE_MAX_LIMIT,
     ONCE_PER_CUSTOMER_CODE_SAME_USER_REUSE,
     ONCE_PER_CUSTOMER_REDEEM_URL_MAX_LIMIT,
-    ONCE_PER_CUSTOMER_VOUCHER_TYPE,
-    SINGLE_COURSE_CATALOG_TYPE,
+    SEAT_TYPE,
     SINGLE_USE_REDEEM_URL_REUSE_ERROR,
-    SINGLE_USE_VOUCHER_TYPE,
+    STOCK_RECORD_ID,
     VALID_DOMAIN_USERS,
-    VALID_EMAIL_DOMAINS
+    VALID_EMAIL_DOMAINS,
+    VOUCHER_TYPE
 )
 from regression.pages.ecommerce.redeem_coupon_page import RedeemCouponPage
 from regression.pages.whitelabel.const import (
@@ -36,7 +37,7 @@ from regression.pages.whitelabel.course_about_page import CourseAboutPage
 from regression.tests.helpers.vouchers import VouchersMixin
 
 
-class TestSingleCourseEnrollment(VouchersMixin):
+class TestEnrollmentCoupon(VouchersMixin):
     """
     Tests for Single Course Enrollment Coupons
     """
@@ -45,7 +46,7 @@ class TestSingleCourseEnrollment(VouchersMixin):
         """
         Prepare setup for running tests
         """
-        super(TestSingleCourseEnrollment, self).setUp()
+        super(TestEnrollmentCoupon, self).setUp()
         # Initialize all page objects
         self.course_about = CourseAboutPage(self.browser, PROF_COURSE_ID)
         # Initialize common variables
@@ -63,10 +64,12 @@ class TestSingleCourseEnrollment(VouchersMixin):
         person successfully
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            ENROLLMENT_COUPON_TYPE,
-            SINGLE_USE_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['enroll'],
+            VOUCHER_TYPE['single'],
             course_id=PROF_COURSE_ID,
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
             quantity=3
         )
         coupon_codes = self.setup_coupons_using_ui(coupon)
@@ -90,10 +93,12 @@ class TestSingleCourseEnrollment(VouchersMixin):
         usable by any user
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            ENROLLMENT_COUPON_TYPE,
-            ONCE_PER_CUSTOMER_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['enroll'],
+            VOUCHER_TYPE['once_per_cust'],
             course_id=PROF_COURSE_ID,
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
             max_uses=2
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
@@ -123,10 +128,12 @@ class TestSingleCourseEnrollment(VouchersMixin):
         be used twice by the same user
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            ENROLLMENT_COUPON_TYPE,
-            ONCE_PER_CUSTOMER_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['enroll'],
+            VOUCHER_TYPE['once_per_cust'],
             course_id=PROF_COURSE_ID,
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
             max_uses=2
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
@@ -156,10 +163,12 @@ class TestSingleCourseEnrollment(VouchersMixin):
         be used only by users of valid email domains
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            ENROLLMENT_COUPON_TYPE,
-            ONCE_PER_CUSTOMER_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['enroll'],
+            VOUCHER_TYPE['once_per_cust'],
             course_id=PROF_COURSE_ID,
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
             email_domains=VALID_EMAIL_DOMAINS,
             max_uses=5
         )
@@ -201,11 +210,13 @@ class TestSingleCourseEnrollment(VouchersMixin):
         displayed on the use of future coupon
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            ENROLLMENT_COUPON_TYPE,
-            SINGLE_USE_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['enroll'],
+            VOUCHER_TYPE['single'],
             start_datetime=FUTURE_START_DATE,
-            course_id=PROF_COURSE_ID
+            course_id=PROF_COURSE_ID,
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
         # Login to application using the existing credentials
@@ -222,10 +233,12 @@ class TestSingleCourseEnrollment(VouchersMixin):
         cannot be reused
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            ENROLLMENT_COUPON_TYPE,
-            SINGLE_USE_VOUCHER_TYPE,
-            course_id=PROF_COURSE_ID
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['enroll'],
+            VOUCHER_TYPE['single'],
+            course_id=PROF_COURSE_ID,
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
         self.home.visit()
@@ -255,10 +268,12 @@ class TestSingleCourseEnrollment(VouchersMixin):
         it is not usable by any user
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            ENROLLMENT_COUPON_TYPE,
-            ONCE_PER_CUSTOMER_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['enroll'],
+            VOUCHER_TYPE['once_per_cust'],
             course_id=PROF_COURSE_ID,
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
             max_uses=2
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
@@ -298,10 +313,12 @@ class TestSingleCourseEnrollment(VouchersMixin):
         users of valid email domains
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            ENROLLMENT_COUPON_TYPE,
-            ONCE_PER_CUSTOMER_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['enroll'],
+            VOUCHER_TYPE['once_per_cust'],
             course_id=PROF_COURSE_ID,
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID,
             email_domains=VALID_EMAIL_DOMAINS,
             max_uses=5
         )
@@ -350,11 +367,13 @@ class TestSingleCourseEnrollment(VouchersMixin):
         message is displayed on the use of expired redeem url
         """
         coupon = self.coupon_data(
-            SINGLE_COURSE_CATALOG_TYPE,
-            ENROLLMENT_COUPON_TYPE,
-            ONCE_PER_CUSTOMER_VOUCHER_TYPE,
+            COURSE_CATALOG_TYPE['single'],
+            COUPON_TYPE['enroll'],
+            VOUCHER_TYPE['once_per_cust'],
             end_datetime=EXPIRED_END_DATE,
-            course_id=PROF_COURSE_ID
+            course_id=PROF_COURSE_ID,
+            seat_type=SEAT_TYPE['prof'],
+            stock_record_ids=STOCK_RECORD_ID
         )
         coupon_code = self.setup_coupons_using_api(coupon)[0]
         self.login_user(COUPON_USERS['coupon_user_01'])
