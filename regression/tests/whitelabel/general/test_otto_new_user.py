@@ -35,7 +35,7 @@ class TestNewUserOtto(CourseEnrollmentMixin):
         self.course_price = PROF_COURSE_PRICE
         self.total_price = PROF_COURSE_PRICE
 
-    @skip('disabling temporarily due to an issue with chrome om jenkins')
+    @skip('disabling temporarily due to an issue with chrome on jenkins')
     def test_01_select_course_and_register(self):
         """
         Scenario: Otto Flow - A new user is able to select a course, register
@@ -70,7 +70,7 @@ class TestNewUserOtto(CourseEnrollmentMixin):
         # the course
         self.assertTrue(self.is_course_added_to_dashboard())
 
-    @skip('disabling temporarily due to an issue with chrome om jenkins')
+    @skip('disabling temporarily due to an issue with chrome on jenkins')
     def test_02_register_and_select_course(self):
         """
         Scenario: Otto flow - A new user is able to register, select a course

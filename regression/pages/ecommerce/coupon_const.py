@@ -147,22 +147,22 @@ COUPON_COURSES = {
         }
     },
     u'HarvardXPLUS': {
-        u'course-v1:HarvardXPLUS+HXP01+2016 ': {
+        u'course-v1:HarvardXPLUS+HXP01+2016': {
             'price': 100.0, 'title': u'Automated Tests-HXP01'
         },
-        u'course-v1:HarvardXPLUS+HXP02+2016 ': {
+        u'course-v1:HarvardXPLUS+HXP02+2016': {
             'price': 100.0, 'title': u'Automated Tests-HXP02'
         },
-        u'course-v1:HarvardXPLUS+HXP03+2016 ': {
+        u'course-v1:HarvardXPLUS+HXP03+2016': {
             'price': 200.0, 'title': u'Automated Tests-HXP03'
         },
-        u'course-v1:HarvardXPLUS+HXP04+2016 ': {
+        u'course-v1:HarvardXPLUS+HXP04+2016': {
             'price': 200.0, 'title': u'Automated Tests-HXP04'
         },
-        u'course-v1:HarvardXPLUS+HXP05+2016 ': {
+        u'course-v1:HarvardXPLUS+HXP05+2016': {
             'price': 300.0, 'title': u'Automated Tests-HXP05'
         },
-        u'course-v1:HarvardXPLUS+HXP06+2016 ': {
+        u'course-v1:HarvardXPLUS+HXP06+2016': {
             'price': 300.0, 'title': u'Automated Tests-HXP06'
         }
     }

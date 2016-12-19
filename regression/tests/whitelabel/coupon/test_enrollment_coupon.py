@@ -85,7 +85,6 @@ class TestEnrollmentCoupon(VouchersMixin):
             self.enroll_using_enrollment_code(coupon_code)
             self.assert_enrollment_and_logout()
 
-    # @skipUnless(ORG == 'HarvardXPLUS', 'run for just one site')
     def test_01_enrollment_once_per_customer_code_max_limit(self):
         """
         Scenario: Enrollment Once Per Customer - Code Max Limit: Each code can
@@ -121,7 +120,7 @@ class TestEnrollmentCoupon(VouchersMixin):
                     ONCE_PER_CUSTOMER_CODE_MAX_LIMIT
                 )
 
-    # @skipUnless(ORG == 'HarvardMedGlobalAcademy', 'run for just one site')
+    @skip("low priority scenario skipped to save time")
     def test_02_enrollment_once_per_customer_code_reuse_by_same_user(self):
         """
         Scenario: Enrollment Once Per Customer - Code Reuse: A code cannot
@@ -156,7 +155,7 @@ class TestEnrollmentCoupon(VouchersMixin):
             ONCE_PER_CUSTOMER_CODE_SAME_USER_REUSE.format(coupon_code)
         )
 
-    # @skipUnless(ORG == 'MITProfessionalX', 'run for just one site')
+    @skip("low priority scenario skipped to save time")
     def test_03_enrollment_once_per_customer_code_email_domain(self):
         """
         Scenario: Enrollment Once Per Customer Code - Email domains: Code can
@@ -203,7 +202,7 @@ class TestEnrollmentCoupon(VouchersMixin):
         self.enroll_using_enrollment_code(coupon_code)
         self.assert_enrollment_and_logout()
 
-    # @skipUnless(ORG == 'HarvardXPLUS', 'run for just one site')
+    @skip("low priority scenario skipped to save time")
     def test_04_enrollment_single_use_code_future(self):
         """
         Scenario: Enrollment Single Use Code: Relevant error message is
@@ -226,7 +225,6 @@ class TestEnrollmentCoupon(VouchersMixin):
             FUTURE_CODE_ERROR.format(coupon_code)
         )
 
-    # @skipUnless(ORG == 'HarvardMedGlobalAcademy', 'run for just one site')
     def test_05_apply_enrollment_single_use_redeem_url(self):
         """
         Scenario: Unregistered Users: Enrollment Single Use Redeem URL: URL
@@ -260,7 +258,6 @@ class TestEnrollmentCoupon(VouchersMixin):
             SINGLE_USE_REDEEM_URL_REUSE_ERROR
         )
 
-    # @skipUnless(ORG == 'MITProfessionalX', 'run for just one site')
     def test_06_apply_enrollment_once_per_customer_redeem_url(self):
         """
         Scenario: Registered Users: Enrollment Once Per Customer Redeem URL:
@@ -306,7 +303,6 @@ class TestEnrollmentCoupon(VouchersMixin):
                     ONCE_PER_CUSTOMER_REDEEM_URL_MAX_LIMIT
                 )
 
-    # @skipUnless(ORG == 'HarvardXPLUS', 'run for just one site')
     def test_07_enrollment_once_per_customer_redeem_url_email_domain(self):
         """
         Scenario: Enrollment Once Per Customer URL: URL can be used only by
@@ -360,7 +356,7 @@ class TestEnrollmentCoupon(VouchersMixin):
         )
         self.assert_enrollment_and_logout()
 
-    # @skipUnless(ORG == 'HarvardMedGlobalAcademy', 'run for just one site')
+    @skip("low priority scenario skipped to save time")
     def test_08_enrollment_once_per_customer_redeem_url_expired(self):
         """
         Scenario: Enrollment Once Per Customer Redeem URL: Relevant error
