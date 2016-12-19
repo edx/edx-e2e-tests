@@ -12,9 +12,7 @@ class PaymentPage(PageObject):
     url = THIRD_PARTY_PAYMENTS_BASE_URL + 'checkout'
 
     def is_browser_on_page(self):
-        return all([
-            self.q(css='#card_number').present,
-            self.q(css='.pay_button').present])
+        return 'CyberSource' in self.q(css='#logo a').text
 
     def make_test_payment(self):
         """

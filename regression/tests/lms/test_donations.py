@@ -1,7 +1,6 @@
 """
 End to end tests for User Donations.
 """
-from unittest import skip
 from bok_choy.web_app_test import WebAppTest
 from regression.pages.lms.register_page import RegisterPageExtended
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
@@ -12,6 +11,7 @@ from regression.pages.lms.payment_confirmation_page import (
     PaymentConfirmationPage
 )
 from regression.pages.lms.checkout_page import PaymentPage
+from regression.pages.lms.constants import THIRD_PARTY_PAYMENTS_BASE_URL
 
 
 class DonationsTest(WebAppTest):
@@ -44,7 +44,6 @@ class DonationsTest(WebAppTest):
         )
         self.dashboard_page.wait_for_page()
 
-    @skip('This test needs to be updated. See LT-48')
     def test_user_donations(self):
         """
         Verifies that user can Donate after selecting a course for audit
@@ -52,7 +51,15 @@ class DonationsTest(WebAppTest):
         self.drupal_course_page.visit()
         self.drupal_course_page.click_enroll_now()
         self.dashboard_page.wait_for_page()
+        self.dashboard_page.visit()
         self.dashboard_page.click_donate_button()
         self.payment_page.wait_for_page()
-        self.payment_page.make_test_payment()
-        self.payment_confirmation_page.wait_for_page()
+        checkout_url = self.browser.current_url
+        if checkout_url == THIRD_PARTY_PAYMENTS_BASE_URL + '/pay':
+            pass
+        elif checkout_url == THIRD_PARTY_PAYMENTS_BASE_URL + '/checkout':
+            self.payment_page.wait_for_page()
+            self.payment_page.make_test_payment()
+            self.payment_confirmation_page.wait_for_page()
+        else:
+            raise Exception("User is unable to donate to edX")
