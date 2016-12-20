@@ -60,33 +60,34 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         self.pay_with_cybersource()
         self.assert_enrollment_and_logout()
 
-    # def test_01_select_course_and_login(self):
-    #     """
-    #     Scenario: Otto flow - A registered user is able to select a course,
-    #     login  and make payment for the course using the credit card
-    #     """
-    #     self.addCleanup(
-    #         self.unenroll_using_api,
-    #         EXISTING_USER_EMAIL,
-    #         self.course_id
-    #     )
-    #     self.home.visit()
-    #     self.home.go_to_courses_page()
-    #     self.find_courses.go_to_course_about_page(self.course_about)
-    #     # Verify that course price is correct on course about page
-    #     self.assertEqual(self.course_price, self.course_about.course_price)
-    #     self.course_about.register_using_enrollment_button()
-    #     self.registration.toggle_to_login_page()
-    #     self.login_page.authenticate_user(
-    #         EXISTING_USER_EMAIL,
-    #         PASSWORD,
-    #         self.basket
-    #     )
-    #     # Verify course name, course price and total price on basket page
-    #     self.verify_course_name_on_basket()
-    #     self.verify_price_on_basket()
-    #     self.pay_with_cybersource()
-    #     self.assert_enrollment_and_logout()
+    @skip('disabling temporarily due to an issue with chrome on jenkins')
+    def test_01_select_course_and_login(self):
+        """
+        Scenario: Otto flow - A registered user is able to select a course,
+        login  and make payment for the course using the credit card
+        """
+        self.addCleanup(
+            self.unenroll_using_api,
+            EXISTING_USER_EMAIL,
+            self.course_id
+        )
+        self.home.visit()
+        self.home.go_to_courses_page()
+        self.find_courses.go_to_course_about_page(self.course_about)
+        # Verify that course price is correct on course about page
+        self.assertEqual(self.course_price, self.course_about.course_price)
+        self.course_about.register_using_enrollment_button()
+        self.registration.toggle_to_login_page()
+        self.login_page.authenticate_user(
+            EXISTING_USER_EMAIL,
+            PASSWORD,
+            self.basket
+        )
+        # Verify course name, course price and total price on basket page
+        self.verify_course_name_on_basket()
+        self.verify_price_on_basket()
+        self.pay_with_cybersource()
+        self.assert_enrollment_and_logout()
 
     def test_02_switch_between_single_seat_and_multi_seat_baskets(self):
         """

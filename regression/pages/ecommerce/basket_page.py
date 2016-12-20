@@ -34,7 +34,7 @@ class BasketPage(PageObject):
         Returns:
              course name:
         """
-        return self.q(css='.course_name').text[0]
+        return self.q(css='.product-title').text[0]
 
     @property
     def course_price(self):
