@@ -125,30 +125,28 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         )
 
     # @unittest.skipUnless(ORG == 'MITProfessionalX', 'Run only for MITProfEd')
-    # def test_03_single_seat_purchase_use_back_button_on_checkout_page(self):
-    #     """
-    #     Scenario: Otto flow - Single Seat - User is taken to a page with
-    #     relevant error message when back button is used on checkout page
-    #     """
-    #     self.login_and_go_to_basket(EXISTING_USER_EMAIL)
-    #     self.basket.go_to_cybersource_page()
-    #     self.cyber_source.go_back_to_basket_page()
-    #     # Verify error message header
-    #     self.assertEqual(
-    #         self.back_to_basket_page.error_message_header,
-    #         'Your purchase could not be completed'
-    #     )
-    #     # Verify that dashboard link and correct support email address
-    #     # is present in error message
-    #     self.assertIn(
-    #         URL_WITHOUT_AUTH,
-    #         self.back_to_basket_page.dashboard_link_in_error_message
-    #     )
-    #     # Condition commented due to existing bug WL-578
-    #     # self.assertIn(
-    #     # EMAIL_SENDER_ACCOUNT,
-    #     # self.back_to_basket_page.support_email_in_error_message
-    #     # )
+    def test_03_single_seat_purchase_use_back_button_on_checkout_page(self):
+        """
+        Scenario: Otto flow - Single Seat - User is taken to a page with
+        relevant error message when back button is used on checkout page
+        """
+        self.login_and_go_to_basket(EXISTING_USER_EMAIL)
+        self.basket.go_to_cybersource_page()
+        self.cyber_source.go_back_to_basket_page()
+        # Verify error message header
+        self.assertEqual(
+            self.back_to_basket_page.error_message_header,
+            'Your basket is empty'
+        )
+        # Verify that dashboard link and contact us link are present
+        self.assertIn(
+            URL_WITHOUT_AUTH,
+            self.back_to_basket_page.get_dashboard_link()
+        )
+        # self.assertIn(
+        #     URL_WITHOUT_AUTH + 'contact',
+        #     self.back_to_basket_page.get_contact_link()
+        # )
 
     def test_04_single_seat_purchase_cancel_checkout(self):
         """
@@ -170,31 +168,29 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         # self.cancel_checkout.support_email_in_error_message
         # )
 
-    # @unittest.skipUnless(ORG == 'MITProfessionalX', 'Run only for MITProfEd')
-    # def test_05_bulk_purchase_use_back_button_on_checkout_page(self):
-    #     """
-    #     Scenario: Otto flow - Bulk Purchase - User is taken to a page with
-    #     relevant error message when back button is used on checkout page
-    #     """
-    #     self.login_and_go_to_basket(EXISTING_USER_EMAIL, bulk_purchase=True)
-    #     self.basket.go_to_cybersource_page()
-    #     self.cyber_source.go_back_to_basket_page()
-    #     # Verify error message header
-    #     self.assertEqual(
-    #         self.back_to_basket_page.error_message_header,
-    #         'Your purchase could not be completed'
-    #     )
-    #     # Verify that dashboard link and correct support email address is
-    #     # present in error message
-    #     self.assertIn(
-    #         URL_WITHOUT_AUTH,
-    #         self.back_to_basket_page.dashboard_link_in_error_message
-    #     )
-    #     # Condition commented due to existing bug WL-579
-    #     # self.assertIn(
-    #     # EMAIL_SENDER_ACCOUNT,
-    #     # self.back_to_basket_page.support_email_in_error_message
-    #     # )
+    @unittest.skipUnless(ORG == 'MITProfessionalX', 'Run only for MITProfEd')
+    def test_05_bulk_purchase_use_back_button_on_checkout_page(self):
+        """
+        Scenario: Otto flow - Bulk Purchase - User is taken to a page with
+        relevant error message when back button is used on checkout page
+        """
+        self.login_and_go_to_basket(EXISTING_USER_EMAIL, bulk_purchase=True)
+        self.basket.go_to_cybersource_page()
+        self.cyber_source.go_back_to_basket_page()
+        # Verify error message header
+        self.assertEqual(
+            self.back_to_basket_page.error_message_header,
+            'Your basket is empty'
+        )
+        # Verify that dashboard link and contact us link are present
+        self.assertIn(
+            URL_WITHOUT_AUTH,
+            self.back_to_basket_page.get_dashboard_link()
+        )
+        # self.assertIn(
+        #     URL_WITHOUT_AUTH + 'contact',
+        #     self.back_to_basket_page.get_contact_link()
+        # )
 
     def test_06_bulk_purchase__cancel_checkout(self):
         """

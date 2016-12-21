@@ -17,7 +17,7 @@ class BackToBasketPage(PageObject):
         """
         Verifies that error message container is present on the page
         """
-        return self.q(css='.depth.depth-2.message-error').present
+        return self.q(css='.depth.depth-2.message-error-content').present
 
     @property
     def error_message_header(self):
@@ -26,26 +26,24 @@ class BackToBasketPage(PageObject):
         Returns:
             error message header:
         """
-        return self.q(css='.depth.depth-2.message-error>h3').text[0]
+        return self.q(css='.depth.depth-2.message-error-content>h3').text[0]
 
-    @property
-    def dashboard_link_in_error_message(self):
+    def get_dashboard_link(self):
         """
         Get dashboard link from error message
         Returns:
             dashboard link:
         """
         return self.q(
-            css='.depth.depth-2.message-error>a'
+            css='.depth.depth-2.message-error-content>a'
         ).filter(lambda e: e.text == 'dashboard').attrs('href')
 
-    @property
-    def support_email_in_error_message(self):
+    def get_contact_link(self):
         """
-        Get support_email address from error message
+        Get contact link from error message
         Returns:
             support_email address:
         """
         return self.q(
-            css='.depth.depth-2.message-error>a'
-        ).filter(lambda e: 'contact' in e.text).attrs('href')
+            css='.depth.depth-2.message-error-content>a'
+        ).filter(lambda e: 'contact' in e.text ).attrs('href')[0]
