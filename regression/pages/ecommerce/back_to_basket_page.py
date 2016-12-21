@@ -19,8 +19,7 @@ class BackToBasketPage(PageObject):
         """
         return self.q(css='.depth.depth-2.message-error-content').present
 
-    @property
-    def error_message_header(self):
+    def get_error_message_header(self):
         """
         Get error message header
         Returns:

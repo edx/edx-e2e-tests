@@ -11,6 +11,7 @@ from regression.pages.ecommerce.basket_page import SingleSeatBasketPage
 from regression.pages.ecommerce.cancel_checkout_page import CancelCheckoutPage
 from regression.pages.whitelabel.const import (
     EXISTING_USER_EMAIL,
+    EMAIL_SENDER_ACCOUNT,
     ORG,
     PASSWORD,
     PROF_COURSE_ID,
@@ -124,7 +125,6 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
             self.single_seat_basket.is_multi_seat_basket_link_visible()
         )
 
-    # @unittest.skipUnless(ORG == 'MITProfessionalX', 'Run only for MITProfEd')
     def test_03_single_seat_purchase_use_back_button_on_checkout_page(self):
         """
         Scenario: Otto flow - Single Seat - User is taken to a page with
@@ -135,7 +135,7 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         self.cyber_source.go_back_to_basket_page()
         # Verify error message header
         self.assertEqual(
-            self.back_to_basket_page.error_message_header,
+            self.back_to_basket_page.get_error_message_header(),
             'Your basket is empty'
         )
         # Verify that dashboard link and contact us link are present
@@ -143,10 +143,10 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
             URL_WITHOUT_AUTH,
             self.back_to_basket_page.get_dashboard_link()
         )
-        # self.assertIn(
-        #     URL_WITHOUT_AUTH + 'contact',
-        #     self.back_to_basket_page.get_contact_link()
-        # )
+        self.assertIn(
+            URL_WITHOUT_AUTH + 'contact',
+            self.back_to_basket_page.get_contact_link()
+        )
 
     def test_04_single_seat_purchase_cancel_checkout(self):
         """
@@ -158,17 +158,15 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         self.cyber_source.cancel_checkout()
         # Verify error message header
         self.assertEqual(
-            self.cancel_checkout_page.error_message_header,
+            self.cancel_checkout_page.get_error_message_header(),
             'Checkout Cancelled'
         )
-        # Verify that correct support email address is present in error message
-        # Condition commented due to existing bug WL-579
-        # self.assertIn(
-        # EMAIL_SENDER_ACCOUNT,
-        # self.cancel_checkout.support_email_in_error_message
-        # )
+        # Verify that correct support email link is present in error message
+        self.assertIn(
+            EMAIL_SENDER_ACCOUNT,
+            self.cancel_checkout_page.get_support_email_link()
+        )
 
-    @unittest.skipUnless(ORG == 'MITProfessionalX', 'Run only for MITProfEd')
     def test_05_bulk_purchase_use_back_button_on_checkout_page(self):
         """
         Scenario: Otto flow - Bulk Purchase - User is taken to a page with
@@ -179,7 +177,7 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         self.cyber_source.go_back_to_basket_page()
         # Verify error message header
         self.assertEqual(
-            self.back_to_basket_page.error_message_header,
+            self.back_to_basket_page.get_error_message_header(),
             'Your basket is empty'
         )
         # Verify that dashboard link and contact us link are present
@@ -187,12 +185,12 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
             URL_WITHOUT_AUTH,
             self.back_to_basket_page.get_dashboard_link()
         )
-        # self.assertIn(
-        #     URL_WITHOUT_AUTH + 'contact',
-        #     self.back_to_basket_page.get_contact_link()
-        # )
+        self.assertIn(
+            URL_WITHOUT_AUTH + 'contact',
+            self.back_to_basket_page.get_contact_link()
+        )
 
-    def test_06_bulk_purchase__cancel_checkout(self):
+    def test_06_bulk_purchase_cancel_checkout(self):
         """
         Scenario: Otto flow - Bulk Purchase - User is taken to a page with
         relevant error message when payment is cancelled from checkout page
@@ -202,15 +200,14 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         self.cyber_source.cancel_checkout()
         # Verify error message header
         self.assertEqual(
-            self.cancel_checkout_page.error_message_header,
+            self.cancel_checkout_page.get_error_message_header(),
             'Checkout Cancelled'
         )
-        # Verify that correct support email address is present in error message
-        # Condition commented due to existing bug WL-579
-        # self.assertIn(
-        # EMAIL_SENDER_ACCOUNT,
-        # self.cancel_checkout.support_email_in_error_message
-        # )
+        # Verify that correct support email link is present in error message
+        self.assertIn(
+            EMAIL_SENDER_ACCOUNT,
+            self.cancel_checkout_page.get_support_email_link()
+        )
 
     @skip('This test requires access to gmail, currently we are using an alternate test')
     def test_07_multi_seat_flow(self):

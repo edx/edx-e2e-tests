@@ -23,8 +23,7 @@ class CancelCheckoutPage(PageObject):
             css='.container.content-wrapper.receipt-cancel-error'
         ).present
 
-    @property
-    def error_message_header(self):
+    def get_error_message_header(self):
         """
         Get error message header
         Returns:
@@ -34,8 +33,7 @@ class CancelCheckoutPage(PageObject):
             css='.container.content-wrapper.receipt-cancel-error>h1'
         ).text[0]
 
-    @property
-    def support_email_in_error_message(self):
+    def get_support_email_link(self):
         """
         Get support_email address from error message
         Returns:
@@ -43,4 +41,4 @@ class CancelCheckoutPage(PageObject):
         """
         return self.q(
             css='.container.content-wrapper.receipt-cancel-error>p>a'
-        ).attrs('href')
+        ).attrs('href')[0]

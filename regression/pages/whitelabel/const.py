@@ -62,8 +62,8 @@ PROF_COURSE_TITLE = u'{} Regression Test'.format(ORG)
 PROF_COURSE_PRICE = 167.0
 
 EMAIL_SENDER_ACCOUNTS = {
-    'HarvardMedGlobalAcademy': 'support@globalacademy.hms.harvard.edu',
-    'HarvardXPLUS': 'hxplus-support@edx.org',
+    'HarvardMedGlobalAcademy': 'globalacademy@hms.harvard.edu',
+    'HarvardXPLUS': 'support-hxplus@harvard.edu',
     'MITProfessionalX': 'mitprofessionalx@mit.edu',
 }
 
