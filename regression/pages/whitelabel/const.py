@@ -63,7 +63,7 @@ PROF_COURSE_PRICE = 167.0
 
 EMAIL_SENDER_ACCOUNTS = {
     'HarvardMedGlobalAcademy': 'globalacademy@hms.harvard.edu',
-    'HarvardXPLUS': 'support-hxplus@harvard.edu',
+    'HarvardXPLUS': 'hxplus-support@edx.org',
     'MITProfessionalX': 'mitprofessionalx@mit.edu',
 }
 
