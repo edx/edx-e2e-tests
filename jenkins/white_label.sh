@@ -19,7 +19,7 @@ pip install -r requirements/base.txt
 
 
 # Run the tests
-organizations="HarvardMedGlobalAcademy"
+organizations="MITProfessionalX HarvardMedGlobalAcademy HarvardXPLUS"
 
 # Run General tests on all organizations using Chrome
 for organization in ${organizations}; do
