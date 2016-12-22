@@ -17,15 +17,15 @@ class LmsLogin(LoginPage):
         """
         Verifies if the browser is on the correct page
         """
-        return self.q(css='.js-login.login-button').visible
+        return self.q(css='.login-button').visible
 
     def provide_info(self, email, password):
         """
         Fill in login info
         'Username' and 'Password' are the user's credentials
         """
-        email_selector = 'input#login-email'
-        password_selector = 'input#login-password'
+        email_selector = 'input#email'
+        password_selector = 'input#password'
 
         self.wait_for_element_visibility(
             email_selector, 'Email input area present')
@@ -51,6 +51,6 @@ class LmsLogin(LoginPage):
         """
         Clicks Remember Me checkbox
         """
-        self.q(css='#login-remember').click()
+        self.q(css='input#remember-yes').click()
         # Click initiates an ajax call
         self.wait_for_ajax()
