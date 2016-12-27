@@ -9,7 +9,7 @@ $script = <<SCRIPT
 
     # Install system requirements
     apt-get update -y
-    apt-get install -y git python2.7 python-pip python2.7-dev firefox dbus-x11 vim
+    apt-get install -y git python2.7 python-pip python2.7-dev firefox dbus-x11 vim libjpeg-dev
     pip install virtualenv==1.10.1
     pip install virtualenvwrapper
 
