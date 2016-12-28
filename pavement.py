@@ -3,10 +3,8 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 
 from path import Path as path
+from pavelib.paver_utils import NoseCommand, PaverTestCommand
 from paver.easy import task, needs, consume_args, sh, BuildFailure
-import requests
-import StringIO
-from zipfile import ZipFile
 
 from pavelib.paver_consts import (
     LOG_DIR,
@@ -17,7 +15,6 @@ from pavelib.paver_consts import (
     PAVER_TEST_REPORT_DIR,
     UPLOAD_FILE_DIR
 )
-from pavelib.paver_utils import NoseCommand, PaverTestCommand
 
 
 @task
@@ -26,38 +23,40 @@ def install_pages():
     Installs page object from edx-platform repo
     """
     repo_root = path(__file__).dirname()
+    # Path to find the git address of repo
+    requirement_path = path(os.path.join(
+        repo_root, 'requirements', 'local.txt'))
     # Path to store the repo
     lib_path = path(os.path.join(repo_root, 'lib'))
-    lib_common_path = path(os.path.join(lib_path, 'edx-platform-master', 'common'))
-
     # Path to setup.py of pages package
-    page_obj_setup_path = path(os.path.join(lib_common_path, 'test', 'acceptance', 'setup.py'))
-    xmodule_path = path(os.path.join(lib_common_path, 'lib', 'xmodule'))
-    capa_path = path(os.path.join(lib_common_path, 'lib', 'capa'))
+    page_obj_setup_path = path(os.path.join(
+        lib_path, 'edx-platform', 'common',
+        'test', 'acceptance', 'setup.py'))
 
-    # Download a zipfile of the edx-platform repo to unzip locally.
-    # We do this because there is no way via pip to clone with a
-    # depth of 1 when installing. And the edx-platform repo is HUGE.
-    print 'Downloading the edx-platform repo'
-    zip_file_url = 'https://github.com/edx/edx-platform/archive/master.zip'
-    response = requests.get(zip_file_url, stream=True)
-    archive = ZipFile(StringIO.StringIO(response.content))
+    xmodule_path = path(os.path.join(
+        lib_path,
+        'edx-platform',
+        'common',
+        'lib',
+        'xmodule'
+    ))
 
-    # Also, we only need to extract the page objects, capa, and xmodule.
-    print 'Extracting page objects, capa, and xmodule from the edx-platform repo'
-    relative_common_path = 'edx-platform-master/common/'
-    acceptance_folder = '{}test/acceptance'.format(relative_common_path)
-    xmodule_folder = '{}lib/xmodule'.format(relative_common_path)
-    capa_folder = '{}lib/capa'.format(relative_common_path)
-    for file in archive.namelist():
-        if file.startswith(acceptance_folder) or file.startswith(capa_folder) or file.startswith(xmodule_folder):
-            archive.extract(file, lib_path)
+    capa_path = path(os.path.join(
+        lib_path,
+        'edx-platform',
+        'common',
+        'lib',
+        'capa'
+    ))
 
     print 'Installing the Page Objects'
+    sh("pip install -r {req} --src={lib}".format(
+        req=requirement_path, lib=lib_path))
+    # Install pages
     sh("python {setup} install".format(setup=page_obj_setup_path))
-    print 'Installing capa'
+
     sh("cd {path_capa}; python setup.py install".format(path_capa=capa_path))
-    print 'Installing xmodule'
+
     sh("cd {path_xmodule}; python setup.py install".format(path_xmodule=xmodule_path))
 
 
