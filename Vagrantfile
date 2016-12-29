@@ -9,7 +9,8 @@ $script = <<SCRIPT
 
     # Install system requirements
     apt-get update -y
-    apt-get install -y git python2.7 python-pip python2.7-dev firefox dbus-x11 vim libjpeg-dev
+    apt-get install -y git python2.7 python-pip python2.7-dev firefox dbus-x11 vim libjpeg-dev libxml2-dev
+libxslt-dev
     pip install virtualenv==1.10.1
     pip install virtualenvwrapper
 
@@ -23,7 +24,7 @@ INIT
 
     # Install Python requirements
     sudo -u vagrant virtualenv /home/vagrant/.virtualenvs/e2e
-    sudo -u vagrant PYTHONUNBUFFERED=1 sh -c ". /home/vagrant/.virtualenvs/e2e/bin/activate && STATIC_DEPS=true CFLAGS="-O0 -fPIC"  pip install "lxml==3.4.4" && pip install -r /home/vagrant/edx-e2e-tests/requirements/base.txt"
+    sudo -u vagrant PYTHONUNBUFFERED=1 sh -c ". /home/vagrant/.virtualenvs/e2e/bin/activate && STATIC_DEPS=true CFLAGS="-O0 -fPIC"  pip install "lxml==3.7.1" && pip install -r /home/vagrant/edx-e2e-tests/requirements/base.txt"
 
 SCRIPT
 
