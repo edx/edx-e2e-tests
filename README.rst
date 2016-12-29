@@ -28,34 +28,53 @@ We recommend using the provided Vagrant environment to develop and run tests.
 
 3. This will create and provision a new Vagrant environment.
 
-You will also need an installation of the edX to run the tests on.
+4. Enter a terminal session in the virtual environment with:
+
+.. code:: bash
+
+    vagrant ssh
+
+
+You will also need a deployed installation of edX lms and studio to run the tests against.
 See `edx/configuration <http://github.com/edx/configuration>`_ for instructions on provisioning an edX instance.
 
 
 
 Configuration
 -------------
-Before running the commands change your working directory to `edx-e2e-tests`
 
-1. Install requirements:
+1. Before running the commands change your working directory to `edx-e2e-tests`. Note that
+   the 'e2e' python virtual environment will automatically be activated.
+
+.. code:: bash
+
+    cd edx-e2e-tests/
+
+2. Update the base python requirements in case they have changed
+   since you created the vagrant environment:
 
 .. code:: bash
 
     pip install -r requirements/base.txt
 
-2 - Install edx platform pages:
+3. OPTIONAL: Cloning the edx-platform repo into a mounted directory in a vagrant environment
+   can take a long time (several minutes). An alternative is to navigate to the lib directory
+   back on your host system and clone the edx-platform repo there before proceeding.
+
+4. Install the page objects for the application from the edx platform repo. This will
+   clone the entire repo into lib/edx-platform so that it can use the page objects and
+   helper methods from common/test/acceptance. We also install capa and xmodule into the
+   virtual environment from common/lib.
+
 
 .. code:: bash
 
     paver install_pages
 
 
-
 Running Tests Locally
 ---------------------
-
-Within the Vagrant environment, the tests are installed in /opt/dev/edx-e2e-tests,
-so before running the paver commands:
+Make sure you are in the correct folder.
 
 .. code:: bash
 
@@ -72,15 +91,11 @@ To run the tests locally, following environmental variables needs to be changed 
     ==> USER_LOGIN_PASSWORD
 
 
-
 To run all the tests:
 
 .. code:: bash
 
     paver e2e_test
-
-
-
 
 
 The commands also accept nose-style specifiers for test case or module:
@@ -89,19 +104,19 @@ To run all the tests in the file:
 
 .. code:: bash
 
-    paver e2e_test lms/test_dasboard.py
+    paver e2e_test lms/test_dashboard.py
 
 To run all the tests in a particular class:
 
 .. code:: bash
 
-    paver e2e_test lms/test_dasboard.py: DashboardTest
+    paver e2e_test lms/test_dashboard.py:DashboardTest
 
 To run a single test:
 
 .. code:: bash
 
-    paver e2e_test lms/test_dasboard.py: DashboardTest.test_resume_course
+    paver e2e_test lms/test_dashboard.py:DashboardTest.test_resume_course
 
 
 To update page objects installed from external repos:
