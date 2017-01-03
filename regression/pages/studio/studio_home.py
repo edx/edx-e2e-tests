@@ -62,3 +62,11 @@ class DashboardPageExtended(DashboardPage):
         """
         self.q(
             css='a[href="' + BASE_URL_LMS + '/edx-privacy-policy"]').click()
+
+    def click_course_rerun(self):
+        """
+        Clicks rerun course button
+        """
+        self.browser.execute_script(
+            "document.querySelectorAll('[data-course-key = \"course-v1:"
+            "ArbiRaees+AR-1000+fall\"] .rerun-button')[0].click();")

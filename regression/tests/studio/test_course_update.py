@@ -3,12 +3,11 @@ Test course update
 """
 from uuid import uuid4
 
-from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.course_info_studio import (
     CourseUpdatesPageExtended
 )
 from regression.tests.studio.studio_base_test import StudioBaseTestClass
-from regression.tests.helpers import LoginHelper, get_course_info
+from regression.tests.helpers import get_course_info
 
 
 class CourseUpdateTest(StudioBaseTestClass):
@@ -17,8 +16,6 @@ class CourseUpdateTest(StudioBaseTestClass):
     """
     def setUp(self):
         super(CourseUpdateTest, self).setUp()
-        self.login_page = StudioLogin(self.browser)
-        LoginHelper.login(self.login_page)
         self.course_info = get_course_info()
 
         self.course_update_page = CourseUpdatesPageExtended(
@@ -96,8 +93,6 @@ class CourseHandoutTest(StudioBaseTestClass):
     """
     def setUp(self):
         super(CourseHandoutTest, self).setUp()
-        self.login_page = StudioLogin(self.browser)
-        LoginHelper.login(self.login_page)
         self.course_info = get_course_info()
 
         self.course_update_page = CourseUpdatesPageExtended(

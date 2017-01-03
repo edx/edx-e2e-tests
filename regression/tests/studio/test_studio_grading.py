@@ -4,12 +4,11 @@ Test studio grading
 from uuid import uuid4
 
 from regression.tests.studio.studio_base_test import StudioBaseTestClass
-from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.grading_studio import GradingPageExtended
 from regression.pages.studio.course_outline_page import (
     CourseOutlinePageExtended
 )
-from regression.tests.helpers import LoginHelper, get_course_info
+from regression.tests.helpers import get_course_info
 
 
 class StudioGradingTest(StudioBaseTestClass):
@@ -21,7 +20,6 @@ class StudioGradingTest(StudioBaseTestClass):
         Initialize the page object
         """
         super(StudioGradingTest, self).setUp()
-        self.login_page = StudioLogin(self.browser)
         self.course_info = get_course_info()
         self.grading_page = GradingPageExtended(
             self.browser,
@@ -34,8 +32,6 @@ class StudioGradingTest(StudioBaseTestClass):
             self.course_info['org'],
             self.course_info['number'],
             self.course_info['run'])
-
-        LoginHelper.login(self.login_page)
 
         self.grading_page.visit()
 
