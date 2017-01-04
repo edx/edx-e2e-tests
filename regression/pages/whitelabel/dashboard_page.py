@@ -31,10 +31,6 @@ class DashboardPage(PageObject):
         Args:
          course_id:
         """
-        self.wait_for_element_visibility(
-            '.course-container',
-            'wait for course container'
-        )
         course_number = CourseKey.from_string(course_id).course
         return self.q(
             css='#actions-dropdown-link-0[data-course-number="{}"]'.format(
