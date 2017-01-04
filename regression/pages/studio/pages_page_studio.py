@@ -2,11 +2,9 @@
 Extended Pages page for a course.
 """
 from selenium.webdriver import ActionChains
-from edxapp_acceptance.pages.common.utils import (
-    wait_for_notification,
-    click_css
-)
+from edxapp_acceptance.pages.common.utils import click_css
 from edxapp_acceptance.pages.studio.utils import drag
+from regression.tests.helpers import wait_for_notification
 
 from regression.pages.studio.utils import click_css_with_animation_enabled
 from regression.pages.studio.course_page_studio import CoursePageExtended
@@ -153,6 +151,8 @@ class PagesPageExtended(CoursePageExtended):
         ActionChains(self.browser).move_to_element(
             toggle_checkbox
         ).click().perform()
+        # Click initiates an ajax call, waiting for it to complete too
+        self.wait_for_ajax()
         wait_for_notification(self)
         # Complicated query, so executing using jQuery.
         return self.browser.execute_script(
