@@ -1,0 +1,13 @@
+# Local environment setup example
+# Copy to a new file (local_env.sh) and fill the blanks
+# Use the 'source local_env.sh' to setup your environment
+
+export BASIC_AUTH_USER=<FILLIN>
+export BASIC_AUTH_PASSWORD=<FILLIN>
+export USER_LOGIN_EMAIL=<FILLIN>
+export USER_LOGIN_PASSWORD=<FILLIN>
+export COURSE_ORG=<FILLIN>
+export COURSE_NUMBER=<FILLIN>
+export COURSE_RUN=<FILLIN>
+export COURSE_DISPLAY_NAME=<FILLIN>
+

@@ -44,3 +44,6 @@ src
 
 # Screenshots on failure
 log/*.png
+
+# Local environment
+local_env.sh
