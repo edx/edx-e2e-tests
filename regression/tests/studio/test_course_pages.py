@@ -2,6 +2,7 @@
 Course pages test
 """
 from uuid import uuid4
+from flaky import flaky
 
 from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 
@@ -221,6 +222,7 @@ class PagesTestWithLms(StudioBaseTestClass):
         pages_in_tab = course_page.get_page_names_in_tab()
         self.assertNotIn(page_name, pages_in_tab)
 
+    @flaky
     def test_hide_and_show_pages(self):
         """
         Verifies hide/show toggle button is working
