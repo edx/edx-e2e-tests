@@ -1,6 +1,7 @@
 """
 End to end tests for User Donations.
 """
+from unittest import skip
 from bok_choy.web_app_test import WebAppTest
 from regression.pages.lms.register_page import RegisterPageExtended
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
@@ -43,6 +44,7 @@ class DonationsTest(WebAppTest):
         )
         self.dashboard_page.wait_for_page()
 
+    @skip('This test needs to be updated. See LT-48')
     def test_user_donations(self):
         """
         Verifies that user can Donate after selecting a course for audit
