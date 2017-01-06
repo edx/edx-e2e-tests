@@ -1,3 +1,4 @@
+1
 edx-e2e-tests
 =============
 
@@ -141,4 +142,3 @@ You can discuss this code on the `edx-code Google Group`__ or in the
 ``edx-code`` IRC channel on Freenode.
 
 __ https://groups.google.com/forum/#!forum/edx-code
-
