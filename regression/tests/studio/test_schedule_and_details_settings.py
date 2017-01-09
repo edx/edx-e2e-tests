@@ -25,8 +25,6 @@ class ScheduleAndDetailsTest(StudioBaseTestClass):
     """
     def setUp(self):
         super(ScheduleAndDetailsTest, self).setUp()
-        self.login_page = StudioLogin(self.browser)
-        LoginHelper.login(self.login_page)
         self.course_info = get_course_info()
 
         self.settings_page = SettingsPageExtended(

@@ -8,6 +8,9 @@ from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.pages_page_studio import PagesPageExtended
 from regression.pages.studio.grading_studio import GradingPageExtended
 from regression.pages.studio.studio_textbooks import TextbookPageExtended
+from regression.pages.studio.studio_home import DashboardPageExtended
+from regression.pages.studio.studio_rerun import StudioRerun
+from regression.pages.lms.login_lms import LmsLogin
 from regression.pages.studio.asset_index_studio import AssetIndexPageExtended
 from regression.pages.studio.course_info_studio import (
     CourseUpdatesPageExtended
@@ -23,6 +26,22 @@ class StudioBaseTestClass(WebAppTest):
     """
     def setUp(self):
         super(StudioBaseTestClass, self).setUp()
+
+        # Login to Lms first to avoid authentication problem
+        self.lms_login_page = LmsLogin(self.browser)
+        LoginHelper.login(self.lms_login_page)
+
+        self.login_page = StudioLogin(self.browser)
+        self.course_rerun_page = StudioRerun(self.browser)
+        self.studio_home_page = DashboardPageExtended(self.browser)
+        LoginHelper.login(self.login_page)
+        self.studio_home_page.visit()
+        self.studio_home_page.click_course_rerun()
+        self.course_rerun_page.wait_for_page()
+        self.course_rerun_page.add_rerun_with_run()
+        self.studio_home_page.wait_for_page()
+        self.browser.refresh()
+
         self.addCleanup(self.clean_up_function)
 
     def clean_up_function(self):

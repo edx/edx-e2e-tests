@@ -6,11 +6,9 @@ from uuid import uuid4
 from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 
 from regression.tests.studio.studio_base_test import StudioBaseTestClass
-from regression.pages.studio.login_studio import StudioLogin
-from regression.tests.helpers import LoginHelper, get_course_info
+from regression.tests.helpers import get_course_info
 from regression.pages.lms.utils import get_course_key
 from regression.pages.studio.pages_page_studio import PagesPageExtended
-from regression.pages.lms.login_lms import LmsLogin
 from regression.pages.lms.course_page_lms import CourseInfoPageExtended
 
 
@@ -21,8 +19,6 @@ class CoursePagesTest(StudioBaseTestClass):
     def setUp(self):
         super(CoursePagesTest, self).setUp()
         self.course_info = get_course_info()
-        self.login_page = StudioLogin(self.browser)
-        LoginHelper.login(self.login_page)
         self.pages_page = PagesPageExtended(
             self.browser,
             self.course_info['org'],
@@ -127,12 +123,6 @@ class PagesTestWithLms(StudioBaseTestClass):
     def setUp(self):
         super(PagesTestWithLms, self).setUp()
         self.course_info = get_course_info()
-        # Login to Lms first to avoid authentication
-        self.login_page = LmsLogin(self.browser)
-        LoginHelper.login(self.login_page)
-
-        self.studio_login_page = StudioLogin(self.browser)
-        LoginHelper.login(self.studio_login_page)
         self.pages_page = PagesPageExtended(
             self.browser,
             self.course_info['org'],

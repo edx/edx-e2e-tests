@@ -5,6 +5,8 @@ from edxapp_acceptance.pages.studio.index import DashboardPage
 from bok_choy.promise import BrokenPromise
 from regression.pages.studio import BASE_URL
 from regression.pages.lms import BASE_URL_LMS
+from regression.tests.helpers import get_course_info
+from regression.pages.lms.utils import get_course_key
 
 
 class DashboardPageExtended(DashboardPage):
@@ -14,6 +16,7 @@ class DashboardPageExtended(DashboardPage):
     """
 
     url = BASE_URL + '/home'
+    course_details = get_course_key(get_course_info())
 
     def is_browser_on_page(self):
         """
@@ -46,8 +49,8 @@ class DashboardPageExtended(DashboardPage):
         Clicks view live button
         """
         self.browser.execute_script(
-            "document.querySelectorAll('[data-course-key = \"course-v1:"
-            "ArbiRaees+AR-1000+fall\"] .view-button')[0].click();")
+            "document.querySelectorAll('[data-course-key = \"{}\"] "
+            ".view-button')[0].click();".format(self.course_details))
         self.browser.switch_to_window(self.browser.window_handles[-1])
 
     def click_terms_of_service(self):
@@ -62,3 +65,11 @@ class DashboardPageExtended(DashboardPage):
         """
         self.q(
             css='a[href="' + BASE_URL_LMS + '/edx-privacy-policy"]').click()
+
+    def click_course_rerun(self):
+        """
+        Clicks rerun course button
+        """
+        self.browser.execute_script(
+            "document.querySelectorAll('[data-course-key = \"{}\"] "
+            ".rerun-button')[0].click();".format(self.course_details))
