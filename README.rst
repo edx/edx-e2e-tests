@@ -81,7 +81,8 @@ Make sure you are in the correct folder.
     cd $HOME/edx-e2e-tests
 
 
-To run the tests locally, following environmental variables needs to be changed before running tests.
+These environment variables need to be set before running tests.
+By default the browser used is the local Firefox application from the vagrant image.
 
 .. code:: bash
 
@@ -124,6 +125,32 @@ To update page objects installed from external repos:
 .. code:: bash
 
     paver install_pages
+
+
+Using the Browser from a Docker Container
+-----------------------------------------
+* You first need some basic understanding of how Docker works and have a
+  working `Docker installation <https://docs.docker.com/engine/installation/>`_
+* Launch a container with selenium server and a browser. Here's how to run with Firefox:
+
+  * `DBUS_SESSION_BUS_ADDRESS=/dev/null` is needed to prevent error messages about the hostname
+  * `-p 4444:4444` maps port 4444 on the container to port 4444 on the host
+
+.. code:: bash
+
+    docker run -d --env DBUS_SESSION_BUS_ADDRESS=/dev/null -p 4444:4444 selenium/standalone-firefox
+
+* These environment variable settings on the system from which you are running the
+  tests (the vagrant image), set prior to issuing the `paver e2e_test` command,
+  will tell the test runner to use the container's browser.
+  Note: see http://stackoverflow.com/questions/16244601/vagrant-reverse-port-forwarding
+  for why the SELENIUM_HOST value is 10.0.2.2.
+
+.. code:: bash
+
+    export SELENIUM_BROWSER=firefox
+    export SELENIUM_HOST=10.0.2.2
+    export SELENIUM_PORT=4444
 
 
 License
