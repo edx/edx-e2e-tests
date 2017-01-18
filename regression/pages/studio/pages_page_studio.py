@@ -1,7 +1,6 @@
 """
 Extended Pages page for a course.
 """
-from selenium.webdriver import ActionChains
 from edxapp_acceptance.pages.common.utils import (
     wait_for_notification,
     click_css
@@ -149,11 +148,9 @@ class PagesPageExtended(CoursePageExtended):
         Clicks hide/show toggle button
         """
         toggle_checkbox_css = '.toggle-checkbox'
-        toggle_checkbox = self.q(css=toggle_checkbox_css).results[index]
-        ActionChains(self.browser).move_to_element(
-            toggle_checkbox
-        ).click().perform()
+        self.browser.execute_script("$('.toggle-checkbox')[0].click()")
         wait_for_notification(self)
+
         # Complicated query, so executing using jQuery.
         return self.browser.execute_script(
             "return $('{}:eq({})').parents().eq(3).find("

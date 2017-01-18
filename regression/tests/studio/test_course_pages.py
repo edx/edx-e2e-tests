@@ -3,7 +3,7 @@ Course pages test
 """
 from uuid import uuid4
 
-from edxapp_acceptance.pages.lms.courseware import CoursewarePage
+from regression.pages.lms.lms_courseware import CoursewarePageExtended
 
 from regression.tests.studio.studio_base_test import StudioBaseTestClass
 from regression.pages.studio.login_studio import StudioLogin
@@ -127,6 +127,11 @@ class PagesTestWithLms(StudioBaseTestClass):
     def setUp(self):
         super(PagesTestWithLms, self).setUp()
         self.course_info = get_course_info()
+        self.course_page = CourseInfoPageExtended(
+            self.browser, get_course_key(self.course_info)
+        )
+        self.courseware_page = CoursewarePageExtended(
+            self.browser, get_course_info())
         # Login to Lms first to avoid authentication
         self.login_page = LmsLogin(self.browser)
         LoginHelper.login(self.login_page)
@@ -146,9 +151,7 @@ class PagesTestWithLms(StudioBaseTestClass):
         Verifies that user can View live course from pages page
         """
         self.pages_page.click_view_live_button()
-        courseware_page = CoursewarePage(
-            self.browser, get_course_info())
-        courseware_page.wait_for_page()
+        self.courseware_page.wait_for_page()
 
     def test_drag_and_drop_of_pages(self):
         """
@@ -189,38 +192,6 @@ class PagesTestWithLms(StudioBaseTestClass):
         all_pages.append('Instructor')
         self.assertEqual(pages_in_tab, all_pages)
 
-    def assert_page_is_shown_in_lms(self, page_name):
-        """
-        Confirms the page is shown in LMS
-
-        Arguments:
-            page_name(str): Name of the page to be shown
-        """
-        course_info = get_course_info()
-        course_page = CourseInfoPageExtended(
-            self.browser, get_course_key(course_info)
-        )
-
-        course_page.visit()
-        pages_in_tab = course_page.get_page_names_in_tab()
-        self.assertIn(page_name, pages_in_tab)
-
-    def assert_page_is_not_shown_in_lms(self, page_name):
-        """
-        Confirms the page is not shown in LMS
-
-        Arguments:
-            page_name(str): Name of the page not to be shown
-        """
-        course_info = get_course_info()
-        course_page = CourseInfoPageExtended(
-            self.browser, get_course_key(course_info)
-        )
-
-        course_page.visit()
-        pages_in_tab = course_page.get_page_names_in_tab()
-        self.assertNotIn(page_name, pages_in_tab)
-
     def test_hide_and_show_pages(self):
         """
         Verifies hide/show toggle button is working
@@ -230,13 +201,18 @@ class PagesTestWithLms(StudioBaseTestClass):
         # Click hide/show toggle, assert page is not shown.
         page = self.pages_page.click_hide_show_toggle()
         self.assertFalse(self.pages_page.is_page_configured_to_show())
-        # Assert page is not shown in the LMS.
-        self.assert_page_is_not_shown_in_lms(page)
+        self.pages_page.click_view_live_button()
+
+        self.courseware_page.wait_for_page()
+        pages_in_tab = self.courseware_page.get_page_names_in_tab()
+        self.assertNotIn(page, pages_in_tab)
 
         # Return back to tbe pages page and un-check
         # the toggle to show the page.
         self.pages_page.visit()
         page = self.pages_page.click_hide_show_toggle()
         self.assertTrue(self.pages_page.is_page_configured_to_show())
-        # Assert page is shown in the LMS.
-        self.assert_page_is_shown_in_lms(page)
+        self.pages_page.click_view_live_button()
+        self.courseware_page.wait_for_page()
+        pages_in_tab = self.courseware_page.get_page_names_in_tab()
+        self.assertIn(page, pages_in_tab)
