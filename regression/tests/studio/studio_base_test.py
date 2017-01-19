@@ -17,7 +17,15 @@ from regression.pages.studio.course_outline_page import (
 )
 
 
-class StudioBaseTestClass(WebAppTest):
+class BaseTestClassNoCleanup(WebAppTest):
+    """
+    Base class for all tests in studio
+    """
+    def setUp(self):
+        super(BaseTestClassNoCleanup, self).setUp()
+
+
+class StudioBaseTestClass(BaseTestClassNoCleanup):
     """
     Base class for all tests in studio
     """

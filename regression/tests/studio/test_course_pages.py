@@ -6,6 +6,7 @@ from uuid import uuid4
 from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 
 from regression.tests.studio.studio_base_test import StudioBaseTestClass
+from regression.tests.studio.studio_base_test import BaseTestClassNoCleanup
 from regression.pages.studio.login_studio import StudioLogin
 from regression.tests.helpers import LoginHelper, get_course_info
 from regression.pages.lms.utils import get_course_key
@@ -14,7 +15,7 @@ from regression.pages.lms.login_lms import LmsLogin
 from regression.pages.lms.course_page_lms import CourseInfoPageExtended
 
 
-class CoursePagesTest(StudioBaseTestClass):
+class CoursePagesTest(BaseTestClassNoCleanup):
     """
     Course Pages test
     """
@@ -52,34 +53,25 @@ class CoursePagesTest(StudioBaseTestClass):
         ).results[current_page_count - 1].get_attribute('data-tab-id')
         self.assertFalse(last_page_id, 'Page id exists.')
 
-    def test_add_page(self):
+    def test_pages_crud(self):
         """
-        Scenario: Add a new page.
+        Scenario: Create/Retrieve/Update/Delete a new page.
         Given that I am on the pages section of a course
         And I add a new page
         Then new page should be added.
+        And I edit a page
+        Then I should see changes.
+        And I delete a page
+        Then page should be deleted and no longer be available.
         """
         self.pages_page.visit()
         # Get total count of pages currently present.
-        initial_page_count = self.pages_page.get_custom_page_count()
-        # Add a new page.
-        self.pages_page.add_page()
-        # Verify that the initial and current page count are not the same.
-        self.assert_page_has_been_added(initial_page_count)
-
-    def test_edit_page(self):
-        """
-        Scenario: Edit a page.
-        Given that I am on the pages section of a course
-        And I edit a page
-        Then I should see changes.
-        """
-        self.pages_page.visit()
         page_count = self.pages_page.get_custom_page_count()
         # Add a new page.
         self.pages_page.add_page()
         # Verify that the initial and current page count are not the same.
         self.assert_page_has_been_added(page_count)
+        # Now we want to edit the page
         self.pages_page.reload_and_wait_for_page()
         new_page_content = 'New content:{}'.format(uuid4().hex)
         self.pages_page.edit_page(new_page_content, page_count)
@@ -90,20 +82,7 @@ class CoursePagesTest(StudioBaseTestClass):
                 index=page_count
             )
         )
-
-    def test_delete_page(self):
-        """
-        Scenario: Delete a new page.
-        Given that I am on the pages section of a course
-        And I delete a page
-        Then page should be deleted and no longer be available.
-        """
-        self.pages_page.visit()
-        page_count = self.pages_page.get_custom_page_count()
-        # Add a new page.
-        self.pages_page.add_page()
-        # Verify that the initial and current page count are not the same.
-        self.assert_page_has_been_added(page_count)
+        # And now we delete the page
         self.pages_page.reload_and_wait_for_page()
         # Delete the page.
         self.pages_page.delete_page()
@@ -112,11 +91,10 @@ class CoursePagesTest(StudioBaseTestClass):
             page_count, self.pages_page.get_custom_page_count()
         )
 
-    def test_see_an_example_popup(self):
-        """
-        Verifies that user can click and view See an Example pop up
-        """
-        self.pages_page.visit()
+        # Verify also that user can click and view See an Example pop up
+        # Leaving this at the end in case it leaves the browser
+        # with a pop-up showing. We have the configuration such that the
+        # browser will exit at the end of every testcase.
         self.pages_page.click_and_verify_see_an_example()
 
 
