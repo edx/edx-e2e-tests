@@ -3,6 +3,7 @@ Test helper functions.
 """
 import os
 
+from bok_choy.promise import EmptyPromise
 from regression.pages.studio.utils import get_course_key
 from regression.pages.studio import BASE_URL
 
@@ -59,6 +60,20 @@ def get_data_id_of_component(page):
     """
     data_id = page.q(css='.vert-mod .vert.vert-0').attrs('data-id')[0]
     return data_id
+
+
+def wait_for_notification(page):
+    """
+    Waits for the "mini-notification" to disappear on the given page
+    (subclass of PageObject).
+    """
+    def _is_saving_done():
+        """Whether or not the notification is finished showing."""
+        return page.q(css='.wrapper-notification-mini.is-hiding').present
+
+    EmptyPromise(
+        _is_saving_done, 'Notification should have been hidden.', timeout=60
+    ).fulfill()
 
 
 class LoginHelper(object):
