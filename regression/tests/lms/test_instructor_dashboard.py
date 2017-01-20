@@ -2,14 +2,14 @@
 End to end tests for Instructor Dashboard.
 """
 from bok_choy.web_app_test import WebAppTest
-from regression.pages.lms.login_lms import LmsLogin
+from regression.tests.helpers import LoginApi
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.lms.instructor_dashboard import (
     InstructorDashboardPageExtended
 )
 from regression.pages.lms.course_page_lms import CourseInfoPageExtended
 from regression.tests.helpers import (
-    LoginHelper, get_course_info, get_course_display_name
+    get_course_info, get_course_display_name
 )
 from regression.pages.lms.utils import get_course_key
 
@@ -21,8 +21,10 @@ class AnalyticsTest(WebAppTest):
 
     def setUp(self):
         super(AnalyticsTest, self).setUp()
-        self.login_page = LmsLogin(self.browser)
-        LoginHelper.login(self.login_page)
+
+        login_app = LoginApi()
+        login_app.authenticate(self.browser)
+
         course_info = get_course_info()
         self.dashboard_page = DashboardPageExtended(self.browser)
         self.instructor_dashboard = InstructorDashboardPageExtended(
@@ -33,7 +35,7 @@ class AnalyticsTest(WebAppTest):
             self.browser,
             get_course_key(course_info)
         )
-
+        self.dashboard_page.visit()
         self.dashboard_page.select_course(get_course_display_name())
         self.course_page.wait_for_page()
         self.instructor_dashboard.visit()

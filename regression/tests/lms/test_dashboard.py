@@ -3,11 +3,11 @@ End to end tests for LMS dashboard.
 """
 from bok_choy.web_app_test import WebAppTest
 from edxapp_acceptance.pages.lms.courseware import CoursewarePage
-from regression.pages.lms.login_lms import LmsLogin
+from regression.tests.helpers import LoginApi
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.lms.course_page_lms import CourseInfoPageExtended
 from regression.tests.helpers import (
-    LoginHelper, get_course_info, get_course_display_name
+    get_course_info, get_course_display_name
 )
 from regression.pages.lms.course_drupal_page import (
     DemoCourseSelectionPage
@@ -22,11 +22,15 @@ class DashboardTest(WebAppTest):
 
     def setUp(self):
         super(DashboardTest, self).setUp()
-        self.login_page = LmsLogin(self.browser)
+
+        login_app = LoginApi()
+        login_app.authenticate(self.browser)
+
         self.dashboard_page = DashboardPageExtended(self.browser)
         self.drupal_course_page = DemoCourseSelectionPage(self.browser)
         self.payment_page = PaymentPage(self.browser)
-        LoginHelper.login(self.login_page)
+
+        self.dashboard_page.visit()
 
     def test_resume_course(self):
         """
