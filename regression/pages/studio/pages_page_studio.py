@@ -2,13 +2,13 @@
 Extended Pages page for a course.
 """
 from selenium.webdriver import ActionChains
-from edxapp_acceptance.pages.common.utils import (
-    wait_for_notification,
-    click_css
-)
+from edxapp_acceptance.pages.common.utils import click_css
 from edxapp_acceptance.pages.studio.utils import drag
 
-from regression.pages.studio.utils import click_css_with_animation_enabled
+from regression.pages.studio.utils import (
+    click_css_with_animation_enabled,
+    sync_on_notification
+)
 from regression.pages.studio.course_page_studio import CoursePageExtended
 
 
@@ -56,7 +56,7 @@ class PagesPageExtended(CoursePageExtended):
             'document.querySelectorAll(".button.action-primary'
             '.action-save")[0].click();'
         )
-        wait_for_notification(self)
+        sync_on_notification(self)
 
     def delete_page(self, index=0):
         """
@@ -72,7 +72,7 @@ class PagesPageExtended(CoursePageExtended):
             require_notification=False
         )
         self.q(css='.prompt.warning button.action-primary ').first.click()
-        wait_for_notification(self)
+        sync_on_notification(self)
 
     def delete_all_pages(self):
         """
@@ -153,7 +153,7 @@ class PagesPageExtended(CoursePageExtended):
         ActionChains(self.browser).move_to_element(
             toggle_checkbox
         ).click().perform()
-        wait_for_notification(self)
+        sync_on_notification(self)
         # Complicated query, so executing using jQuery.
         return self.browser.execute_script(
             "return $('{}:eq({})').parents().eq(3).find("

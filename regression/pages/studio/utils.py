@@ -1,6 +1,7 @@
 """
 Utility functions for studio page objects.
 """
+from bok_choy.promise import BrokenPromise
 from opaque_keys.edx.locator import CourseLocator
 from edxapp_acceptance.pages.common.utils import wait_for_notification
 from edxapp_acceptance.pages.studio.utils import press_the_notification_button
@@ -154,3 +155,21 @@ def get_text(page, css, index=0):
         index (int): index position of element.
     """
     return page.q(css=css).text[index]
+
+
+def sync_on_notification(page):
+    """
+    Wait for the saving notification to appear then disappear.
+
+    A BrokenPromise probably means that we missed it.
+    We should just swallow this error and not raise it for
+    reasons including:
+    * We are not specifically testing this functionality
+    * This functionality is covered by unit tests
+    * This verification method is prone to flakiness
+      and browser version dependencies
+    """
+    try:
+        wait_for_notification(page)
+    except BrokenPromise as _err:
+        pass
