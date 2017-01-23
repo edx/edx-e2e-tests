@@ -18,6 +18,7 @@ develop-eggs
 lib
 lib64
 __pycache__
+.cache
 
 # Installer logs
 pip-log.txt
@@ -46,8 +47,9 @@ reports
 lib/edx-platform
 src
 
-# Screenshots on failure
+# Logs and screenshots on failure
 log/*.png
+log/*.log
 
 # Local environment
 local_env.sh
