@@ -132,6 +132,8 @@ def save_changes_popup_for_studio(self):
         '#alert-confirmation-title',
         'Save confirmation message is visible'
     )
+    # After visibility an ajax call is in process, waiting for that
+    self.wait_for_ajax()
 
 
 def click_confirmation_prompt_primary_button(self):
