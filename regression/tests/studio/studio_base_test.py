@@ -88,9 +88,9 @@ class StudioBaseTestClass(BaseTestClassNoCleanup):
             pages_page.wait_for_the_visibility_of_new_page()
             pages_page.delete_all_pages()
 
-        if pages_page.is_page_configured_to_show() is False:
-            pages_page.click_hide_show_toggle()
-            self.assertTrue(pages_page.is_page_configured_to_show())
+        if pages_page.toggle_wiki_page_show_value() is False:
+            pages_page.toggle_wiki_page_display()
+            self.assertTrue(pages_page.toggle_wiki_page_show_value())
 
         course_update_page.visit()
         course_update_page.delete_all_course_updates()

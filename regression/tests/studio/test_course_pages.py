@@ -201,20 +201,20 @@ class PagesTestWithLms(StudioBaseTestClass):
 
     def test_hide_and_show_pages(self):
         """
-        Verifies hide/show toggle button is working
+        Verifies that hide/show toggle button is working
         for pages.
         """
         self.pages_page.visit()
         # Click hide/show toggle, assert page is not shown.
-        page = self.pages_page.click_hide_show_toggle()
-        self.assertFalse(self.pages_page.is_page_configured_to_show())
+        page = self.pages_page.toggle_wiki_page_display()
+        self.assertFalse(self.pages_page.toggle_wiki_page_show_value())
         # Assert page is not shown in the LMS.
         self.assert_page_is_not_shown_in_lms(page)
 
         # Return back to tbe pages page and un-check
         # the toggle to show the page.
         self.pages_page.visit()
-        page = self.pages_page.click_hide_show_toggle()
-        self.assertTrue(self.pages_page.is_page_configured_to_show())
+        page = self.pages_page.toggle_wiki_page_display()
+        self.assertTrue(self.pages_page.toggle_wiki_page_show_value())
         # Assert page is shown in the LMS.
         self.assert_page_is_shown_in_lms(page)
