@@ -5,8 +5,7 @@ import os
 from shutil import copyfile
 from regression.tests.studio.studio_base_test import StudioBaseTestClass
 from regression.pages.studio.utils import upload_new_file
-from regression.pages.studio.login_studio import StudioLogin
-from regression.tests.helpers import LoginHelper, get_course_info
+from regression.tests.helpers import get_course_info, StudioLoginApi
 
 from regression.pages.studio.asset_index_studio import AssetIndexPageExtended
 from regression.pages import UPLOAD_FILE_DIR
@@ -18,8 +17,10 @@ class UploadedFileTest(StudioBaseTestClass):
     """
     def setUp(self):
         super(UploadedFileTest, self).setUp()
-        self.login_page = StudioLogin(self.browser)
-        LoginHelper.login(self.login_page)
+
+        studio_login = StudioLoginApi()
+        studio_login.authenticate(self.browser)
+
         self.course_info = get_course_info()
 
         self.asset_page = AssetIndexPageExtended(
@@ -98,8 +99,10 @@ class UploadedFilePaginationTest(StudioBaseTestClass):
     """
     def setUp(self):
         super(UploadedFilePaginationTest, self).setUp()
-        self.login_page = StudioLogin(self.browser)
-        LoginHelper.login(self.login_page)
+
+        studio_login = StudioLoginApi()
+        studio_login.authenticate(self.browser)
+
         self.course_info = get_course_info()
 
         self.asset_page = AssetIndexPageExtended(

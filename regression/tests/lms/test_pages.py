@@ -4,7 +4,7 @@ End to end test for page's visit.
 from bok_choy.web_app_test import WebAppTest
 
 from regression.pages.lms.course_page_lms import CourseInfoPageExtended
-from regression.tests.helpers import LoginApi
+from regression.tests.helpers import LmsLoginApi
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.tests.helpers import visit_all
 
@@ -18,8 +18,8 @@ class PagesTest(WebAppTest):
         Verifies that user can navigate to LMS Pages
         """
         # Log in as a student
-        login_app = LoginApi()
-        login_app.authenticate(self.browser)
+        login_api = LmsLoginApi()
+        login_api.authenticate(self.browser)
         dashboard_page = DashboardPageExtended(self.browser)
         dashboard_page.visit()
 

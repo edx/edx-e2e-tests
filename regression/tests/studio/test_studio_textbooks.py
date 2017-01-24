@@ -5,10 +5,10 @@ from uuid import uuid4
 
 from regression.tests.studio.studio_base_test import StudioBaseTestClass
 
-from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.studio_textbooks import TextbookPageExtended
-from regression.tests.helpers import LoginHelper, get_course_info
-from regression.pages.lms.login_lms import LmsLogin
+from regression.tests.helpers import (
+    StudioLoginApi, get_course_info, LmsLoginApi
+)
 from regression.pages.lms.lms_textbook import TextbookPage
 
 
@@ -18,13 +18,14 @@ class TextbookTest(StudioBaseTestClass):
     """
     def setUp(self):
         super(TextbookTest, self).setUp()
-        # Login to Lms first to avoid authentication
-        self.lms_login_page = LmsLogin(self.browser)
-        LoginHelper.login(self.lms_login_page)
 
-        self.login_page = StudioLogin(self.browser)
+        studio_login = StudioLoginApi()
+        studio_login.authenticate(self.browser)
+
+        lms_login = LmsLoginApi()
+        lms_login.authenticate(self.browser)
+
         self.lms_textbook = TextbookPage(self.browser)
-        LoginHelper.login(self.login_page)
         self.course_info = get_course_info()
 
         self.textbook_page = TextbookPageExtended(

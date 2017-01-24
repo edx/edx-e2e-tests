@@ -9,8 +9,10 @@ from regression.pages.studio import BASE_URL
 from regression.pages import (
     BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD, LOGIN_EMAIL, LOGIN_PASSWORD
 )
-from regression.pages.lms import LOGIN_BASE_URL
-
+from regression.pages.lms import LMS_BASE_URL
+from regression.pages.lms import LOGIN_BASE_URL as LMS_AUTH_URL
+from regression.pages.studio import STUDIO_BASE_URL
+from regression.pages.studio import LOGIN_BASE_URL as STUDIO_AUTH_URL
 
 COURSE_ORG = 'COURSE_ORG'
 COURSE_NUMBER = 'COURSE_NUMBER'
@@ -97,18 +99,27 @@ class LoginHelper(object):
         login_page.login(login_email, login_password)
 
 
-class LoginApi(object):
+class LoginApiBaseClass(object):
     """
-    An Api to login the stage.
+    Base class for login api
     """
     def __init__(self):
-        self.login_url = 'https://courses.stage.edx.org/login'
+        self.login_url = None
         self.session = requests.Session()
         self.session.auth = (
             BASIC_AUTH_USERNAME,
             BASIC_AUTH_PASSWORD
         )
+
+        self.payload = {
+            'email': LOGIN_EMAIL,
+            'password': LOGIN_PASSWORD,
+            'remember': 'false'
+        }
+
         self.login_response = None
+        self.login_post_url = None
+        self.browser_get_url = None
 
     def check_response(self, response):
         """
@@ -154,14 +165,8 @@ class LoginApi(object):
         Login to the stage.
         """
         self.create_base_session()
-        login_post_url = 'https://courses.stage.edx.org/' \
-                         'user_api/v1/account/login_session/'
-        payload = {
-            'email': LOGIN_EMAIL,
-            'password': LOGIN_PASSWORD,
-            'remember': 'false'
-        }
-        response = self.session.post(login_post_url, data=payload)
+
+        response = self.session.post(self.login_post_url, data=self.payload)
         self.check_response(response)
         self.session.cookies = response.cookies
         self.session.headers = self.post_headers(
@@ -182,7 +187,10 @@ class LoginApi(object):
         # cookies. To do this, just visit a page of the
         # same domain.
         # Cookies require the domain to be ".stage.edx.org"
-        browser.get(LOGIN_BASE_URL + '/dashboard')
+        # Browser will navigate to the login page, but
+        # no one is required to login. Once cookies become
+        # effective, we don't need to login.
+        browser.get(self.browser_get_url)
         for cookie in self.session.cookies:
             browser.add_cookie(
                 {
@@ -192,3 +200,39 @@ class LoginApi(object):
                     'expiry': cookie.expires
                 }
             )
+
+
+class LmsLoginApi(LoginApiBaseClass):
+    """
+    Login api for LMS
+    """
+    def __init__(self):
+        super(LmsLoginApi, self).__init__()
+
+        self.login_url = 'https://{}/{}'.format(
+            LMS_BASE_URL, 'login'
+        )
+
+        self.login_post_url = 'https://{}/{}'.format(
+            LMS_BASE_URL, 'user_api/v1/account/login_session/'
+        )
+
+        self.browser_get_url = LMS_AUTH_URL + '/dashboard'
+
+
+class StudioLoginApi(LoginApiBaseClass):
+    """
+    Login api for Studio
+    """
+    def __init__(self):
+        super(StudioLoginApi, self).__init__()
+
+        self.login_url = 'https://{}/{}'.format(
+            STUDIO_BASE_URL, 'signin'
+        )
+
+        self.login_post_url = 'https://{}/{}'.format(
+            STUDIO_BASE_URL, 'login_post'
+        )
+
+        self.browser_get_url = STUDIO_AUTH_URL + '/home'

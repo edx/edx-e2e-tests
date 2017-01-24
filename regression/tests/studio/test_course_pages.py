@@ -7,11 +7,11 @@ from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 
 from regression.tests.studio.studio_base_test import StudioBaseTestClass
 from regression.tests.studio.studio_base_test import BaseTestClassNoCleanup
-from regression.pages.studio.login_studio import StudioLogin
-from regression.tests.helpers import LoginHelper, get_course_info
+from regression.tests.helpers import (
+    StudioLoginApi, get_course_info, LmsLoginApi
+)
 from regression.pages.lms.utils import get_course_key
 from regression.pages.studio.pages_page_studio import PagesPageExtended
-from regression.pages.lms.login_lms import LmsLogin
 from regression.pages.lms.course_page_lms import CourseInfoPageExtended
 
 
@@ -22,8 +22,10 @@ class CoursePagesTest(BaseTestClassNoCleanup):
     def setUp(self):
         super(CoursePagesTest, self).setUp()
         self.course_info = get_course_info()
-        self.login_page = StudioLogin(self.browser)
-        LoginHelper.login(self.login_page)
+
+        login_api = StudioLoginApi()
+        login_api.authenticate(self.browser)
+
         self.pages_page = PagesPageExtended(
             self.browser,
             self.course_info['org'],
@@ -104,13 +106,15 @@ class PagesTestWithLms(StudioBaseTestClass):
     """
     def setUp(self):
         super(PagesTestWithLms, self).setUp()
-        self.course_info = get_course_info()
-        # Login to Lms first to avoid authentication
-        self.login_page = LmsLogin(self.browser)
-        LoginHelper.login(self.login_page)
 
-        self.studio_login_page = StudioLogin(self.browser)
-        LoginHelper.login(self.studio_login_page)
+        self.course_info = get_course_info()
+
+        studio_login = StudioLoginApi()
+        studio_login.authenticate(self.browser)
+
+        lms_login = LmsLoginApi()
+        lms_login.authenticate(self.browser)
+
         self.pages_page = PagesPageExtended(
             self.browser,
             self.course_info['org'],

@@ -10,9 +10,8 @@ from edxapp_acceptance.pages.studio.settings_group_configurations import (
     GroupConfigurationsPage
 )
 from regression.tests.studio.studio_base_test import StudioBaseTestClass
-from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.settings_studio import SettingsPageExtended
-from regression.tests.helpers import LoginHelper, get_course_info
+from regression.tests.helpers import StudioLoginApi, get_course_info
 from regression.pages.studio.grading_studio import GradingPageExtended
 from regression.pages.studio.utils import (
     get_text
@@ -25,8 +24,10 @@ class ScheduleAndDetailsTest(StudioBaseTestClass):
     """
     def setUp(self):
         super(ScheduleAndDetailsTest, self).setUp()
-        self.login_page = StudioLogin(self.browser)
-        LoginHelper.login(self.login_page)
+
+        studio_login = StudioLoginApi()
+        studio_login.authenticate(self.browser)
+
         self.course_info = get_course_info()
 
         self.settings_page = SettingsPageExtended(
@@ -110,8 +111,10 @@ class ScheduleAndDetailsLinks(WebAppTest):
     """
     def setUp(self):
         super(ScheduleAndDetailsLinks, self).setUp()
-        self.login_page = StudioLogin(self.browser)
-        LoginHelper.login(self.login_page)
+
+        studio_login = StudioLoginApi()
+        studio_login.authenticate(self.browser)
+
         self.course_info = get_course_info()
 
         self.settings_page = SettingsPageExtended(
