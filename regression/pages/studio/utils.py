@@ -159,19 +159,49 @@ def get_text(page, css, index=0):
     return page.q(css=css).text[index]
 
 
-def sync_on_notification(page):
+def sync_on_notification(page, style='default', wait_for_hide=False):
     """
-    Wait for the saving notification to appear then disappear.
+    Sync on notifications but do not raise errors.
 
-    A BrokenPromise probably means that we missed it.
-    We should just swallow this error and not raise it for
-    reasons including:
+    A BrokenPromise in the wait_for probably means that we missed it.
+    We should just swallow this error and not raise it for reasons including:
     * We are not specifically testing this functionality
     * This functionality is covered by unit tests
     * This verification method is prone to flakiness
       and browser version dependencies
+
+    See classes in edx-platform:
+     lms/static/sass/elements/_system-feedback.scss
     """
+    hiding_class = 'is-hiding'
+    shown_class = 'is-shown'
+
+    def notification_has_class(style, el_class):
+        """
+        Return a boolean representing whether
+        the notification has the class applied.
+        """
+        if style == 'mini':
+            css_string = '.wrapper-notification-mini.{}'
+        else:
+            css_string = '.wrapper-notification-confirmation.{}'
+        return page.q(css=css_string.format(el_class)).present
+
+    # Wait for the notification to show.
+    # If you miss it though, don't raise an error.
     try:
-        wait_for_notification(page)
+        page.wait_for(
+            lambda: notification_has_class(style, shown_class),
+            'Notification should have been shown.',
+            timeout=5
+        )
     except BrokenPromise as _err:
         pass
+
+    # Now wait for it to hide.
+    # This is not required for web page interaction, so not really needed.
+    if wait_for_hide:
+        page.wait_for(
+            lambda: notification_has_class(style, hiding_class),
+            'Notification should have hidden.'
+        )
