@@ -31,6 +31,7 @@ class UploadedFileTest(StudioBaseTestClass):
         )
         self.asset_page.visit()
         self.file_names = [
+            'test.pdf'
             'README.rst',
             'test_pdf.pdf'
         ]
