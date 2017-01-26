@@ -68,37 +68,6 @@ def get_data_id_of_component(page):
     return data_id
 
 
-class LoginHelper(object):
-    """
-    Helper class to login to the studio.
-    """
-    @staticmethod
-    def get_login_email():
-        """
-        Return login email set in environment variable
-        """
-        login_email = os.environ.get('USER_LOGIN_EMAIL', 'not_set@nothing.com')
-        return login_email
-
-    @staticmethod
-    def get_login_password():
-        """
-        Return the login password set in environment variable
-        """
-        login_password = os.environ.get('USER_LOGIN_PASSWORD', 'no_password')
-        return login_password
-
-    @staticmethod
-    def login(login_page):
-        """
-        Takes login page and logs into it.
-        """
-        login_page.visit()
-        login_email = LoginHelper.get_login_email()
-        login_password = LoginHelper.get_login_password()
-        login_page.login(login_email, login_password)
-
-
 class LoginApiBaseClass(object):
     """
     Base class for login api

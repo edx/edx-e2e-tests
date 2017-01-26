@@ -2,9 +2,7 @@
 Base class for all tests in studio
 """
 from bok_choy.web_app_test import WebAppTest
-
-from regression.tests.helpers import LoginHelper, get_course_info
-from regression.pages.studio.login_studio import StudioLogin
+from regression.tests.helpers import StudioLoginApi, get_course_info
 from regression.pages.studio.pages_page_studio import PagesPageExtended
 from regression.pages.studio.grading_studio import GradingPageExtended
 from regression.pages.studio.studio_textbooks import TextbookPageExtended
@@ -81,8 +79,9 @@ class StudioBaseTestClass(BaseTestClassNoCleanup):
             self.course_info['run']
         )
 
-        login_page = StudioLogin(self.browser)
-        LoginHelper.login(login_page)
+        login_api = StudioLoginApi()
+        login_api.authenticate(self.browser)
+
         pages_page.visit()
         if pages_page.get_custom_page_count() > 0:
             pages_page.wait_for_the_visibility_of_new_page()
