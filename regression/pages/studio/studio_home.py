@@ -4,7 +4,7 @@ Dashboard page for Studio
 from edxapp_acceptance.pages.studio.index import DashboardPage
 from bok_choy.promise import BrokenPromise
 from regression.pages.studio import BASE_URL
-from regression.pages.lms import BASE_URL_LMS
+from regression.pages.lms import LMS_REDIRECT_URL
 
 
 class DashboardPageExtended(DashboardPage):
@@ -54,11 +54,14 @@ class DashboardPageExtended(DashboardPage):
         """
         Clicks Terms of Service link
         """
-        self.q(css='a[href="' + BASE_URL_LMS + '/edx-terms-service"]').click()
+        self.q(
+            css='a[href="' + LMS_REDIRECT_URL + '/edx-terms-service"]'
+        ).click()
 
     def click_privacy_policy(self):
         """
         Clicks Privacy Policy link
         """
         self.q(
-            css='a[href="' + BASE_URL_LMS + '/edx-privacy-policy"]').click()
+            css='a[href="' + LMS_REDIRECT_URL + '/edx-privacy-policy"]'
+        ).click()

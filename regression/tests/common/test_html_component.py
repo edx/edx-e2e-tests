@@ -11,13 +11,11 @@ from regression.pages.studio.course_outline_page import (
     CourseOutlinePageExtended
 )
 from regression.pages.studio.unit_page import UnitPageExtended
-from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.studio_home import DashboardPageExtended
-from regression.pages.lms.login_lms import LmsLogin
 from regression.pages.lms.utils import get_course_key
 from regression.pages.lms.lms_courseware import CoursewarePageExtended
 from regression.tests.helpers import (
-    LoginHelper, get_course_info, get_data_id_of_component
+    StudioLoginApi, get_course_info, get_data_id_of_component, LmsLoginApi
 )
 
 
@@ -30,16 +28,17 @@ class StudioLmsComponentBaseTest(WebAppTest):
         Common setup for component tests
         """
         super(StudioLmsComponentBaseTest, self).setUp()
-        # Login to Lms first to avoid authentication problems
-        self.login_page = LmsLogin(self.browser)
-        LoginHelper.login(self.login_page)
+
+        studio_login = StudioLoginApi()
+        studio_login.authenticate(self.browser)
+
+        lms_login = LmsLoginApi()
+        lms_login.authenticate(self.browser)
 
         self.unit_container_page = UnitPageExtended(
             self.browser, None
         )
 
-        self.studio_login_page = StudioLogin(self.browser)
-        LoginHelper.login(self.studio_login_page)
         self.studio_home_page = DashboardPageExtended(self.browser)
 
         self.course_info = get_course_info()

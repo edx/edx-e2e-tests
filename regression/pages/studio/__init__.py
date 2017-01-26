@@ -9,6 +9,8 @@ import os
 
 from regression.pages import BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD
 
-LOGIN_BASE_URL = 'https://{}:{}@studio.stage.edx.org'.format(
-    BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD)
+STUDIO_BASE_URL = 'studio.stage.edx.org'
+
+LOGIN_BASE_URL = 'https://{}:{}@{}'.format(
+    BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD, STUDIO_BASE_URL)
 BASE_URL = os.environ.get('test_url', LOGIN_BASE_URL)

@@ -2,7 +2,7 @@
 Drupal course page.
 """
 from bok_choy.page_object import PageObject
-from regression.pages.lms import BASE_URL_LMS
+from regression.pages.lms import LMS_REDIRECT_URL
 
 
 class DemoCourseSelectionPage(PageObject):
@@ -20,7 +20,7 @@ class DemoCourseSelectionPage(PageObject):
         # This course/page won't be used for any tests
         course_to_enroll = 'demox-edx-demox-1'
 
-        return BASE_URL_LMS + "/course/" + course_to_enroll
+        return LMS_REDIRECT_URL + "/course/" + course_to_enroll
 
     def is_browser_on_page(self):
         """

@@ -5,13 +5,11 @@ import os
 from bok_choy.web_app_test import WebAppTest
 from edxapp_acceptance.pages.studio.overview import CourseOutlinePage
 from edxapp_acceptance.pages.lms.courseware import CoursewarePage
-from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.studio_home import DashboardPageExtended
-from regression.pages.lms.login_lms import LmsLogin
 from regression.pages.studio.terms_of_service import TermsOfService
 from regression.pages.studio.privacy_policy import PrivacyPolicy
 from regression.tests.helpers import (
-    LoginHelper, get_course_info, get_course_display_name
+    StudioLoginApi, get_course_info, get_course_display_name, LmsLoginApi
 )
 
 
@@ -28,10 +26,10 @@ class StudioHomeTest(WebAppTest):
         Initialize the page object
         """
         super(StudioHomeTest, self).setUp()
-        self.studio_login_page = StudioLogin(self.browser)
-        self.studio_login_page.visit()
-        self.studio_login_page.login(self.DEMO_COURSE_USER,
-                                     self.DEMO_COURSE_PASSWORD)
+
+        login_api = StudioLoginApi()
+        login_api.authenticate(self.browser)
+
         self.studio_home_page = DashboardPageExtended(self.browser)
 
         self.course_info = get_course_info()
@@ -63,14 +61,13 @@ class StudioLmsTest(WebAppTest):
         Initialize the page object
         """
         super(StudioLmsTest, self).setUp()
-        # Login to Lms first to avoid authentication
-        self.login_page = LmsLogin(self.browser)
-        LoginHelper.login(self.login_page)
 
-        self.studio_login_page = StudioLogin(self.browser)
-        self.studio_login_page.visit()
-        self.studio_login_page.login(self.DEMO_COURSE_USER,
-                                     self.DEMO_COURSE_PASSWORD)
+        studio_login = StudioLoginApi()
+        studio_login.authenticate(self.browser)
+
+        lms_login = LmsLoginApi()
+        lms_login.authenticate(self.browser)
+
         self.studio_home_page = DashboardPageExtended(self.browser)
 
         self.course_info = get_course_info()
@@ -103,7 +100,10 @@ class StudioFooterTest(WebAppTest):
         Initialize the page object
         """
         super(StudioFooterTest, self).setUp()
-        self.studio_login_page = StudioLogin(self.browser)
+
+        studio_login = StudioLoginApi()
+        studio_login.authenticate(self.browser)
+
         self.terms_of_service = TermsOfService(self.browser)
         self.privacy_policy = PrivacyPolicy(self.browser)
         self.studio_home_page = DashboardPageExtended(self.browser)
@@ -112,9 +112,6 @@ class StudioFooterTest(WebAppTest):
             self.browser, self.course_info['org'], self.course_info['number'],
             self.course_info['run'])
 
-        self.studio_login_page.visit()
-        self.studio_login_page.login(self.DEMO_COURSE_USER,
-                                     self.DEMO_COURSE_PASSWORD)
         self.studio_home_page.visit()
 
     def test_terms_of_service_link(self):
