@@ -1,10 +1,10 @@
 """
 Extended Pages page for a course.
 """
-from selenium.webdriver import ActionChains
 from edxapp_acceptance.pages.common.utils import click_css
 from edxapp_acceptance.pages.studio.utils import drag
 
+from selenium.webdriver.common.action_chains import ActionChains
 from regression.pages.studio.utils import (
     click_css_with_animation_enabled,
     sync_on_notification
@@ -144,23 +144,21 @@ class PagesPageExtended(CoursePageExtended):
             'img[alt="Preview of Pages in your course"]', 'Pop up visibility'
         )
 
-    def click_hide_show_toggle(self, index=0):
+    def toggle_wiki_page_display(self):
         """
-        Clicks hide/show toggle button
+        Toggles Wiki page display
         """
-        toggle_checkbox_css = '.toggle-checkbox'
-        toggle_checkbox = self.q(css=toggle_checkbox_css).results[index]
-        ActionChains(self.browser).move_to_element(
-            toggle_checkbox
-        ).click().perform()
-        sync_on_notification(self)
-        # Complicated query, so executing using jQuery.
-        return self.browser.execute_script(
-            "return $('{}:eq({})').parents().eq(3).find("
-            "'.course-nav-item-header .title').text()".format(
-                toggle_checkbox_css, index
-            )
+        toggle_checkbox_css = '.is-movable[data-tab-id="wiki"] ' \
+                              '.action-visible [type="checkbox"]'
+        checkbox_css_action = self.q(css=toggle_checkbox_css).results[0]
+        self.wait_for_element_presence(
+            toggle_checkbox_css, 'Toggle button presence'
         )
+        ActionChains(self.browser).move_to_element(checkbox_css_action).click(
+            checkbox_css_action
+        ).perform()
+        sync_on_notification(self)
+        return 'Wiki'
 
     def get_all_pages(self):
         """
@@ -181,19 +179,17 @@ class PagesPageExtended(CoursePageExtended):
             ).results
         )
 
-    def is_page_configured_to_show(self, index=0):
+    def toggle_wiki_page_show_value(self):
         """
-        Check whether a page is configured to show of not.
-
-        Arguments:
-            index (int): Index of the page.
+        Toggle Wiki page value if it is configured to show
 
         Returns:
-            bool: True if shown otherwise False.
+            bool: True if configured to show otherwise False.
         """
         toggle_value = self.q(
-            css='.toggle-checkbox'
-        ).results[index].get_attribute('checked')
+            css='.is-movable[data-tab-id="wiki"] '
+                '.action-visible [type="checkbox"]'
+        ).results[0].get_attribute('checked')
         if toggle_value:
             return False
         return True
