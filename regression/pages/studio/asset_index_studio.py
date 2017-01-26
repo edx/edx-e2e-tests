@@ -45,14 +45,20 @@ class AssetIndexPageExtended(AssetIndexPage):
         Returns:
             list: Uploaded files.
         """
-        return self.q(css='.assets-table tbody tr .title').text
+        return self.q(css='.assets-table tbody tr .filename').text
 
     @property
     def asset_files_count(self):
         """
         Returns the count of files uploaded.
         """
-        return len(self.q(css='#asset-table-body tr'))
+        return len(self.q(css='#asset-table-body tr').execute())
+
+    @property
+    def asset_delete_links(self):
+        """Return a list of WebElements for deleting the assets"""
+        css = '.assets-table tbody tr .remove-asset-button'
+        return self.q(css=css).execute()
 
     def asset_locks(self, locked_only=True):
         """
@@ -65,11 +71,26 @@ class AssetIndexPageExtended(AssetIndexPage):
             css = "li.action-lock input"
         return self.q(css=css).execute()
 
+    def confirm_asset_deletion(self):
+        """ Click to confirm deletion and sync on the notification"""
+        self.q(css='button.action-primary').click()
+        sync_on_notification(self)
+
     def delete_first_asset(self):
         """ Deletes file then clicks delete on confirmation """
         self.q(css='.remove-asset-button.action-button').first.click()
-        self.q(css='button.action-primary').click()
-        sync_on_notification(self)
+        self.confirm_asset_deletion()
+
+    def delete_asset_named(self, name):
+        """ Delete the asset with the specified name. """
+        names = self.asset_files_names
+        if name not in names:
+            raise LookupError('Asset with filename {} not found.'.format(name))
+        delete_links = self.asset_delete_links
+        assets = dict(zip(names, delete_links))
+        # Now click the link in that row
+        assets.get(name).click()
+        self.confirm_asset_deletion()
 
     def delete_all_assets(self):
         """ Delete all uploaded assets """

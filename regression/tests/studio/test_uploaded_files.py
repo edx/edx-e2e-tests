@@ -54,7 +54,7 @@ class TestAssetCrud(BaseTestClassNoCleanup):
 
         # Verify that the files can be deleted
         for name in asset_page.asset_files_names:
-            asset_page.delete_first_asset()
+            asset_page.delete_asset_named(name)
             # Assert files have been deleted.
             self.assertNotIn(name, asset_page.asset_files_names)
 
