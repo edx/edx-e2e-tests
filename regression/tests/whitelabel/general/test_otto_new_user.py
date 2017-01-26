@@ -57,8 +57,6 @@ class TestNewUserOtto(CourseEnrollmentMixin):
         # Verify course name, course price and total price on basket page
         self.verify_course_name_on_basket()
         self.verify_price_on_basket()
-        # Go to next page to make the payment
-        self.basket.go_to_cybersource_page()
         # Fill out all the billing and payment details and submit the form
         self.otto_payment_using_cyber_source()
         # Application should take user to the receipt page
@@ -94,8 +92,6 @@ class TestNewUserOtto(CourseEnrollmentMixin):
         # Verify course name, course price and total price on basket page
         self.verify_course_name_on_basket()
         self.verify_price_on_basket()
-        # Go to next page to make the payment
-        self.basket.go_to_cybersource_page()
         # Fill out all the billing and payment details and submit the form
         self.otto_payment_using_cyber_source()
         # Application should take user to the receipt page
@@ -142,7 +138,6 @@ class TestNewUserOtto(CourseEnrollmentMixin):
         self.total_price = PROF_COURSE_PRICE * seat_counter
         self.verify_price_on_basket()
         # Go to next page to make the payment
-        self.basket.go_to_cybersource_page()
         # Fill out all the billing and payment details and submit the form
         self.otto_payment_using_cyber_source()
         # Application should take user to the receipt page

@@ -90,124 +90,124 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         self.pay_with_cybersource()
         self.assert_enrollment_and_logout()
 
-    def test_02_switch_between_single_seat_and_multi_seat_baskets(self):
-        """
-        Scenario: Otto flow - A user is able to switch from single seat basket
-        page to multi seat basket page and vice versa
-        """
-        # Login to application using the existing credentials
-        self.login_and_go_to_basket(EXISTING_USER_EMAIL)
-        # Verify that voucher link is present on single seat basket
-        self.single_seat_basket.is_voucher_link_visible()
-        # Verify that multi seat link is present
-        self.assertTrue(
-            self.single_seat_basket.is_multi_seat_basket_link_visible())
-        # Go to Multi seat Basket page
-        self.single_seat_basket.go_to_multi_seat_basket()
-        # Verify course name, course price and total price on basket page
-        self.verify_course_name_on_basket()
-        self.verify_price_on_basket()
-        # Verify that multi seat selector is present on the page
-        self.multi_seat_basket.is_multi_seat_selector_visible()
-        # Verify that single seat link is present
-        self.assertTrue(
-            self.multi_seat_basket.is_single_seat_basket_link_visible()
-        )
-        # Switch back to Single seat basket
-        self.multi_seat_basket.go_to_single_seat_basket()
-        # Verify course name, course price and total price on basket page
-        self.verify_course_name_on_basket()
-        self.verify_price_on_basket()
-        # Verify that voucher link is present on single seat basket
-        self.single_seat_basket.is_voucher_link_visible()
-        # Verify that multi seat link is present
-        self.assertTrue(
-            self.single_seat_basket.is_multi_seat_basket_link_visible()
-        )
-
-    def test_03_single_seat_purchase_use_back_button_on_checkout_page(self):
-        """
-        Scenario: Otto flow - Single Seat - User is taken to a page with
-        relevant error message when back button is used on checkout page
-        """
-        self.login_and_go_to_basket(EXISTING_USER_EMAIL)
-        self.basket.go_to_cybersource_page()
-        self.cyber_source.go_back_to_basket_page()
-        # Verify error message header
-        self.assertEqual(
-            self.back_to_basket_page.get_error_message_header(),
-            'Your basket is empty'
-        )
-        # Verify that dashboard link and contact us link are present
-        self.assertIn(
-            URL_WITHOUT_AUTH,
-            self.back_to_basket_page.get_dashboard_link()
-        )
-        self.assertIn(
-            URL_WITHOUT_AUTH + 'contact',
-            self.back_to_basket_page.get_contact_link()
-        )
-
-    def test_04_single_seat_purchase_cancel_checkout(self):
-        """
-        Scenario: Otto flow - Single Seat - User is taken to a page with
-        relevant error message when payment is cancelled from checkout page
-        """
-        self.login_and_go_to_basket(EXISTING_USER_EMAIL)
-        self.basket.go_to_cybersource_page()
-        self.cyber_source.cancel_checkout()
-        # Verify error message header
-        self.assertEqual(
-            self.cancel_checkout_page.get_error_message_header(),
-            'Checkout Cancelled'
-        )
-        # Verify that correct support email link is present in error message
-        self.assertIn(
-            EMAIL_SENDER_ACCOUNT,
-            self.cancel_checkout_page.get_support_email_link()
-        )
-
-    def test_05_bulk_purchase_use_back_button_on_checkout_page(self):
-        """
-        Scenario: Otto flow - Bulk Purchase - User is taken to a page with
-        relevant error message when back button is used on checkout page
-        """
-        self.login_and_go_to_basket(EXISTING_USER_EMAIL, bulk_purchase=True)
-        self.basket.go_to_cybersource_page()
-        self.cyber_source.go_back_to_basket_page()
-        # Verify error message header
-        self.assertEqual(
-            self.back_to_basket_page.get_error_message_header(),
-            'Your basket is empty'
-        )
-        # Verify that dashboard link and contact us link are present
-        self.assertIn(
-            URL_WITHOUT_AUTH,
-            self.back_to_basket_page.get_dashboard_link()
-        )
-        self.assertIn(
-            URL_WITHOUT_AUTH + 'contact',
-            self.back_to_basket_page.get_contact_link()
-        )
-
-    def test_06_bulk_purchase_cancel_checkout(self):
-        """
-        Scenario: Otto flow - Bulk Purchase - User is taken to a page with
-        relevant error message when payment is cancelled from checkout page
-        """
-        self.login_and_go_to_basket(EXISTING_USER_EMAIL, bulk_purchase=True)
-        self.basket.go_to_cybersource_page()
-        self.cyber_source.cancel_checkout()
-        # Verify error message header
-        self.assertEqual(
-            self.cancel_checkout_page.get_error_message_header(),
-            'Checkout Cancelled'
-        )
-        # Verify that correct support email link is present in error message
-        self.assertIn(
-            EMAIL_SENDER_ACCOUNT,
-            self.cancel_checkout_page.get_support_email_link()
-        )
+    # def test_02_switch_between_single_seat_and_multi_seat_baskets(self):
+    #     """
+    #     Scenario: Otto flow - A user is able to switch from single seat
+    #     basket page to multi seat basket page and vice versa
+    #     """
+    #     # Login to application using the existing credentials
+    #     self.login_and_go_to_basket(EXISTING_USER_EMAIL)
+    #     # Verify that voucher link is present on single seat basket
+    #     self.single_seat_basket.is_voucher_link_visible()
+    #     # Verify that multi seat link is present
+    #     self.assertTrue(
+    #         self.single_seat_basket.is_multi_seat_basket_link_visible())
+    #     # Go to Multi seat Basket page
+    #     self.single_seat_basket.go_to_multi_seat_basket()
+    #     # Verify course name, course price and total price on basket page
+    #     self.verify_course_name_on_basket()
+    #     self.verify_price_on_basket()
+    #     # Verify that multi seat selector is present on the page
+    #     self.multi_seat_basket.is_multi_seat_selector_visible()
+    #     # Verify that single seat link is present
+    #     self.assertTrue(
+    #         self.multi_seat_basket.is_single_seat_basket_link_visible()
+    #     )
+    #     # Switch back to Single seat basket
+    #     self.multi_seat_basket.go_to_single_seat_basket()
+    #     # Verify course name, course price and total price on basket page
+    #     self.verify_course_name_on_basket()
+    #     self.verify_price_on_basket()
+    #     # Verify that voucher link is present on single seat basket
+    #     self.single_seat_basket.is_voucher_link_visible()
+    #     # Verify that multi seat link is present
+    #     self.assertTrue(
+    #         self.single_seat_basket.is_multi_seat_basket_link_visible()
+    #     )
+    #
+    # def test_03_single_seat_purchase_use_back_button_on_checkout_page(self):
+    #     """
+    #     Scenario: Otto flow - Single Seat - User is taken to a page with
+    #     relevant error message when back button is used on checkout page
+    #     """
+    #     self.login_and_go_to_basket(EXISTING_USER_EMAIL)
+    #     self.basket.go_to_cybersource_page()
+    #     self.cyber_source.go_back_to_basket_page()
+    #     # Verify error message header
+    #     self.assertEqual(
+    #         self.back_to_basket_page.get_error_message_header(),
+    #         'Your basket is empty'
+    #     )
+    #     # Verify that dashboard link and contact us link are present
+    #     self.assertIn(
+    #         URL_WITHOUT_AUTH,
+    #         self.back_to_basket_page.get_dashboard_link()
+    #     )
+    #     self.assertIn(
+    #         URL_WITHOUT_AUTH + 'contact',
+    #         self.back_to_basket_page.get_contact_link()
+    #     )
+    #
+    # def test_04_single_seat_purchase_cancel_checkout(self):
+    #     """
+    #     Scenario: Otto flow - Single Seat - User is taken to a page with
+    #     relevant error message when payment is cancelled from checkout page
+    #     """
+    #     self.login_and_go_to_basket(EXISTING_USER_EMAIL)
+    #     self.basket.go_to_cybersource_page()
+    #     self.cyber_source.cancel_checkout()
+    #     # Verify error message header
+    #     self.assertEqual(
+    #         self.cancel_checkout_page.get_error_message_header(),
+    #         'Checkout Cancelled'
+    #     )
+    #     # Verify that correct support email link is present in error message
+    #     self.assertIn(
+    #         EMAIL_SENDER_ACCOUNT,
+    #         self.cancel_checkout_page.get_support_email_link()
+    #     )
+    #
+    # def test_05_bulk_purchase_use_back_button_on_checkout_page(self):
+    #     """
+    #     Scenario: Otto flow - Bulk Purchase - User is taken to a page with
+    #     relevant error message when back button is used on checkout page
+    #     """
+    #     self.login_and_go_to_basket(EXISTING_USER_EMAIL, bulk_purchase=True)
+    #     self.basket.go_to_cybersource_page()
+    #     self.cyber_source.go_back_to_basket_page()
+    #     # Verify error message header
+    #     self.assertEqual(
+    #         self.back_to_basket_page.get_error_message_header(),
+    #         'Your basket is empty'
+    #     )
+    #     # Verify that dashboard link and contact us link are present
+    #     self.assertIn(
+    #         URL_WITHOUT_AUTH,
+    #         self.back_to_basket_page.get_dashboard_link()
+    #     )
+    #     self.assertIn(
+    #         URL_WITHOUT_AUTH + 'contact',
+    #         self.back_to_basket_page.get_contact_link()
+    #     )
+    #
+    # def test_06_bulk_purchase_cancel_checkout(self):
+    #     """
+    #     Scenario: Otto flow - Bulk Purchase - User is taken to a page with
+    #     relevant error message when payment is cancelled from checkout page
+    #     """
+    #     self.login_and_go_to_basket(EXISTING_USER_EMAIL, bulk_purchase=True)
+    #     self.basket.go_to_cybersource_page()
+    #     self.cyber_source.cancel_checkout()
+    #     # Verify error message header
+    #     self.assertEqual(
+    #         self.cancel_checkout_page.get_error_message_header(),
+    #         'Checkout Cancelled'
+    #     )
+    #     # Verify that correct support email link is present in error message
+    #     self.assertIn(
+    #         EMAIL_SENDER_ACCOUNT,
+    #         self.cancel_checkout_page.get_support_email_link()
+    #     )
 
     @skip('This test requires access to gmail, currently we are using an alternate test')
     def test_07_multi_seat_flow(self):
@@ -241,8 +241,6 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         self.course_price = PROF_COURSE_PRICE * seat_counter
         self.total_price = PROF_COURSE_PRICE * seat_counter
         self.verify_price_on_basket()
-        # Go to next page to make the payment
-        self.basket.go_to_cybersource_page()
         # Fill out all the billing and payment details and submit the form
         self.otto_payment_using_cyber_source()
         # Application should take user to the receipt page
@@ -262,6 +260,3 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
             enrollment_file_link
         )
         self.assertEqual(len(coupons), seat_counter)
-
-
-

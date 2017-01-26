@@ -7,8 +7,7 @@ from bok_choy.page_object import PageObject
 
 from regression.pages.common.utils import (
     convert_date_format,
-    extract_numerical_value_from_price_string,
-    get_text_from_page_elements
+    extract_numerical_value_from_price_string
 )
 from regression.pages.whitelabel.const import (
     SHORT_TIME_OUT_LIMIT,
@@ -58,7 +57,7 @@ class ReceiptPage(PageObject):
             time.sleep(INITIAL_WAIT_TIME)
             try:
                 if not self.q(
-                        css='.next.action-primary.right[href="/dashboard"]'
+                        css='#receipt-container'
                 ).is_present():
                     raise ReceiptException
                 found = True
@@ -78,7 +77,7 @@ class ReceiptPage(PageObject):
             order number:
         """
         return self.q(
-            css='.report.report-receipt>tbody>tr>td:nth-of-type(1)').text[0]
+            css='.order-summary>dl>dd:nth-of-type(1)').text[0]
 
     @property
     def order_desc(self):
@@ -88,7 +87,7 @@ class ReceiptPage(PageObject):
             order description:
         """
         return self.q(
-            css='.report.report-receipt>tbody>tr>td:nth-of-type(2)').text[0]
+            css='.course-description>span').text[0]
 
     @property
     def order_date(self):
@@ -98,11 +97,11 @@ class ReceiptPage(PageObject):
             order date:
         """
         date_string = self.q(
-            css='.report.report-receipt>tbody>tr>td:nth-of-type(3)'
+            css='.order-summary>dl>dd:nth-of-type(3)'
         ).text[0]
         return convert_date_format(
             date_string,
-            '%Y-%m-%dT%H:%M:%SZ',
+            '%B %d, %Y',
             '%Y-%m-%d'
         )
 
@@ -114,7 +113,7 @@ class ReceiptPage(PageObject):
             order amount:
         """
         amount = self.q(
-            css='.report.report-receipt>tbody>tr>td:nth-of-type(4)'
+            css='.line-price.price'
         ).text[0]
         return extract_numerical_value_from_price_string(amount)
 
@@ -126,7 +125,7 @@ class ReceiptPage(PageObject):
             total amount:
         """
         total_amount = self.q(
-            css='.report.report-receipt>tfoot>tr>td>.value-amount').text[0]
+            css='.order-total:nth-of-type(2)>.price').text[0]
         return extract_numerical_value_from_price_string(total_amount)
 
     @property
@@ -136,19 +135,11 @@ class ReceiptPage(PageObject):
         Returns:
             billed_to_info:
         """
-        elements = {
-            'first_name': '.copy>p>.name-first',
-            'last_name': '.copy>p>.name-last',
-            'city': '.copy>p>.address-city',
-            'state': '.copy>p>.address-state',
-            'postal_code': '.copy>p>.address-postalcode',
-            'country': '.copy>p>.address-country'
-        }
-        return get_text_from_page_elements(self, elements)
+        return self.q(css='.confirm-message>a').text[0]
 
     def go_to_dashboard(self):
         """
         Go to user dashboard page by clicking on Go to Dashboard button
         """
-        self.q(css='.next.action-primary.right[href="/dashboard"]').click()
+        self.q(css='.dashboard-link.nav-link').click()
         DashboardPage(self.browser).wait_for_page()

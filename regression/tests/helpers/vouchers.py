@@ -125,8 +125,6 @@ class VouchersMixin(CourseEnrollmentMixin):
         """
         self.single_seat_basket.apply_coupon_code(coupon_code)
         self.verify_after_coupon_is_applied_on_basket()
-        # Go to next page to make the payment
-        self.basket.go_to_cybersource_page()
         # Fill out all the billing and payment details and submit the form
         self.otto_payment_using_cyber_source()
         # Verify on receipt page that information like course title,
@@ -176,11 +174,11 @@ class VouchersMixin(CourseEnrollmentMixin):
         redeem_coupon.redeem_enrollment(target_page)
 
     def redeem_multi_course_enrollment_coupon(
-            self,
-            coupon_url,
-            target_page,
-            course_title
-        ):
+                self,
+                coupon_url,
+                target_page,
+                course_title
+            ):
         """
         Redeem single course enrollment coupon
         Args
@@ -199,7 +197,6 @@ class VouchersMixin(CourseEnrollmentMixin):
         Payment by active user after discount redeem url was applied
         """
         self.verify_info_is_populated_on_basket()
-        self.basket.go_to_cybersource_page()
         # Fill out all the billing and payment details and submit the form
         self.otto_payment_using_cyber_source()
         # Application should take user to the receipt page
@@ -226,14 +223,10 @@ class VouchersMixin(CourseEnrollmentMixin):
         iii) Price after coupon application is correct
         """
         self.assertTrue(self.single_seat_basket.is_voucher_applied())
-        self.assertEqual(
-            self.single_seat_basket.discount_value,
-            self.benefit_value
-        )
-        self.assertEqual(
-            self.single_seat_basket.discounted_amount,
-            self.discounted_price
-        )
+        # self.assertEqual(
+        #     self.single_seat_basket.discount_value,
+        #     self.benefit_value
+        # )
         self.assertEqual(self.basket.total_price, self.discounted_price)
 
     def verify_course_info_on_coupon_redeem_page(self, redeem_coupon):

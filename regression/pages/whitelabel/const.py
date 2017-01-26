@@ -123,7 +123,7 @@ REG_INFO = {
 }
 
 # BILLING INFORMATION
-BILLING_INFO = {
+CARD_HOLDER_INFO = {
     'first_name': 'billing',
     'last_name': 'user',
     'address01': '23-b',
@@ -136,7 +136,8 @@ BILLING_INFO = {
 }
 
 # PAYMENT DETAILS
-PAYMENT_DETAILS = {
+BILLING_INFO = {
+    'card_type': 'visa',
     'card_number': '4111111111111111',
     'cvn': '123',
     'expiry_month': '07',

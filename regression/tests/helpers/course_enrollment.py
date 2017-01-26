@@ -11,16 +11,16 @@ from regression.pages.common.api_clients import (
 from regression.pages.common.utils import read_enrollment_codes_from_text
 from regression.pages.ecommerce.basket_page import (
     BasketPage,
+    CyberSourcePage,
     MultiSeatBasketPage
 )
-from regression.pages.ecommerce.cybersource_page import CyberSourcePage
 from regression.pages.whitelabel.course_about_page import CourseAboutPage
 from regression.pages.whitelabel.courses_page import CoursesPage
-from regression.pages.whitelabel.receipt_page import ReceiptPage
+from regression.pages.ecommerce.receipt_page import ReceiptPage
 from regression.pages.whitelabel.const import (
-    BILLING_INFO,
+    CARD_HOLDER_INFO,
     PASSWORD,
-    PAYMENT_DETAILS,
+    BILLING_INFO,
     TIME_OUT_LIMIT,
     WAIT_TIME
 )
@@ -95,8 +95,6 @@ class CourseEnrollmentMixin(UserAuthenticationMixin):
         """
         Make payment using cybersource
         """
-        # Go to next page to make the payment
-        self.basket.go_to_cybersource_page()
         # Fill out all the billing and payment details and submit the form
         self.otto_payment_using_cyber_source()
         # Application should take user to the receipt page
@@ -127,8 +125,8 @@ class CourseEnrollmentMixin(UserAuthenticationMixin):
         Make payment for course by providing Billing Info and Payment details
         in respected areas
         """
-        self.cyber_source.set_billing_info(BILLING_INFO)
-        self.cyber_source.set_payment_details(PAYMENT_DETAILS)
+        self.cyber_source.set_card_holder_info(CARD_HOLDER_INFO)
+        self.cyber_source.set_payment_details(BILLING_INFO)
         self.cyber_source.make_payment(self.receipt)
 
     def verify_receipt_info(self):

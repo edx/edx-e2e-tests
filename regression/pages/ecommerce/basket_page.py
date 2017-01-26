@@ -4,14 +4,12 @@ Pages for single course and multi course purchase baskets
 from bok_choy.page_object import PageObject
 
 from regression.pages.common.utils import (
-    extract_numerical_value_from_price_string
+    extract_numerical_value_from_price_string,
+    fill_input_fields,
+    select_value_from_drop_down
 )
-from regression.pages.ecommerce.cybersource_page import CyberSourcePage
-from regression.pages.whitelabel.const import (
-    DEFAULT_TIMEOUT,
-    ECOMMERCE_URL_WITH_AUTH
-)
-from regression.pages.whitelabel.receipt_page import ReceiptPage
+from regression.pages.whitelabel.const import ECOMMERCE_URL_WITH_AUTH
+from regression.pages.ecommerce.receipt_page import ReceiptPage
 
 
 class BasketPage(PageObject):
@@ -23,9 +21,9 @@ class BasketPage(PageObject):
 
     def is_browser_on_page(self):
         """
-        Verifies that total price element is visible on the page
+        Verifies that price is visible
         """
-        return self.q(css='#basket_totals').visible
+        return self.q(css='#basket-total .price').visible
 
     @property
     def course_name(self):
@@ -34,7 +32,7 @@ class BasketPage(PageObject):
         Returns:
              course name:
         """
-        return self.q(css='.product-title').text[0]
+        return self.q(css='.product-name').text[0]
 
     @property
     def course_price(self):
@@ -43,7 +41,7 @@ class BasketPage(PageObject):
         Returns:
             course price:
         """
-        raw_price = self.q(css='.price').text[0]
+        raw_price = self.q(css='#line-price .price').text[0]
         return extract_numerical_value_from_price_string(raw_price)
 
     @property
@@ -53,15 +51,8 @@ class BasketPage(PageObject):
         Returns:
             total price:
         """
-        raw_price = self.q(css='#basket_totals').text[0]
+        raw_price = self.q(css='#basket-total .price').text[0]
         return extract_numerical_value_from_price_string(raw_price)
-
-    def go_to_cybersource_page(self):
-        """
-        Click on the cybersource payment button to start the billing process
-        """
-        self.q(css='#cybersource').click()
-        CyberSourcePage(self.browser).wait_for_page()
 
 
 class SingleSeatBasketPage(BasketPage):
@@ -119,18 +110,8 @@ class SingleSeatBasketPage(BasketPage):
         Returns:
             discount amount:
         """
-        raw_discount = self.q(css='.benefit').text[0]
+        raw_discount = self.q(css='#line-discount .price').text[0]
         return extract_numerical_value_from_price_string(raw_discount)
-
-    @property
-    def discounted_amount(self):
-        """
-        Get discounted price
-        Returns:
-            discounted price:
-        """
-        raw_discounted_price = self.q(css='.price.discounted').text[0]
-        return extract_numerical_value_from_price_string(raw_discounted_price)
 
     @property
     def total_price_after_discount(self):
@@ -138,7 +119,7 @@ class SingleSeatBasketPage(BasketPage):
         Get the total price after discount
         :return: Total price
         """
-        raw_price = self.q(css='#basket_totals').text[0]
+        raw_price = self.q(css='#basket-total .price').text[0]
         return extract_numerical_value_from_price_string(raw_price)
 
     def is_voucher_applied(self):
@@ -228,14 +209,7 @@ class MultiSeatBasketPage(BasketPage):
         Args:
              final_val:
         """
-        for val in range(1, final_val):
-            self.q(css='.checkout-quantity button>.fa.fa-caret-up').click()
-            self.wait_for(
-                lambda x=val:
-                self.student_counter_value == x + 1,
-                'Increment is successful',
-                timeout=DEFAULT_TIMEOUT
-            )
+        self.q(css='#id_form-0-quantity').fill(final_val)
         self.q(css='.checkout-quantity .update-button').click()
         self.wait_for_ajax()
 
@@ -248,3 +222,79 @@ class MultiSeatBasketPage(BasketPage):
             css='.btn.btn-link[href^="/basket"]'
         ).filter(lambda elem: elem.text == link_text).click()
         SingleSeatBasketPage(self.browser).wait_for_page()
+
+
+class CyberSourcePage(BasketPage):
+    """
+    Cybersource payment page
+    """
+
+    def set_card_holder_info(self, card_holder_info):
+        """
+        Fill billing form using the values passed from test
+        Args:
+             card_holder_info:
+        """
+        self.wait_for_element_visibility(
+            '#card-holder-information',
+            'wait for card holder info form'
+        )
+        elements_and_values = {
+            '#id_first_name': card_holder_info['first_name'],
+            '#id_last_name': card_holder_info['last_name'],
+            '#id_address_line1': card_holder_info['address01'],
+            '#id_address_line2': card_holder_info['address02'],
+            '#id_city': card_holder_info['city'],
+            '#id_postal_code': card_holder_info['postal_code'],
+            '#bill_to_email': card_holder_info['email']
+        }
+        fill_input_fields(self, elements_and_values)
+        select_value_from_drop_down(
+            self, 
+            "country", 
+            card_holder_info['country']
+        )
+        self.wait_for_element_visibility(
+            '#id_state',
+            'wait for state drop down'
+        )
+        select_value_from_drop_down(self, "state", card_holder_info['state'])
+
+    def set_bill_info(self, bill_info):
+        """
+        Provide the payment details using the information from test
+        Args:
+             bill_info:
+        """
+        self.wait_for_element_visibility(
+            '##billing-information',
+            'wait for billing info form'
+        )
+        self.q(css='#card-number-input').fill(bill_info['card_number'])
+        self.wait_for(
+            lambda:
+            bill_info['card_type'] in self.q(
+                css='.card-type-icon'
+            ).attrs('src')[0],
+            'wait for visa icon to appear'
+        )
+        self.q(css='#card-cvn-input').fill(bill_info['cvn'])
+        select_names_and_values = {
+            "card_expiry_month": bill_info['expiry_month'],
+            "card_expiry_year": bill_info['expiry_year']
+        }
+        for key, val in select_names_and_values.iteritems():
+            select_value_from_drop_down(self, key, val)
+
+    def make_payment(self, target_page):
+        """
+        Submitting the form will take user to the target page
+        Args:
+             target_page:
+        """
+        self.wait_for_element_visibility(
+            '#payment-button',
+            'Wait for payment button'
+        )
+        self.q(css='#payment-button').click()
+        target_page.wait_for_page()
