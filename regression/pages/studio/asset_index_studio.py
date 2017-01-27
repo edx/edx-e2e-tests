@@ -4,13 +4,13 @@ Asset index page
 import urllib
 
 from edxapp_acceptance.pages.studio.asset_index import AssetIndexPage
-from edxapp_acceptance.pages.common.utils import wait_for_notification
 
+from regression.pages.studio import BASE_URL
 from regression.pages.studio.utils import (
     get_course_key,
     click_css_with_animation_enabled,
+    sync_on_notification
 )
-from regression.pages.studio import BASE_URL
 
 
 class AssetIndexPageExtended(AssetIndexPage):
@@ -38,79 +38,73 @@ class AssetIndexPageExtended(AssetIndexPage):
         self.wait_for_element_visibility(
             self.UPLOAD_FORM_CSS, 'New file upload prompt has been opened.')
 
-    def get_file_names(self):
+    @property
+    def asset_files_names(self):
         """
         Get the names of uploaded files.
         Returns:
             list: Uploaded files.
         """
-        return self.q(css='.assets-table tbody tr .title').text
+        return self.q(css='.assets-table tbody tr .filename').text
 
-    def get_files_count(self):
+    @property
+    def asset_files_count(self):
         """
         Returns the count of files uploaded.
         """
-        return len(self.q(css='#asset-table-body tr'))
+        return len(self.q(css='#asset-table-body tr').execute())
 
-    def click_delete_file(self):
+    @property
+    def asset_delete_links(self):
+        """Return a list of WebElements for deleting the assets"""
+        css = '.assets-table tbody tr .remove-asset-button'
+        return self.q(css=css).execute()
+
+    def asset_locks(self, locked_only=True):
         """
-        Deletes file then clicks delete on confirmation
+        Return a list of WebElements of the lock checkboxes for assets
+        or an empty list if there are none.
         """
-        self.q(css='.remove-asset-button.action-button').first.click()
+        if locked_only:
+            css = "li.action-lock input[checked='checked']"
+        else:
+            css = "li.action-lock input"
+        return self.q(css=css).execute()
+
+    def confirm_asset_deletion(self):
+        """ Click to confirm deletion and sync on the notification"""
         self.q(css='button.action-primary').click()
-        self.wait_for_asset_delete_notification()
+        sync_on_notification(self)
 
-    def wait_for_asset_delete_notification(self):
-        """
-        Waits for the notification to appear and
-        disappear on the given page (subclass of PageObject).
-        """
-        def is_shown():
-            """
-            Whether or not the notification is currently showing.
-            """
-            return self.q(
-                css='.wrapper.wrapper-notification.'
-                    'wrapper-notification-confirmation.is-shown').present
+    def delete_first_asset(self):
+        """ Deletes file then clicks delete on confirmation """
+        self.q(css='.remove-asset-button.action-button').first.click()
+        self.confirm_asset_deletion()
 
-        def is_hidden():
-            """
-            Whether or not the notification is finished showing.
-            """
-            return self.q(
-                css='.wrapper.wrapper-notification.'
-                    'wrapper-notification-confirmation.is-hiding').present
+    def delete_asset_named(self, name):
+        """ Delete the asset with the specified name. """
+        names = self.asset_files_names
+        if name not in names:
+            raise LookupError('Asset with filename {} not found.'.format(name))
+        delete_links = self.asset_delete_links
+        assets = dict(zip(names, delete_links))
+        # Now click the link in that row
+        assets.get(name).click()
+        self.confirm_asset_deletion()
 
-        self.wait_for(is_shown, 'Notification should have been shown.')
-        self.wait_for(is_hidden, 'Notification should have been hidden.')
+    def delete_all_assets(self):
+        """ Delete all uploaded assets """
+        while self.asset_files_count:
+            self.delete_first_asset()
 
-    def lock_asset(self, index=0):
+    def set_asset_lock(self, index=0, lock=True):
         """
-        Lock the asset.
-        Arguments:
-            index (int): index of file to lock.
+        Set the state of the asset in the row specified by index
+         to locked or unlocked, depending on the 'lock' flag.
+        Note: this will raise an IndexError if the row does not exist
         """
-        self.q(
-            css='.assets-table tbody tr'
-                ' .actions-col .lock-checkbox').results[index].click()
-        wait_for_notification(self)
-
-    def sort_assets(self):
-        """
-        Sort the assets
-        """
-        click_css_with_animation_enabled(self, '.column-sort-link', 0, False)
-
-    def get_page_count(self):
-        """
-        Returns: Current page count
-        """
-        return self.q(css='.current-page').text[0]
-
-    def click_next_page_link(self):
-        """
-        Clicks next page link
-        """
-        self.q(css='.next-page-link').first.click()
-        # Click initiates an ajax call
-        self.wait_for_ajax()
+        checkbox = self.q(css="li.action-lock input").execute()[index]
+        selected = checkbox.is_selected()
+        if (selected and not lock) or (lock and not selected):
+            checkbox.click()
+        sync_on_notification(self, style='mini')

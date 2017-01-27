@@ -2,30 +2,28 @@
 Base class for all tests in studio
 """
 from bok_choy.web_app_test import WebAppTest
-from regression.tests.helpers import StudioLoginApi, get_course_info
-from regression.pages.studio.pages_page_studio import PagesPageExtended
-from regression.pages.studio.grading_studio import GradingPageExtended
-from regression.pages.studio.studio_textbooks import TextbookPageExtended
-from regression.pages.studio.asset_index_studio import AssetIndexPageExtended
 from regression.pages.studio.course_info_studio import (
     CourseUpdatesPageExtended
 )
 from regression.pages.studio.course_outline_page import (
     CourseOutlinePageExtended
 )
+from regression.pages.studio.grading_studio import GradingPageExtended
+from regression.pages.studio.pages_page_studio import PagesPageExtended
+from regression.pages.studio.studio_textbooks import TextbookPageExtended
+from regression.tests.helpers import StudioLoginApi, get_course_info
 
 
 class BaseTestClassNoCleanup(WebAppTest):
-    """
-    Base class for all tests in studio
-    """
+    """ Base class for all tests in studio """
     def setUp(self):
         super(BaseTestClassNoCleanup, self).setUp()
 
 
 class StudioBaseTestClass(BaseTestClassNoCleanup):
     """
-    Base class for all tests in studio
+    Base class for all tests in studio with generic
+    course setup and teardown.
     """
     def setUp(self):
         super(StudioBaseTestClass, self).setUp()
@@ -72,13 +70,6 @@ class StudioBaseTestClass(BaseTestClassNoCleanup):
             self.course_info['number'],
             self.course_info['run'])
 
-        asset_page = AssetIndexPageExtended(
-            self.browser,
-            self.course_info['org'],
-            self.course_info['number'],
-            self.course_info['run']
-        )
-
         login_api = StudioLoginApi()
         login_api.authenticate(self.browser)
 
@@ -103,9 +94,3 @@ class StudioBaseTestClass(BaseTestClassNoCleanup):
 
         textbook_page.visit()
         textbook_page.delete_all_textbooks()
-
-        asset_page.visit()
-        asset_count = asset_page.get_files_count()
-        while asset_count != 0:
-            asset_page.click_delete_file()
-            asset_count = asset_page.get_files_count()
