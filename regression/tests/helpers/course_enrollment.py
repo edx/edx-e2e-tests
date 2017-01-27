@@ -126,7 +126,7 @@ class CourseEnrollmentMixin(UserAuthenticationMixin):
         in respected areas
         """
         self.cyber_source.set_card_holder_info(CARD_HOLDER_INFO)
-        self.cyber_source.set_payment_details(BILLING_INFO)
+        self.cyber_source.set_billing_info(BILLING_INFO)
         self.cyber_source.make_payment(self.receipt)
 
     def verify_receipt_info(self):

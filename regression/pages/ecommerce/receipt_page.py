@@ -97,7 +97,8 @@ class ReceiptPage(PageObject):
             order date:
         """
         date_string = self.q(
-            css='.order-summary>dl>dd:nth-of-type(3)'
+            xpath=".//*[@id='receipt-container']//dt[text()='Order Date:']"
+                  "/following-sibling::dd"
         ).text[0]
         return convert_date_format(
             date_string,

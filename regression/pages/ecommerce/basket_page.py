@@ -85,7 +85,7 @@ class SingleSeatBasketPage(BasketPage):
         Args:
              coupon_code:
         """
-        self.q(css='#voucher_form_link>a').click()
+        self.q(css='#voucher_form_link').click()
         self.wait_for_element_visibility(
             '#voucher_form',
             'Wait for Voucher form to display'
@@ -260,14 +260,14 @@ class CyberSourcePage(BasketPage):
         )
         select_value_from_drop_down(self, "state", card_holder_info['state'])
 
-    def set_bill_info(self, bill_info):
+    def set_billing_info(self, bill_info):
         """
         Provide the payment details using the information from test
         Args:
              bill_info:
         """
         self.wait_for_element_visibility(
-            '##billing-information',
+            '#billing-information',
             'wait for billing info form'
         )
         self.q(css='#card-number-input').fill(bill_info['card_number'])
