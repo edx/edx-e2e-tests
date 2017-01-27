@@ -10,7 +10,7 @@ from regression.pages.common.utils import (
     extract_numerical_value_from_price_string
 )
 from regression.pages.whitelabel.const import (
-    SHORT_TIME_OUT_LIMIT,
+    TIME_OUT_LIMIT,
     WAIT_TIME,
     INITIAL_WAIT_TIME
 )
@@ -50,7 +50,7 @@ class ReceiptPage(PageObject):
             True if receipt is found:
         """
         found = False
-        t_end = time.time() + SHORT_TIME_OUT_LIMIT
+        t_end = time.time() + TIME_OUT_LIMIT
         # Run the loop for a pre defined time
         current_url = self.browser.current_url
         while time.time() < t_end:

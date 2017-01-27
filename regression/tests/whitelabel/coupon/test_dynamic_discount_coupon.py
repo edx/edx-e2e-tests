@@ -66,7 +66,8 @@ class TestDynamicDiscountCoupon(VouchersMixin):
 
     def test_01_discount_single_use_percentage_code(self):
         """
-        Scenario: Discount Single Use Percentage Code: Code cannot be reused
+        Scenario: Dynamic Discount Single Use Percentage Code: Code cannot
+        be reused
         """
         coupon = self.coupon_data(
             COURSE_CATALOG_TYPE['multi'],

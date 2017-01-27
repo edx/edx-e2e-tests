@@ -62,9 +62,9 @@ class TestDynamicEnrollmentCoupon(VouchersMixin):
 
     def test_01_enrollment_once_per_customer_code_max_limit(self):
         """
-        Scenario: Enrollment Once Per Customer - Code Max Limit: Each code can
-        be used up to the number of allowed uses and after that it is not
-        usable by any user
+        Scenario: Dynamic Enrollment Once Per Customer - Code Max Limit: Each
+        code can be used up to the number of allowed uses and after that it
+        is not usable by any user
         """
         coupon = self.coupon_data(
             COURSE_CATALOG_TYPE['multi'],
@@ -97,9 +97,9 @@ class TestDynamicEnrollmentCoupon(VouchersMixin):
 
     def test_02_apply_enrollment_once_per_customer_redeem_url(self):
         """
-        Scenario: Registered Users: Enrollment Once Per Customer Redeem URL:
-        Each URL can be used up to the number of allowed uses and after that
-        it is not usable by any user
+        Scenario: Registered Users: Dynamic Enrollment Once Per Customer
+        Redeem URL: Each URL can be used up to the number of allowed uses
+        and after that it is not usable by any user
         """
         coupon = self.coupon_data(
             COURSE_CATALOG_TYPE['multi'],
