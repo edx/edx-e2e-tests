@@ -59,10 +59,39 @@ def get_url(url_path, course_info):
     return "/".join([BASE_URL, url_path, unicode(course_key)])
 
 
+def get_data_locator(page):
+    """
+    Returns:
+        Unique data locator for the component
+    """
+    data_locator = page.q(css='.hd-3').attrs('id')[0]
+    return data_locator
+
+
 def get_data_id_of_component(page):
     """
     Returns:
-        Data usage id for the component
+        ID for the component
+    """
+    data_id = page.q(css='.problem-header').attrs('id')[0]
+    return data_id
+
+
+def get_data_locator_of_html(page):
+    """
+    Returns:
+        Data locator for the HTML components
+    """
+    data_locator = page.q(
+        css='.studio-xblock-wrapper.is-draggable'
+    ).attrs('data-locator')[0]
+    return data_locator
+
+
+def get_data_id_of_html(page):
+    """
+    Returns:
+        ID for the HTML components
     """
     data_id = page.q(css='.vert-mod .vert.vert-0').attrs('data-id')[0]
     return data_id
