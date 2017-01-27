@@ -19,15 +19,7 @@ class UnitPageExtended(ContainerPage):
             '[title="Open the courseware in the LMS"]'
         ).click()
         self.browser.switch_to_window(self.browser.window_handles[-1])
-
-    def get_data_locator(self):
-        """
-        Returns unique data locator for the component
-        """
-        data_locator = self.q(
-            css='.studio-xblock-wrapper.is-draggable'
-        ).attrs('data-locator')[-1]
-        return data_locator
+        self.wait_for_ajax()
 
     def add_word_cloud_component(self, publish=False):
         """

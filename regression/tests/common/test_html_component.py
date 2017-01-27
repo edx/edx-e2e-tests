@@ -4,6 +4,7 @@ End to end tests for HTML Components
 from uuid import uuid4
 
 from bok_choy.web_app_test import WebAppTest
+from bok_choy.promise import BrokenPromise
 from edxapp_acceptance.pages.studio.utils import add_components
 from edxapp_acceptance.pages.lms.course_nav import CourseNavPage
 
@@ -15,7 +16,8 @@ from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.lms.utils import get_course_key
 from regression.pages.lms.lms_courseware import CoursewarePageExtended
 from regression.tests.helpers import (
-    StudioLoginApi, get_course_info, get_data_id_of_component, LmsLoginApi
+    StudioLoginApi, get_course_info, get_data_id_of_component, LmsLoginApi,
+    get_data_locator, get_data_locator_of_html, get_data_id_of_html
 )
 
 
@@ -95,14 +97,15 @@ class StudioLmsHTMLTest(StudioLmsComponentBaseTest):
         components = [
             'Text',
             'Announcement',
-            'Anonymous User ID',
-            'Full Screen Image Tool',
             'IFrame Tool',
-            'Zooming Image Tool',
             'Raw HTML'
         ]
-        # Add components
-        add_components(self.unit_container_page, 'html', components)
+        # Add components. A BrokenPromise probably means that we missed the
+        # notification. We should just swallow this error and not raise it.
+        try:
+            add_components(self.unit_container_page, 'html', components)
+        except BrokenPromise as _err:
+            pass
         problems = [
             x_block.name for x_block in
             self.unit_container_page.xblocks[1:]
@@ -111,7 +114,7 @@ class StudioLmsHTMLTest(StudioLmsComponentBaseTest):
         # Assert that components appear in same order as added.
         self.assertEqual(problems, components)
 
-        studio_html_components = get_data_id_of_component(
+        studio_html_components = get_data_locator_of_html(
             self.unit_container_page
         )
 
@@ -121,7 +124,7 @@ class StudioLmsHTMLTest(StudioLmsComponentBaseTest):
         self.unit_container_page.view_live_version()
         self.assertEqual(
             studio_html_components,
-            get_data_id_of_component(self.lms_courseware)
+            get_data_id_of_html(self.lms_courseware)
         )
 
         # Remove this after addCleanup is added for all tests
@@ -169,14 +172,19 @@ class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
         self.unit_container_page.wait_for_page()
 
         self.unit_container_page.add_word_cloud_component(True)
+        word_cloud_data_locator = get_data_locator(
+            self.unit_container_page
+        )
 
-        word_cloud_data_locator = self.unit_container_page.get_data_locator()
+        # Publish Unit
+        self.studio_course_outline.publish()
 
         # View Live
         self.unit_container_page.view_live_version()
+        self.lms_courseware.wait_for_page()
         self.assertEqual(
             word_cloud_data_locator,
-            get_data_id_of_component(self.lms_courseware)
+            get_data_locator(self.lms_courseware)
         )
         # Remove this after addCleanup is added for all tests
         # Cleanup test
@@ -212,7 +220,7 @@ class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
 
         self.assertEqual(
             self.unit_container_page.add_custom_js_display_and_grading(),
-            'Custom Javascript Display and Grading'
+            'Custom JavaScript Display and Grading'
         )
 
         studio_custom_js = get_data_id_of_component(
@@ -263,7 +271,7 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         self.unit_container_page.wait_for_page()
         self.unit_container_page.add_word_cloud_component(True)
         # Get unique data locator id of the unit added).
-        data_locator = self.unit_container_page.get_data_locator()
+        data_locator = get_data_locator(self.unit_container_page)
         self.lms_courseware.visit()
         # From LMS, navigate to the section added.
         course_nav = CourseNavPage(self.browser)
@@ -273,7 +281,7 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         self.unit_container_page.wait_for_page()
         # Correct unit component should open.
         self.assertEqual(
-            self.unit_container_page.get_data_locator(),
+            get_data_locator(self.unit_container_page),
             data_locator, 'Correct component is opened'
         )
         # Remove this after addCleanup is added for all tests.
