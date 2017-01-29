@@ -231,7 +231,7 @@ class CyberSourcePage(BasketPage):
 
     def set_card_holder_info(self, card_holder_info):
         """
-        Fill billing form using the values passed from test
+        Fill card holder form using the values passed from test
         Args:
              card_holder_info:
         """
@@ -262,7 +262,7 @@ class CyberSourcePage(BasketPage):
 
     def set_billing_info(self, bill_info):
         """
-        Provide the payment details using the information from test
+        Provide the billing info using the information from test
         Args:
              bill_info:
         """
@@ -278,13 +278,13 @@ class CyberSourcePage(BasketPage):
             ).attrs('src')[0],
             'wait for visa icon to appear'
         )
-        self.q(css='#card-cvn-input').fill(bill_info['cvn'])
         select_names_and_values = {
             "card_expiry_month": bill_info['expiry_month'],
             "card_expiry_year": bill_info['expiry_year']
         }
         for key, val in select_names_and_values.iteritems():
             select_value_from_drop_down(self, key, val)
+        self.q(css='#card-cvn-input').fill(bill_info['cvn'])
 
     def make_payment(self, target_page):
         """
