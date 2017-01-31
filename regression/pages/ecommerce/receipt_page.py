@@ -49,6 +49,7 @@ class ReceiptPage(PageObject):
         Returns:
             True if receipt is found:
         """
+        import time; time.sleep(10)
         found = False
         t_end = time.time() + TIME_OUT_LIMIT
         # Run the loop for a pre defined time

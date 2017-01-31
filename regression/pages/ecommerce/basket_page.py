@@ -292,6 +292,7 @@ class CyberSourcePage(BasketPage):
         Args:
              target_page:
         """
+        import time; time.sleep(5)
         self.wait_for_element_visibility(
             '#payment-button',
             'Wait for payment button'
