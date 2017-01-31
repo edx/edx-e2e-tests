@@ -89,7 +89,8 @@ SOCIAL_MEDIA_LINKS = {
     'HarvardMedGlobalAcademy': [
         'https://www.facebook.com/HarvardMed',
         'https://twitter.com/harvardmed',
-        'https://www.linkedin.com/edu/harvard-medical-school-18482',
+        'https://www.linkedin.com/company/harvard-medical-school-global-'
+        'education',
         'https://instagram.com/harvardmed/?hl=en'
     ],
     'HarvardXPLUS': [
