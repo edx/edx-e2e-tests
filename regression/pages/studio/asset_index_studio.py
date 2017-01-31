@@ -8,8 +8,12 @@ from edxapp_acceptance.pages.common.utils import (
     click_css, sync_on_notification
 )
 
-from regression.pages.studio import BASE_URL
-from regression.pages.studio.utils import get_course_key
+from regression.pages.studio.utils import (
+    get_course_key,
+    click_css_with_animation_enabled,
+    sync_on_notification
+)
+from regression.pages.studio import LOGIN_BASE_URL
 
 
 class AssetIndexPageExtended(AssetIndexPage):
@@ -25,7 +29,11 @@ class AssetIndexPageExtended(AssetIndexPage):
         """
         course_key = get_course_key(self.course_info)
         url = "/".join(
-            [BASE_URL, self.url_path, urllib.quote_plus(unicode(course_key))])
+            [
+                LOGIN_BASE_URL,
+                self.url_path, urllib.quote_plus(unicode(course_key))
+            ]
+        )
         return url if url[-1] is '/' else url + '/'
 
     def open_upload_file_prompt(self):

@@ -4,7 +4,7 @@ Instructor dashboard page.
 from edxapp_acceptance.pages.lms.instructor_dashboard import (
     InstructorDashboardPage
 )
-from regression.pages.lms import BASE_URL
+from regression.pages.lms import LOGIN_BASE_URL
 
 
 class InstructorDashboardPageExtended(InstructorDashboardPage):
@@ -16,7 +16,9 @@ class InstructorDashboardPageExtended(InstructorDashboardPage):
         """
         Construct a URL to the page within the course.
         """
-        return BASE_URL + "/courses/" + self.course_id + "/" + self.url_path
+        return "{}/courses/{}/{}".format(
+            LOGIN_BASE_URL, self.course_id, self.url_path
+        )
 
     def click_analytics_tab(self):
         """

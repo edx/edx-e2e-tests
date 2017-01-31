@@ -2,7 +2,7 @@
 Courseware page LMS
 """
 from edxapp_acceptance.pages.lms.courseware import CoursewarePage
-from regression.pages.lms import BASE_URL
+from regression.pages.lms import LOGIN_BASE_URL
 
 
 class CoursewarePageExtended(CoursewarePage):
@@ -16,7 +16,7 @@ class CoursewarePageExtended(CoursewarePage):
         """
         Construct a URL to the page within the course.
         """
-        return BASE_URL + "/courses/" + self.course_id + "/courseware"
+        return LOGIN_BASE_URL + "/courses/" + self.course_id + "/courseware"
 
     def view_unit_in_studio(self):
         """

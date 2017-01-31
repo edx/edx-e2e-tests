@@ -3,7 +3,7 @@ Dashboard page for Studio
 """
 from edxapp_acceptance.pages.studio.index import DashboardPage
 from bok_choy.promise import BrokenPromise
-from regression.pages.studio import BASE_URL
+from regression.pages.studio import LOGIN_BASE_URL
 from regression.pages.lms import LMS_REDIRECT_URL
 
 
@@ -13,7 +13,7 @@ class DashboardPageExtended(DashboardPage):
     where we add methods that are different or not used in DashboardPage
     """
 
-    url = BASE_URL + '/home'
+    url = LOGIN_BASE_URL + '/home'
 
     def is_browser_on_page(self):
         """

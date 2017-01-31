@@ -29,7 +29,6 @@ class DashboardTest(WebAppTest):
         self.dashboard_page = DashboardPageExtended(self.browser)
         self.drupal_course_page = DemoCourseSelectionPage(self.browser)
         self.payment_page = PaymentPage(self.browser)
-
         self.dashboard_page.visit()
 
     def test_resume_course(self):

@@ -2,7 +2,7 @@
 Logout Page for Studio
 """
 from bok_choy.page_object import PageObject
-from regression.pages.studio import BASE_URL
+from regression.pages.studio import LOGIN_BASE_URL
 
 
 class StudioLogout(PageObject):
@@ -10,7 +10,7 @@ class StudioLogout(PageObject):
     Logged Out Page for Studio
     """
 
-    url = BASE_URL
+    url = LOGIN_BASE_URL
 
     def is_browser_on_page(self):
         """
