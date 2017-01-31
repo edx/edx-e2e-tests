@@ -4,8 +4,6 @@ End to end tests for HTML Components
 from uuid import uuid4
 
 from bok_choy.web_app_test import WebAppTest
-from bok_choy.promise import BrokenPromise
-from edxapp_acceptance.pages.studio.utils import add_components
 from edxapp_acceptance.pages.lms.course_nav import CourseNavPage
 
 from regression.pages.studio.course_outline_page import (
@@ -17,7 +15,7 @@ from regression.pages.lms.utils import get_course_key
 from regression.pages.lms.lms_courseware import CoursewarePageExtended
 from regression.tests.helpers import (
     StudioLoginApi, get_course_info, get_data_id_of_component, LmsLoginApi,
-    get_data_locator, get_data_locator_of_html, get_data_id_of_html
+    get_data_locator
 )
 
 
@@ -53,84 +51,6 @@ class StudioLmsComponentBaseTest(WebAppTest):
             self.browser,
             get_course_key(self.course_info)
         )
-
-
-class StudioLmsHTMLTest(StudioLmsComponentBaseTest):
-    """
-    HTML Components tests that require lms verification with studio
-    """
-    def setUp(self):
-        """
-        Call setUp in parent
-        """
-        super(StudioLmsHTMLTest, self).setUp()
-
-    def test_html_components(self):
-        """
-        Verifies that user can add HTML components on Studio and LMS
-        """
-        self.studio_course_outline.visit()
-        section_name = 'Section :{}'.format(uuid4().hex)
-        self.studio_course_outline.add_section_with_name(section_name)
-        self.assertIn(
-            section_name,
-            self.studio_course_outline.q(
-                css='.incontext-editor-value'
-            ).text
-        )
-
-        subsection_name = 'Subsection :{}'.format(uuid4().hex)
-        self.studio_course_outline.add_subsection_with_name(
-            subsection_name
-        )
-        self.assertIn(
-            subsection_name,
-            self.studio_course_outline.q(
-                css='.incontext-editor-value'
-            ).text
-        )
-
-        self.studio_course_outline.click_add_unit_button()
-        self.unit_container_page.wait_for_page()
-
-        # Components to be added
-        components = [
-            'Text',
-            'Announcement',
-            'IFrame Tool',
-            'Raw HTML'
-        ]
-        # Add components. A BrokenPromise probably means that we missed the
-        # notification. We should just swallow this error and not raise it.
-        try:
-            add_components(self.unit_container_page, 'html', components)
-        except BrokenPromise as _err:
-            pass
-        problems = [
-            x_block.name for x_block in
-            self.unit_container_page.xblocks[1:]
-        ]
-
-        # Assert that components appear in same order as added.
-        self.assertEqual(problems, components)
-
-        studio_html_components = get_data_locator_of_html(
-            self.unit_container_page
-        )
-
-        # Publish Unit
-        self.studio_course_outline.publish()
-        # View Live
-        self.unit_container_page.view_live_version()
-        self.assertEqual(
-            studio_html_components,
-            get_data_id_of_html(self.lms_courseware)
-        )
-
-        # Remove this after addCleanup is added for all tests
-        # Cleanup test
-        self.studio_course_outline.visit()
-        self.studio_course_outline.delete_section()
 
 
 class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
