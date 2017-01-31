@@ -57,7 +57,8 @@ class ReceiptPage(PageObject):
             time.sleep(INITIAL_WAIT_TIME)
             try:
                 if not self.q(
-                        css='#receipt-container'
+                        css='.next.action-primary.right[href="/dashboard"]'
+                        # css='#receipt-container'
                 ).is_present():
                     raise ReceiptException
                 found = True
@@ -77,7 +78,8 @@ class ReceiptPage(PageObject):
             order number:
         """
         return self.q(
-            css='.order-summary>dl>dd:nth-of-type(1)').text[0]
+            css='.report.report-receipt>tbody>tr>td:nth-of-type(1)').text[0]
+            # css='.order-summary>dl>dd:nth-of-type(1)').text[0]
 
     @property
     def order_desc(self):
@@ -86,8 +88,8 @@ class ReceiptPage(PageObject):
         Returns:
             order description:
         """
-        return self.q(
-            css='.course-description>span').text[0]
+        return self.q(css='.report.report-receipt>tbody>tr>td:nth-of-type(2)').text[0]
+        # return self.q(css='.course-description>span').text[0]
 
     @property
     def order_date(self):
@@ -97,12 +99,14 @@ class ReceiptPage(PageObject):
             order date:
         """
         date_string = self.q(
-            xpath=".//*[@id='receipt-container']//dt[text()='Order Date:']"
-                  "/following-sibling::dd"
+            css='.report.report-receipt>tbody>tr>td:nth-of-type(3)'
+            # xpath=".//*[@id='receipt-container']//dt[text()='Order Date:']"
+            #       "/following-sibling::dd"
         ).text[0]
         return convert_date_format(
             date_string,
-            '%B %d, %Y',
+            '%Y-%m-%dT%H:%M:%SZ',
+            # '%B %d, %Y',
             '%Y-%m-%d'
         )
 
@@ -114,7 +118,8 @@ class ReceiptPage(PageObject):
             order amount:
         """
         amount = self.q(
-            css='.line-price.price'
+            css='.report.report-receipt>tbody>tr>td:nth-of-type(4)'
+            # css='.line-price.price'
         ).text[0]
         return extract_numerical_value_from_price_string(amount)
 
@@ -126,7 +131,8 @@ class ReceiptPage(PageObject):
             total amount:
         """
         total_amount = self.q(
-            css='.order-total:nth-of-type(2)>.price').text[0]
+            css='.report.report-receipt>tfoot>tr>td>.value-amount').text[0]
+            # css='.order-total:nth-of-type(2)>.price').text[0]
         return extract_numerical_value_from_price_string(total_amount)
 
     @property
@@ -142,5 +148,6 @@ class ReceiptPage(PageObject):
         """
         Go to user dashboard page by clicking on Go to Dashboard button
         """
-        self.q(css='.dashboard-link.nav-link').click()
+        self.q(css='.next.action-primary.right[href="/dashboard"]').click()
+        # self.q(css='.dashboard-link.nav-link').click()
         DashboardPage(self.browser).wait_for_page()
