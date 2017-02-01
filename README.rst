@@ -129,8 +129,9 @@ To update page objects installed from external repos:
 
 Using the Browser from a Docker Container
 -----------------------------------------
+
 * You first need some basic understanding of how Docker works and have a
-  working `Docker installation <https://docs.docker.com/engine/installation/>`_
+    working `Docker installation <https://docs.docker.com/engine/installation/>`_
 * Launch a container with selenium server and a browser. Here's how to run with Firefox:
 
   * `DBUS_SESSION_BUS_ADDRESS=/dev/null` is needed to prevent error messages about the hostname
@@ -141,16 +142,50 @@ Using the Browser from a Docker Container
     docker run -d --env DBUS_SESSION_BUS_ADDRESS=/dev/null -p 4444:4444 selenium/standalone-firefox
 
 * These environment variable settings on the system from which you are running the
-  tests (the vagrant image), set prior to issuing the `paver e2e_test` command,
-  will tell the test runner to use the container's browser.
-  Note: see http://stackoverflow.com/questions/16244601/vagrant-reverse-port-forwarding
-  for why the SELENIUM_HOST value is 10.0.2.2.
+    tests (the vagrant image), set prior to issuing the `paver e2e_test` command,
+    will tell the test runner to use the container's browser.
+* Note: see http://stackoverflow.com/questions/16244601/vagrant-reverse-port-forwarding
+    for why the SELENIUM_HOST value is 10.0.2.2.
 
 .. code:: bash
 
     export SELENIUM_BROWSER=firefox
     export SELENIUM_HOST=10.0.2.2
     export SELENIUM_PORT=4444
+
+Using specific browser versions, and troubleshooting
+====================================================
+
+* If the container does not start up correctly, but instead loops printing out "Waiting xvfb",
+    you have encountered a bug in Docker where it can't handle any system environment variable
+    that have a space in them.
+
+    * By default one of those is no_proxy.
+    * Set it to a value without spaces. "localhost" is a good one.
+    * This means passing adding to the docker command line: `--env no_proxy=localhost`
+
+* If you want to see the display of the running container, choose a container that has
+    VNC installed.
+
+    * Those are the ones that end in "debug"
+    * E.g. selenium/standalone-firefox-debug
+
+* I've been using this, which has FF 46 if I remember correctly:
+    `selenium/standalone-firefox-debug:2.53.1-beryllium`
+
+* Map port 5900 through to localhost
+
+
+.. code:: bash
+
+    docker run -d --env DBUS_SESSION_BUS_ADDRESS=/dev/null --env no_proxy=localhost -p 4444:4444 -p 5900:5900 selenium/standalone-firefox-debug:2.53.1-beryllium
+
+
+* Then from a shell (in OSX at least, not sure about other host systems) you can VNC in with the following (the password is 'secret'):
+
+.. code:: bash
+
+    open vnc://localhost:5900
 
 
 License
