@@ -7,7 +7,7 @@ from regression.pages.studio.utils import (
     click_confirmation_prompt_primary_button
 )
 
-from regression.tests.helpers import get_url
+from regression.tests.helpers.helper_functions import get_url
 
 
 class CourseOutlinePageExtended(CourseOutlinePage):

@@ -5,9 +5,10 @@ from bok_choy.web_app_test import WebAppTest
 from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.lms.course_page_lms import CourseInfoPageExtended
-from regression.tests.helpers import (
-    get_course_info, get_course_display_name, LmsLoginApi
+from regression.tests.helpers.helper_functions import (
+    get_course_info, get_course_display_name
 )
+from regression.tests.helpers.api_clients import LmsLoginApi
 from regression.pages.lms.course_drupal_page import (
     DemoCourseSelectionPage
 )
