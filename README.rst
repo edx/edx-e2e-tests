@@ -72,7 +72,7 @@ Configuration
     paver install_pages
 
 
-Running Tests Locally
+How to run tests?
 ---------------------
 Make sure you are in the correct folder.
 
@@ -80,8 +80,7 @@ Make sure you are in the correct folder.
 
     cd $HOME/edx-e2e-tests
 
-
-To run the tests locally, following environmental variables needs to be changed before running tests.
+Before running tests, please ensure that following environment variables are set.
 
 .. code:: bash
 
@@ -124,6 +123,38 @@ To update page objects installed from external repos:
 .. code:: bash
 
     paver install_pages
+
+
+How to change target environment?
+-------
+
+Studio and LMS urls for stage are ``https://studio.stage.edx.org``
+and ``https://courses.stage.edx.org`` respectively. We don't need to
+do anything extra to run tests on the stage. By default, all tests
+run on the stage.
+
+If we want to change this behaviour then we would need to set
+environment variables to point to our desired environment.
+To be specific, we would need to set
+
+1. For studio, ``STUDIO_BASE_URL`` which defaults to ``studio.stage.edx.org`` and
+
+2. For LMS, ``LMS_BASE_URL`` which defaults to ``courses.stage.edx.org``.
+
+Lets say we want to run tests on a sandbox which has studio and LMS urls as ``https://studio.sandbox.edx.org``
+and ``https://lms.sandbox.edx.org`` respectively. To let repo know, set environment variables as
+
+.. code:: bash
+
+    export STUDIO_BASE_URL=studio.sandbox.edx.org
+    export LMS_BASE_URL=lms.sandbox.edx.org
+
+To run tests back on stage, unset the above set environment variables.
+
+.. code:: bash
+
+    unset STUDIO_BASE_URL
+    unset LMS_BASE_URL
 
 
 License
