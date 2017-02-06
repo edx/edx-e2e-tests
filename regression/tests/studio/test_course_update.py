@@ -7,7 +7,7 @@ from regression.pages.studio.course_info_studio import (
     CourseUpdatesPageExtended
 )
 from regression.tests.studio.studio_base_test import StudioBaseTestClass
-from regression.tests.helpers.helper_functions import get_course_info
+from regression.tests.helpers.utils import get_course_info
 from regression.tests.helpers.api_clients import StudioLoginApi
 
 

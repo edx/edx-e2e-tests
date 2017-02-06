@@ -12,7 +12,7 @@ from edxapp_acceptance.pages.studio.settings_group_configurations import (
 from regression.tests.studio.studio_base_test import StudioBaseTestClass
 from regression.pages.studio.settings_studio import SettingsPageExtended
 from regression.tests.helpers.api_clients import StudioLoginApi
-from regression.tests.helpers.helper_functions import get_course_info
+from regression.tests.helpers.utils import get_course_info
 from regression.pages.studio.grading_studio import GradingPageExtended
 from regression.pages.studio.utils import (
     get_text

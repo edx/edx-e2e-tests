@@ -10,7 +10,7 @@ from regression.tests.studio.studio_base_test import BaseTestClassNoCleanup
 from regression.tests.helpers.api_clients import (
     StudioLoginApi, LmsLoginApi
 )
-from regression.tests.helpers.helper_functions import get_course_info
+from regression.tests.helpers.utils import get_course_info
 from regression.pages.lms.utils import get_course_key
 from regression.pages.studio.pages_page_studio import PagesPageExtended
 from regression.pages.lms.course_page_lms import CourseInfoPageExtended

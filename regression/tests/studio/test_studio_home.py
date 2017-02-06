@@ -8,7 +8,7 @@ from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.studio.terms_of_service import TermsOfService
 from regression.pages.studio.privacy_policy import PrivacyPolicy
-from regression.tests.helpers.helper_functions import (
+from regression.tests.helpers.utils import (
     get_course_info, get_course_display_name
 )
 

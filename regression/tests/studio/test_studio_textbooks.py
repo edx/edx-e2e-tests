@@ -9,7 +9,7 @@ from regression.pages.studio.studio_textbooks import TextbookPageExtended
 from regression.tests.helpers.api_clients import (
     StudioLoginApi, LmsLoginApi
 )
-from regression.tests.helpers.helper_functions import get_course_info
+from regression.tests.helpers.utils import get_course_info
 from regression.pages.lms.lms_textbook import TextbookPage
 
 

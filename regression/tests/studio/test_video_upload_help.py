@@ -6,7 +6,7 @@ from edxapp_acceptance.tests.helpers import assert_nav_help_link
 
 from regression.pages.studio.video_upload_studio import VideoUploadPage
 from regression.tests.helpers.api_clients import StudioLoginApi
-from regression.tests.helpers.helper_functions import get_course_info
+from regression.tests.helpers.utils import get_course_info
 
 
 class TestVideoUploadHelp(WebAppTest):
