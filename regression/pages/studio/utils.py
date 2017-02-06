@@ -1,12 +1,9 @@
 """
 Utility functions for studio page objects.
 """
-from bok_choy.promise import BrokenPromise
 from opaque_keys.edx.locator import CourseLocator
-from edxapp_acceptance.pages.common.utils import wait_for_notification
-from edxapp_acceptance.pages.studio.utils import press_the_notification_button
+from edxapp_acceptance.pages.common.utils import click_css
 from edxapp_acceptance.tests.helpers import disable_animations
-
 from regression.pages import UPLOAD_FILE_DIR
 
 
@@ -22,75 +19,6 @@ def get_course_key(course_info, module_store='split'):
         course_info['course_run'],
         deprecated=(module_store == 'draft')
     )
-
-
-def click_css_with_animation_enabled(page, css, source_index=0,
-                                     require_notification=True):
-    """
-    Clicks element with the given css and index.
-
-    Will only consider elements that are displayed and
-    have a height and width greater than zero.
-
-    Arguments:
-        page (PageObject): The page on which element resides
-        css (str): css of element to be clicked.
-        source_index (int): Index of element in case there
-            are more than one elements matching the css.
-        require_notification (bool): Specifies whether or not
-            wait for "mini-notification".
-    """
-    def _is_visible(element):
-        """
-        Is the given element visible?
-        """
-        # Only make the call to size once (instead of
-        # once for the height and once for the width)
-        # because otherwise you will trigger a extra
-        # query on a remote element.
-        return element.is_displayed() and all(
-            size > 0 for size in element.size.itervalues())
-
-    page.q(css=css).filter(_is_visible).nth(source_index).click()
-
-    if require_notification:
-        wait_for_notification(page)
-
-    # Some buttons trigger ajax posts
-    # (e.g. .add-missing-groups-button as configured
-    # in split_test_author_view.js) so after you click
-    # anything wait for the ajax call to finish
-    page.wait_for_ajax()
-
-
-def confirm_prompt_with_animation_enabled(page, cancel=False,
-                                          require_notification=None):
-    """
-    Click the buttons in a modal prompt.
-
-    Ensures that a modal prompt and confirmation buttons are visible,
-    then clicks the button.
-
-    Arguments:
-        page (PageObject): The page on which prompt is to appear.
-        cancel (bool): If True then cancel the prompt.
-        require_notification (bool): Specifies whether or not to
-            wait for "mini-notification".
-    """
-    page.wait_for_element_visibility('.prompt', 'Prompt is visible')
-    page.wait_for_element_visibility(
-        '.wrapper-prompt:focus',
-        'Prompt is in focus'
-    )
-    confirmation_button_css = '.prompt .action-' + (
-        'secondary' if cancel else 'primary')
-    page.wait_for_element_visibility(
-        confirmation_button_css, 'Confirmation button is visible')
-    require_notification = (not cancel) \
-        if require_notification is None else require_notification
-    click_css_with_animation_enabled(
-        page, confirmation_button_css,
-        require_notification=require_notification)
 
 
 def upload_new_file(page, file_names):
@@ -118,22 +46,9 @@ def upload_new_file(page, file_names):
                 css='.progress-fill').text[0] == 'Upload completed',
             description='Upload complete.')
     # Close the upload prompt.
-    click_css_with_animation_enabled(page, '.close-button', 0, False)
+    click_css(page, '.close-button', 0, False)
     page.wait_for_element_invisibility(
         page.UPLOAD_FORM_CSS, 'New file upload prompt has been closed.')
-
-
-def save_changes_popup_for_studio(self):
-    """
-    Clicks Save button that displays on studio after addition/deletion
-    """
-    press_the_notification_button(self, "save")
-    self.wait_for_element_visibility(
-        '#alert-confirmation-title',
-        'Save confirmation message is visible'
-    )
-    # After visibility an ajax call is in process, waiting for that
-    self.wait_for_ajax()
 
 
 def click_confirmation_prompt_primary_button(self):
@@ -157,51 +72,3 @@ def get_text(page, css, index=0):
         index (int): index position of element.
     """
     return page.q(css=css).text[index]
-
-
-def sync_on_notification(page, style='default', wait_for_hide=False):
-    """
-    Sync on notifications but do not raise errors.
-
-    A BrokenPromise in the wait_for probably means that we missed it.
-    We should just swallow this error and not raise it for reasons including:
-    * We are not specifically testing this functionality
-    * This functionality is covered by unit tests
-    * This verification method is prone to flakiness
-      and browser version dependencies
-
-    See classes in edx-platform:
-     lms/static/sass/elements/_system-feedback.scss
-    """
-    hiding_class = 'is-hiding'
-    shown_class = 'is-shown'
-
-    def notification_has_class(style, el_class):
-        """
-        Return a boolean representing whether
-        the notification has the class applied.
-        """
-        if style == 'mini':
-            css_string = '.wrapper-notification-mini.{}'
-        else:
-            css_string = '.wrapper-notification-confirmation.{}'
-        return page.q(css=css_string.format(el_class)).present
-
-    # Wait for the notification to show.
-    # If you miss it though, don't raise an error.
-    try:
-        page.wait_for(
-            lambda: notification_has_class(style, shown_class),
-            'Notification should have been shown.',
-            timeout=5
-        )
-    except BrokenPromise as _err:
-        pass
-
-    # Now wait for it to hide.
-    # This is not required for web page interaction, so not really needed.
-    if wait_for_hide:
-        page.wait_for(
-            lambda: notification_has_class(style, hiding_class),
-            'Notification should have hidden.'
-        )

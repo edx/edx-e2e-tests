@@ -2,12 +2,10 @@
 Course Schedule and Details Settings page.
 """
 from edxapp_acceptance.pages.studio.settings import SettingsPage
+from edxapp_acceptance.pages.common.utils import click_css
 from regression.pages import UPLOAD_FILE_DIR
 
-from regression.pages.studio.utils import (
-    get_course_key,
-    click_css_with_animation_enabled
-)
+from regression.pages.studio.utils import get_course_key
 from regression.pages.studio import BASE_URL
 
 
@@ -30,7 +28,7 @@ class SettingsPageExtended(SettingsPage):
         Arguments:
             file_name: file name to be uploaded.
         """
-        click_css_with_animation_enabled(
+        click_css(
             self, '.action.action-upload-image', 0, False
         )
         self.wait_for_element_visibility(
@@ -51,7 +49,7 @@ class SettingsPageExtended(SettingsPage):
         """
         Click 'cancel' on the file upload dialog.
         """
-        click_css_with_animation_enabled(
+        click_css(
             self, '.button.action-cancel', 0, False
         )
 

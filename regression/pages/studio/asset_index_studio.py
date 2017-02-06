@@ -4,13 +4,12 @@ Asset index page
 import urllib
 
 from edxapp_acceptance.pages.studio.asset_index import AssetIndexPage
+from edxapp_acceptance.pages.common.utils import (
+    click_css, sync_on_notification
+)
 
 from regression.pages.studio import BASE_URL
-from regression.pages.studio.utils import (
-    get_course_key,
-    click_css_with_animation_enabled,
-    sync_on_notification
-)
+from regression.pages.studio.utils import get_course_key
 
 
 class AssetIndexPageExtended(AssetIndexPage):
@@ -33,7 +32,7 @@ class AssetIndexPageExtended(AssetIndexPage):
         """
         Open new file upload prompt.
         """
-        click_css_with_animation_enabled(
+        click_css(
             self, '.button.upload-button.new-button', 0, False)
         self.wait_for_element_visibility(
             self.UPLOAD_FORM_CSS, 'New file upload prompt has been opened.')
