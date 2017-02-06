@@ -56,32 +56,32 @@ class TestMisc(UserAuthenticationMixin):
         # Get the alt text for footer logo and verify it
         self.assertEqual(LOGO_ALT_TEXT, self.home.footer_logo_alt_text)
 
-    def test_02_verify_countries_data(self):
-        """
-        Scenario: To verify that correct countries data is present in user
-        profile
-        """
-        self.login_user(EXISTING_USER_EMAIL)
-        # Open the profile page
-        self.dashboard.go_to_profile_page()
-        # Get selected country and validate it
-        self.assertEqual(SELECTED_COUNTRY, self.profile.selected_country)
-        # Get countries list and validate it
-        countries = self.profile.countries_list
-        self.assertEqual(NO_OF_COUNTRIES, len(countries))
-        [self.assertIn(country, countries) for country in SAMPLE_COUNTRIES]
-
-    def test_03_verify_languages_data(self):
-        """
-        Scenario: To verify that correct languages data is present in user
-        profile
-        """
-        self.login_user(EXISTING_USER_EMAIL)
-        # Open the profile page
-        self.dashboard.go_to_profile_page()
-        # Get selected Language and validate it
-        self.assertEqual(SELECTED_LANGUAGE, self.profile.selected_language)
-        # Get languages list and validate it
-        languages = self.profile.languages_list
-        self.assertEqual(NO_OF_LANGUAGES, len(languages))
-        [self.assertIn(language, languages) for language in SAMPLE_LANGUAGES]
+    # def test_02_verify_countries_data(self):
+    #     """
+    #     Scenario: To verify that correct countries data is present in user
+    #     profile
+    #     """
+    #     self.login_user(EXISTING_USER_EMAIL)
+    #     # Open the profile page
+    #     self.dashboard.go_to_profile_page()
+    #     # Get selected country and validate it
+    #     self.assertEqual(SELECTED_COUNTRY, self.profile.selected_country)
+    #     # Get countries list and validate it
+    #     countries = self.profile.countries_list
+    #     self.assertEqual(NO_OF_COUNTRIES, len(countries))
+    #     [self.assertIn(country, countries) for country in SAMPLE_COUNTRIES]
+    #
+    # def test_03_verify_languages_data(self):
+    #     """
+    #     Scenario: To verify that correct languages data is present in user
+    #     profile
+    #     """
+    #     self.login_user(EXISTING_USER_EMAIL)
+    #     # Open the profile page
+    #     self.dashboard.go_to_profile_page()
+    #     # Get selected Language and validate it
+    #     self.assertEqual(SELECTED_LANGUAGE, self.profile.selected_language)
+    #     # Get languages list and validate it
+    #     languages = self.profile.languages_list
+    #     self.assertEqual(NO_OF_LANGUAGES, len(languages))
+    #     [self.assertIn(language, languages) for language in SAMPLE_LANGUAGES]
