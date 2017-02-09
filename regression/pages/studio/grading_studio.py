@@ -5,7 +5,7 @@ Grading Page for Studio
 from edxapp_acceptance.pages.studio.settings_graders import GradingPage
 from regression.pages.studio.utils import save_changes_popup_for_studio
 
-from regression.tests.helpers import get_url
+from regression.tests.helpers.utils import get_url
 
 
 class GradingPageExtended(GradingPage):

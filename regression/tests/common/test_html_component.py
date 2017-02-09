@@ -13,10 +13,11 @@ from regression.pages.studio.unit_page import UnitPageExtended
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.lms.utils import get_course_key
 from regression.pages.lms.lms_courseware import CoursewarePageExtended
-from regression.tests.helpers import (
-    StudioLoginApi, get_course_info, get_data_id_of_component, LmsLoginApi,
-    get_data_locator
+from regression.tests.helpers.utils import (
+    get_course_info, get_data_id_of_component, get_data_locator
 )
+
+from regression.tests.helpers.api_clients import StudioLoginApi, LmsLoginApi
 
 
 class StudioLmsComponentBaseTest(WebAppTest):

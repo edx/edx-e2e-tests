@@ -8,9 +8,11 @@ from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.studio.terms_of_service import TermsOfService
 from regression.pages.studio.privacy_policy import PrivacyPolicy
-from regression.tests.helpers import (
-    StudioLoginApi, get_course_info, get_course_display_name, LmsLoginApi
+from regression.tests.helpers.utils import (
+    get_course_info, get_course_display_name
 )
+
+from regression.tests.helpers.api_clients import StudioLoginApi, LmsLoginApi
 
 
 class StudioHomeTest(WebAppTest):

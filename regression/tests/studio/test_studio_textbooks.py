@@ -6,9 +6,10 @@ from uuid import uuid4
 from regression.tests.studio.studio_base_test import StudioBaseTestClass
 
 from regression.pages.studio.studio_textbooks import TextbookPageExtended
-from regression.tests.helpers import (
-    StudioLoginApi, get_course_info, LmsLoginApi
+from regression.tests.helpers.api_clients import (
+    StudioLoginApi, LmsLoginApi
 )
+from regression.tests.helpers.utils import get_course_info
 from regression.pages.lms.lms_textbook import TextbookPage
 
 

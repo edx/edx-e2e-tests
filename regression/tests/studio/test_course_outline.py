@@ -11,7 +11,7 @@ from regression.pages.studio.course_outline_page import (
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.settings_studio import SettingsPageExtended
 from regression.pages.studio.studio_home import DashboardPageExtended
-from regression.tests.helpers import (
+from regression.tests.helpers.utils import (
     get_course_info, get_course_display_name
 )
 

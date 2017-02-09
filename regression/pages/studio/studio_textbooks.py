@@ -5,7 +5,7 @@ from edxapp_acceptance.pages.studio.textbook_upload import TextbookUploadPage
 
 from selenium.webdriver.common.action_chains import ActionChains
 from regression.pages import UPLOAD_FILE_DIR
-from regression.tests.helpers import get_url
+from regression.tests.helpers.utils import get_url
 
 
 class TextbookPageExtended(TextbookUploadPage):
