@@ -1,7 +1,10 @@
 """
 End to end tests for User Donations.
 """
+from unittest import skipIf
 from bok_choy.web_app_test import WebAppTest
+
+from regression.pages.lms import LMS_BASE_URL, LMS_STAGE_BASE_URL
 from regression.pages.lms.register_page import RegisterPageExtended
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.lms.course_drupal_page import (
@@ -44,6 +47,10 @@ class DonationsTest(WebAppTest):
         )
         self.dashboard_page.wait_for_page()
 
+    @skipIf(
+        LMS_BASE_URL != LMS_STAGE_BASE_URL,
+        "donations only work at stage"
+    )
     def test_user_donations(self):
         """
         Verifies that user can Donate after selecting a course for audit

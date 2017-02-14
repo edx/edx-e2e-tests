@@ -1,8 +1,10 @@
 """
 End to end tests for Instructor Dashboard.
 """
+from unittest import skipIf
 from bok_choy.web_app_test import WebAppTest
 
+from regression.pages.lms import LMS_BASE_URL, LMS_STAGE_BASE_URL
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.lms.instructor_dashboard import (
     InstructorDashboardPageExtended
@@ -41,6 +43,10 @@ class AnalyticsTest(WebAppTest):
         self.course_page.wait_for_page()
         self.instructor_dashboard.visit()
 
+    @skipIf(
+        LMS_BASE_URL != LMS_STAGE_BASE_URL,
+        "Url can't be tested on sandbox"
+    )
     def test_analytics_link(self):
         """
         Verifies that edX Insights link is clicked and displayed
