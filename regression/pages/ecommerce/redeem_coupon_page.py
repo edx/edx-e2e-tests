@@ -64,7 +64,8 @@ class RedeemCouponPage(PageObject):
             'wait for course tile'
         )
 
-    def get_error_message(self):
+    @property
+    def error_message(self):
         """
         Get the error message for invalid coupon
         Returns:
@@ -97,7 +98,7 @@ class RedeemCouponPage(PageObject):
             'course_org': self.q(
                 css='' + self.course_tile + ' .course-org'
             ).text[0],
-            'course_start_date': self.get_coupon_course_start_date()
+            'course_start_date': self.coupon_course_start_date
         }
 
     def get_course_discount_info(self):
@@ -129,10 +130,11 @@ class RedeemCouponPage(PageObject):
             'discounted_price': extract_numerical_value_from_price_string(
                 discounted_price_str
             ),
-            'benefit_type': self.get_benefit_type()
+            'benefit_type': self.benefit_type
         }
 
-    def get_benefit_type(self):
+    @property
+    def benefit_type(self):
         """
         Get benefit type
         Returns:
@@ -145,7 +147,8 @@ class RedeemCouponPage(PageObject):
         elif '%' in discount_str:
             return 'Percentage'
 
-    def get_coupon_expiry_date(self):
+    @property
+    def coupon_expiry_date(self):
         """
         Get coupon expiry date
         Returns:
@@ -162,7 +165,8 @@ class RedeemCouponPage(PageObject):
             '%Y-%m-%dT%H:%M:%S'
         )
 
-    def get_coupon_course_start_date(self):
+    @property
+    def coupon_course_start_date(self):
         """
         Get course start date
         Returns:
@@ -179,7 +183,8 @@ class RedeemCouponPage(PageObject):
             '%Y-%m-%dT%H:%M:%S'
         )
 
-    def get_course_image_text(self):
+    @property
+    def course_image_text(self):
         """
         Get course image alt text from course tile
         Returns:
@@ -188,7 +193,8 @@ class RedeemCouponPage(PageObject):
         return self.q(
             css=self.course_tile + ' img').attrs('alt')
 
-    def get_course_ids_list(self):
+    @property
+    def course_ids_list(self):
         """
         Return the list of course ids
         Returns:
@@ -248,7 +254,8 @@ class RedeemCouponErrorPage(PageObject):
         """
         return self.q(css='.depth.depth-2.message-error-content').present
 
-    def get_error_message(self):
+    @property
+    def error_message(self):
         """
         Get error message from the page
         Returns:
