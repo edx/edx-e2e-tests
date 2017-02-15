@@ -8,7 +8,7 @@ from regression.pages.common.utils import (
     extract_numerical_value_from_price_string
 )
 # commented due to dependency
-#from regression.pages.whitelabel.dashboard_page import DashboardPage
+# from regression.pages.whitelabel.dashboard_page import DashboardPage
 
 
 class ReceiptException(Exception):
