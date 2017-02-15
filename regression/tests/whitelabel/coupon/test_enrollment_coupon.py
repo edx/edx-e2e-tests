@@ -254,7 +254,7 @@ class TestEnrollmentCoupon(VouchersMixin):
             self.redeem_coupon_error_page
         )
         self.assertEqual(
-            self.redeem_coupon_error_page.error_message,
+            self.redeem_coupon_error_page.get_error_message(),
             SINGLE_USE_REDEEM_URL_REUSE_ERROR
         )
 
@@ -299,7 +299,7 @@ class TestEnrollmentCoupon(VouchersMixin):
                     coupon_code
                 ).visit()
                 self.assertEqual(
-                    redeem_coupon.error_message,
+                    redeem_coupon.get_error_message(),
                     ONCE_PER_CUSTOMER_REDEEM_URL_MAX_LIMIT
                 )
 
@@ -334,7 +334,7 @@ class TestEnrollmentCoupon(VouchersMixin):
             self.redeem_coupon_error_page
         )
         self.assertEqual(
-            self.redeem_coupon_error_page.error_message,
+            self.redeem_coupon_error_page.get_error_message(),
             INVALID_DOMAIN_ERROR_MESSAGE_ON_REDEEM_URL
         )
         self.logout_user_from_ecommerce()
@@ -374,4 +374,7 @@ class TestEnrollmentCoupon(VouchersMixin):
         coupon_code = self.setup_coupons_using_api(coupon)[0]
         self.login_user(COUPON_USERS['coupon_user_01'])
         redeem_coupon = RedeemCouponPage(self.browser, coupon_code).visit()
-        self.assertEqual(redeem_coupon.error_message, EXPIRED_REDEEM_URL_ERROR)
+        self.assertEqual(
+            redeem_coupon.get_error_message(),
+            EXPIRED_REDEEM_URL_ERROR
+        )

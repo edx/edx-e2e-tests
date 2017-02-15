@@ -50,9 +50,7 @@ class RedeemCouponPage(PageObject):
 
     def is_browser_on_page(self):
         """
-        Is browser on the page?
-        Returns:
-            True if offer is present:
+        Verifies that container object is present:
         """
         return self.q(css='.container').present
 
@@ -62,10 +60,11 @@ class RedeemCouponPage(PageObject):
         :return:
         """
         self.wait_for_element_visibility(
-            self.course_tile, 'wait for course tile')
+            self.course_tile,
+            'wait for course tile'
+        )
 
-    @property
-    def error_message(self):
+    def get_error_message(self):
         """
         Get the error message for invalid coupon
         Returns:
@@ -85,8 +84,7 @@ class RedeemCouponPage(PageObject):
                 self.course_tile += ':nth-of-type(' + str(index + 1) + ')'
                 break
 
-    @property
-    def course_info(self):
+    def get_course_info(self):
         """
         Get course info
         Returns:
@@ -99,11 +97,10 @@ class RedeemCouponPage(PageObject):
             'course_org': self.q(
                 css='' + self.course_tile + ' .course-org'
             ).text[0],
-            'course_start_date': self.course_start_date
+            'course_start_date': self.get_coupon_course_start_date()
         }
 
-    @property
-    def course_discount_info(self):
+    def get_course_discount_info(self):
         """
         Get course discount info
         Returns:
@@ -132,11 +129,10 @@ class RedeemCouponPage(PageObject):
             'discounted_price': extract_numerical_value_from_price_string(
                 discounted_price_str
             ),
-            'benefit_type': self.benefit_type
+            'benefit_type': self.get_benefit_type()
         }
 
-    @property
-    def benefit_type(self):
+    def get_benefit_type(self):
         """
         Get benefit type
         Returns:
@@ -149,8 +145,7 @@ class RedeemCouponPage(PageObject):
         elif '%' in discount_str:
             return 'Percentage'
 
-    @property
-    def coupon_expiry_date(self):
+    def get_coupon_expiry_date(self):
         """
         Get coupon expiry date
         Returns:
@@ -167,8 +162,7 @@ class RedeemCouponPage(PageObject):
             '%Y-%m-%dT%H:%M:%S'
         )
 
-    @property
-    def course_start_date(self):
+    def get_coupon_course_start_date(self):
         """
         Get course start date
         Returns:
@@ -185,8 +179,7 @@ class RedeemCouponPage(PageObject):
             '%Y-%m-%dT%H:%M:%S'
         )
 
-    @property
-    def course_image_text(self):
+    def get_course_image_text(self):
         """
         Get course image alt text from course tile
         Returns:
@@ -195,8 +188,7 @@ class RedeemCouponPage(PageObject):
         return self.q(
             css=self.course_tile + ' img').attrs('alt')
 
-    @property
-    def course_ids_list(self):
+    def get_course_ids_list(self):
         """
         Return the list of course ids
         Returns:
@@ -252,14 +244,11 @@ class RedeemCouponErrorPage(PageObject):
 
     def is_browser_on_page(self):
         """
-        Is browser on the page?
-        Returns:
-            True if error message is present:
+        Verifies that error message is present:
         """
         return self.q(css='.depth.depth-2.message-error-content').present
 
-    @property
-    def error_message(self):
+    def get_error_message(self):
         """
         Get error message from the page
         Returns:

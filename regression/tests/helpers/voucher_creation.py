@@ -68,7 +68,7 @@ class VoucherCreation(object):
             self.create_coupon_page.fill_search_query(coupon['search_query'])
             # Make sure that search results are as expected
             assert sorted(coupon['search_results']) == sorted(
-                self.create_coupon_page.multiple_courses_search_results)
+                self.create_coupon_page.get_multiple_courses_search_results())
         self.create_coupon_page.select_coupon_type(coupon['coupon_type'])
         self.create_coupon_page.set_dates(
             coupon['start_datetime'], coupon['end_datetime']
@@ -79,11 +79,9 @@ class VoucherCreation(object):
         if 'quantity' in coupon:
             self.create_coupon_page.fill_quantity(coupon['quantity'])
         if 'max_uses' in coupon:
-            self.create_coupon_page.max_uses(coupon['max_uses'])
+            self.create_coupon_page.fill_max_uses_field(coupon['max_uses'])
         if coupon['coupon_type'] == 'Discount code':
-            self.create_coupon_page.fill_coupon_benefit_value(
-                coupon['benefit_value']
-            )
+            self.create_coupon_page.fill_benefit_value(coupon['benefit_value'])
             self.create_coupon_page.select_benefit_type(coupon['benefit_type'])
         self.create_coupon_page.fill_coupon_client(coupon['client'])
         self.create_coupon_page.select_coupon_invoice_type()

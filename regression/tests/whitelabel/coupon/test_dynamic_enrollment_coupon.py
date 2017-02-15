@@ -139,6 +139,6 @@ class TestDynamicEnrollmentCoupon(VouchersMixin):
                     coupon_code
                 ).visit()
                 self.assertEqual(
-                    redeem_coupon.error_message,
+                    redeem_coupon.get_error_message(),
                     ONCE_PER_CUSTOMER_REDEEM_URL_MAX_LIMIT
                 )

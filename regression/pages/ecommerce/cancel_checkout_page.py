@@ -15,9 +15,7 @@ class CancelCheckoutPage(PageObject):
 
     def is_browser_on_page(self):
         """
-        Is browser on the page?
-        Returns:
-            True if error message container is present:
+        Verifies that error message container is present:
         """
         return self.q(
             css='.container.content-wrapper.receipt-cancel-error'

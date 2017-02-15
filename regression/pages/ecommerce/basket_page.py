@@ -94,8 +94,7 @@ class SingleSeatBasketPage(BasketPage):
         self.q(css='.code>.btn.btn-default').click()
         self.wait_for_ajax()
 
-    @property
-    def error_message_for_invalid_coupon(self):
+    def get_error_message_for_invalid_coupon(self):
         """
         Get error message for invalid coupon
         Returns:
@@ -117,7 +116,8 @@ class SingleSeatBasketPage(BasketPage):
     def total_price_after_discount(self):
         """
         Get the total price after discount
-        :return: Total price
+        Returns:
+            Total price:
         """
         raw_price = self.q(css='#basket-total .price').text[0]
         return extract_numerical_value_from_price_string(raw_price)

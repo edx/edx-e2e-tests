@@ -35,9 +35,7 @@ class ReceiptPage(PageObject):
 
     def is_browser_on_page(self):
         """
-        Is browser on the page?
-        Raises:
-            True if receipt report is present on the page:
+        Verifies that receipt report is present on the page:
         """
         return self.q(css='.container').present
 
@@ -49,6 +47,10 @@ class ReceiptPage(PageObject):
         Returns:
             True if receipt is found:
         """
+        # self.wait_for_element_visibility(
+        #     '#receipt-container',
+        #     'wait for receipt to become visible'
+        # )
         found = False
         t_end = time.time() + TIME_OUT_LIMIT
         # Run the loop for a pre defined time

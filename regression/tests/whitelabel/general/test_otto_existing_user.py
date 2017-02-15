@@ -2,13 +2,10 @@
 Tests for existing users using Otto
 """
 import uuid
-import unittest
 from unittest import skip
 
 from regression.pages.common.email_client import GuerrillaMailApi
-from regression.pages.ecommerce.back_to_basket_page import BackToBasketPage
 from regression.pages.ecommerce.basket_page import SingleSeatBasketPage
-from regression.pages.ecommerce.cancel_checkout_page import CancelCheckoutPage
 from regression.pages.whitelabel.const import (
     EXISTING_USER_EMAIL,
     EMAIL_SENDER_ACCOUNT,
@@ -35,8 +32,6 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         Initialize all page objects
         """
         super(TestExistingUserOtto, self).setUp()
-        self.back_to_basket_page = BackToBasketPage(self.browser)
-        self.cancel_checkout_page = CancelCheckoutPage(self.browser)
         self.course_about = CourseAboutPage(self.browser, PROF_COURSE_ID)
         self.course_info = CourseInfoPage(self.browser, PROF_COURSE_ID)
         self.home = HomePage(self.browser)
@@ -124,72 +119,7 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
     #     self.assertTrue(
     #         self.single_seat_basket.is_multi_seat_basket_link_visible()
     #     )
-    #
-    # def test_03_single_seat_purchase_use_back_button_on_checkout_page(self):
-    #     """
-    #     Scenario: Otto flow - Single Seat - User is taken to a page with
-    #     relevant error message when back button is used on checkout page
-    #     """
-    #     self.login_and_go_to_basket(EXISTING_USER_EMAIL)
-    #     self.basket.go_to_cybersource_page()
-    #     self.cyber_source.go_back_to_basket_page()
-    #     # Verify error message header
-    #     self.assertEqual(
-    #         self.back_to_basket_page.get_error_message_header(),
-    #         'Your basket is empty'
-    #     )
-    #     # Verify that dashboard link and contact us link are present
-    #     self.assertIn(
-    #         URL_WITHOUT_AUTH,
-    #         self.back_to_basket_page.get_dashboard_link()
-    #     )
-    #     self.assertIn(
-    #         URL_WITHOUT_AUTH + 'contact',
-    #         self.back_to_basket_page.get_contact_link()
-    #     )
-    #
-    # def test_04_single_seat_purchase_cancel_checkout(self):
-    #     """
-    #     Scenario: Otto flow - Single Seat - User is taken to a page with
-    #     relevant error message when payment is cancelled from checkout page
-    #     """
-    #     self.login_and_go_to_basket(EXISTING_USER_EMAIL)
-    #     self.basket.go_to_cybersource_page()
-    #     self.cyber_source.cancel_checkout()
-    #     # Verify error message header
-    #     self.assertEqual(
-    #         self.cancel_checkout_page.get_error_message_header(),
-    #         'Checkout Cancelled'
-    #     )
-    #     # Verify that correct support email link is present in error message
-    #     self.assertIn(
-    #         EMAIL_SENDER_ACCOUNT,
-    #         self.cancel_checkout_page.get_support_email_link()
-    #     )
-    #
-    # def test_05_bulk_purchase_use_back_button_on_checkout_page(self):
-    #     """
-    #     Scenario: Otto flow - Bulk Purchase - User is taken to a page with
-    #     relevant error message when back button is used on checkout page
-    #     """
-    #     self.login_and_go_to_basket(EXISTING_USER_EMAIL, bulk_purchase=True)
-    #     self.basket.go_to_cybersource_page()
-    #     self.cyber_source.go_back_to_basket_page()
-    #     # Verify error message header
-    #     self.assertEqual(
-    #         self.back_to_basket_page.get_error_message_header(),
-    #         'Your basket is empty'
-    #     )
-    #     # Verify that dashboard link and contact us link are present
-    #     self.assertIn(
-    #         URL_WITHOUT_AUTH,
-    #         self.back_to_basket_page.get_dashboard_link()
-    #     )
-    #     self.assertIn(
-    #         URL_WITHOUT_AUTH + 'contact',
-    #         self.back_to_basket_page.get_contact_link()
-    #     )
-    #
+
     # def test_06_bulk_purchase_cancel_checkout(self):
     #     """
     #     Scenario: Otto flow - Bulk Purchase - User is taken to a page with

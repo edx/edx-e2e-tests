@@ -88,7 +88,7 @@ LOGO_ALT_TEXT = LOGO_ALT_TEXTS[ORG]
 SOCIAL_MEDIA_LINKS = {
     'HarvardMedGlobalAcademy': [
         'https://www.facebook.com/HarvardMed',
-        'https://twitter.com/harvardmed',
+        'https://twitter.com/AcademyHms',
         'https://www.linkedin.com/company/harvard-medical-school-global-'
         'education',
         'https://instagram.com/harvardmed/?hl=en'

@@ -25,11 +25,14 @@ class ActivateAccount(PageObject):
         return self.activate_account_url
 
     def is_browser_on_page(self):
+        """
+        Verifies that activation message container is present
+        """
         return self.q(css='.message>.valid').present
 
     def is_account_activation_complete(self):
         """
-        Is account activation complet?
+        Is account activation complete?
         Returns:
             True if activation complete message is visible:
         """

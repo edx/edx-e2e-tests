@@ -38,9 +38,7 @@ class EcommerceHome(PageObject):
 
     def is_browser_on_page(self):
         """
-        Is browser on the page
-        Returns:
-            True if organization name is present in logo alt text:
+       Verifies that organization name is present in logo alt text:
         """
         return ORG.lower() in self.q(css='.navbar-brand-logo').attrs('alt')
 
@@ -54,9 +52,7 @@ class EcommerceCouponsHome(PageObject):
 
     def is_browser_on_page(self):
         """
-        Is browser on the page
-        Returns:
-            True if sign in button is visible:
+        Verifies that sign in button is visible:
         """
         return self.q(
             css='.action.action-primary.action-update.js-login.login-button'
@@ -72,9 +68,7 @@ class EcommerceLoginPage(PageObject):
 
     def is_browser_on_page(self):
         """
-        Is browser on the page
-        Returns:
-            True if login button is visible:
+        Verifies that login button is visible:
         """
         return self.q(
             css='.action.action-primary.action-update.js-login.login-button'
@@ -107,9 +101,7 @@ class EcommerceCouponsPage(PageObject):
 
     def is_browser_on_page(self):
         """
-        Is browser on the page
-        Returns:
-            True if coupons table is present
+        Verifies that coupons table is present
         """
         self.wait_for_ajax()
         return self.q(css='#couponTable').present

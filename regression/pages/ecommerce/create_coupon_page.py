@@ -21,9 +21,7 @@ class CreateCouponPage(PageObject):
 
     def is_browser_on_page(self):
         """
-        Is browser on the page?
-        Returns:
-            True if coupons form is visible:
+        Verifies that coupons form is visible:
         """
         return self.q(css='.coupon-form-view').visible
 
@@ -70,8 +68,7 @@ class CreateCouponPage(PageObject):
         self.q(css='#catalog-query').fill(search_query)
         click_checkbox(self, '#professional')
 
-    @property
-    def multiple_courses_search_results(self):
+    def get_multiple_courses_search_results(self):
         """
         Get multiple courses search results
         Returns:
@@ -111,7 +108,7 @@ class CreateCouponPage(PageObject):
     def set_dates(self, start_date, end_date):
         """
         Provide start date and end date for the coupon
-        Args
+        Args:
             start_date:
             end_date:
         """
@@ -125,7 +122,7 @@ class CreateCouponPage(PageObject):
         """
         Provide comma separated email domains for restricting access
         Args:
-         email_domains:
+            email_domains:
         """
         self.q(css='#email-domains').fill(email_domains)
 
@@ -145,7 +142,7 @@ class CreateCouponPage(PageObject):
         """
         self.q(css='.form-control[name="quantity"]').fill(str(quantity))
 
-    def max_uses(self, max_uses):
+    def fill_max_uses_field(self, max_uses):
         """
         Provide maximum no of uses
         Args:
@@ -153,7 +150,7 @@ class CreateCouponPage(PageObject):
         """
         self.q(css='.form-control[name="max_uses"]').fill(str(max_uses))
 
-    def fill_coupon_benefit_value(self, benefit_value):
+    def fill_benefit_value(self, benefit_value):
         """
         For discount coupons, provide discount value
         Args:

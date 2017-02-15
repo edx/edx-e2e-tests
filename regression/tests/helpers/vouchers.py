@@ -213,7 +213,7 @@ class VouchersMixin(CourseEnrollmentMixin):
              coupon_code:
         """
         self.single_seat_basket.apply_coupon_code(coupon_code)
-        return self.single_seat_basket.error_message_for_invalid_coupon
+        return self.single_seat_basket.get_error_message_for_invalid_coupon()
 
     def verify_after_coupon_is_applied_on_basket(self):
         """
@@ -241,23 +241,23 @@ class VouchersMixin(CourseEnrollmentMixin):
              redeem_coupon:
         """
         self.assertEqual(
-            redeem_coupon.course_info['course_name'],
+            redeem_coupon.get_course_info()['course_name'],
             self.course_title
         )
         self.assertEqual(
-            redeem_coupon.course_info['course_org'],
+            redeem_coupon.get_course_info()['course_org'],
             ORG
         )
         self.assertEqual(
-            redeem_coupon.course_discount_info['benefit_value'],
+            redeem_coupon.get_course_discount_info()['benefit_value'],
             self.benefit_value
         )
         self.assertEqual(
-            redeem_coupon.course_discount_info['benefit_type'],
+            redeem_coupon.get_course_discount_info()['benefit_type'],
             self.benefit_type
         )
         self.assertEqual(
-            redeem_coupon.course_discount_info['discounted_price'],
+            redeem_coupon.get_course_discount_info()['discounted_price'],
             self.discounted_price
         )
 

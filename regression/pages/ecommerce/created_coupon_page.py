@@ -13,9 +13,7 @@ class CreatedCouponPage(PageObject):
 
     def is_browser_on_page(self):
         """
-        Is browser on the page?
-        Returns:
-            True if edit coupon button is visible:
+        Verifies that edit coupon button is visible:
         """
         return self.q(css='#CouponEdit').visible
 
