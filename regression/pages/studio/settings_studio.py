@@ -27,12 +27,14 @@ class SettingsPageExtended(SettingsPage):
     def upload_course_image(self, file_name):
         """
         Uploads course image without saving it.
-
         Arguments:
             file_name: file name to be uploaded.
         """
         click_css_with_animation_enabled(
             self, '.action.action-upload-image', 0, False
+        )
+        self.wait_for_element_visibility(
+            '#modal-window-title', 'Upload Pop up visibility'
         )
         file_input_css = '.upload-dialog input'
         self.browser.execute_script(
@@ -42,7 +44,8 @@ class SettingsPageExtended(SettingsPage):
             file_input_css, "Upload button is visible."
         )
         self.q(css=file_input_css).results[0].send_keys(
-            UPLOAD_FILE_DIR + "/" + file_name)
+            UPLOAD_FILE_DIR + "/" + file_name
+        )
 
     def cancel_upload(self):
         """
