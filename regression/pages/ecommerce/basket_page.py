@@ -250,8 +250,8 @@ class CyberSourcePage(BasketPage):
         }
         fill_input_fields(self, elements_and_values)
         select_value_from_drop_down(
-            self, 
-            "country", 
+            self,
+            "country",
             card_holder_info['country']
         )
         self.wait_for_element_visibility(
