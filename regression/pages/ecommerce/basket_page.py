@@ -266,11 +266,11 @@ class CyberSourcePage(BasketPage):
         Args:
              bill_info:
         """
-        self.wait_for_element_visibility(
-            '#billing-information',
-            'wait for billing info form'
-        )
-        self.q(css='#card-number-input').fill(bill_info['card_number'])
+        # self.wait_for_element_visibility(
+        #     '#billing-information',
+        #     'wait for billing info form'
+        # )
+        self.q(css='#card-number').fill(bill_info['card_number'])
         self.wait_for(
             lambda:
             bill_info['card_type'] in self.q(
@@ -279,12 +279,22 @@ class CyberSourcePage(BasketPage):
             'wait for visa icon to appear'
         )
         select_names_and_values = {
-            "card_expiry_month": bill_info['expiry_month'],
-            "card_expiry_year": bill_info['expiry_year']
+            "card-expiry-month": bill_info['expiry_month'],
+            "card-expiry-year": bill_info['expiry_year']
         }
         for key, val in select_names_and_values.iteritems():
-            select_value_from_drop_down(self, key, val)
-        self.q(css='#card-cvn-input').fill(bill_info['cvn'])
+            self.wait_for_element_visibility(
+                'select[id={}]'.format(key), 'Drop down is visible')
+            self.q(
+                css='select[id={}] option[value="{}"]'.format(key, val)
+            ).click()
+            self.wait_for(
+                lambda: self.q(
+                    css='select[id={}] option[value="{}"]'.
+                    format(key, val)
+                ).selected, "Correct value is selected"
+            )
+        self.q(css='#card-cvn').fill(bill_info['cvn'])
 
     def make_payment(self, target_page):
         """
