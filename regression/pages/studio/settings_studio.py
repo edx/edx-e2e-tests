@@ -30,11 +30,17 @@ class SettingsPageExtended(SettingsPage):
         Arguments:
             file_name: file name to be uploaded.
         """
-        click_css_with_animation_enabled(
-            self, '.action.action-upload-image', 0, False
-        )
+        from nose.tools import set_trace; set_trace()
         self.wait_for_element_visibility(
-            '#modal-window-title', 'Upload Pop up visibility'
+            '.action.action-upload-image', 'Upload course image button visibility'
+        )
+
+        self.q(css='.action.action-upload-image').results[0].click()
+        # click_css_with_animation_enabled(
+        #    self, '.action.action-upload-image', 0, False
+        #)
+        self.wait_for_element_visibility(
+            '.upload-dialog', 'Upload Pop up visibility'
         )
         file_input_css = '.upload-dialog input'
         self.browser.execute_script(

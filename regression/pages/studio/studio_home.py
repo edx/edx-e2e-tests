@@ -36,9 +36,13 @@ class DashboardPageExtended(DashboardPage):
         """
         Clicks username drop down than logout button
         """
+        self.wait_for_element_visibility(
+            '.account-username', 'Username drop down visibility'
+        )
         self.q(css='.account-username').click()
         self.wait_for_element_visibility(
-            '.action-signout', 'Sign out button visibility')
+            '.wrapper-nav-sub.is-shown', 'Sign out button visibility'
+        )
         self.q(css='.action-signout').click()
 
     def click_view_live_button(self):
