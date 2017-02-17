@@ -1,24 +1,24 @@
 """
 End to end tests for Studio Home page
 """
-import os
 from unittest import skipIf
-from bok_choy.web_app_test import WebAppTest
-from edxapp_acceptance.pages.studio.overview import CourseOutlinePage
+
+import os
 from edxapp_acceptance.pages.lms.courseware import CoursewarePage
+from edxapp_acceptance.pages.studio.overview import CourseOutlinePage
 
 from regression.pages.studio import STUDIO_BASE_URL, STUDIO_STAGE_BASE_URL
+from regression.pages.studio.privacy_policy import PrivacyPolicy
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.studio.terms_of_service import TermsOfService
-from regression.pages.studio.privacy_policy import PrivacyPolicy
+from regression.tests.helpers import BaseTestClass
+from regression.tests.helpers.api_clients import StudioLoginApi, LmsLoginApi
 from regression.tests.helpers.utils import (
     get_course_info, get_course_display_name
 )
 
-from regression.tests.helpers.api_clients import StudioLoginApi, LmsLoginApi
 
-
-class StudioHomeTest(WebAppTest):
+class StudioHomeTest(BaseTestClass):
     """
     Test for navigating to the Studio Home page
     """
@@ -53,7 +53,7 @@ class StudioHomeTest(WebAppTest):
         self.studio_course_outline.wait_for_page()
 
 
-class StudioLmsTest(WebAppTest):
+class StudioLmsTest(BaseTestClass):
     """
     Tests that require lms verification with studio
     """
@@ -92,7 +92,7 @@ class StudioLmsTest(WebAppTest):
         courseware_page.wait_for_page()
 
 
-class StudioFooterTest(WebAppTest):
+class StudioFooterTest(BaseTestClass):
     """
     Tests for Studio Footer
     """

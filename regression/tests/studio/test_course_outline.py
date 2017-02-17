@@ -2,7 +2,6 @@
 End to end tests for Studio Course Outline page
 """
 import os
-from bok_choy.web_app_test import WebAppTest
 from edxapp_acceptance.tests.helpers import assert_side_bar_help_link
 
 from regression.pages.studio.course_outline_page import (
@@ -11,6 +10,7 @@ from regression.pages.studio.course_outline_page import (
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.settings_studio import SettingsPageExtended
 from regression.pages.studio.studio_home import DashboardPageExtended
+from regression.tests.helpers import BaseTestClass
 from regression.tests.helpers.utils import (
     get_course_info, get_course_display_name
 )
@@ -19,7 +19,7 @@ DEMO_COURSE_USER = os.environ.get('USER_LOGIN_EMAIL')
 DEMO_COURSE_PASSWORD = os.environ.get('USER_LOGIN_PASSWORD')
 
 
-class StudioCourseOutlineTest(WebAppTest):
+class StudioCourseOutlineTest(BaseTestClass):
     """Tests of the Course Outline in Studio."""
 
     def test_course_outline(self):

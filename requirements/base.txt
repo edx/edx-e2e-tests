@@ -12,3 +12,4 @@ edx-opaque-keys==0.2.1
 edx-rest-api-client==1.6.0
 ddt==1.1.1
 mock==1.0.1
+castroredux==0.1.5

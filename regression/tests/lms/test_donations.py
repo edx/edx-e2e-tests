@@ -2,22 +2,22 @@
 End to end tests for User Donations.
 """
 from unittest import skipIf
-from bok_choy.web_app_test import WebAppTest
 
 from regression.pages.lms import LMS_BASE_URL, LMS_STAGE_BASE_URL
-from regression.pages.lms.register_page import RegisterPageExtended
-from regression.pages.lms.dashboard_lms import DashboardPageExtended
+from regression.pages.lms.checkout_page import PaymentPage
+from regression.pages.lms.constants import THIRD_PARTY_PAYMENTS_BASE_URL
 from regression.pages.lms.course_drupal_page import (
     DemoCourseSelectionPage
 )
+from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.lms.payment_confirmation_page import (
     PaymentConfirmationPage
 )
-from regression.pages.lms.checkout_page import PaymentPage
-from regression.pages.lms.constants import THIRD_PARTY_PAYMENTS_BASE_URL
+from regression.pages.lms.register_page import RegisterPageExtended
+from regression.tests.helpers import BaseTestClass
 
 
-class DonationsTest(WebAppTest):
+class DonationsTest(BaseTestClass):
     """
     Regression tests of Donations
     """

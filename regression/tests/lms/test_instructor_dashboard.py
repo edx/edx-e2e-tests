@@ -2,22 +2,22 @@
 End to end tests for Instructor Dashboard.
 """
 from unittest import skipIf
-from bok_choy.web_app_test import WebAppTest
 
 from regression.pages.lms import LMS_BASE_URL, LMS_STAGE_BASE_URL
+from regression.pages.lms.course_page_lms import CourseInfoPageExtended
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.lms.instructor_dashboard import (
     InstructorDashboardPageExtended
 )
-from regression.pages.lms.course_page_lms import CourseInfoPageExtended
+from regression.pages.lms.utils import get_course_key
+from regression.tests.helpers import BaseTestClass
+from regression.tests.helpers.api_clients import LmsLoginApi
 from regression.tests.helpers.utils import (
     get_course_info, get_course_display_name
 )
-from regression.tests.helpers.api_clients import LmsLoginApi
-from regression.pages.lms.utils import get_course_key
 
 
-class AnalyticsTest(WebAppTest):
+class AnalyticsTest(BaseTestClass):
     """
     Regression tests on Analytics on Instructor Dashboard
     """

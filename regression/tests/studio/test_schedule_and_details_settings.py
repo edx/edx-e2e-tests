@@ -1,23 +1,24 @@
 """
 Regression tests for Studio's Setting page.
 """
-from bok_choy.web_app_test import WebAppTest
-from flaky import flaky
-from edxapp_acceptance.pages.studio.users import UsersPageMixin
 from edxapp_acceptance.pages.studio.settings_advanced import (
     AdvancedSettingsPage
 )
 from edxapp_acceptance.pages.studio.settings_group_configurations import (
     GroupConfigurationsPage
 )
-from regression.tests.studio.studio_base_test import StudioBaseTestClass
-from regression.pages.studio.settings_studio import SettingsPageExtended
-from regression.tests.helpers.api_clients import StudioLoginApi
-from regression.tests.helpers.utils import get_course_info
+from edxapp_acceptance.pages.studio.users import UsersPageMixin
+from flaky import flaky
+
 from regression.pages.studio.grading_studio import GradingPageExtended
+from regression.pages.studio.settings_studio import SettingsPageExtended
 from regression.pages.studio.utils import (
     get_text
 )
+from regression.tests.helpers import BaseTestClass
+from regression.tests.helpers.api_clients import StudioLoginApi
+from regression.tests.helpers.utils import get_course_info
+from regression.tests.studio.studio_base_test import StudioBaseTestClass
 
 
 class ScheduleAndDetailsTest(StudioBaseTestClass):
@@ -108,7 +109,7 @@ class ScheduleAndDetailsTest(StudioBaseTestClass):
             ).get_attribute('value'))
 
 
-class ScheduleAndDetailsLinks(WebAppTest):
+class ScheduleAndDetailsLinks(BaseTestClass):
     """
     Tests for Studio's Setting page links.
     """

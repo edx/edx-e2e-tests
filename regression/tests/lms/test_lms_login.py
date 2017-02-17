@@ -2,14 +2,15 @@
 End to end tests for LMS Login
 """
 import os
-from bok_choy.web_app_test import WebAppTest
-from regression.pages.lms.login_lms import LmsLogin
+
+from regression.pages.lms import LMS_BASE_URL, LMS_STAGE_BASE_URL
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.lms.lms_home_page import LmsHome
-from regression.pages.lms import LMS_BASE_URL, LMS_STAGE_BASE_URL
+from regression.pages.lms.login_lms import LmsLogin
+from regression.tests.helpers import BaseTestClass
 
 
-class LoginTest(WebAppTest):
+class LoginTest(BaseTestClass):
     """
     Tests for logging in and navigating to Courseware page
     """

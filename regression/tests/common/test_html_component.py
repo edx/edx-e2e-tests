@@ -3,24 +3,23 @@ End to end tests for HTML Components
 """
 from uuid import uuid4
 
-from bok_choy.web_app_test import WebAppTest
 from edxapp_acceptance.pages.lms.course_nav import CourseNavPage
 
+from regression.pages.lms.lms_courseware import CoursewarePageExtended
+from regression.pages.lms.utils import get_course_key
 from regression.pages.studio.course_outline_page import (
     CourseOutlinePageExtended
 )
-from regression.pages.studio.unit_page import UnitPageExtended
 from regression.pages.studio.studio_home import DashboardPageExtended
-from regression.pages.lms.utils import get_course_key
-from regression.pages.lms.lms_courseware import CoursewarePageExtended
+from regression.pages.studio.unit_page import UnitPageExtended
+from regression.tests.helpers import BaseTestClass
+from regression.tests.helpers.api_clients import StudioLoginApi, LmsLoginApi
 from regression.tests.helpers.utils import (
     get_course_info, get_data_id_of_component, get_data_locator
 )
 
-from regression.tests.helpers.api_clients import StudioLoginApi, LmsLoginApi
 
-
-class StudioLmsComponentBaseTest(WebAppTest):
+class StudioLmsComponentBaseTest(BaseTestClass):
     """
     Base class for component tests
     """

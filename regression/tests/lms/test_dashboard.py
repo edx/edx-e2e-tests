@@ -2,23 +2,24 @@
 End to end tests for LMS dashboard.
 """
 from unittest import skipIf
-from bok_choy.web_app_test import WebAppTest
+
 from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 
 from regression.pages.lms import LMS_BASE_URL, LMS_STAGE_BASE_URL
-from regression.pages.lms.dashboard_lms import DashboardPageExtended
-from regression.pages.lms.course_page_lms import CourseInfoPageExtended
-from regression.tests.helpers.utils import (
-    get_course_info, get_course_display_name
-)
-from regression.tests.helpers.api_clients import LmsLoginApi
+from regression.pages.lms.checkout_page import PaymentPage
 from regression.pages.lms.course_drupal_page import (
     DemoCourseSelectionPage
 )
-from regression.pages.lms.checkout_page import PaymentPage
+from regression.pages.lms.course_page_lms import CourseInfoPageExtended
+from regression.pages.lms.dashboard_lms import DashboardPageExtended
+from regression.tests.helpers import BaseTestClass
+from regression.tests.helpers.api_clients import LmsLoginApi
+from regression.tests.helpers.utils import (
+    get_course_info, get_course_display_name
+)
 
 
-class DashboardTest(WebAppTest):
+class DashboardTest(BaseTestClass):
     """
     Regression tests on LMS Dashboard
     """
