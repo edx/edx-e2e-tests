@@ -38,17 +38,18 @@ class SettingsPageExtended(SettingsPage):
         self.q(css='.action.action-upload-image').results[0].click()
         # click_css_with_animation_enabled(
         #    self, '.action.action-upload-image', 0, False
-        #)
-        self.wait_for_element_visibility(
-            '.upload-dialog', 'Upload Pop up visibility'
-        )
+        # )
         file_input_css = '.upload-dialog input'
-        self.browser.execute_script(
-            '$("{}").css("display","block");'.format(file_input_css)
-        )
+
         self.wait_for_element_visibility(
-            file_input_css, "Upload button is visible."
+            file_input_css, 'Upload Pop up visibility'
         )
+        # self.browser.execute_script(
+        #    '$("{}").css("display","block");'.format(file_input_css)
+        # )
+        # self.wait_for_element_visibility(
+        #     file_input_css, "Upload button is visible."
+        # )
         self.q(css=file_input_css).results[0].send_keys(
             UPLOAD_FILE_DIR + "/" + file_name
         )
