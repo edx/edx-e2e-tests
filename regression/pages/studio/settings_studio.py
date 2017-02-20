@@ -31,11 +31,16 @@ class SettingsPageExtended(SettingsPage):
             file_name: file name to be uploaded.
         """
         from nose.tools import set_trace; set_trace()
+
         self.wait_for_element_visibility(
-            '.action.action-upload-image', 'Upload course image button visibility'
+            '#field-course-organization', 'Upload course image button visibility'
         )
 
-        self.q(css='.action.action-upload-image').results[0].click()
+        # self.wait_for_element_visibility(
+        #     '.wrapper-input', 'Upload course image button visibility'
+        # )
+
+        self.q(css='.wrapper-input button').results[0].click()
         # click_css_with_animation_enabled(
         #    self, '.action.action-upload-image', 0, False
         # )
