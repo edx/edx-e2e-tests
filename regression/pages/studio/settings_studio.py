@@ -30,7 +30,7 @@ class SettingsPageExtended(SettingsPage):
         Arguments:
             file_name: file name to be uploaded.
         """
-        from nose.tools import set_trace; set_trace()
+        # from nose.tools import set_trace; set_trace()
 
         self.wait_for_element_visibility(
             '#field-course-organization', 'Upload course image button visibility'
