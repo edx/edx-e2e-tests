@@ -46,12 +46,17 @@ class SettingsPageExtended(SettingsPage):
         # )
         file_input_css = '.upload-dialog input'
 
-        self.wait_for_element_visibility(
-            file_input_css, 'Upload Pop up visibility'
-        )
-        # self.browser.execute_script(
-        #    '$("{}").css("display","block");'.format(file_input_css)
+        # self.wait_for_element_visibility(
+        #     file_input_css, 'Upload Pop up visibility'
         # )
+
+        self.wait_for_element_visibility(
+            '#modal-window-title', 'Upload Pop up visibility'
+        )
+
+        self.browser.execute_script(
+            '$("{}").css("display","block");'.format(file_input_css)
+        )
         # self.wait_for_element_visibility(
         #     file_input_css, "Upload button is visible."
         # )
