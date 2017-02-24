@@ -1,14 +1,12 @@
 """
 Extended Pages page for a course.
 """
-from edxapp_acceptance.pages.common.utils import click_css
+from edxapp_acceptance.pages.common.utils import (
+    click_css, sync_on_notification
+)
 from edxapp_acceptance.pages.studio.utils import drag
 
 from selenium.webdriver.common.action_chains import ActionChains
-from regression.pages.studio.utils import (
-    click_css_with_animation_enabled,
-    sync_on_notification
-)
 from regression.pages.studio.course_page_studio import CoursePageExtended
 
 
@@ -25,7 +23,7 @@ class PagesPageExtended(CoursePageExtended):
         """
         Adds a new empty page.
         """
-        click_css_with_animation_enabled(
+        click_css(
             page=self,
             css='.button.new-button.new-tab',
             source_index=0,
@@ -43,7 +41,7 @@ class PagesPageExtended(CoursePageExtended):
             new_content (str): New content to set.
             index (int): Index of page
         """
-        click_css_with_animation_enabled(
+        click_css(
             page=self,
             css='.action-button-text',
             source_index=index,
@@ -65,7 +63,7 @@ class PagesPageExtended(CoursePageExtended):
         Arguments:
             index (int): Index of page
         """
-        click_css_with_animation_enabled(
+        click_css(
             page=self,
             css='.delete-button.action-button',
             source_index=index,

@@ -48,13 +48,13 @@ class StudioGradingTest(StudioBaseTestClass):
         self.assertEquals(
             self.grading_page.letter_grade('.letter-grade'), 'Pass')
         # Addition
-        self.grading_page.click_new_grade_button()
+        self.grading_page.add_new_grade()
         self.assertEquals(self.grading_page.letter_grade('.letter-grade'), 'A')
         # Verify that after revisiting, changes remain intact
         self.grading_page.visit()
         self.assertEquals(self.grading_page.letter_grade('.letter-grade'), 'A')
         # Deletion
-        self.grading_page.click_remove_grade()
+        self.grading_page.remove_grade()
         self.assertEquals(
             self.grading_page.letter_grade('.letter-grade'), 'Pass')
         # Verify that after revisiting, changes remain intact
@@ -66,7 +66,7 @@ class StudioGradingTest(StudioBaseTestClass):
         """
         Verifies that user can add/delete assignment types
         """
-        self.grading_page.click_new_assignment_type()
+        self.grading_page.add_new_assignment_type()
         self.grading_page.fill_assignment_type_fields(
             name='Final',
             abbreviation='Finale',
