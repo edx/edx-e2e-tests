@@ -39,5 +39,6 @@ class StudioUserLogin(WebAppTest):
         Verifies that user can logout successfully
         """
         self.test_login()
+        # Muddasser's branch
         self.studio_home_page.click_logout_button()
         self.studio_logout_page.wait_for_page()
