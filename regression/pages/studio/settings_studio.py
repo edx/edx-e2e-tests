@@ -28,18 +28,17 @@ class SettingsPageExtended(SettingsPage):
         Arguments:
             file_name: file name to be uploaded.
         """
-        click_css(
-            self, '.action.action-upload-image', 0, False
+        self.wait_for_element_visibility(
+            '#field-course-organization', 'Organization field visibility'
         )
+        self.q(css='.wrapper-input button').results[0].click()
+        file_input_css = '.upload-dialog input'
+
         self.wait_for_element_visibility(
             '#modal-window-title', 'Upload Pop up visibility'
         )
-        file_input_css = '.upload-dialog input'
         self.browser.execute_script(
             '$("{}").css("display","block");'.format(file_input_css)
-        )
-        self.wait_for_element_visibility(
-            file_input_css, "Upload button is visible."
         )
         self.q(css=file_input_css).results[0].send_keys(
             UPLOAD_FILE_DIR + "/" + file_name
