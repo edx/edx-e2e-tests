@@ -73,6 +73,8 @@ class AssetIndexPageExtended(AssetIndexPage):
     def confirm_asset_deletion(self):
         """ Click to confirm deletion and sync on the notification"""
         self.q(css='button.action-primary').click()
+        # Click initiates an ajax call, waiting for it to complete
+        self.wait_for_ajax()
         sync_on_notification(self)
 
     def delete_first_asset(self):
@@ -106,4 +108,6 @@ class AssetIndexPageExtended(AssetIndexPage):
         selected = checkbox.is_selected()
         if (selected and not lock) or (lock and not selected):
             checkbox.click()
+            # Click initiates an ajax call, waiting for it to complete
+            self.wait_for_ajax()
         sync_on_notification(self, style='mini')
