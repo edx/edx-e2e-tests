@@ -50,7 +50,7 @@ class DonationsTest(WebAppTest):
     @skipIf(
         LMS_BASE_URL != LMS_STAGE_BASE_URL,
         "donations only work at stage"
-    )
+    )  # LT-64
     def test_user_donations(self):
         """
         Verifies that user can Donate after selecting a course for audit

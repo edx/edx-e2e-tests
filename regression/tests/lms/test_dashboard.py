@@ -37,7 +37,7 @@ class DashboardTest(WebAppTest):
     @skipIf(
         LMS_BASE_URL != LMS_STAGE_BASE_URL,
         'There is no resume button on sandbox'
-    )
+    )  # LT-60
     def test_resume_course(self):
         """
         Verifies that user can successfully resume the course

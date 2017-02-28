@@ -8,11 +8,7 @@ from edxapp_acceptance.pages.common.utils import (
     click_css, sync_on_notification
 )
 
-from regression.pages.studio.utils import (
-    get_course_key,
-    click_css_with_animation_enabled,
-    sync_on_notification
-)
+from regression.pages.studio.utils import get_course_key
 from regression.pages.studio import LOGIN_BASE_URL
 
 

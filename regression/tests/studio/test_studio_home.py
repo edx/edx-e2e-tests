@@ -122,7 +122,7 @@ class StudioFooterTest(WebAppTest):
     @skipIf(
         STUDIO_BASE_URL != STUDIO_STAGE_BASE_URL,
         "No link on sandbox"
-    )
+    )  # LT-62
     def test_terms_of_service_link(self):
         """
         Verifies that user can click and navigate to Terms of Service
@@ -133,7 +133,7 @@ class StudioFooterTest(WebAppTest):
     @skipIf(
         STUDIO_BASE_URL != STUDIO_STAGE_BASE_URL,
         "No link on sandbox"
-    )
+    )  # LT-63
     def test_privacy_policy_link(self):
         """
         Verifies that user can click and navigate to Privacy Policy

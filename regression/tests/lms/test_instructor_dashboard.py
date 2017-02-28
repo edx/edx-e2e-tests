@@ -46,7 +46,7 @@ class AnalyticsTest(WebAppTest):
     @skipIf(
         LMS_BASE_URL != LMS_STAGE_BASE_URL,
         "Url can't be tested on sandbox"
-    )
+    )  # LT-61
     def test_analytics_link(self):
         """
         Verifies that edX Insights link is clicked and displayed
