@@ -36,11 +36,8 @@ SCRIPT
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
-  # Use the Xenial Bento box, provided by
-  # source: https://atlas.hashicorp.com/bento/boxes/ubuntu-16.04
-  # which, in turn, comes from:
-  # https://github.com/chef/bento/blob/master/ubuntu-16.04-amd64.json
-  config.vm.box = "bento/ubuntu-16.04"
+  # Use the same xenial box as used on devstacks
+  config.vm.box = "boxcutter/ubuntu1604"
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
