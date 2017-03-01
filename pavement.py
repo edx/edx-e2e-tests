@@ -99,7 +99,7 @@ def configure_e2e_tests_pre_reqs():
 def e2e_test(args):
     commandline_arg = ''
     if not not args:
-        commandline_arg = path(args[0])
+        commandline_arg = path(' '.join(args))
     sh(NoseCommand.command(E2E_TEST_REPORT, commandline_arg))
 
 
