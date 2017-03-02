@@ -2,7 +2,7 @@
 Course info page
 """
 from edxapp_acceptance.pages.lms.course_info import CourseInfoPage
-from regression.pages.lms import BASE_URL
+from regression.pages.lms import LOGIN_BASE_URL
 
 
 class CourseInfoPageExtended(CourseInfoPage):
@@ -15,7 +15,9 @@ class CourseInfoPageExtended(CourseInfoPage):
         """
         Construct a URL to the page within the course.
         """
-        return BASE_URL + "/courses/" + self.course_id + "/" + self.url_path
+        return "{}/courses/{}/{}".format(
+            LOGIN_BASE_URL, self.course_id, self.url_path
+        )
 
     def click_resume_button(self):
         """

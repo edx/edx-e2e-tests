@@ -2,14 +2,14 @@
 LMS Home page
 """
 from bok_choy.page_object import PageObject
-from regression.pages.lms import BASE_URL
+from regression.pages.lms import LOGIN_BASE_URL
 
 
 class LmsHome(PageObject):
     """
     LMS Home Page
     """
-    url = BASE_URL
+    url = LOGIN_BASE_URL
 
     def is_browser_on_page(self):
         """

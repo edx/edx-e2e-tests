@@ -3,7 +3,7 @@ LMS login page
 """
 from edxapp_acceptance.pages.lms.login import LoginPage
 from edxapp_acceptance.pages.lms.dashboard import DashboardPage
-from regression.pages.lms import BASE_URL
+from regression.pages.lms import LOGIN_BASE_URL
 
 
 class LmsLogin(LoginPage):
@@ -11,7 +11,7 @@ class LmsLogin(LoginPage):
     This class is an extended class of LoginPage,
     where we add methods that are different or not used in LoginPage
     """
-    url = BASE_URL + '/login'
+    url = LOGIN_BASE_URL + '/login'
 
     def is_browser_on_page(self):
         """

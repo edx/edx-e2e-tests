@@ -4,7 +4,7 @@ Test helper functions.
 import os
 
 from regression.pages.studio.utils import get_course_key
-from regression.pages.studio import BASE_URL
+from regression.pages.studio import LOGIN_BASE_URL
 
 COURSE_ORG = 'COURSE_ORG'
 COURSE_NUMBER = 'COURSE_NUMBER'
@@ -48,7 +48,7 @@ def get_url(url_path, course_info):
     Construct a URL to the page within the course.
     """
     course_key = get_course_key(course_info)
-    return "/".join([BASE_URL, url_path, unicode(course_key)])
+    return "/".join([LOGIN_BASE_URL, url_path, unicode(course_key)])
 
 
 def get_data_locator(page):
