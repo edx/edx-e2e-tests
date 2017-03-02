@@ -9,10 +9,15 @@ $script = <<SCRIPT
 
     # Install system requirements
     apt-get update -y
-    apt-get install -y git python2.7 python-pip python2.7-dev firefox dbus-x11 vim libjpeg-dev libxml2-dev libxslt1-dev
-    apt-get install -y libtiff4-dev libjpeg8-dev zlib1g-dev libfreetype6-dev liblcms2-dev libwebp-dev tcl8.5-dev tk8.5-dev python-tk
+    apt-get install -y xorg git python2.7 python-pip python2.7-dev dbus-x11 vim libjpeg-dev libxml2-dev libxslt1-dev
+    apt-get install -y libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev liblcms2-dev libwebp-dev tcl8.5-dev tk8.5-dev python-tk
+    # Install the same version of Firefox installed on https://build.testeng.edx.org/
+    # for testing parity
+    apt-get install -y firefox=45.0.2+build1-0ubuntu1
+
     pip install virtualenv==1.10.1
     pip install virtualenvwrapper
+
 
     # Create a login script to create the virtualenv
     cat > /home/vagrant/.bash_profile <<INIT
@@ -31,8 +36,8 @@ SCRIPT
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "precise64"
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  # Use the same xenial box as used on devstacks
+  config.vm.box = "boxcutter/ubuntu1604"
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
