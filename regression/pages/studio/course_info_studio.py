@@ -22,6 +22,9 @@ class CourseUpdatesPageExtended(CoursePageExtended):
         """
         Open update form
         """
+        self.wait_for_element_visibility(
+            '.button.new-button.new-update-button', 'Update form visibility'
+        )
         click_css(self, '.button.new-button.new-update-button', 0, False)
         self.wait_for_element_presence(
             '.new-update-form', 'Update form has been opened')
