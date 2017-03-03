@@ -37,9 +37,7 @@ class NoseCommand(object):
             "--xunit-file='{}'".format(report_path)
             ]
 
-        for arg in arguments['cmd_args']:
-            construct_command.append(arg)
-        # return command as a string
+        construct_command.extend(arguments['cmd_args'])
         cmd = " ".join(construct_command)
         return cmd
 
