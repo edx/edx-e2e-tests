@@ -10,19 +10,18 @@ from paver_consts import (
 
 
 class NoseCommand(object):
-
     @staticmethod
-    def command(report_name="report.xml", test_name=""):
+    def command(report_name="report.xml", user_args=""):
         """
         Construct the nose command with all path and nose options and
         return this command to paver tasks (Used for e2e tests)
         """
-
+        arguments = get_file_path_and_other_args(user_args)
         # Default to running all tests if no specific test is specified
-        if not test_name:
+        if not arguments['file_path']:
             test_path = TEST_DIR
         else:
-            test_path = path.joinpath(TEST_DIR, test_name)
+            test_path = path.joinpath(TEST_DIR, arguments['file_path'][0])
 
         # Create report path by concatenating report directory and report name
         report_path = path.joinpath(REPORT_DIR, report_name)
@@ -37,6 +36,9 @@ class NoseCommand(object):
             "--with-xunit",
             "--xunit-file='{}'".format(report_path)
             ]
+
+        for arg in arguments['cmd_args']:
+            construct_command.append(arg)
         # return command as a string
         cmd = " ".join(construct_command)
         return cmd
@@ -73,3 +75,27 @@ class PaverTestCommand(object):
         # return command as a string
         cmd = " ".join(construct_command)
         return cmd
+
+
+def get_file_path_and_other_args(user_cmd_args):
+    """
+    Extracts path of test file(if any) and other args from command line.
+
+    Arguments:
+        user_cmd_args(str): User's command line.
+
+    Returns:
+        dict: Contains a key 'file_path' for test file and
+              extra arguments in key 'cmd_args'
+    """
+    cmd_args = []
+    file_path = []
+    for arg in user_cmd_args:
+        if arg[0] == '-':
+            cmd_args.append(arg)
+        else:
+            file_path.append(arg)
+    return {
+        'cmd_args': cmd_args,
+        'file_path': file_path
+    }
