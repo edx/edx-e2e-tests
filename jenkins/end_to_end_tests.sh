@@ -15,12 +15,14 @@ mkdir -p venv
 virtualenv venv
 . venv/bin/activate
 
-pip install -r requirements/base.txt
+echo "Installing base requirements"
+mkdir -p log
+pip install -r requirements/base.txt > log/pip_install_base.log
 
 # Install the page objects from the edx-platform repo.
 # Before doing so, we don't need optimizations for lxml,
 # so install it this way which doesn't bother compiling them.
-STATIC_DEPS=true CFLAGS="-O0"  pip install "lxml==3.4.4"
+STATIC_DEPS=true CFLAGS="-O0"  pip install "lxml==3.4.4" > log/pip_lxml_install.log
 paver install_pages
 
 # Set the display to the virtual frame buffer (Xvfb)
