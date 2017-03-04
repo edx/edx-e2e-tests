@@ -8,7 +8,7 @@ set -x
 # Clean up the repo
 # We ignore repos that we've cloned to install page objects (in .gitignore)
 # so that we don't have to download them again.
-git clean -xfd
+git clean -xfd > log/git_clean.log
 
 # Create the virtualenv and install requirements
 mkdir -p venv
