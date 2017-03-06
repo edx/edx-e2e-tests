@@ -30,3 +30,4 @@ export DISPLAY=:1
 
 # Run the tests
 paver e2e_test
+
