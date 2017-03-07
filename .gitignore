@@ -47,9 +47,10 @@ reports
 lib/edx-platform
 src
 
-# Logs and screenshots on failure
+# Logs and screenshots
 log/*.png
 log/*.log
+*.flv
 
 # Local environment
 local_env.sh

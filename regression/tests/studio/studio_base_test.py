@@ -1,7 +1,6 @@
 """
 Base class for all tests in studio
 """
-from bok_choy.web_app_test import WebAppTest
 from regression.pages.studio.course_info_studio import (
     CourseUpdatesPageExtended
 )
@@ -11,11 +10,12 @@ from regression.pages.studio.course_outline_page import (
 from regression.pages.studio.grading_studio import GradingPageExtended
 from regression.pages.studio.pages_page_studio import PagesPageExtended
 from regression.pages.studio.studio_textbooks import TextbookPageExtended
-from regression.tests.helpers.utils import get_course_info
+from regression.tests.helpers import BaseTestClass
 from regression.tests.helpers.api_clients import StudioLoginApi
+from regression.tests.helpers.utils import get_course_info
 
 
-class BaseTestClassNoCleanup(WebAppTest):
+class BaseTestClassNoCleanup(BaseTestClass):
     """ Base class for all tests in studio """
     def setUp(self):
         super(BaseTestClassNoCleanup, self).setUp()

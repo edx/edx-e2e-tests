@@ -22,4 +22,8 @@ class CoursewarePageExtended(CoursewarePage):
         """
         Clicks on the 'View unit in Studio' button
         """
+        self.wait_for_element_visibility(
+            '.instructor-info-action',
+            'View unit in Studio link is visible'
+        )
         self.q(css='.instructor-info-action').click()
