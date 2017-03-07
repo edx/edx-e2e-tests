@@ -36,40 +36,34 @@ class TextbookTest(StudioBaseTestClass):
             self.course_info['run'])
 
         self.textbook_page.visit()
-        self.textbook_name = 'book_{}'.format(uuid4().hex)
-        self.chapter_name = 'chap_1'
-        # Add textbook
-        self.add_textbook()
 
-    def add_textbook(self):
+    def test_textbook_crud(self):
         """
-        Add textbook
+        Verifies that user can add, verify, edit and delete textbook
         """
+        # Add textbook
+        textbook_name = 'book_{}'.format(uuid4().hex)
+        chapter_name = 'chap_1'
         self.textbook_page.open_add_textbook_form()
         self.textbook_page.set_input_field_value(
-            '.edit-textbook #textbook-name-input', self.textbook_name
+            '.edit-textbook #textbook-name-input', textbook_name
         )
         self.textbook_page.set_input_field_value(
-            '.edit-textbook #chapter1-name', self.chapter_name
+            '.edit-textbook #chapter1-name', chapter_name
         )
         self.textbook_page.upload_textbook('test_pdf.pdf')
-        self.textbook_page.click_textbook_submit_button()
 
-    def test_textbook_verify_on_lms(self):
-        """
-        Verifies that user can add and visit textbook on LMS
-        """
-        self.add_textbook()
+        # Verify the added textbook on LMS
+        self.textbook_page.click_textbook_submit_button()
         self.textbook_page.click_view_live_textbook()
         self.lms_textbook.wait_for_page()
         self.assertIn(
-            self.chapter_name, self.lms_textbook.q(css='.chapter').text
+            chapter_name, self.lms_textbook.q(css='.chapter').text
         )
 
-    def test_textbook_edit(self):
-        """
-        Verifies that textbook can be edited
-        """
+        # Navigate back to studio
+        self.textbook_page.visit()
+
         # Edit the textbook
         self.textbook_page.click_edit_button()
         self.textbook_page.set_input_field_value(
@@ -82,17 +76,13 @@ class TextbookTest(StudioBaseTestClass):
 
         self.assertEquals(
             self.textbook_page.get_textbook_names()[-1],
-            self.textbook_name + 'edit'
+            textbook_name + 'edit'
         )
 
-    def test_textbook_delete(self):
-        """
-        Verifies that the added textbook can be deleted
-        """
-        # Delete
+        # Delete the textbook
         self.textbook_page.click_delete_button()
 
         if self.textbook_page.get_textbook_count() > 0:
             self.assertNotIn(
-                self.textbook_name, self.textbook_page.get_textbook_names()
+                textbook_name, self.textbook_page.get_textbook_names()
             )

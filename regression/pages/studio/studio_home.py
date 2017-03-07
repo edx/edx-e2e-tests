@@ -19,7 +19,7 @@ class DashboardPageExtended(DashboardPage):
         """
         Verifies if the browser is on the correct page
         """
-        return self.q(css='.courses-tab.active').present
+        return self.q(css='.courses.courses-tab.active').visible
 
     def select_course(self, course_title):
         """
