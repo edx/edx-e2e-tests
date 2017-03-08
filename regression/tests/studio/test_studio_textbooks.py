@@ -3,8 +3,7 @@ Test textbook page
 """
 from uuid import uuid4
 
-from regression.tests.studio.studio_base_test import StudioBaseTestClass
-
+from bok_choy.web_app_test import WebAppTest
 from regression.pages.studio.studio_textbooks import TextbookPageExtended
 from regression.tests.helpers.api_clients import (
     StudioLoginApi, LmsLoginApi
@@ -13,7 +12,7 @@ from regression.tests.helpers.utils import get_course_info
 from regression.pages.lms.lms_textbook import TextbookPage
 
 
-class TextbookTest(StudioBaseTestClass):
+class TextbookTest(WebAppTest):
     """
     Test textbooks.
     """
@@ -41,6 +40,9 @@ class TextbookTest(StudioBaseTestClass):
         """
         Verifies that user can add, verify, edit and delete textbook
         """
+        # Delete any existing textbooks
+        self.textbook_page.delete_all_textbooks()
+
         # Add textbook
         textbook_name = 'book_{}'.format(uuid4().hex)
         chapter_name = 'chap_1'
@@ -52,9 +54,9 @@ class TextbookTest(StudioBaseTestClass):
             '.edit-textbook #chapter1-name', chapter_name
         )
         self.textbook_page.upload_textbook('test_pdf.pdf')
+        self.textbook_page.click_textbook_submit_button()
 
         # Verify the added textbook on LMS
-        self.textbook_page.click_textbook_submit_button()
         self.textbook_page.click_view_live_textbook()
         self.lms_textbook.wait_for_page()
         self.assertIn(

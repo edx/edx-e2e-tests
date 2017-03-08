@@ -1,15 +1,14 @@
 """
 Test uploaded files, aka Assets
 """
-
+from bok_choy.web_app_test import WebAppTest
 from regression.pages.studio.asset_index_studio import AssetIndexPageExtended
 from regression.pages.studio.utils import upload_new_file
 from regression.tests.helpers.api_clients import StudioLoginApi
 from regression.tests.helpers.utils import get_course_info
-from regression.tests.studio.studio_base_test import BaseTestClassNoCleanup
 
 
-class TestAssetCrud(BaseTestClassNoCleanup):
+class TestAssetCrud(WebAppTest):
     """ Test create/read/update/delete of course assets"""
     def test_asset_crud(self):
         studio_login = StudioLoginApi()
