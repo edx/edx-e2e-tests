@@ -5,8 +5,7 @@ from uuid import uuid4
 
 from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 
-from regression.tests.studio.studio_base_test import StudioBaseTestClass
-from regression.tests.studio.studio_base_test import BaseTestClassNoCleanup
+from bok_choy.web_app_test import WebAppTest
 from regression.tests.helpers.api_clients import (
     StudioLoginApi, LmsLoginApi
 )
@@ -16,7 +15,7 @@ from regression.pages.studio.pages_page_studio import PagesPageExtended
 from regression.pages.lms.course_page_lms import CourseInfoPageExtended
 
 
-class CoursePagesTest(BaseTestClassNoCleanup):
+class CoursePagesTest(WebAppTest):
     """
     Course Pages test
     """
@@ -68,6 +67,12 @@ class CoursePagesTest(BaseTestClassNoCleanup):
         Then page should be deleted and no longer be available.
         """
         self.pages_page.visit()
+
+        # Delete any existing pages
+        if self.pages_page.get_custom_page_count() > 0:
+            self.pages_page.wait_for_the_visibility_of_new_page()
+            self.pages_page.delete_all_pages()
+
         # Get total count of pages currently present.
         page_count = self.pages_page.get_custom_page_count()
         # Add a new page.
@@ -101,7 +106,7 @@ class CoursePagesTest(BaseTestClassNoCleanup):
         self.pages_page.click_and_verify_see_an_example()
 
 
-class PagesTestWithLms(StudioBaseTestClass):
+class PagesTestWithLms(WebAppTest):
     """
     Course Pages test where we verify on Lms too
     """
@@ -209,6 +214,9 @@ class PagesTestWithLms(StudioBaseTestClass):
         Verifies that hide/show toggle button is working
         for pages.
         """
+        # Reset page state
+        self.reset_hide_show_of_page()
+
         self.pages_page.visit()
         # Click hide/show toggle, assert page is not shown.
         page = self.pages_page.toggle_wiki_page_display()
@@ -223,3 +231,15 @@ class PagesTestWithLms(StudioBaseTestClass):
         self.assertTrue(self.pages_page.toggle_wiki_page_show_value())
         # Assert page is shown in the LMS.
         self.assert_page_is_shown_in_lms(page)
+
+        # Reset page state
+        self.reset_hide_show_of_page()
+
+    def reset_hide_show_of_page(self):
+        """
+        Resets hide/show state of wiki page to default
+        """
+        self.pages_page.visit()
+        if self.pages_page.toggle_wiki_page_show_value() is False:
+            self.pages_page.toggle_wiki_page_display()
+            self.assertTrue(self.pages_page.toggle_wiki_page_show_value())

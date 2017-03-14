@@ -124,9 +124,9 @@ class CourseOutlinePageExtended(CourseOutlinePage):
             self.browser
         ).move_to_element(button).click(button).perform()
 
-    def make_sure_only_one_section_is_present(self):
+    def delete_all_sections(self):
         """
         Makes sure there is only one section present
         """
-        while self.get_section_count() > 1:
+        while self.get_section_count() > 0:
             self.delete_section()

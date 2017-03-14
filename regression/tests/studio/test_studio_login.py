@@ -26,20 +26,14 @@ class StudioUserLogin(WebAppTest):
         self.studio_home_page = DashboardPageExtended(self.browser)
         self.studio_logout_page = StudioLogout(self.browser)
 
-    def test_login(self):
+    @flaky  # TODO: See https://openedx.atlassian.net/browse/LT-65
+    def test_studio_login_logout(self):
         """
-        Verifies that user can login successfully
+        Verifies that user can login and logout successfully
         """
         self.studio_login_page.visit()
         self.studio_login_page.login(self.DEMO_COURSE_USER,
                                      self.DEMO_COURSE_PASSWORD)
         self.studio_home_page.wait_for_page()
-
-    @flaky  # TODO: See https://openedx.atlassian.net/browse/LT-65
-    def test_logout(self):
-        """
-        Verifies that user can logout successfully
-        """
-        self.test_login()
         self.studio_home_page.click_logout_button()
         self.studio_logout_page.wait_for_page()

@@ -4,7 +4,7 @@ Test studio grading
 from uuid import uuid4
 
 from flaky import flaky
-from regression.tests.studio.studio_base_test import StudioBaseTestClass
+from bok_choy.web_app_test import WebAppTest
 from regression.pages.studio.grading_studio import GradingPageExtended
 from regression.pages.studio.course_outline_page import (
     CourseOutlinePageExtended
@@ -13,7 +13,7 @@ from regression.tests.helpers.utils import get_course_info
 from regression.tests.helpers.api_clients import StudioLoginApi
 
 
-class StudioGradingTest(StudioBaseTestClass):
+class StudioGradingTest(WebAppTest):
     """
     Test studio grading
     """
@@ -46,6 +46,9 @@ class StudioGradingTest(StudioBaseTestClass):
         """
         Verifies default, addition and deletion of grade range
         """
+        # Delete any existing grades
+        self.grading_page.remove_all_grades()
+
         # Default
         self.assertEquals(
             self.grading_page.letter_grade('.letter-grade'), 'Pass')
@@ -68,6 +71,9 @@ class StudioGradingTest(StudioBaseTestClass):
         """
         Verifies that user can add/delete assignment types
         """
+        # Delete any existing assignment types
+        self.grading_page.delete_all_assignment_types()
+
         self.grading_page.add_new_assignment_type()
         self.grading_page.fill_assignment_type_fields(
             name='Final',
@@ -106,10 +112,9 @@ class StudioGradingTest(StudioBaseTestClass):
             self.studio_course_outline.get_subsection_grade()
         )
 
-        # Remove this once addCleanup is added
-        # Cleanup Course Outline Page
+        # Delete added section
         self.studio_course_outline.cancel_subsection_settings()
         self.studio_course_outline.delete_section()
-        # Cleanup Grading Page
+        # Delete added assignment type
         self.grading_page.visit()
         self.grading_page.delete_assignment_type()

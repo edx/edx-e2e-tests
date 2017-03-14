@@ -3,15 +3,15 @@ Test course update
 """
 from uuid import uuid4
 
+from bok_choy.web_app_test import WebAppTest
 from regression.pages.studio.course_info_studio import (
     CourseUpdatesPageExtended
 )
-from regression.tests.studio.studio_base_test import StudioBaseTestClass
 from regression.tests.helpers.utils import get_course_info
 from regression.tests.helpers.api_clients import StudioLoginApi
 
 
-class CourseUpdateTest(StudioBaseTestClass):
+class CourseUpdateTest(WebAppTest):
     """
     Test course update.
     """
@@ -47,17 +47,13 @@ class CourseUpdateTest(StudioBaseTestClass):
             self.course_update_text
         )
 
-    def test_create_course_update(self):
+    def test_course_update(self):
         """
-        Verifies creation of course update
+        Verifies creation, editing and deletion of course update
         """
-        # Create course update
-        self.create_course_update()
+        # Delete any existing updates
+        self.course_update_page.delete_all_course_updates()
 
-    def test_edit_course_update(self):
-        """
-        Verify editing course update
-        """
         # Create course update
         self.create_course_update()
 
@@ -72,12 +68,6 @@ class CourseUpdateTest(StudioBaseTestClass):
             course_update_edit_text
         )
 
-    def test_delete_course_update(self):
-        """
-        Verify deletion of course update
-        """
-        # Create course update
-        self.create_course_update()
         # Delete course update
         self.course_update_page.delete_course_update()
         # If there are no course updates present anymore
@@ -92,7 +82,7 @@ class CourseUpdateTest(StudioBaseTestClass):
             )
 
 
-class CourseHandoutTest(StudioBaseTestClass):
+class CourseHandoutTest(WebAppTest):
     """
     Test course handout
     """
