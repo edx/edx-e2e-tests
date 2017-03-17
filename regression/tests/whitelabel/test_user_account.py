@@ -38,7 +38,7 @@ class TestUserAccount(WhiteLabelTestsBaseClass):
         'This test requires access to gmail,'
         'currently we are using an alternate test'
     )
-    def test_00_activate_account(self):  # TE-2044
+    def test_activate_account(self):  # TE-2044
         # pylint: disable=no-value-for-parameter
         # pylint: disable=no-member
         # pylint: disable=attribute-defined-outside-init
@@ -61,7 +61,7 @@ class TestUserAccount(WhiteLabelTestsBaseClass):
         'This test requires access to gmail,'
         'currently we are using an alternate test'
     )
-    def test_01_reset_password(self):  # TE-2044
+    def test_reset_password(self):  # TE-2044
         # pylint: disable=no-value-for-parameter
         # pylint: disable=no-member
         # pylint: disable=attribute-defined-outside-init
