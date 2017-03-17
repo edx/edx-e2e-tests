@@ -113,3 +113,27 @@ def paver_cmd_test(args):
     if not not args:
         commandline_arg = path(args[0])
     sh(PaverTestCommand.command(commandline_arg, 'paver_cmd_report.xml'))
+
+
+@task
+def wl_env_vars():
+
+    # Make sure environment variables are set.
+    env_vars = [
+        'STAFF_USER_EMAIL',
+        'GLOBAL_PASSWORD',
+        'ACCESS_TOKEN'
+        ]
+    for env_var in env_vars:
+        try:
+            os.environ[env_var]
+        except:
+            raise BuildFailure(
+                "Please set the environment variable :" + env_var)
+
+
+@task
+@needs('wl_env_vars')
+@consume_args
+def e2e_wl_test(args):
+    sh(NoseCommand.command(E2E_TEST_REPORT, args))

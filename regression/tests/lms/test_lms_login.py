@@ -5,7 +5,6 @@ import os
 from bok_choy.web_app_test import WebAppTest
 from regression.pages.lms.login_lms import LmsLogin
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
-from regression.pages.lms.lms_home_page import LmsHome
 from regression.pages.lms import LMS_BASE_URL, LMS_STAGE_BASE_URL
 
 
@@ -24,7 +23,6 @@ class LoginTest(WebAppTest):
         super(LoginTest, self).setUp()
         self.login_page = LmsLogin(self.browser)
         self.dashboard_ext = DashboardPageExtended(self.browser)
-        self.lms_home = LmsHome(self.browser)
 
     def test_login(self):
         """
