@@ -35,9 +35,9 @@ class ReceiptPage(PageObject):
 
     def is_browser_on_page(self):
         """
-        Verifies that receipt report is present on the page:
+        Verifies that receipt report is visible on the page:
         """
-        return self.q(css='.container').present
+        return self.q(css='#receipt-container').visible
 
     def is_receipt_displayed(self):
         """
@@ -47,7 +47,7 @@ class ReceiptPage(PageObject):
         Returns:
             True if receipt is found:
         """
-        self.wait_for_element_visibility(
+        self.wait_for_element_presence(
             '#receipt-container',
             'wait for receipt to become visible'
         )
@@ -107,9 +107,9 @@ class ReceiptPage(PageObject):
         ).text[0]
         return convert_date_format(
             date_string,
-            '%Y-%m-%dT%H:%M:%SZ',
+            # '%Y-%m-%dT%H:%M:%SZ',
             '%B %d, %Y',
-            # '%Y-%m-%d'
+            '%Y-%m-%d'
         )
 
     @property
