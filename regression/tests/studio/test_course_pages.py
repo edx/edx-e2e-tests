@@ -2,7 +2,6 @@
 Course pages test
 """
 from uuid import uuid4
-from flaky import flaky
 
 from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 
@@ -210,7 +209,6 @@ class PagesTestWithLms(WebAppTest):
         pages_in_tab = course_page.get_page_names_in_tab()
         self.assertNotIn(page_name, pages_in_tab)
 
-    @flaky  # TODO: See https://openedx.atlassian.net/browse/LT-65
     def test_hide_and_show_pages(self):
         """
         Verifies that hide/show toggle button is working
