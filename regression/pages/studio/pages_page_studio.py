@@ -155,6 +155,8 @@ class PagesPageExtended(CoursePageExtended):
         ActionChains(self.browser).move_to_element(checkbox_css_action).click(
             checkbox_css_action
         ).perform()
+        # Click initiates an ajax call
+        self.wait_for_ajax()
         sync_on_notification(self)
         return 'Wiki'
 
