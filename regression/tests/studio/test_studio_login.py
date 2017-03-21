@@ -2,8 +2,9 @@
 End to end tests for Studio Login
 """
 import os
-from flaky import flaky
+
 from bok_choy.web_app_test import WebAppTest
+
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.logout_studio import StudioLogout
@@ -26,7 +27,6 @@ class StudioUserLogin(WebAppTest):
         self.studio_home_page = DashboardPageExtended(self.browser)
         self.studio_logout_page = StudioLogout(self.browser)
 
-    @flaky  # TODO: See https://openedx.atlassian.net/browse/LT-65
     def test_studio_login_logout(self):
         """
         Verifies that user can login and logout successfully
