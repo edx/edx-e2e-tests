@@ -3,7 +3,6 @@ Test studio grading
 """
 from uuid import uuid4
 
-from flaky import flaky
 from bok_choy.web_app_test import WebAppTest
 from regression.pages.studio.grading_studio import GradingPageExtended
 from regression.pages.studio.course_outline_page import (
@@ -41,7 +40,6 @@ class StudioGradingTest(WebAppTest):
 
         self.grading_page.visit()
 
-    @flaky  # TODO: See https://openedx.atlassian.net/browse/LT-65
     def test_grade_range(self):
         """
         Verifies default, addition and deletion of grade range

@@ -16,3 +16,9 @@ class GradingPageExtended(GradingPage):
         Construct a URL to the page within the course.
         """
         return get_url(self.url_path, self.course_info)
+
+    def is_browser_on_page(self):
+        return all(
+            [self.q(css='body.grading').visible,
+             self.q(css=".grade-specific-bar").visible]
+        )
