@@ -130,8 +130,10 @@ class TestDynamicEnrollmentCoupon(VouchersMixin):
                 self.login_page.authenticate_user(
                     coupon_user,
                     PASSWORD,
-                    self.dashboard
+                    self.receipt
                 )
+                self.verify_receipt_info_for_discounted_course()
+                self.receipt.go_to_dashboard()
                 self.assert_enrollment_and_logout()
             else:
                 redeem_coupon = RedeemCouponPage(

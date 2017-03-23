@@ -245,8 +245,10 @@ class TestEnrollmentCoupon(VouchersMixin):
         self.activate_new_user()
         self.redeem_single_course_enrollment_coupon(
             coupon_code,
-            self.dashboard
+            self.receipt
         )
+        self.verify_receipt_info_for_discounted_course()
+        self.receipt.go_to_dashboard()
         self.assert_enrollment_and_logout()
         self.login_user(COUPON_USERS['coupon_user_01'])
         self.redeem_single_course_enrollment_coupon(
@@ -290,8 +292,10 @@ class TestEnrollmentCoupon(VouchersMixin):
                 self.login_page.authenticate_user(
                     coupon_user,
                     PASSWORD,
-                    self.dashboard
+                    self.receipt
                 )
+                self.verify_receipt_info_for_discounted_course()
+                self.receipt.go_to_dashboard()
                 self.assert_enrollment_and_logout()
             else:
                 redeem_coupon = RedeemCouponPage(
@@ -352,8 +356,10 @@ class TestEnrollmentCoupon(VouchersMixin):
         self.login_user(valid_domain_user)
         self.redeem_single_course_enrollment_coupon(
             coupon_code,
-            self.dashboard
+            self.receipt
         )
+        self.verify_receipt_info_for_discounted_course()
+        self.receipt.go_to_dashboard()
         self.assert_enrollment_and_logout()
 
     @skip("low priority scenario skipped to save time")
