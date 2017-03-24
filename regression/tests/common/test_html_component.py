@@ -4,7 +4,6 @@ End to end tests for HTML Components
 from uuid import uuid4
 
 from bok_choy.web_app_test import WebAppTest
-from edxapp_acceptance.pages.lms.course_nav import CourseNavPage
 
 from regression.pages.studio.course_outline_page import (
     CourseOutlinePageExtended
@@ -156,7 +155,6 @@ class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
             studio_custom_js,
             get_data_id_of_component(self.lms_courseware)
         )
-        # Remove this after addCleanup is added for all tests
         # Cleanup test
         self.studio_course_outline.visit()
         self.studio_course_outline.delete_section()
@@ -194,9 +192,7 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         # Get unique data locator id of the unit added).
         data_locator = get_data_locator(self.unit_container_page)
         self.lms_courseware.visit()
-        # From LMS, navigate to the section added.
-        course_nav = CourseNavPage(self.browser)
-        course_nav.go_to_section(section_name, subsection_name)
+        self.lms_courseware.go_to_section(section_name, subsection_name)
         # View unit in the studio
         self.lms_courseware.view_unit_in_studio()
         self.unit_container_page.wait_for_page()
