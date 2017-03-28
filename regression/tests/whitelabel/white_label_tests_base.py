@@ -13,7 +13,6 @@ class WhiteLabelTestsBaseClass(WebAppTest):
     """
     Mixin for User Authentication
     """
-
     def setUp(self):
         """
         Setup for all common features

@@ -29,6 +29,7 @@ class LoginPage(PageObject):
         }
         fill_input_fields(self, elements_and_values)
         self.wait_for_ajax()
+        self.submit()
 
     def submit(self):
         """

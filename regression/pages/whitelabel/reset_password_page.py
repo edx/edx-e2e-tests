@@ -53,6 +53,6 @@ class ResetPasswordComplete(PageObject):
 
     def click_login_button(self):
         """
-        Go to login page
+        Clicks login button
         """
         self.q(css='.message-copy>a[href="/login"]').click()
