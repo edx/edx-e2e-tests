@@ -126,7 +126,14 @@ class CourseOutlinePageExtended(CourseOutlinePage):
 
     def delete_all_sections(self):
         """
-        Makes sure there is only one section present
+        Deletes all sections on course outline page.
         """
-        while self.get_section_count() > 0:
+        section_count = self.get_section_count()
+        for _ in range(section_count):
             self.delete_section()
+
+    def get_section_names(self):
+        """
+        Returns section names of all sections.
+        """
+        return self.q(css='.section-title').text
