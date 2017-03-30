@@ -2,6 +2,7 @@
 End to end tests for HTML Components
 """
 from uuid import uuid4
+from flaky import flaky
 
 from bok_choy.web_app_test import WebAppTest
 
@@ -51,6 +52,9 @@ class StudioLmsComponentBaseTest(WebAppTest):
             self.browser,
             get_course_key(self.course_info)
         )
+        self.studio_course_outline.visit()
+        # Delete any existing sections
+        self.studio_course_outline.delete_all_sections()
 
 
 class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
@@ -63,11 +67,11 @@ class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
         """
         super(StudioLmsAdvancedComponentTest, self).setUp()
 
+    @flaky  # TODO: See https://openedx.atlassian.net/browse/LT-65
     def test_word_cloud_advanced_component(self):
         """
         Verifies that user can add Word Cloud component on Studio and LMS
         """
-        self.studio_course_outline.visit()
         section_name = 'Section :{}'.format(uuid4().hex)
         self.studio_course_outline.add_section_with_name(section_name)
         self.assertIn(
@@ -106,8 +110,7 @@ class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
             word_cloud_data_locator,
             get_data_locator(self.lms_courseware)
         )
-        # Remove this after addCleanup is added for all tests
-        # Cleanup test
+        # Remove the added section
         self.studio_course_outline.visit()
         self.studio_course_outline.delete_section()
 
@@ -116,7 +119,6 @@ class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
         Verifies that user can add Custom JavaScript Display and Grading
         component on Studio and LMS
         """
-        self.studio_course_outline.visit()
         section_name = 'Section :{}'.format(uuid4().hex)
         self.studio_course_outline.add_section_with_name(section_name)
         self.assertIn(
@@ -155,7 +157,7 @@ class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
             studio_custom_js,
             get_data_id_of_component(self.lms_courseware)
         )
-        # Cleanup test
+        # Remove the added section
         self.studio_course_outline.visit()
         self.studio_course_outline.delete_section()
 
@@ -170,6 +172,7 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         """
         super(StudioViewTest, self).setUp()
 
+    @flaky  # TODO: See https://openedx.atlassian.net/browse/LT-65
     def test_unit_studio_view(self):
         """
         Scenario: To test studio view of component from LMS
@@ -178,7 +181,6 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         And I click on the 'View unit in Studio' button
         Then correct component should open.
         """
-        self.studio_course_outline.visit()
         section_name = 'Section :{}'.format(uuid4().hex)
         subsection_name = 'Subsection :{}'.format(uuid4().hex)
         # Add a section.
@@ -201,7 +203,6 @@ class StudioViewTest(StudioLmsComponentBaseTest):
             get_data_locator(self.unit_container_page),
             data_locator, 'Correct component is opened'
         )
-        # Remove this after addCleanup is added for all tests.
-        # Cleanup test
+        # Remove the added section
         self.studio_course_outline.visit()
         self.studio_course_outline.delete_section()
