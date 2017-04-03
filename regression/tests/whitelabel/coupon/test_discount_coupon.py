@@ -38,6 +38,7 @@ from regression.pages.whitelabel.const import (
     PROF_COURSE_PRICE
 )
 from regression.pages.whitelabel.course_about_page import CourseAboutPage
+from regression.pages.whitelabel.inactive_account import InactiveAccount
 from regression.tests.helpers.vouchers import VouchersMixin
 
 
@@ -53,6 +54,7 @@ class TestDiscountCoupon(VouchersMixin):
         super(TestDiscountCoupon, self).setUp()
         # Initialize all page objects
         self.course_about = CourseAboutPage(self.browser, PROF_COURSE_ID)
+        self.inactive_account = InactiveAccount(self.browser)
         # Initialize common variables
         self.course_id = PROF_COURSE_ID
         self.course_price = PROF_COURSE_PRICE
@@ -392,12 +394,11 @@ class TestDiscountCoupon(VouchersMixin):
         self.login_page.toggle_to_registration_page()
         self.prepare_and_fill_registration_data()
         self.registration.submit_registration_form_data(
-            self.redeem_coupon_error_page
+            self.inactive_account
         )
-        self.assertEqual(
-            self.redeem_coupon_error_page.error_message,
-            INACTIVE_ACCOUNT_ERROR_MESSAGE
-        )
+        # Application should take user to the page where activate account
+        # message is displayed
+        self.assertTrue(self.inactive_account.is_activation_message_present())
         self.account_activation()
         self.verify_info_is_populated_on_basket()
         self.use_discount_redeem_url()
