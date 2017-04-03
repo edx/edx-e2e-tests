@@ -3,11 +3,8 @@ Course pages test
 """
 from uuid import uuid4
 
-from flaky import flaky
-
-from edxapp_acceptance.pages.lms.courseware import CoursewarePage
-
 from bok_choy.web_app_test import WebAppTest
+
 from regression.tests.helpers.api_clients import (
     StudioLoginApi, LmsLoginApi
 )
@@ -15,6 +12,7 @@ from regression.tests.helpers.utils import get_course_info
 from regression.pages.lms.utils import get_course_key
 from regression.pages.studio.pages_page_studio import PagesPageExtended
 from regression.pages.lms.course_page_lms import CourseInfoPageExtended
+from regression.pages.lms.lms_courseware import CoursewarePageExtended
 
 
 class CoursePagesTest(WebAppTest):
@@ -123,61 +121,22 @@ class PagesTestWithLms(WebAppTest):
         lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)
 
+        self.course_page = CourseInfoPageExtended(
+            self.browser, get_course_key(self.course_info)
+        )
+        self.courseware_page = CoursewarePageExtended(
+            self.browser,
+            get_course_key(self.course_info)
+        )
         self.pages_page = PagesPageExtended(
             self.browser,
             self.course_info['org'],
             self.course_info['number'],
             self.course_info['run']
         )
+        # Login to LMS to avoid authentication issue
+        self.course_page.visit()
         self.pages_page.visit()
-
-    def test_view_live_pages(self):
-        """
-        Verifies that user can View live course from pages page
-        """
-        self.pages_page.click_view_live_button()
-        courseware_page = CoursewarePage(
-            self.browser, get_course_info())
-        courseware_page.wait_for_page()
-
-    def test_drag_and_drop_of_pages(self):
-        """
-        Verifies that user can drag and drop pages and they appear in the
-        proper order in LMS
-        """
-        # Get all pages
-        all_pages = self.pages_page.get_all_pages()
-        # Get counts of all pages and all custom pages.
-        count_of_all_pages = len(all_pages)
-        count_of_custom_pages = self.pages_page.get_custom_page_count()
-
-        # Source and target indices for the pages to be dragged and dropped.
-        source_index = count_of_all_pages - count_of_custom_pages - 1
-        target_index = source_index - 1
-
-        self.pages_page.drag_and_drop(source_index, target_index)
-
-        temp = all_pages[source_index]
-        all_pages[source_index] = all_pages[target_index]
-        all_pages[target_index] = temp
-
-        # Assert page order is correct.
-        self.assertEqual(
-            self.pages_page.get_all_pages(),
-            all_pages
-        )
-        # Open LMS and assert pages are in correct order.
-        course_info = get_course_info()
-        course_page = CourseInfoPageExtended(
-            self.browser, get_course_key(course_info)
-        )
-        course_page.visit()
-        pages_in_tab = course_page.get_page_names_in_tab()
-
-        # By default, LMS is opened with Instructor view.
-        # We have to append 'Instructor' to make assertion pass.
-        all_pages.append('Instructor')
-        self.assertEqual(pages_in_tab, all_pages)
 
     def assert_page_is_shown_in_lms(self, page_name):
         """
@@ -186,13 +145,9 @@ class PagesTestWithLms(WebAppTest):
         Arguments:
             page_name(str): Name of the page to be shown
         """
-        course_info = get_course_info()
-        course_page = CourseInfoPageExtended(
-            self.browser, get_course_key(course_info)
-        )
-
-        course_page.visit()
-        pages_in_tab = course_page.get_page_names_in_tab()
+        self.pages_page.click_view_live_button()
+        self.courseware_page.wait_for_page()
+        pages_in_tab = self.courseware_page.get_page_names_in_tab()
         self.assertIn(page_name, pages_in_tab)
 
     def assert_page_is_not_shown_in_lms(self, page_name):
@@ -202,16 +157,11 @@ class PagesTestWithLms(WebAppTest):
         Arguments:
             page_name(str): Name of the page not to be shown
         """
-        course_info = get_course_info()
-        course_page = CourseInfoPageExtended(
-            self.browser, get_course_key(course_info)
-        )
-
-        course_page.visit()
-        pages_in_tab = course_page.get_page_names_in_tab()
+        self.pages_page.click_view_live_button()
+        self.courseware_page.wait_for_page()
+        pages_in_tab = self.courseware_page.get_page_names_in_tab()
         self.assertNotIn(page_name, pages_in_tab)
 
-    @flaky  # TODO: See https://openedx.atlassian.net/browse/LT-65
     def test_hide_and_show_pages(self):
         """
         Verifies that hide/show toggle button is working
@@ -221,17 +171,21 @@ class PagesTestWithLms(WebAppTest):
         self.reset_hide_show_of_page()
 
         self.pages_page.visit()
+
         # Click hide/show toggle, assert page is not shown.
         page = self.pages_page.toggle_wiki_page_display()
         self.assertFalse(self.pages_page.toggle_wiki_page_show_value())
+
         # Assert page is not shown in the LMS.
         self.assert_page_is_not_shown_in_lms(page)
 
         # Return back to tbe pages page and un-check
         # the toggle to show the page.
         self.pages_page.visit()
+
         page = self.pages_page.toggle_wiki_page_display()
         self.assertTrue(self.pages_page.toggle_wiki_page_show_value())
+
         # Assert page is shown in the LMS.
         self.assert_page_is_shown_in_lms(page)
 

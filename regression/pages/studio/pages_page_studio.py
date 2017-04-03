@@ -146,8 +146,11 @@ class PagesPageExtended(CoursePageExtended):
         """
         Toggles Wiki page display
         """
+        icon_visibility = self.q(
+            css='.is-movable[data-tab-id="wiki"] .fa-eye'
+        ).visible
         toggle_checkbox_css = '.is-movable[data-tab-id="wiki"] ' \
-                              '.action-visible [type="checkbox"]'
+                              '.toggle-checkbox'
         checkbox_css_action = self.q(css=toggle_checkbox_css).results[0]
         self.wait_for_element_presence(
             toggle_checkbox_css, 'Toggle button presence'
@@ -155,9 +158,17 @@ class PagesPageExtended(CoursePageExtended):
         ActionChains(self.browser).move_to_element(checkbox_css_action).click(
             checkbox_css_action
         ).perform()
-        # Click initiates an ajax call
-        self.wait_for_ajax()
         sync_on_notification(self)
+        if icon_visibility:
+            self.wait_for_element_invisibility(
+                '.is-movable[data-tab-id="wiki"] .fa-eye',
+                'Eye icon invisibility'
+            )
+        else:
+            self.wait_for_element_visibility(
+                '.is-movable[data-tab-id="wiki"] .fa-eye', 'Icon visibility'
+            )
+
         return 'Wiki'
 
     def get_all_pages(self):
