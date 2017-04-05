@@ -2,6 +2,7 @@
 """
 Constant used in coupon tests
 """
+import os
 from datetime import datetime, timedelta
 
 from regression.pages.whitelabel.const import ORG
