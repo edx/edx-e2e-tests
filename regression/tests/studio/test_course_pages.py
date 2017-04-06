@@ -140,45 +140,6 @@ class PagesTestWithLms(WebAppTest):
             self.browser, get_course_info())
         courseware_page.wait_for_page()
 
-    def test_drag_and_drop_of_pages(self):
-        """
-        Verifies that user can drag and drop pages and they appear in the
-        proper order in LMS
-        """
-        # Get all pages
-        all_pages = self.pages_page.get_all_pages()
-        # Get counts of all pages and all custom pages.
-        count_of_all_pages = len(all_pages)
-        count_of_custom_pages = self.pages_page.get_custom_page_count()
-
-        # Source and target indices for the pages to be dragged and dropped.
-        source_index = count_of_all_pages - count_of_custom_pages - 1
-        target_index = source_index - 1
-
-        self.pages_page.drag_and_drop(source_index, target_index)
-
-        temp = all_pages[source_index]
-        all_pages[source_index] = all_pages[target_index]
-        all_pages[target_index] = temp
-
-        # Assert page order is correct.
-        self.assertEqual(
-            self.pages_page.get_all_pages(),
-            all_pages
-        )
-        # Open LMS and assert pages are in correct order.
-        course_info = get_course_info()
-        course_page = CourseInfoPageExtended(
-            self.browser, get_course_key(course_info)
-        )
-        course_page.visit()
-        pages_in_tab = course_page.get_page_names_in_tab()
-
-        # By default, LMS is opened with Instructor view.
-        # We have to append 'Instructor' to make assertion pass.
-        all_pages.append('Instructor')
-        self.assertEqual(pages_in_tab, all_pages)
-
     def assert_page_is_shown_in_lms(self, page_name):
         """
         Confirms the page is shown in LMS
