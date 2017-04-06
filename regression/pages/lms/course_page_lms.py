@@ -24,16 +24,3 @@ class CourseInfoPageExtended(CourseInfoPage):
         Clicks Resume button of the course selected
         """
         self.q(css='.last-accessed-link').first.click()
-
-    def get_page_names_in_tab(self):
-        """
-        Get names of all pages in tab
-
-        Returns
-            list: A list of names of all pages
-        """
-        tab_pages = self.q(css='.tabs.course-tabs .tab').text
-        # There is an extra text 'Current location' along
-        # the page's name of selected(active) tab. It is
-        # not required, so removing it.
-        return [page.replace('\n, current location', "") for page in tab_pages]
