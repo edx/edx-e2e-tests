@@ -116,7 +116,7 @@ def paver_cmd_test(args):
 
 
 @task
-def wl_env_vars():
+def wl_test_config():
 
     # Make sure environment variables are set.
     env_vars = [
@@ -131,9 +131,20 @@ def wl_env_vars():
             raise BuildFailure(
                 "Please set the environment variable :" + env_var)
 
+    # Set environment variables for screen shots.
+    os.environ['NEEDLE_OUTPUT_DIR'] = SCREENSHOT_DIR
+    os.environ['NEEDLE_BASELINE_DIR'] = BASELINE_DIR
+    os.environ['UPLOAD_FILE_DIR'] = UPLOAD_FILE_DIR
+
+    # Create log directory
+    LOG_DIR.makedirs_p()
+
+    # Create report directory
+    REPORT_DIR.makedirs_p()
+
 
 @task
-@needs('wl_env_vars')
+@needs('wl_test_config')
 @consume_args
 def e2e_wl_test(args):
     sh(NoseCommand.command(E2E_TEST_REPORT, args))
