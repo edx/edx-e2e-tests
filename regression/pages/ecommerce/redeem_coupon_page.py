@@ -82,7 +82,7 @@ class RedeemCouponPage(PageObject):
         names = self.q(css='.discount-multiple-courses .course-name').text
         for index, name in enumerate(names):
             if name == course_title:
-                self.course_tile += ':nth-of-type(' + str(index + 1) + ')'
+                self.course_tile += ':nth-of-type(' + str(index + 2) + ')'
                 break
 
     def get_course_info(self):
@@ -93,10 +93,10 @@ class RedeemCouponPage(PageObject):
         """
         return {
             'course_name': self.q(
-                css='' + self.course_tile + ' .course-name'
+                css=self.course_tile + ' .course-name'
             ).text[0],
             'course_org': self.q(
-                css='' + self.course_tile + ' .course-org'
+                css=self.course_tile + ' .course-org'
             ).text[0],
             'course_start_date': self.coupon_course_start_date
         }
