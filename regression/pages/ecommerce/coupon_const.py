@@ -2,6 +2,7 @@
 """
 Constant used in coupon tests
 """
+import os
 from datetime import datetime, timedelta
 
 from regression.pages.whitelabel.const import ORG
@@ -84,21 +85,50 @@ STOCK_RECORD_ID = STOCK_RECORD_IDS[ORG]
 
 # Coupon users
 
-COUPON_USERS = {
-    'coupon_user_01': 'wl_coupon_user01@example.com',
-    'coupon_user_02': 'wl_coupon_user02@example.com',
-    'coupon_user_03': 'wl_coupon_user03@example.com'
+# In order to avoid collisions between various CI jobs, separate some of
+# the user account data
+USER_DATA_SET = os.getenv('USER_DATA_SET', 'pipeline')
+
+COUPON_USER_SETS = {
+    'pipeline': {
+        'coupon_user_01': 'wl_coupon_user01@example.com',
+        'coupon_user_02': 'wl_coupon_user02@example.com',
+        'coupon_user_03': 'wl_coupon_user03@example.com'
+    },
+    'pr': {
+        'coupon_user_01': 'ms_coupon_user01@example.com',
+        'coupon_user_02': 'ms_coupon_user02@example.com',
+        'coupon_user_03': 'ms_coupon_user03@example.com'
+    }
 }
 
-VALID_DOMAIN_USERS = {
-    'coupon_user_04': 'wl_coupon_user04@emaildomainfour.com',
-    'coupon_user_05': 'wl_coupon_user05@emaildomainfive.com'
+VALID_DOMAIN_SETS = {
+    'pipeline': {
+        'coupon_user_04': 'wl_coupon_user04@emaildomainfour.com',
+        'coupon_user_05': 'wl_coupon_user05@emaildomainfive.com'
+    },
+    'pr': {
+        'coupon_user_04': 'ms_coupon_user04@emaildomainfour.com',
+        'coupon_user_05': 'ms_coupon_user05@emaildomainfive.com'
+    }
 }
 
-INVALID_DOMAIN_USERS = {
-    'coupon_user_06': 'wl_coupon_user06@emaildomainsix.com',
-    'coupon_user_07': 'wl_coupon_user07@emaildomainseven.com'
+INVALID_DOMAIN_SETS = {
+    'pipeline': {
+        'coupon_user_06': 'wl_coupon_user06@emaildomainsix.com',
+        'coupon_user_07': 'wl_coupon_user07@emaildomainseven.com'
+    },
+    'pr': {
+        'coupon_user_06': 'ms_coupon_user06@emaildomainsix.com',
+        'coupon_user_07': 'ms_coupon_user07@emaildomainseven.com'
+    }
 }
+
+COUPON_USERS = COUPON_USER_SETS[USER_DATA_SET]
+
+VALID_DOMAIN_USERS = VALID_DOMAIN_SETS[USER_DATA_SET]
+
+INVALID_DOMAIN_USERS = INVALID_DOMAIN_SETS[USER_DATA_SET]
 
 # Email domains
 

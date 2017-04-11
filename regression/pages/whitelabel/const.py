@@ -145,14 +145,28 @@ BILLING_INFO = {
     'expiry_year': '2018'
 }
 
+# In order to avoid collisions between various CI jobs, separate some of
+# the user account data
+USER_DATA_SET = os.getenv('USER_DATA_SET', 'pipeline')
+
 # Existing user email
-EXISTING_USER_EMAIL = 'wl_smoke_user01@example.com'
+EXISTING_USER_EMAILS = {
+        'pipeline': 'wl_smoke_user01@example.com',
+        'pr': 'ms_smoke_user01@example.com'
+}
+
+EXISTING_USER_EMAIL = EXISTING_USER_EMAILS[USER_DATA_SET]
+
+# Student user email
+VISUAL_USER_EMAILS = {
+    'pipeline': 'wl_visual_test01@example.com',
+    'pr': 'ms_visual_test01@example.com'
+}
+
+VISUAL_USER_EMAIL = VISUAL_USER_EMAILS[USER_DATA_SET]
 
 # Staff user email
 STAFF_EMAIL = os.environ['STAFF_USER_EMAIL']
-
-# Student user email
-VISUAL_USER_EMAIL = 'wl_visual_test01@example.com'
 
 # Default Threshold for visual difference
 DIFF_THRESHOLD = 5000
