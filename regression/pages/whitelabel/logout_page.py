@@ -27,10 +27,10 @@ class LogoutPage(PageObject):
         """
         self.q(css='.user-name').click()
         self.wait_for_element_visibility(
-            '.user-account li>a[href="/logout"]',
+            '.show-user-menu>li>a[href="/logout"]',
             'wait for user dropdown to expand'
         )
-        self.q(css='.user-account li>a[href="/logout"]').click()
+        self.q(css='.show-user-menu>li>a[href="/logout"]').click()
         HomePage(self.browser).wait_for_page()
 
 
