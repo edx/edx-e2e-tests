@@ -67,3 +67,97 @@ def get_data_id_of_component(page):
     """
     data_id = page.q(css='.problem-header').attrs('id')[0]
     return data_id
+
+
+def get_white_label_registration_fields(
+        email='', password='', full_name='White label Test User',
+        first_name='White Label', last_name='Test User', gender='m',
+        yob='1994', state='Massachusetts', country='US', edu_level='m',
+        company='Arbisoft', title='SQA', user_name=''
+
+):
+    """
+    Returns a dictionary of fields to register a user.
+
+    Arguments:
+        email(str): User's email
+        password(str): User's password
+        full_name(str): User's full name
+        first_name(str): User's first name
+        last_name(str): User's last name
+        gender(str): User's gender
+        yob(str): User's year of birth
+        state(str): User's current state of residence.
+        country(str): User's country
+        edu_level(str): User's education level.
+        company(str): User's current company  of affiliation.
+        title(str): User's title.
+        user_name(str): User's user name
+
+    Returns:
+        dict: A dictionary of all fields.
+    """
+    return {
+        'email': email,
+        'password': password,
+        'full_name': full_name,
+        'first_name': first_name,
+        'last_name': last_name,
+        'gender': gender,
+        'yob': yob,
+        'state': state,
+        'country': country,
+        'edu_level': edu_level,
+        'company': company,
+        'title': title,
+        'user_name': user_name
+    }
+
+
+def fill_input_fields(page, elements_and_values_dict):
+    """
+    Fill input fields
+
+    Arguments:
+        page(PageObject): Page to fill input fields on.
+        elements_and_values_dict(dict): A dictionary of
+            elements(css) and input values.
+    """
+    for key, value in elements_and_values_dict.iteritems():
+        page.q(css=key).fill(value)
+
+
+def select_drop_down_values(page, elements_and_values_dict):
+    """
+    Select drop down values.
+
+    Arguments:
+        page(PageObject): Page on which drop down exists
+        elements_and_values_dict(dict): A dictionary of
+            drop down elements(css) and values.
+    """
+    for element, val in elements_and_values_dict.iteritems():
+        page.wait_for_element_visibility(
+            'select[name={}]'.format(element), 'Drop down is visible')
+        page.q(
+            css='select[name={}] option[value="{}"]'.format(element, val)
+        ).click()
+
+
+def click_checkbox(page, checkbox_css, toggle=False):
+    """
+    Click a checkbox.
+
+    Arguments:
+        page(PageObject): The page object on which checkbox exists.
+        checkbox_css(str): The css of checkbox.
+        toggle(bool): If False then, it won't un-check the checked checkbox.
+    """
+    page.wait_for_element_visibility(checkbox_css, 'wait for target checkbox')
+    checkbox = page.q(css=checkbox_css).results[0]
+
+    if toggle:
+        checkbox.click()
+    else:
+        if not checkbox.is_selected():
+            checkbox.click()

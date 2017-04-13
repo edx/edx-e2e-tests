@@ -15,7 +15,15 @@ export DISPLAY=":1"
 virtualenv venv
 . venv/bin/activate
 
+mkdir -p log
+
 pip install -r requirements/base.txt
+
+# Install the page objects from the edx-platform repo.
+# Before doing so, we don't need optimizations for lxml,
+# so install it this way which doesn't bother compiling them.
+STATIC_DEPS=true CFLAGS="-O0"  pip install "lxml==3.4.4" > log/pip_lxml_install.log
+paver install_pages > log/paver_install_pages.log
 
 
 # Run the tests
@@ -23,19 +31,10 @@ organizations="MITProfessionalX HarvardMedGlobalAcademy"
 
 # Run General tests on all organizations using Chrome
 for organization in ${organizations}; do
-    export SELENIUM_BROWSER=chrome
+    export SELENIUM_BROWSER=firefox
     export ORG=${organization}
     echo "Running General tests using Chrome on" ${organization}
-    paver e2e_wl_test general || EXIT=1
-done
-
-
-# Run Coupon tests on all organizations using chrome
-for organization in ${organizations}; do
-    export SELENIUM_BROWSER=chrome
-    export ORG=${organization}
-    echo "Running Coupon tests using Chrome on" ${organization}
-    paver e2e_wl_test coupon || EXIT=1
+    paver e2e_wl_test whitelabel || EXIT=1
 done
 
 
