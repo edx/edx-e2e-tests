@@ -113,6 +113,7 @@ class LoginApiBaseClass(object):
                     'expiry': cookie.expires
                 }
             )
+        browser.get(self.browser_get_url)
 
 
 class LmsLoginApi(LoginApiBaseClass):
