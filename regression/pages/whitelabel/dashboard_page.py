@@ -3,7 +3,7 @@ Student dashboard page.
 """
 from edxapp_acceptance.pages.lms.dashboard import DashboardPage
 
-from regression.pages.whitelabel.const import URL_WITH_AUTH
+from regression.pages.whitelabel.const import URL_WITH_AUTH, DEFAULT_TIMEOUT
 
 
 class DashboardPageExtended(DashboardPage):
@@ -31,3 +31,15 @@ class DashboardPageExtended(DashboardPage):
         Returns 'True' if account activation message is present on dashboard
         """
         return self.q(css='.activation-message').present
+
+    def go_to_profile_page(self):
+        """
+        Select the My Profile page from profile drop down
+        """
+        self.q(css='.user-name').click()
+        self.wait_for_element_visibility(
+            '.show-user-menu',
+            'wait for user drop down to expand',
+            timeout=DEFAULT_TIMEOUT
+        )
+        self.q(css='.show-user-menu>li>a[href^="/u/"]').click()
