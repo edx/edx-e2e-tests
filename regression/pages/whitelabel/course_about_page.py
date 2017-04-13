@@ -32,7 +32,10 @@ class CourseAboutPage(PageObject):
         return URL_WITH_AUTH + u"courses/" + self.course_id + u"/about"
 
     def is_browser_on_page(self):
-        return self.q(css='.btn-enroll').present
+        """
+        Check if course info section is visible
+        """
+        return self.q(css='section.course-info').visible
 
     def is_course_already_on_cart(self):
         """
