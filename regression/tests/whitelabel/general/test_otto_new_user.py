@@ -104,6 +104,7 @@ class TestNewUserOtto(CourseEnrollmentMixin):
         # the course
         self.assertTrue(self.is_course_added_to_dashboard())
 
+    @skip('disabling temporarily due to an issue with email handling')
     def test_03_multi_seat_flow(self):
         """
         Scenario: Otto Group Purchase - A new user is able to register,
@@ -148,7 +149,7 @@ class TestNewUserOtto(CourseEnrollmentMixin):
         self.assertFalse(self.dashboard.is_course_present(self.course_id))
         self.logout_user_from_lms()
         enrollment_file_link = self.get_url_from_email(
-            self.user_email,
+            'enrollment codes',
             'enrollment_code_csv'
         )
         coupons = self.get_bulk_purchase_enrollment_codes(
