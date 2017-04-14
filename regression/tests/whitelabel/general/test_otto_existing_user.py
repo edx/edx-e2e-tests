@@ -53,6 +53,7 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         self.pay_with_cybersource()
         self.assert_enrollment_and_logout()
 
+    @skip('disabling temporarily due to an issue with chrome on jenkins')
     def test_01_select_course_and_login(self):
         """
         Scenario: Otto flow - A registered user is able to select a course,
