@@ -8,13 +8,10 @@ from regression.pages.common.email_client import GuerrillaMailApi
 from regression.pages.ecommerce.basket_page import SingleSeatBasketPage
 from regression.pages.whitelabel.const import (
     EXISTING_USER_EMAIL,
-    EMAIL_SENDER_ACCOUNT,
-    ORG,
     PASSWORD,
     PROF_COURSE_ID,
     PROF_COURSE_TITLE,
-    PROF_COURSE_PRICE,
-    URL_WITHOUT_AUTH
+    PROF_COURSE_PRICE
 )
 from regression.pages.whitelabel.course_about_page import CourseAboutPage
 from regression.pages.whitelabel.course_info_page import CourseInfoPage
@@ -56,7 +53,6 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         self.pay_with_cybersource()
         self.assert_enrollment_and_logout()
 
-    @skip('disabling temporarily due to an issue with chrome on jenkins')
     def test_01_select_course_and_login(self):
         """
         Scenario: Otto flow - A registered user is able to select a course,
@@ -84,60 +80,6 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         self.verify_price_on_basket()
         self.pay_with_cybersource()
         self.assert_enrollment_and_logout()
-
-    # def test_02_switch_between_single_seat_and_multi_seat_baskets(self):
-    #     """
-    #     Scenario: Otto flow - A user is able to switch from single seat
-    #     basket page to multi seat basket page and vice versa
-    #     """
-    #     # Login to application using the existing credentials
-    #     self.login_and_go_to_basket(EXISTING_USER_EMAIL)
-    #     # Verify that voucher link is present on single seat basket
-    #     self.single_seat_basket.is_voucher_link_visible()
-    #     # Verify that multi seat link is present
-    #     self.assertTrue(
-    #         self.single_seat_basket.is_multi_seat_basket_link_visible())
-    #     # Go to Multi seat Basket page
-    #     self.single_seat_basket.go_to_multi_seat_basket()
-    #     # Verify course name, course price and total price on basket page
-    #     self.verify_course_name_on_basket()
-    #     self.verify_price_on_basket()
-    #     # Verify that multi seat selector is present on the page
-    #     self.multi_seat_basket.is_multi_seat_selector_visible()
-    #     # Verify that single seat link is present
-    #     self.assertTrue(
-    #         self.multi_seat_basket.is_single_seat_basket_link_visible()
-    #     )
-    #     # Switch back to Single seat basket
-    #     self.multi_seat_basket.go_to_single_seat_basket()
-    #     # Verify course name, course price and total price on basket page
-    #     self.verify_course_name_on_basket()
-    #     self.verify_price_on_basket()
-    #     # Verify that voucher link is present on single seat basket
-    #     self.single_seat_basket.is_voucher_link_visible()
-    #     # Verify that multi seat link is present
-    #     self.assertTrue(
-    #         self.single_seat_basket.is_multi_seat_basket_link_visible()
-    #     )
-
-    # def test_06_bulk_purchase_cancel_checkout(self):
-    #     """
-    #     Scenario: Otto flow - Bulk Purchase - User is taken to a page with
-    #     relevant error message when payment is cancelled from checkout page
-    #     """
-    #     self.login_and_go_to_basket(EXISTING_USER_EMAIL, bulk_purchase=True)
-    #     self.basket.go_to_cybersource_page()
-    #     self.cyber_source.cancel_checkout()
-    #     # Verify error message header
-    #     self.assertEqual(
-    #         self.cancel_checkout_page.get_error_message_header(),
-    #         'Checkout Cancelled'
-    #     )
-    #     # Verify that correct support email link is present in error message
-    #     self.assertIn(
-    #         EMAIL_SENDER_ACCOUNT,
-    #         self.cancel_checkout_page.get_support_email_link()
-    #     )
 
     @skip('This test requires access to gmail, currently we are using an alternate test')
     def test_07_multi_seat_flow(self):
