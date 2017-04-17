@@ -4,7 +4,7 @@ Tests for new users using Otto
 import uuid
 from unittest import skip
 
-from regression.pages.common.email_client import GuerrillaMailApi
+from regression.pages.common.email_client import TempMailApi
 from regression.pages.whitelabel.home_page import HomePage
 from regression.pages.whitelabel.inactive_account import InactiveAccount
 from regression.pages.whitelabel.reset_password_page import (
@@ -52,7 +52,7 @@ class TestUSerAccount(UserAuthenticationMixin):
         """
         Scenario: A user is able to reset the password
         """
-        temp_mail = GuerrillaMailApi()
+        temp_mail = TempMailApi()
         self.user_name = str(uuid.uuid4().node)
         self.user_email = temp_mail.get_email_account(self.user_name)
         new_password = str(uuid.uuid4().node)
