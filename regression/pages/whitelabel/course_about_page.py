@@ -107,6 +107,48 @@ class CourseAboutPage(PageObject):
         Click on the Enroll button to go to single seat basket page
         """
         add_to_cart_button = '.course-detail .btn-enroll'
+        self.browser.execute_script("jQuery.fx.off = true;")
+        self.browser.execute_script("""
+            var id = 'no-transitions';
+            // if styles were already added, just do nothing.
+            if (document.getElementById(id)) {
+                return;
+            }
+            var css = [
+                    '* {',
+                        '-webkit-transition: none !important;',
+                        '-moz-transition: none !important;',
+                        '-o-transition: none !important;',
+                        '-ms-transition: none !important;',
+                        'transition: none !important;',
+                        '-webkit-transition-property: none !important;',
+                        '-moz-transition-property: none !important;',
+                        '-o-transition-property: none !important;',
+                        '-ms-transition-property: none !important;',
+                        'transition-property: none !important;',
+                        '-webkit-transform: none !important;',
+                        '-moz-transform: none !important;',
+                        '-o-transform: none !important;',
+                        '-ms-transform: none !important;',
+                        'transform: none !important;',
+                        '-webkit-animation: none !important;',
+                        '-moz-animation: none !important;',
+                        '-o-animation: none !important;',
+                        '-ms-animation: none !important;',
+                        'animation: none !important;',
+                    '}'
+                ].join(''),
+                head = document.head || document.getElementsByTagName('head')[0],
+                styles = document.createElement('style');
+            styles.id = id;
+            styles.type = 'text/css';
+            if (styles.styleSheet){
+              styles.styleSheet.cssText = css;
+            } else {
+              styles.appendChild(document.createTextNode(css));
+            }
+            head.appendChild(styles);
+        """)
         self.wait_for_element_visibility(
             add_to_cart_button,
             'Enroll button is visible'
