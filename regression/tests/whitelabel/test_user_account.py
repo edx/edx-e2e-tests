@@ -93,6 +93,7 @@ class TestUserAccount(WhiteLabelTestsBaseClass):
         )
         self.dashboard.is_browser_on_page()
 
+    @skip
     def test_activate_account_and_reset_password(self):
         """
         Scenario: A user is able to activate his account
