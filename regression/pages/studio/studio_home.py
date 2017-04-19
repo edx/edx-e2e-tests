@@ -2,7 +2,9 @@
 Dashboard page for Studio
 """
 from edxapp_acceptance.pages.studio.index import DashboardPage
+from edxapp_acceptance.tests.helpers import disable_animations
 from bok_choy.promise import BrokenPromise
+
 from regression.pages.studio import LOGIN_BASE_URL
 from regression.pages.lms import LMS_REDIRECT_URL
 
@@ -49,6 +51,7 @@ class DashboardPageExtended(DashboardPage):
         """
         Clicks view live button
         """
+        disable_animations(self)
         self.browser.execute_script(
             "document.querySelectorAll('[data-course-key = \"course-v1:"
             "ArbiRaees+AR-1000+fall\"] .view-button')[0].click();")
