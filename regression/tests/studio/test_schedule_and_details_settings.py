@@ -1,7 +1,6 @@
 """
 Regression tests for Studio's Setting page.
 """
-from flaky import flaky
 from bok_choy.web_app_test import WebAppTest
 from edxapp_acceptance.pages.studio.users import UsersPageMixin
 from edxapp_acceptance.pages.studio.settings_advanced import (
@@ -78,7 +77,6 @@ class ScheduleAndDetailsTest(WebAppTest):
             ).get_attribute('value')
         )
 
-    @flaky  # TODO: See https://openedx.atlassian.net/browse/LT-65
     def test_cancel_upload(self):
         """
         Scenario: Upload a new course card image but cancel afterwards.

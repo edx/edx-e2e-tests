@@ -22,6 +22,12 @@ class SettingsPageExtended(SettingsPage):
         course_id = get_course_key(self.course_info)
         return LOGIN_BASE_URL + "/" + self.url_path + "/" + unicode(course_id)
 
+    def is_browser_on_page(self):
+        return self.q(css='body.view-settings').visible \
+            and self.q(
+                css='#course-organization'
+            ).results[0].get_attribute('value')
+
     def upload_course_image(self, file_name):
         """
         Uploads course image without saving it.
