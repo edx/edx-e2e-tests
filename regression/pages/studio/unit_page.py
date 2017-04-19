@@ -3,6 +3,7 @@ Unit Page for Studio
 """
 
 from edxapp_acceptance.pages.studio.container import ContainerPage
+from edxapp_acceptance.tests.helpers import disable_animations
 
 
 class UnitPageExtended(ContainerPage):
@@ -27,10 +28,22 @@ class UnitPageExtended(ContainerPage):
         Clicks Word Cloud and verifies that it appears on Studio
 
         """
-        self.q(
-            css='.add-xblock-component-button[data-type="advanced"]'
-        ).click()
-        self.q(css='.button-component[data-category="word_cloud"]').click()
+        add_x_block_button_css = '.add-xblock-component-button' \
+                                 '[data-type="advanced"]'
+        word_cloud_button_css = '.button-component[data-category="word_cloud"]'
+
+        self.wait_for_element_visibility(
+            add_x_block_button_css,
+            'Add xblock button is visible.'
+        )
+        disable_animations(self)
+        self.q(css=add_x_block_button_css).click()
+
+        self.wait_for_element_visibility(
+            word_cloud_button_css,
+            'Word cloud button is visible.'
+        )
+        self.q(css=word_cloud_button_css).click()
         # Click initiates an ajax call
         self.wait_for_ajax()
         self.wait_for_element_visibility(
