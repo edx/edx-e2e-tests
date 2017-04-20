@@ -2,7 +2,6 @@
 End to end tests for HTML Components
 """
 from uuid import uuid4
-from flaky import flaky
 
 from bok_choy.web_app_test import WebAppTest
 
@@ -171,7 +170,6 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         """
         super(StudioViewTest, self).setUp()
 
-    @flaky  # TODO: See https://openedx.atlassian.net/browse/LT-65
     def test_unit_studio_view(self):
         """
         Scenario: To test studio view of component from LMS
