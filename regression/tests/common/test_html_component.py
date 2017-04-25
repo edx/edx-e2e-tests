@@ -67,7 +67,6 @@ class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
         """
         super(StudioLmsAdvancedComponentTest, self).setUp()
 
-    @flaky  # TODO: See https://openedx.atlassian.net/browse/LT-65
     def test_word_cloud_advanced_component(self):
         """
         Verifies that user can add Word Cloud component on Studio and LMS
