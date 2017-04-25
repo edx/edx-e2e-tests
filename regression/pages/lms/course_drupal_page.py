@@ -26,6 +26,9 @@ class DemoCourseSelectionPage(PageObject):
         """
         Checks if we are on the correct page
         """
+        self.wait_for_element_visibility(
+            "#course-intro-heading", "Course intro heading"
+        )
         return 'DemoX' in self.q(
             css='.pull-left'
         ).text[0]

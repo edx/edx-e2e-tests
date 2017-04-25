@@ -2,6 +2,7 @@
 Course pages test
 """
 from uuid import uuid4
+from flaky import flaky
 
 from bok_choy.web_app_test import WebAppTest
 
@@ -162,6 +163,7 @@ class PagesTestWithLms(WebAppTest):
         pages_in_tab = self.courseware_page.get_page_names_in_tab()
         self.assertNotIn(page_name, pages_in_tab)
 
+    @flaky
     def test_hide_and_show_pages(self):
         """
         Verifies that hide/show toggle button is working
