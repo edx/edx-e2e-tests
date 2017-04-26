@@ -77,6 +77,7 @@ class TestUSerAccount(UserAuthenticationMixin):
         )
         self.dashboard.is_browser_on_page()
 
+    @skip('disble as email apis are not working')
     def test_00_activate_account_and_reset_password(self):
         """
         Scenario: A user is able to activate his account and afterwards reset the password

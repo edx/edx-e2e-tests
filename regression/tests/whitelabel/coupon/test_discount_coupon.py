@@ -299,6 +299,7 @@ class TestDiscountCoupon(VouchersMixin):
             self.use_discount_redeem_url()
             self.assert_enrollment_and_logout()
 
+    @skip('disble as email apis are not working')
     def test_07_discount_single_use_percentage_redeem_url(self):
         """
         Scenario: New Activated Users - Discount Single Use Percentage Redeem
@@ -373,6 +374,7 @@ class TestDiscountCoupon(VouchersMixin):
                     ONCE_PER_CUSTOMER_REDEEM_URL_MAX_LIMIT
                 )
 
+    @skip('disble as email apis are not working')
     def test_09_discount_once_per_customer_percentage_redeem_url(self):
         """
         Scenario: Inactive Users - Discount Once Per Customer Percentage
