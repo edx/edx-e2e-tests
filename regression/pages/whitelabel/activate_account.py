@@ -30,7 +30,6 @@ class ActivateAccount(PageObject):
     def is_account_activation_complete(self):
         """
         Is account activation complete?
-
         Returns:
             bool: True if activation complete message is visible:
         """

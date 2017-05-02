@@ -29,7 +29,6 @@ paver install_pages > log/paver_install_pages.log
 # Run the tests
 organizations="MITProfessionalX HarvardMedGlobalAcademy"
 
-# Run General tests on all organizations using Chrome
 for organization in ${organizations}; do
     export SELENIUM_BROWSER=firefox
     export ORG=${organization}

@@ -19,6 +19,7 @@ class LoginPage(PageObject):
     def provide_info(self, email, password):
         """
         Fill in login info
+
         Arguments:
             email(str): User's email
             password(str): User's password
@@ -63,3 +64,9 @@ class LoginPage(PageObject):
         return self.q(
             css='.message-title'
         ).filter(lambda elem: elem.text == 'Check Your Email').visible
+
+    def toggle_to_registration_page(self):
+        """
+        Toggle to registration page.
+        """
+        self.q(css='.nav-btn.form-toggle[data-type="register"]').click()

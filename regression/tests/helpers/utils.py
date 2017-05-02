@@ -5,6 +5,7 @@ import os
 
 from regression.pages.studio.utils import get_course_key
 from regression.pages.studio import LOGIN_BASE_URL
+from regression.pages.whitelabel.activate_account import ActivateAccount
 
 COURSE_ORG = 'COURSE_ORG'
 COURSE_NUMBER = 'COURSE_NUMBER'
@@ -161,3 +162,32 @@ def click_checkbox(page, checkbox_css, toggle=False):
     else:
         if not checkbox.is_selected():
             checkbox.click()
+
+
+def activate_account(test, email_api):
+    """
+    Activates an account.
+
+    Fetch activation url from email, open the activation link in a new
+    window, verify that account is activated.
+
+    Arguments:
+        browser(NeedleDriver): The browser on which activation is performed.
+        email_api(GuerrillaMailApi): Api to access GuerrillaMail.
+    """
+    main_window = test.browser.current_window_handle
+    # Get activation link from email
+    activation_url = email_api.get_url_from_email(
+        'activate'
+    )
+    # Open a new window and go to activation link in this window
+    test.browser.execute_script("window.open('');")
+    test.browser.switch_to.window(test.browser.window_handles[-1])
+    account_activate_page = ActivateAccount(test.browser, activation_url)
+    account_activate_page.visit()
+    # Verify that activation is complete
+    test.assertTrue(account_activate_page.is_account_activation_complete)
+    test.browser.close()
+    # Switch back to original window and refresh the page
+    test.browser.switch_to.window(main_window)
+    test.browser.refresh()

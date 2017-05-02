@@ -1,6 +1,7 @@
 """
 Student dashboard page.
 """
+from opaque_keys.edx.keys import CourseKey
 from edxapp_acceptance.pages.lms.dashboard import DashboardPage
 
 from regression.pages.whitelabel.const import URL_WITH_AUTH, DEFAULT_TIMEOUT
@@ -43,3 +44,57 @@ class DashboardPageExtended(DashboardPage):
             timeout=DEFAULT_TIMEOUT
         )
         self.q(css='.show-user-menu>li>a[href^="/u/"]').click()
+
+    def is_course_present(self, course_id):
+        """
+        Checks whether course is present or not.
+
+        Arguments:
+            course_id(str): The unique course id.
+
+        Returns:
+            bool: True if the course is present.
+        """
+        course_number = CourseKey.from_string(course_id).course
+        return self.q(
+            css='#actions-dropdown-link-0[data-course-number="{}"]'.format(
+                course_number
+            )
+        ).present
+
+    def click_courses_button(self):
+        """
+        Click on the courses link to go to courses page
+        """
+        self.q(css='.brand-link[href="/courses"]').click()
+
+    def unenroll_course(self, course_id):
+        """
+        Un-enroll from the course
+
+        Arguments:
+             course_id(str): The unique id of the course to un-enroll from.
+        """
+        course_number = CourseKey.from_string(course_id).course
+        course_link = '#actions-dropdown-link-0[data-course-number="' + \
+                      course_number + '"]'
+        un_enroll_button = '#actions-dropdown-list-0>#actions-item-unenroll-0>' \
+                           '#unenroll-0'
+        self.q(css=course_link).click()
+        self.wait_for_element_visibility(
+            un_enroll_button,
+            'unenroll option is visible',
+            timeout=DEFAULT_TIMEOUT
+        )
+        self.q(css=un_enroll_button).click()
+        self.wait_for_element_visibility(
+            '#unenroll-modal',
+            'wait for popup',
+            timeout=DEFAULT_TIMEOUT
+        )
+        self.q(css='.submit>input[value="Unenroll"]').click()
+        self.wait_for_element_absence(
+            course_link,
+            'Course disappears from the dashboard',
+            timeout=DEFAULT_TIMEOUT
+        )
