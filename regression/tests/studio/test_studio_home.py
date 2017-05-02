@@ -2,11 +2,12 @@
 End to end tests for Studio Home page
 """
 import os
+
 from unittest import skipIf
 from bok_choy.web_app_test import WebAppTest
 from edxapp_acceptance.pages.studio.overview import CourseOutlinePage
-from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 
+from regression.pages.lms.lms_courseware import CoursewarePageExtended
 from regression.pages.studio import STUDIO_BASE_URL, STUDIO_STAGE_BASE_URL
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.studio.terms_of_service import TermsOfService
@@ -87,7 +88,7 @@ class StudioLmsTest(WebAppTest):
         """
         self.studio_home_page.visit()
         self.studio_home_page.click_view_live_button()
-        courseware_page = CoursewarePage(
+        courseware_page = CoursewarePageExtended(
             self.browser, get_course_info())
         courseware_page.wait_for_page()
 
