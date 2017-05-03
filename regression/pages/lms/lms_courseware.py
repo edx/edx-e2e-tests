@@ -11,6 +11,10 @@ class CoursewarePageExtended(CoursewarePage):
     where we add methods that are different or not used in
     Courseware Page
     """
+
+    def is_browser_on_page(self):
+        return self.q(css='body .active').visible
+
     @property
     def url(self):
         """
