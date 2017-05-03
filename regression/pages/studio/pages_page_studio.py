@@ -197,6 +197,10 @@ class PagesPageExtended(CoursePageExtended):
         Returns:
             bool: True if configured to show otherwise False.
         """
+        self.wait_for_element_visibility(
+            'is-movable[data-tab-id="wiki"] .action-visible [type="checkbox"]',
+            'Toggle button is visible'
+        )
         toggle_value = self.q(
             css='.is-movable[data-tab-id="wiki"] '
                 '.action-visible [type="checkbox"]'
