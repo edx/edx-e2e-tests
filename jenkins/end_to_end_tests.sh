@@ -29,4 +29,4 @@ paver install_pages > log/paver_install_pages.log
 export DISPLAY=:1
 
 # Run the tests
-paver e2e_test --with-flaky --exclude=whitelabel
+paver e2e_test studio/test_course_pages.py:PagesTestWithLms.test_hide_and_show_pages --with-flaky --exclude=whitelabel
