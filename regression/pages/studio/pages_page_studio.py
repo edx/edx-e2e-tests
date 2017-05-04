@@ -159,6 +159,7 @@ class PagesPageExtended(CoursePageExtended):
             checkbox_css_action
         ).perform()
         sync_on_notification(self)
+        self.wait_for_ajax()
         if icon_visibility:
             self.wait_for_element_invisibility(
                 '.is-movable[data-tab-id="wiki"] .fa-eye',
