@@ -9,9 +9,7 @@ import json
 import requests
 from requests.auth import AuthBase
 from edx_rest_api_client.client import EdxRestApiClient
-
 from guerrillamail import GuerrillaMailSession
-from edx_rest_api_client.client import EdxRestApiClient
 
 from regression.pages import (
     BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD, LOGIN_EMAIL, LOGIN_PASSWORD

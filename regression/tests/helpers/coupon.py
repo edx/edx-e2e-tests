@@ -19,16 +19,11 @@ class Coupon(object):
     """
     def __init__(self, catalog_type, coupon_type, voucher_type, **kwargs):
         super(Coupon, self).__init__()
-<<<<<<< HEAD
-=======
-        self.coupon_data = ""
->>>>>>> 3304f73... test_discount_coupon
         self.benefit_type = ""
         self.benefit_value = ""
         self.discounted_course_price = ""
         self.coupon_id = ""
         self.e_commerce_api = EcommerceApiClient()
-<<<<<<< HEAD
         self.coupon_data = self._set_coupon_data(
             catalog_type, coupon_type, voucher_type
         )
@@ -36,19 +31,10 @@ class Coupon(object):
             self.coupon_data.update(kwargs)
 
     def _set_coupon_data(
-=======
-        self.set_coupon_data(catalog_type, coupon_type, voucher_type, **kwargs)
-
-    def set_coupon_data(
->>>>>>> 3304f73... test_discount_coupon
             self,
             catalog_type,
             coupon_type,
             voucher_type,
-<<<<<<< HEAD
-=======
-            **kwargs
->>>>>>> 3304f73... test_discount_coupon
     ):
         """
         Return all data needed to configure a coupon.
@@ -83,13 +69,7 @@ class Coupon(object):
             "client": "Test Client",
             "invoice_type": "Not-Applicable"
         }
-<<<<<<< HEAD
         return coupon_data
-=======
-        if kwargs:
-            coupon_data.update(kwargs)
-        self.coupon_data = coupon_data
->>>>>>> 3304f73... test_discount_coupon
 
     def set_discount_details(self):
         """
