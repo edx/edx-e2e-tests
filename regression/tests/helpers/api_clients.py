@@ -4,12 +4,20 @@ Api clients for tests.
 import time
 import datetime
 import re
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3304f73... test_discount_coupon
 import Cookie
 import json
 import requests
 
 from requests.auth import AuthBase
+<<<<<<< HEAD
 from edx_rest_api_client.client import EdxRestApiClient
+=======
+
+>>>>>>> 3304f73... test_discount_coupon
 from guerrillamail import GuerrillaMailSession
 
 from regression.pages import (
@@ -31,6 +39,8 @@ from regression.pages.whitelabel.const import (
     AUTH_USERNAME,
     AUTH_PASSWORD
 )
+
+from edx_rest_api_client.client import EdxRestApiClient
 
 
 class LoginApiBaseClass(object):
@@ -487,6 +497,7 @@ class LmsApiClient(object):
         Returns:
             username
         """
+<<<<<<< HEAD
         try:
             user_info = self.login_response_cookies[
                 'stage-edx-user-info'
@@ -496,6 +507,13 @@ class LmsApiClient(object):
         else:
             user_info_dict = json.loads(user_info)
             return user_info_dict['username']
+=======
+        user_info = self.login_response_cookies['stage-edx-user-info'].value
+        user_info_dict = json.loads(user_info)
+        if not user_info_dict:
+            raise ApiException('User Info Dictionary not found')
+        return user_info_dict['username']
+>>>>>>> 3304f73... test_discount_coupon
 
     def change_enrollment(self, course_id, enrollment_action):
         """

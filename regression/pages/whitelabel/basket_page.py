@@ -150,6 +150,7 @@ class CyberSourcePage(BasketPage):
             self.wait_for(lambda k=key, v=val: self.q(
                 css='select[id={}] option[value="{}"]'.format(k, v)
             ).selected, "Correct value is selected")
+
         self.q(css='#card-cvn').fill(bill_info['cvn'])
 
     def click_payment_button(self):
