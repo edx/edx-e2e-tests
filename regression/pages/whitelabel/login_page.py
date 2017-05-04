@@ -70,3 +70,19 @@ class LoginPage(PageObject):
         Toggle to registration page.
         """
         self.q(css='.nav-btn.form-toggle[data-type="register"]').click()
+
+    def authenticate_user(self, email, password):
+        """
+        Provide email and password for an existing user and log in
+        Args:
+            email:
+            password:
+        """
+        elements_and_values = {
+            '#login-email': email,
+            '#login-password': password
+        }
+        fill_input_fields(self, elements_and_values)
+        self.q(
+            css='.action.action-primary.action-update.js-login.login-button'
+        ).click()

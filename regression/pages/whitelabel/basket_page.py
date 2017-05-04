@@ -203,3 +203,10 @@ class SingleSeatBasketPage(BasketPage):
         """
         raw_price = self.q(css='#basket-total .price').text[0]
         return extract_numerical_value_from_price_string(raw_price)
+
+    def go_to_receipt_page(self):
+        """
+        Click on the checkout button to enroll in course for free
+        """
+        btn_css = '.btn[href="/checkout/free-checkout/"]'
+        self.q(css=btn_css).click()

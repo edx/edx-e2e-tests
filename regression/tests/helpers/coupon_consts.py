@@ -9,14 +9,15 @@ from regression.pages.whitelabel.const import ORG
 
 EXPIRED_CODE_ERROR = "Coupon code '{}' has expired."
 
-FUTURE_CODE_ERROR = "Coupon code '{}' has expired."
+FUTURE_CODE_ERROR = "Coupon code '{}' is not active."
 
 SINGLE_USE_CODE_REUSE_ERROR = "Coupon code '{}' has already been redeemed."
 
 ONCE_PER_CUSTOMER_CODE_MAX_LIMIT = \
     'Your basket does not qualify for a coupon code discount.'
 
-ONCE_PER_CUSTOMER_CODE_SAME_USER_REUSE = "Coupon code '{}' is invalid."
+ONCE_PER_CUSTOMER_CODE_SAME_USER_REUSE = \
+    "You have already used this coupon in a previous order"
 
 INVALID_DOMAIN_ERROR_MESSAGE_ON_BASKET = \
     'Your basket does not qualify for a coupon code discount.'

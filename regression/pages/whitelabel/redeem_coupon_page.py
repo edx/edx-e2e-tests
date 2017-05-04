@@ -169,6 +169,15 @@ class RedeemCouponPage(PageObject):
         """
         return self.q(css='.depth.depth-2.message-error-content>h3').text[0]
 
+    def redeem_enrollment(self, target_page):
+        """
+        Click on Checkout button to go to basket page
+        Args:
+             target_page:
+        """
+        self.q(css=self.course_tile_css + ' #RedeemEnrollment').click()
+        target_page.wait_for_page()
+
 
 class RedeemCouponErrorPage(PageObject):
     """
@@ -179,3 +188,12 @@ class RedeemCouponErrorPage(PageObject):
 
     def is_browser_on_page(self):
         return self.q(css='.depth.depth-2.message-error-content').present
+
+    @property
+    def error_message(self):
+        """
+        Get error message from the page
+        Returns:
+            error message:
+        """
+        return self.q(css='.depth.depth-2.message-error-content>h3').text[0]

@@ -49,6 +49,24 @@ class VouchersTest(CourseEnrollmentTest):
         self.receipt_page.click_in_nav_to_go_to_dashboard()
         self.dashboard_page.wait_for_page()
 
+    def enroll_using_enrollment_code(self, coupon_code):
+        """
+        Enroll in the course after enrollment coupon is applied
+        Note that for enrollment code we assume a 100% discount
+        Arguments:
+            coupon_code(unicode string): The coupon code to use for enrollment.
+        """
+        self.single_seat_basket.apply_coupon_code(coupon_code)
+        self.verify_after_coupon_is_applied_on_basket()
+        self.single_seat_basket.go_to_receipt_page()
+        self.receipt_page.wait_for_page()
+        # Verify on receipt page that information like course title,
+        # course price, total price
+        # order date and billing to is displayed correctly
+        self.verify_receipt_info_for_discounted_course()
+        self.receipt_page.click_in_nav_to_go_to_dashboard()
+        self.dashboard_page.wait_for_page()
+
     def error_message_on_invalid_coupon_code(self, coupon_code):
         """
         Apply the invalid coupon and get error message.
@@ -109,6 +127,36 @@ class VouchersTest(CourseEnrollmentTest):
         self.verify_course_info_on_coupon_redeem_page(redeem_coupon_page)
         redeem_coupon_page.click_checkout_button(self.course_id)
 
+    def redeem_single_course_enrollment_coupon(self, coupon_url, target_page):
+        """
+        Redeem single course enrollment coupon
+        Args
+            coupon_url:
+            target_page:
+        """
+        redeem_coupon_page = RedeemCouponPage(self.browser, coupon_url).visit()
+        redeem_coupon_page.wait_for_course_tile()
+        self.verify_course_info_on_coupon_redeem_page(redeem_coupon_page)
+        redeem_coupon_page.redeem_enrollment(target_page)
+
+    def redeem_multi_course_enrollment_coupon(
+            self,
+            coupon_url,
+            target_page,
+            course_title):
+        """
+        Redeem single course enrollment coupon
+        Args
+            coupon_url:
+            target_page:
+            course_title:
+        """
+        redeem_coupon_page = RedeemCouponPage(self.browser, coupon_url).visit()
+        redeem_coupon_page.wait_for_course_tile()
+        redeem_coupon_page.set_course_tile_index(course_title)
+        self.verify_course_info_on_coupon_redeem_page(redeem_coupon_page)
+        redeem_coupon_page.redeem_enrollment(target_page)
+
     def verify_course_info_on_coupon_redeem_page(self, redeem_coupon_page):
         """
         Verify info on course tile of redeem coupons page.
@@ -159,3 +207,9 @@ class VouchersTest(CourseEnrollmentTest):
         # order date and billing to are displayed correctly.
         self.verify_receipt_info_for_discounted_course()
         self.receipt_page.click_in_nav_to_go_to_dashboard()
+
+    def verify_after_coupon_is_applied_on_basket(self):
+        """
+        After coupon code is applied on basket page, verify Code is applied
+        """
+        self.assertTrue(self.single_seat_basket.is_voucher_applied())

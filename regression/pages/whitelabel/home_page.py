@@ -101,3 +101,9 @@ class HomePage(PageObject):
             footer logo alt text:
         """
         return self.q(css='.footer-logo>ul>li>a>img').attrs('alt')[0]
+
+    def go_to_registration_page(self):
+        """
+        Go to registration page
+        """
+        self.q(css='.btn-brand.btn-client[href="/register"]').click()
