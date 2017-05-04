@@ -164,7 +164,7 @@ class PagesTestWithLms(WebAppTest):
         pages_in_tab = self.courseware_page.get_page_names_in_tab()
         self.assertNotIn(page_name, pages_in_tab)
 
-    @flaky(max_runs=30, min_passes=30)
+    @flaky(max_runs=50, min_passes=50)
     def test_hide_and_show_pages(self):
         """
         Verifies that hide/show toggle button is working
