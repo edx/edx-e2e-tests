@@ -4,6 +4,7 @@ Extended Pages page for a course.
 from edxapp_acceptance.pages.common.utils import (
     click_css, sync_on_notification
 )
+from edxapp_acceptance.tests.helpers import disable_animations
 from edxapp_acceptance.pages.studio.utils import drag
 
 from selenium.webdriver.common.action_chains import ActionChains
@@ -146,6 +147,7 @@ class PagesPageExtended(CoursePageExtended):
         """
         Toggles Wiki page display
         """
+        disable_animations(self)
         icon_visibility = self.q(
             css='.is-movable[data-tab-id="wiki"] .fa-eye'
         ).visible

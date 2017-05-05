@@ -5,7 +5,6 @@ from uuid import uuid4
 from flaky import flaky
 
 from bok_choy.web_app_test import WebAppTest
-from edxapp_acceptance.tests.helpers import disable_animations
 
 from regression.tests.helpers.api_clients import (
     StudioLoginApi, LmsLoginApi
@@ -200,7 +199,6 @@ class PagesTestWithLms(WebAppTest):
         Resets hide/show state of wiki page to default
         """
         self.pages_page.visit()
-        disable_animations(self.pages_page)
         if self.pages_page.toggle_wiki_page_show_value() is False:
             self.pages_page.toggle_wiki_page_display()
             self.assertTrue(self.pages_page.toggle_wiki_page_show_value())
