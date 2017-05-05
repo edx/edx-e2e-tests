@@ -153,10 +153,8 @@ class PagesPageExtended(CoursePageExtended):
         ).visible
         toggle_checkbox_css = '.is-movable[data-tab-id="wiki"] ' \
                               '.toggle-checkbox'
+        self.wait_for_element_visibility(toggle_checkbox_css, 'Toggle checkbox is visible')
         checkbox_css_action = self.q(css=toggle_checkbox_css).results[0]
-        self.wait_for_element_presence(
-            toggle_checkbox_css, 'Toggle button presence'
-        )
         ActionChains(self.browser).move_to_element(checkbox_css_action).click(
             checkbox_css_action
         ).perform()
