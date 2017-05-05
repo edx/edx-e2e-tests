@@ -3,8 +3,6 @@ Logout Page
 """
 from bok_choy.page_object import PageObject
 
-from regression.pages.whitelabel.home_page import HomePage
-
 
 class EcommerceLogoutPage(PageObject):
     """
@@ -34,4 +32,3 @@ class EcommerceLogoutPage(PageObject):
             'wait for user dropdown to expand'
         )
         self.q(css='.nav-link[href="/logout/"]').click()
-        HomePage(self.browser).wait_for_page()

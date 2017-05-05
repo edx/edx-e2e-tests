@@ -31,7 +31,6 @@ class WhiteLabelTestsBaseClass(WebAppTest):
         Login a user by manually filling the form.
         """
         self.login_page.provide_info(email, password)
-        self.login_page.submit()
         self.dashboard_page.wait_for_page()
 
     def logout_user_from_lms(self):

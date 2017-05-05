@@ -119,7 +119,7 @@ class VouchersTest(CourseEnrollmentTest):
         Redeem single course discount coupon.
 
         Arguments:
-            coupon_url(str): The url of the coupon.
+            coupon_url: Url of the coupon.
         """
         redeem_coupon_page = RedeemCouponPage(self.browser, coupon_url)
         redeem_coupon_page.visit()
@@ -131,8 +131,8 @@ class VouchersTest(CourseEnrollmentTest):
         """
         Redeem single course enrollment coupon
         Args
-            coupon_url:
-            target_page:
+            coupon_url: Url of the coupon.
+            target_page: Destination page.
         """
         redeem_coupon_page = RedeemCouponPage(self.browser, coupon_url).visit()
         redeem_coupon_page.wait_for_course_tile()
@@ -147,9 +147,9 @@ class VouchersTest(CourseEnrollmentTest):
         """
         Redeem single course enrollment coupon
         Args
-            coupon_url:
-            target_page:
-            course_title:
+            coupon_url: Url of the coupon.
+            target_page: Destination page.
+            course_title: Title of the course.
         """
         redeem_coupon_page = RedeemCouponPage(self.browser, coupon_url).visit()
         redeem_coupon_page.wait_for_course_tile()

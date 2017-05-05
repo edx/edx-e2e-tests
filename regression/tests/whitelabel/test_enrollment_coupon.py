@@ -366,6 +366,7 @@ class TestEnrollmentCoupon(VouchersTest):
             INVALID_DOMAIN_ERROR_MESSAGE_ON_REDEEM_URL
         )
         self.logout_user_from_ecommerce()
+        self.home.wait_for_page()
         # Verify that coupon url can be used for authorized email domain
         # In each test we are selecting a random user from the valid domain
         # list to bring down the test run time. Since multiple tests will be
