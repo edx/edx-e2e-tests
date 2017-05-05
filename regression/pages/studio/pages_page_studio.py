@@ -158,9 +158,7 @@ class PagesPageExtended(CoursePageExtended):
             toggle_checkbox_css, 'Toggle button presence'
         )
         checkbox_css_action = self.q(css=toggle_checkbox_css).results[0]
-        ActionChains(self.browser).move_to_element(checkbox_css_action).click(
-            checkbox_css_action
-        ).perform()
+        self.browser.execute_script("arguments[0].click();", checkbox_css_action)
         sync_on_notification(self)
         self.wait_for_ajax()
         if icon_visibility:
