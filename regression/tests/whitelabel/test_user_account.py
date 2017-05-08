@@ -89,7 +89,6 @@ class TestUserAccount(WhiteLabelTestsBaseClass):
         self.login_page.authenticate_user(
             self.user_email,
             new_password,
-            self.dashboard
         )
         self.dashboard.is_browser_on_page()
 

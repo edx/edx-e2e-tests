@@ -24,3 +24,12 @@ class CoursesPage(PageObject):
             course_id(str): Id of the target page.
         """
         self.q(css='article[id="' + course_id + '"]>a').click()
+
+    def go_to_course_about_page(self, target_page):
+        """
+        click on the desired course id to open course about page
+        Args:
+            target_page:
+        """
+        self.q(css='article[id="' + target_page.course_id + '"]>a').click()
+        target_page.wait_for_page()

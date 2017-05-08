@@ -7,7 +7,6 @@ import re
 import Cookie
 import json
 import requests
-
 from requests.auth import AuthBase
 from edx_rest_api_client.client import EdxRestApiClient
 from guerrillamail import GuerrillaMailSession
@@ -487,15 +486,11 @@ class LmsApiClient(object):
         Returns:
             username
         """
-        try:
-            user_info = self.login_response_cookies[
-                'stage-edx-user-info'
-            ].value
-        except KeyError:
+        user_info = self.login_response_cookies['stage-edx-user-info'].value
+        user_info_dict = json.loads(user_info)
+        if not user_info_dict:
             raise ApiException('User Info Dictionary not found')
-        else:
-            user_info_dict = json.loads(user_info)
-            return user_info_dict['username']
+        return user_info_dict['username']
 
     def change_enrollment(self, course_id, enrollment_action):
         """

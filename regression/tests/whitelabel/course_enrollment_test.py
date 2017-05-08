@@ -1,6 +1,7 @@
 """
 Base class for tests with enrollment capability
 """
+
 from bok_choy.promise import EmptyPromise
 
 from regression.tests.whitelabel.white_label_tests_base import (
