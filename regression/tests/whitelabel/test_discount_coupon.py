@@ -51,7 +51,6 @@ class TestDiscountCoupon(VouchersTest):
     """
     def setUp(self):
         super(TestDiscountCoupon, self).setUp()
-        # Initialize all page objects
         # Initialize common variables
         self.course_id = PROF_COURSE_ID
         self.course_price = PROF_COURSE_PRICE
