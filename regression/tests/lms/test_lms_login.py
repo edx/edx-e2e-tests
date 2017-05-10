@@ -10,7 +10,7 @@ from regression.pages.lms import LMS_BASE_URL, LMS_STAGE_BASE_URL
 
 class LoginTest(WebAppTest):
     """
-    Tests for logging in and navigating to Courseware page
+    Tests for logging in and navigating to Course ware page
     """
 
     DEMO_COURSE_USER = os.environ.get('USER_LOGIN_EMAIL')
