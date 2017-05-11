@@ -36,7 +36,7 @@ class RedeemCouponPage(PageObject):
         """
         super(RedeemCouponPage, self).__init__(browser)
         self.coupon_code = coupon_code
-        self.course_tile_css = '.discount-multiple-courses'
+        self.course_tile_css = 'div.discount-multiple-courses'
 
     @property
     def url(self):
@@ -177,6 +177,18 @@ class RedeemCouponPage(PageObject):
         """
         self.q(css=self.course_tile_css + ' #RedeemEnrollment').click()
         target_page.wait_for_page()
+
+    def set_course_tile_index(self, course_title):
+        """
+        Get the course tile index place based on course title
+        Args:
+            course_title:
+        """
+        names = self.q(css='.discount-multiple-courses .course-name').text
+        course_index = names.index(course_title)
+        self.course_tile_css = self.course_tile_css + ":nth-child({})".format(
+            course_index+2
+        )
 
 
 class RedeemCouponErrorPage(PageObject):

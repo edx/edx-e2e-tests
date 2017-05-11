@@ -23,13 +23,12 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
     def register_white_label_user(self, registration_fields, submit=True):
         """
         Registers a whitelabel users for whitelabel tests.
-
         Arguments:
             registration_fields(dict): A dictionary of all fields to be filled.
             submit(bool): If True then registration form will be submitted.
         """
         self.wait_for_element_visibility(
-            '.register-form', 'Registration form is visible.'
+            '.form-toggle[data-type="login"]', 'Registration form is visible.'
         )
 
         elements_and_values = {
@@ -46,9 +45,13 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
             "country": registration_fields['country'],
             "year_of_birth": registration_fields['yob'],
         }
-
-        fill_input_fields(self, elements_and_values)
         select_drop_down_values(self, drop_down_names_and_values)
+        fill_input_fields(self, elements_and_values)
+
+        # Some tests still don't display the new registration page when running
+        # on Jenkins. Once registration page is updated, remove this condition.
+        if self.q(css='#register-honor_code').visible:
+            click_checkbox(self, '#register-honor_code')
         click_checkbox(self, '#register-terms_of_service')
 
         if ORG == 'MITProfessionalX':
@@ -59,7 +62,6 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
                     '#register-title': registration_fields['title']
                 }
             )
-            click_checkbox(self, '#register-honor_code')
 
         if ORG != 'HarvardMedGlobalAcademy':
             select_drop_down_values(
@@ -72,3 +74,9 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
 
         if submit:
             self.q(css='.register-button').click()
+
+    def toggle_to_login_page(self):
+        """
+        Toggle to login page
+        """
+        self.q(css='.form-toggle[data-type="login"]').click()
