@@ -4,13 +4,14 @@ Receipt page
 from bok_choy.page_object import PageObject
 
 from regression.pages.common.utils import (
-    convert_date_format
+    convert_date_format,
+    extract_numerical_value_from_price_string
 )
 
 
 class ReceiptPage(PageObject):
     """
-    Course receipt page.
+    Course receipt page
     """
 
     url = None
@@ -21,20 +22,20 @@ class ReceiptPage(PageObject):
     @property
     def order_desc(self):
         """
-        Get the order description from receipt.
+        Get the order description from receipt
 
         Returns:
-            str: Description of the order.
+            str: Description of the order
         """
         return self.q(css='.course-description>span').text[0]
 
     @property
     def order_date(self):
         """
-        Get the order date from receipt.
+        Get the order date from receipt
 
         Returns:
-            str: Date of the order.
+            str: Date of the order
         """
         date_string = self.q(
             xpath=".//*[@id='receipt-container']//dt[text()='Order Date:']"
@@ -51,3 +52,27 @@ class ReceiptPage(PageObject):
         Go to user dashboard page by clicking on Go to Dashboard button
         """
         self.q(css='.dashboard-link.nav-link').click()
+
+    @property
+    def total_amount(self):
+        """
+        Get the total amount
+        Returns:
+            total amount.
+        """
+        total_amount = self.q(
+            css='.order-total:nth-of-type(2)>.price'
+        ).text[0]
+        return extract_numerical_value_from_price_string(total_amount)
+
+    @property
+    def order_amount(self):
+        """
+        Get the order amount from receipt
+        Returns:
+            order amount.
+        """
+        amount = self.q(
+            css='.line-price.price'
+        ).text[0]
+        return extract_numerical_value_from_price_string(amount)

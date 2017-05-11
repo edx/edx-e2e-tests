@@ -42,7 +42,7 @@ class HomePage(PageObject):
         """
         Get list of social media links
         Returns:
-            social media links:
+            social media links
         """
         footer_css = '.footer-main a'
         social_links = []
@@ -80,7 +80,7 @@ class HomePage(PageObject):
         """
         Get header logo alt text
         Returns:
-            header logo alt text:
+            header logo alt text
         """
         return self.q(css='.logo>a>img').attrs('alt')[0]
 
@@ -89,7 +89,7 @@ class HomePage(PageObject):
         """
         Get footer logo link
         Returns:
-            footer logo link:
+            footer logo link
         """
         return self.q(css='.footer-logo>ul>li>a>img').attrs('src')[0]
 
@@ -98,7 +98,7 @@ class HomePage(PageObject):
         """
         Get footer logo alt text
         Returns:
-            footer logo alt text:
+            footer logo alt text
         """
         return self.q(css='.footer-logo>ul>li>a>img').attrs('alt')[0]
 
@@ -106,4 +106,12 @@ class HomePage(PageObject):
         """
         Go to registration page
         """
+        # Requires wait_for_page() statement in the test
         self.q(css='.btn-brand.btn-client[href="/register"]').click()
+
+    def go_to_courses_page(self):
+        """
+        Go to courses page
+        """
+        # Requires wait_for_page() statement in the test
+        self.q(css='.brand-link[href="/courses"]').click()

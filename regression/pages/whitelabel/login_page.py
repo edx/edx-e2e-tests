@@ -14,7 +14,7 @@ class LoginPage(PageObject):
     url = URL_WITH_AUTH + 'login'
 
     def is_browser_on_page(self):
-        return self.q(css='.nav-btn.form-toggle[data-type="register"]').visible
+        return self.q(css='.form-toggle[data-type="register"]').visible
 
     def provide_info(self, email, password):
         """
@@ -69,14 +69,14 @@ class LoginPage(PageObject):
         """
         Toggle to registration page.
         """
-        self.q(css='.nav-btn.form-toggle[data-type="register"]').click()
+        self.q(css='.form-toggle[data-type="register"]').click()
 
     def authenticate_user(self, email, password):
         """
         Provide email and password for an existing user and log in
         Args:
-            email:
-            password:
+            email
+            password
         """
         elements_and_values = {
             '#login-email': email,

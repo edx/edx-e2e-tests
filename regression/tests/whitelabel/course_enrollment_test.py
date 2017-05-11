@@ -1,6 +1,7 @@
 """
 Base class for tests with enrollment capability
 """
+import datetime
 
 from bok_choy.promise import EmptyPromise
 
@@ -201,3 +202,33 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
         """
         self.assert_course_added_to_dashboard()
         self.unenroll_using_ui()
+
+    def pay_with_cybersource(self):
+        """
+        Make payment using cybersource.
+        """
+        # Fill out all the billing and payment details and submit the form
+        self.otto_payment_using_cyber_source()
+        # Application should take user to the receipt page
+        # Verify on receipt page that information like course title,
+        # course price, total price order date and billing to is
+        # displayed correctly
+        self.verify_receipt_info()
+        self.receipt_page.click_in_nav_to_go_to_dashboard()
+
+    def verify_receipt_info(self):
+        """
+        Verify that Course title, Course Price, total price and order date on
+        receipt page is correct.
+        """
+        self.assertIn(self.course_title, self.receipt_page.order_desc)
+        self.assertEqual(
+            # Slight chance that this will fail if the test execution crosses
+            # the boundary of midnight
+            unicode(datetime.datetime.utcnow().date()),
+            self.receipt_page.order_date
+        )
+        self.assertEqual(
+            [self.receipt_page.order_amount, self.receipt_page.total_amount],
+            [self.course_price, self.total_price]
+        )

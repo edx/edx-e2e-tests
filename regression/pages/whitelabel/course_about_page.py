@@ -66,3 +66,14 @@ class CourseAboutPage(PageObject):
             'Multi enroll button is visible.'
         )
         self.q(css=multi_seat_basket_button_css).click()
+
+    def register_using_enrollment_button(self):
+        """
+        Unregistered user clicks on the Enroll Now button to go to registration
+        page
+        """
+        self.wait_for_element_visibility(
+            '.course-detail .btn-enroll.register',
+            'Enrollment button is visible'
+        )
+        self.q(css='.course-detail .btn-enroll').click()
