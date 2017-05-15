@@ -24,7 +24,7 @@ class LoginPage(PageObject):
         Returns:
             True if toggle to registration button is visible
         """
-        return self.q(css='.nav-btn.form-toggle[data-type="register"]').visible
+        return self.q(css='.form-toggle[data-type="register"]').visible
 
     def authenticate_user(self, email, password, target_page):
         """
@@ -72,7 +72,7 @@ class LoginPage(PageObject):
         """
         Toggle to login page
         """
-        self.q(css='.nav-btn.form-toggle[data-type="register"]').click()
+        self.q(css='.form-toggle[data-type="register"]').click()
         RegistrationPage(self.browser).wait_for_page()
 
 
@@ -89,7 +89,7 @@ class RegistrationPage(PageObject):
         Returns:
             True if toggle to login button is visible
         """
-        return self.q(css='.nav-btn.form-toggle[data-type="login"]').visible
+        return self.q(css='.form-toggle[data-type="login"]').visible
 
     def fill_registration_form(self, email, password, username, reg_info, org):
         """
