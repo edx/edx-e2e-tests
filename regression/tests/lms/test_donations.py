@@ -36,20 +36,19 @@ class DonationsTest(WebAppTest):
         # Create random email and register
         username = "test_{uuid}".format(uuid=self.unique_id[0:6])
         email = "{user}@example.com".format(user=username)
-        self.register_page.register(
+        self.register_page.register_user(
             email=email,
             password="edx",
             username=username,
             full_name="Test User",
             country="US",
-            favorite_movie="Some Movie",
             terms_of_service=True
         )
         self.dashboard_page.wait_for_page()
 
     @skipIf(
         LMS_BASE_URL != LMS_STAGE_BASE_URL,
-        "donations only work at stage"
+        "donations only work on stage"
     )  # LT-64
     def test_user_donations(self):
         """
@@ -62,9 +61,13 @@ class DonationsTest(WebAppTest):
         self.dashboard_page.click_donate_button()
         self.payment_page.wait_for_page()
         checkout_url = self.browser.current_url
-        if checkout_url == THIRD_PARTY_PAYMENTS_BASE_URL + '/pay':
+        if checkout_url == '{base_url}/pay'.format(
+                base_url=THIRD_PARTY_PAYMENTS_BASE_URL
+        ):
             pass
-        elif checkout_url == THIRD_PARTY_PAYMENTS_BASE_URL + '/checkout':
+        elif checkout_url == '{base_url}/checkout'.format(
+                base_url=THIRD_PARTY_PAYMENTS_BASE_URL
+        ):
             self.payment_page.wait_for_page()
             self.payment_page.make_test_payment()
             self.payment_confirmation_page.wait_for_page()
