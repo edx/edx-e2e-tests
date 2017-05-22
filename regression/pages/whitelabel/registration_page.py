@@ -23,7 +23,6 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
     def register_white_label_user(self, registration_fields, submit=True):
         """
         Registers a whitelabel users for whitelabel tests.
-
         Arguments:
             registration_fields(dict): A dictionary of all fields to be filled.
             submit(bool): If True then registration form will be submitted.
