@@ -13,7 +13,8 @@ from pavelib.paver_consts import (
     SCREENSHOT_DIR,
     BASELINE_DIR,
     PAVER_TEST_REPORT_DIR,
-    UPLOAD_FILE_DIR
+    UPLOAD_FILE_DIR,
+    WHITE_LABEL_TEST_REPORT
 )
 
 
@@ -147,4 +148,4 @@ def wl_test_config():
 @needs('wl_test_config')
 @consume_args
 def e2e_wl_test(args):
-    sh(NoseCommand.command(E2E_TEST_REPORT, args))
+    sh(NoseCommand.command(WHITE_LABEL_TEST_REPORT, args, True))

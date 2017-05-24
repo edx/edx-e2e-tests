@@ -4,8 +4,10 @@ from path import Path as path
 
 # Constants for e2e tests
 E2E_TEST_REPORT = 'e2e_tests_results.xml'
+WHITE_LABEL_TEST_REPORT = 'wl_tests_results.xml'
 LOG_DIR = path(os.path.join('log')).abspath()
 TEST_DIR = path(os.path.join('regression', 'tests')).abspath()
+WHITE_LABEL_TEST_DIR = path(os.path.join('regression', 'tests', 'whitelabel')).abspath()
 REPORT_DIR = path(os.path.join('reports')).abspath()
 SCREENSHOT_DIR = path(os.path.join('screenshots')).abspath()
 BASELINE_DIR = path(os.path.join('certs', 'screenshots', 'baseline')).abspath()

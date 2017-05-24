@@ -33,7 +33,7 @@ for organization in ${organizations}; do
     export SELENIUM_BROWSER=firefox
     export ORG=${organization}
     echo "Running General tests using Chrome on" ${organization}
-    paver e2e_wl_test whitelabel || EXIT=1
+    paver e2e_wl_test || EXIT=1
 done
 
 
