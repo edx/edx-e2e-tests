@@ -15,6 +15,8 @@ class ActivateAccount(PageObject):
         """
         super(ActivateAccount, self).__init__(browser)
         self.activate_account_url = activation_url
+        self.activation_msg_css = ".account-activation.account" \
+                                  "-activation.aa-icon.success"
 
     @property
     def url(self):
@@ -24,7 +26,7 @@ class ActivateAccount(PageObject):
         return self.activate_account_url
 
     def is_browser_on_page(self):
-        return self.q(css='.message>.valid').present
+        return self.q(css=self.activation_msg_css).present
 
     @property
     def is_account_activation_complete(self):
@@ -33,9 +35,9 @@ class ActivateAccount(PageObject):
         Returns:
             bool: True if activation complete message is visible:
         """
-        return self.q(
-            css='.message>.valid'
-        ).filter(lambda elem: elem.text == 'Account Activated').visible
+        return self.q(css=self.activation_msg_css).filter(
+            lambda elem: 'You have activated your account.' in elem.text
+        ).visible
 
     def click_dashboard_from_drop_down_menu(self):
         """
