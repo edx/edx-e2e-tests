@@ -37,6 +37,7 @@ We recommend using the provided Vagrant environment to develop and run tests.
 
 You will also need a deployed installation of edX lms and studio to run the tests against.
 See `edx/configuration <http://github.com/edx/configuration>`_ for instructions on provisioning an edX instance.
+For additional information on how to setup your development environment, see `Developer Onboarding <https://openedx.atlassian.net/wiki/pages/viewpage.action?spaceKey=ENG&title=Developer+Onboarding#DeveloperOnboarding-Step4:Getreadytodevelop>`_
 
 
 
