@@ -88,6 +88,21 @@ Before running tests, please ensure that following environment variables are set
     ==> BASIC_AUTH_PASSWORD
     ==> USER_LOGIN_EMAIL
     ==> USER_LOGIN_PASSWORD
+    ==> COURSE_RUN
+    ==> COURSE_DISPLAY_NAME
+    ==> COURSE_NUMBER
+    ==> COURSE_ORG
+
+Before running whitelabel tests, please ensure that these additional environment variables are also set.
+
+.. code:: bash
+
+    ==> GLOBAL_PASSWORD
+    ==> STAFF_USER_EMAIL
+    ==> TEST_EMAIL_SERVICE
+    ==> TEST_EMAIL_ACCOUNT
+    ==> TEST_EMAIL_PASSWORD
+    ==> ACCESS_TOKEN
 
 
 To run all the tests:
