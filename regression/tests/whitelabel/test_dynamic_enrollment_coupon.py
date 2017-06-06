@@ -2,6 +2,7 @@
 Single course Enrollment coupons tests
 """
 import random
+from unittest import skip
 
 from regression.tests.helpers.coupon_consts import (
     CATALOG_QUERY,
