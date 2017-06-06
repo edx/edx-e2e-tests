@@ -4,6 +4,7 @@ Single course Discount coupons tests
 import random
 import uuid
 from itertools import izip
+from unittest import skip
 
 from regression.tests.helpers.coupon_consts import (
     BENEFIT_TYPE,
@@ -57,6 +58,7 @@ class TestDiscountCoupon(VouchersTest):
         self.course_title = PROF_COURSE_TITLE
         self.total_price = PROF_COURSE_PRICE
 
+    @skip
     def test_discount_single_use_percentage_code(self):
         """
         Scenario: Discount Single Use Percentage Code: Code cannot be reused
@@ -91,6 +93,7 @@ class TestDiscountCoupon(VouchersTest):
             SINGLE_USE_CODE_REUSE_ERROR.format(coupon_code)
         )
 
+    @skip
     def test_discount_once_per_customer_fixed_code(self):
         """
         Scenario: Discount Once Per Customer Fixed Code: Code can be used up
@@ -129,6 +132,7 @@ class TestDiscountCoupon(VouchersTest):
                     ONCE_PER_CUSTOMER_CODE_MAX_LIMIT
                 )
 
+    @skip
     def test_discount_once_per_customer_fixed_code_email_domain(self):
         """
         Scenario: Discount Once Per Customer Fixed Code: Code can be used only
@@ -179,6 +183,7 @@ class TestDiscountCoupon(VouchersTest):
         self.enroll_using_discount_code(coupon_code)
         self.assert_enrollment_and_logout()
 
+    @skip
     def test_discount_single_use_fixed_code_expired(self):
         """
         Scenario: Discount Single Use Fixed Code: Relevant error message is
@@ -205,6 +210,7 @@ class TestDiscountCoupon(VouchersTest):
             EXPIRED_CODE_ERROR.format(coupon_code)
         )
 
+    @skip
     def test_discount_single_use_fixed_redeem_url(self):
         """
         Scenario: Existing Users - Discount Single Use Fixed Redeem URL: Each

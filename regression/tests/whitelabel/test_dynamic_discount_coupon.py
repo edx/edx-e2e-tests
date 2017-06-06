@@ -2,6 +2,7 @@
 Multi course Discount coupons tests
 """
 import random
+from unittest import skip
 
 from regression.tests.helpers.coupon import Coupon
 from regression.tests.helpers.coupon_consts import (
@@ -39,6 +40,7 @@ class TestDynamicDiscountCoupon(VouchersTest):
         # Initialize all page objects
         self.course_about = CourseAboutPage(self.browser, self.course_id)
 
+    @skip
     def test_discount_single_use_percentage_code(self):
         """
         Scenario: Dynamic Discount Single Use Percentage Code: Code cannot
