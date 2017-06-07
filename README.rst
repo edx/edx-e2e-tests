@@ -1,7 +1,7 @@
 edx-e2e-tests
 =============
 
-End-to-end tests for edX applications.
+End-to-end tests for edX applications!
 
 Overview
 --------
