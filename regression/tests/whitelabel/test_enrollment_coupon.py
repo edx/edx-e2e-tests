@@ -398,6 +398,7 @@ class TestEnrollmentCoupon(VouchersTest):
         self.dashboard_page.wait_for_page()
         self.assert_enrollment_and_logout()
 
+    @skip
     def test_enrollment_once_per_customer_redeem_url_expired(self):
         """
         Scenario: Enrollment Once Per Customer Redeem URL: Relevant error
