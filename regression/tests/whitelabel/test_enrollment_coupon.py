@@ -60,6 +60,7 @@ class TestEnrollmentCoupon(VouchersTest):
         self.course_title = PROF_COURSE_TITLE
         self.total_price = PROF_COURSE_PRICE
 
+    @skip
     def test_enrollment_single_use_code(self):
         """
         Scenario: Enrollment Single Use Code: Each code can be used by one
@@ -125,6 +126,7 @@ class TestEnrollmentCoupon(VouchersTest):
                     ONCE_PER_CUSTOMER_CODE_MAX_LIMIT
                 )
 
+    @skip
     def test_enrollment_once_per_customer_code_reuse_by_same_user(self):
         """
         Scenario: Enrollment Once Per Customer - Code Reuse: A code cannot
@@ -162,6 +164,7 @@ class TestEnrollmentCoupon(VouchersTest):
             ONCE_PER_CUSTOMER_CODE_SAME_USER_REUSE
         )
 
+    @skip
     def test_enrollment_once_per_customer_code_email_domain(self):
         """
         Scenario: Enrollment Once Per Customer Code - Email domains: Code can
@@ -210,6 +213,7 @@ class TestEnrollmentCoupon(VouchersTest):
         self.enroll_using_enrollment_code(coupon_code)
         self.assert_enrollment_and_logout()
 
+    @skip
     def test_enrollment_single_use_code_future(self):
         """
         Scenario: Enrollment Single Use Code: Relevant error message is
@@ -233,6 +237,7 @@ class TestEnrollmentCoupon(VouchersTest):
             FUTURE_CODE_ERROR.format(coupon_code)
         )
 
+    @skip
     def test_apply_enrollment_single_use_redeem_url(self):
         """
         Scenario: Unregistered Users: Enrollment Single Use Redeem URL: URL
