@@ -1,6 +1,8 @@
 """
 Tests for existing users using Otto
 """
+from unittest import skip
+
 from regression.pages.whitelabel.const import (
     EXISTING_USER_EMAIL,
     PASSWORD,
