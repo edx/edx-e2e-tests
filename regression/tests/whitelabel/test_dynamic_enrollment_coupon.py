@@ -2,6 +2,7 @@
 Single course Enrollment coupons tests
 """
 import random
+from unittest import skip
 
 from regression.tests.helpers.coupon_consts import (
     CATALOG_QUERY,
@@ -43,6 +44,7 @@ class TestDynamicEnrollmentCoupon(VouchersTest):
         # Initialize all page objects
         self.course_about = CourseAboutPage(self.browser, PROF_COURSE_ID)
 
+    @skip
     def test_enrollment_once_per_customer_code_max_limit(self):
         """
         Scenario: Dynamic Enrollment Once Per Customer - Code Max Limit: Each
@@ -80,6 +82,7 @@ class TestDynamicEnrollmentCoupon(VouchersTest):
             ONCE_PER_CUSTOMER_CODE_MAX_LIMIT
         )
 
+    @skip
     def test_apply_enrollment_once_per_customer_redeem_url(self):
         """
         Scenario: Registered Users: Dynamic Enrollment Once Per Customer

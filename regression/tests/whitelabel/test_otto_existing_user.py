@@ -1,6 +1,8 @@
 """
 Tests for existing users using Otto
 """
+from unittest import skip
+
 from regression.pages.whitelabel.const import (
     EXISTING_USER_EMAIL,
     PASSWORD,
@@ -37,6 +39,7 @@ class TestExistingUserOtto(CourseEnrollmentTest):
             self.course_id
         )
 
+    @skip
     def test_login_and_select_course(self):
         """
         Scenario: Otto flow - A registered user is able to login, select a
@@ -47,6 +50,7 @@ class TestExistingUserOtto(CourseEnrollmentTest):
         self.dashboard_page.wait_for_page()
         self.assert_enrollment_and_logout()
 
+    @skip
     def test_select_course_and_login(self):
         """
         Scenario: Otto flow - A registered user is able to select a course,
