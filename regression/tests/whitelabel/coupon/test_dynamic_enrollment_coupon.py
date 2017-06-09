@@ -60,6 +60,7 @@ class TestDynamicEnrollmentCoupon(VouchersMixin):
         # coupon cleanup
         self.addCleanup(self.delete_coupon_after_use)
 
+    @skip('remove after WL-1058 is fixed')
     def test_01_enrollment_once_per_customer_code_max_limit(self):
         """
         Scenario: Dynamic Enrollment Once Per Customer - Code Max Limit: Each
@@ -95,6 +96,7 @@ class TestDynamicEnrollmentCoupon(VouchersMixin):
                     ONCE_PER_CUSTOMER_CODE_MAX_LIMIT
                 )
 
+    @skip('remove after WL-1058 is fixed')
     def test_02_apply_enrollment_once_per_customer_redeem_url(self):
         """
         Scenario: Registered Users: Dynamic Enrollment Once Per Customer

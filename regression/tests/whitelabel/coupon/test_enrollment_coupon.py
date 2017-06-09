@@ -85,6 +85,7 @@ class TestEnrollmentCoupon(VouchersMixin):
             self.enroll_using_enrollment_code(coupon_code)
             self.assert_enrollment_and_logout()
 
+    @skip('remove after WL-1058 is fixed')
     def test_01_enrollment_once_per_customer_code_max_limit(self):
         """
         Scenario: Enrollment Once Per Customer - Code Max Limit: Each code can
@@ -261,6 +262,7 @@ class TestEnrollmentCoupon(VouchersMixin):
             SINGLE_USE_REDEEM_URL_REUSE_ERROR
         )
 
+    @skip('remove after WL-1058 is fixed')
     def test_06_apply_enrollment_once_per_customer_redeem_url(self):
         """
         Scenario: Registered Users: Enrollment Once Per Customer Redeem URL:
@@ -308,6 +310,7 @@ class TestEnrollmentCoupon(VouchersMixin):
                     ONCE_PER_CUSTOMER_REDEEM_URL_MAX_LIMIT
                 )
 
+    @skip('remove after WL-1058 is fixed')
     def test_07_enrollment_once_per_customer_redeem_url_email_domain(self):
         """
         Scenario: Enrollment Once Per Customer URL: URL can be used only by

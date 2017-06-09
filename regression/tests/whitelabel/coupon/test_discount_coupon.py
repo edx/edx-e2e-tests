@@ -93,6 +93,7 @@ class TestDiscountCoupon(VouchersMixin):
             self.enroll_using_discount_code(coupon_code)
             self.assert_enrollment_and_logout()
 
+    @skip('remove after WL-1058 is fixed')
     def test_01_discount_single_use_percentage_code(self):
         """
         Scenario: Discount Single Use Percentage Code: Code cannot be reused
@@ -123,6 +124,7 @@ class TestDiscountCoupon(VouchersMixin):
             SINGLE_USE_CODE_REUSE_ERROR.format(coupon_code)
         )
 
+    @skip('remove after WL-1058 is fixed')
     def test_02_discount_once_per_customer_fixed_code(self):
         """
         Scenario: Discount Once Per Customer Fixed Code: Code can be used up
@@ -197,6 +199,7 @@ class TestDiscountCoupon(VouchersMixin):
             ONCE_PER_CUSTOMER_CODE_SAME_USER_REUSE.format(coupon_code)
         )
 
+    @skip('remove after WL-1058 is fixed')
     def test_04_discount_once_per_customer_fixed_code_email_domain(self):
         """
         Scenario: Discount Once Per Customer Fixed Code: Code can be used only
@@ -245,6 +248,7 @@ class TestDiscountCoupon(VouchersMixin):
         self.enroll_using_discount_code(coupon_code)
         self.assert_enrollment_and_logout()
 
+    @skip('remove after WL-1058 is fixed')
     def test_05_discount_single_use_fixed_code_expired(self):
         """
         Scenario: Discount Single Use Fixed Code: Relevant error message is
@@ -269,6 +273,7 @@ class TestDiscountCoupon(VouchersMixin):
             EXPIRED_CODE_ERROR.format(coupon_code)
         )
 
+    @skip('remove after WL-1058 is fixed')
     def test_06_discount_single_use_fixed_redeem_url(self):
         """
         Scenario: Existing Users - Discount Single Use Fixed Redeem URL: Each

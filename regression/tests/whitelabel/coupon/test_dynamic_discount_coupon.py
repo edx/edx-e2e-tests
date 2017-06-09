@@ -64,6 +64,7 @@ class TestDynamicDiscountCoupon(VouchersMixin):
         # coupon cleanup
         self.addCleanup(self.delete_coupon_after_use)
 
+    @skip('remove after WL-1058 is fixed')
     def test_01_discount_single_use_percentage_code(self):
         """
         Scenario: Dynamic Discount Single Use Percentage Code: Code cannot
