@@ -141,6 +141,19 @@ To update page objects installed from external repos:
     paver install_pages
 
 
+Where and How to add new tests?
+---------------------
+
+Change your working directory to `regression/tests`. Add your tests to the below mentioned directories based on the relevancy of the tests.
+
+    1. `lms`: tests for the LMS pages
+    2. `studio`: tests for the studio pages
+    3. `whitelabel`: tests for microsites
+    4. `helpers`: helper methods for the tests
+    5. `common`: tests required for common components of lms and studio
+
+NOTE: Please make a pull request from the master branch before writing and adding new tests.
+
 How to change target environment?
 -------
 
