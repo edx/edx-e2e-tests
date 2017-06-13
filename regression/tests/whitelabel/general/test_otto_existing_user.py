@@ -39,6 +39,7 @@ class TestExistingUserOtto(CourseEnrollmentMixin):
         self.course_price = PROF_COURSE_PRICE
         self.total_price = PROF_COURSE_PRICE
 
+    @skip('remove after WL-1058 is fixed')
     def test_00_login_and_select_course(self):
         """
         Scenario: Otto flow - A registered user is able to login, select a
