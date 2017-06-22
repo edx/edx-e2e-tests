@@ -3,7 +3,16 @@ FROM ubuntu:16.04
 
 USER root
 
+#Add the e2e-repo to the container
+ADD https://github.com/edx/edx-e2e-tests.git /edx_e2e_tests
+
 #Configuration
+RUN apt-get update
+RUN apt-get install git
+RUN apt-get install python
+RUN apt-get install python-setuptools python-dev build-essential
+RUN easy_install pip
+RUN pip install paver
 RUN pip install -r requirements/base.txt
 RUN paver install_pages
 
@@ -14,5 +23,6 @@ ENV BASIC_AUTH_PASSWORD value
 ENV USER_LOGIN_EMAIL value
 ENV USER_LOGIN_PASSWORD value
 
-#Edit the CMD command to run speciifc tests
+#Edit the CMD command to run specific tests
 CMD paver e2e_test
+
