@@ -25,7 +25,7 @@ from regression.pages.lms.checkout_page import PaymentPage
 
 class DashboardTest(WebAppTest):
     """
-    Regression tests on LMS Dashboard
+    Regression tests on LMS Dashboard.
     """
 
     def setUp(self):
