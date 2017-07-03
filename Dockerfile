@@ -22,13 +22,9 @@ RUN pip install virtualenvwrapper
 RUN pip install -r requirements/base.txt
 RUN paver install_pages
 
-#Setting up environment variables. Change the value according to the value of the ENV_VAR
+#Setting up environment variables
+RUN /local_env.sh
 
-ENV BASIC_AUTH_USER value	
-ENV BASIC_AUTH_PASSWORD value
-ENV USER_LOGIN_EMAIL value
-ENV USER_LOGIN_PASSWORD value
-
-#Edit the CMD command to run speciifc tests
+#Edit the CMD command to run specific tests
 CMD paver e2e_test
 
