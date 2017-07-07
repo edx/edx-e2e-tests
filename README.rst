@@ -37,6 +37,7 @@ We recommend using the provided Vagrant environment to develop and run tests.
 
 You will also need a deployed installation of edX lms and studio to run the tests against.
 See `edx/configuration <http://github.com/edx/configuration>`_ for instructions on provisioning an edX instance.
+For additional information on how to setup your development environment, see `Developer Onboarding <https://openedx.atlassian.net/wiki/pages/viewpage.action?spaceKey=ENG&title=Developer+Onboarding#DeveloperOnboarding-Step4:Getreadytodevelop>`_
 
 
 
@@ -72,13 +73,8 @@ Configuration
     paver install_pages
 
 
-How to run tests?
----------------------
-Make sure you are in the correct folder.
-
-.. code:: bash
-
-    cd $HOME/edx-e2e-tests
+How to run LMS and Studio tests
+--------------------------------
 
 Before running tests, please ensure that following environment variables are set.
 
@@ -88,13 +84,16 @@ Before running tests, please ensure that following environment variables are set
     ==> BASIC_AUTH_PASSWORD
     ==> USER_LOGIN_EMAIL
     ==> USER_LOGIN_PASSWORD
-
+    ==> COURSE_RUN
+    ==> COURSE_DISPLAY_NAME
+    ==> COURSE_NUMBER
+    ==> COURSE_ORG
 
 To run all the tests:
 
 .. code:: bash
 
-    paver e2e_test
+    paver e2e_test --exclude=whitelabel
 
 
 The commands also accept nose-style specifiers for test case or module:
@@ -125,8 +124,53 @@ To update page objects installed from external repos:
     paver install_pages
 
 
+How to run Whitelabel tests
+----------------------------
+
+Before running whitelabel tests please ensure that these environment variables are set.
+
+.. code:: bash
+
+    ==> BASIC_AUTH_USER
+    ==> BASIC_AUTH_PASSWORD
+    ==> USER_LOGIN_EMAIL
+    ==> USER_LOGIN_PASSWORD
+    ==> COURSE_RUN
+    ==> COURSE_DISPLAY_NAME
+    ==> COURSE_NUMBER
+    ==> COURSE_ORG
+    ==> GLOBAL_PASSWORD
+    ==> STAFF_USER_EMAIL
+    ==> TEST_EMAIL_SERVICE
+    ==> TEST_EMAIL_ACCOUNT
+    ==> TEST_EMAIL_PASSWORD
+    ==> ACCESS_TOKEN
+
+
+To run all the tests in the file:
+
+.. code:: bash
+
+    paver e2e_wl_test whitelabel/test_user_account.py
+
+NOTE: In order to run tests in a particular class or a single test, use the same Nose specifiers as mentioned in the above section. However, do not forget to change the paver target to e2e_wl_test 
+
+
+Where and How to add new tests
+-------------------------------
+
+Change your working directory to `regression/tests`. Add your tests to the below mentioned directories based on the relevancy of the tests.
+
+    1. `lms`: tests for the LMS pages
+    2. `studio`: tests for the studio pages
+    3. `whitelabel`: tests for microsites
+    4. `helpers`: helper methods for the tests
+    5. `common`: tests required for common components of lms and studio
+
+NOTE: Please make a pull request from the master branch before writing and adding new tests.
+
 How to change target environment?
--------
+---------------------------------
 
 Studio and LMS urls for stage are ``https://studio.stage.edx.org``
 and ``https://courses.stage.edx.org`` respectively. We don't need to
