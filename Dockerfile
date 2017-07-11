@@ -1,20 +1,13 @@
-#Using the official ubuntu OS as a Base Image
-FROM ubuntu:16.04
+#Using the official python 2.7 as a Base Image
+FROM python:2.7-onbuild
 
 USER root
-
-#Add the e2e-repo to the container
-ADD https://github.com/edx/edx-e2e-tests.git /edx_e2e_tests
 
 #Configuration
 RUN apt-get update
 RUN apt-get install git
-RUN apt-get install python
-RUN apt-get install python-setuptools python-dev build-essential
-RUN easy_install pip
 RUN pip install paver
-
-RUN apt-get install -y firefox=45.0.2+build1-0ubuntu1
+RUN pip install bok_choy
 
 RUN pip install virtualenv==1.10.1
 RUN pip install virtualenvwrapper
