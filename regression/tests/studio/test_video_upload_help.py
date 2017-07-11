@@ -43,7 +43,7 @@ class TestVideoUploadHelp(WebAppTest):
         """
         # The url we want to see in anchor help element.
         expected_href = 'https://edx.readthedocs.io/projects/edx-partner-course-staff/' \
-                        'en/latest/video/video_uploads.html'
+                        'en/latest/video/index.html'
         # Assert that help link is correct.
         assert_nav_help_link(
             test=self,
