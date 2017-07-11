@@ -1,5 +1,5 @@
 #Using the official python 2.7 as a Base Image
-FROM python:2.7-onbuild
+FROM python:2
 
 USER root
 
