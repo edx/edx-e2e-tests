@@ -14,13 +14,9 @@ from regression.tests.helpers.utils import (
     get_course_info, get_course_display_name
 )
 from regression.tests.helpers.api_clients import StudioLoginApi, LmsLoginApi
-from regression.pages.lms.course_drupal_page import (
-    DemoCourseSelectionPage
-)
 from regression.pages.studio.course_outline_page import (
     CourseOutlinePageExtended
 )
-from regression.pages.lms.checkout_page import PaymentPage
 
 
 class DashboardTest(WebAppTest):
@@ -51,8 +47,6 @@ class DashboardTest(WebAppTest):
             self.browser, get_course_info()
         )
         self.dashboard_page = DashboardPageExtended(self.browser)
-        self.drupal_course_page = DemoCourseSelectionPage(self.browser)
-        self.payment_page = PaymentPage(self.browser)
 
         self.dashboard_page.visit()
 
