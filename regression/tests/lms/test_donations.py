@@ -3,6 +3,7 @@ End to end tests for User Donations.
 """
 from unittest import skipIf
 from bok_choy.web_app_test import WebAppTest
+from flaky import flaky
 
 from regression.pages.lms import LMS_BASE_URL, LMS_STAGE_BASE_URL
 from regression.pages.lms.register_page import RegisterPageExtended
@@ -50,6 +51,7 @@ class DonationsTest(WebAppTest):
         LMS_BASE_URL != LMS_STAGE_BASE_URL,
         "donations only work on stage"
     )  # LT-64
+    @flaky
     def test_user_donations(self):
         """
         Verifies that user can Donate after selecting a course for audit

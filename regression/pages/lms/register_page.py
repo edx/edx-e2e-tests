@@ -4,6 +4,7 @@ Register page.
 from edxapp_acceptance.pages.lms.login_and_register import (
     CombinedLoginAndRegisterPage
 )
+
 from regression.pages.lms import LOGIN_BASE_URL
 
 
