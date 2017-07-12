@@ -113,6 +113,8 @@ class CoursewarePageExtended(CoursewarePage):
         Returns
             list: A list of names of all pages
         """
+        import time
+        time.sleep(5)
         tab_pages = self.q(css='.tabs.course-tabs .tab').text
         # There is an extra text 'Current location' along
         # the page's name of selected(active) tab. It is

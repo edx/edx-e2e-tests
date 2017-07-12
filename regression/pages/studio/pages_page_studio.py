@@ -4,6 +4,7 @@ Extended Pages page for a course.
 from edxapp_acceptance.pages.common.utils import (
     click_css, sync_on_notification
 )
+from edxapp_acceptance.tests.helpers import disable_animations
 from edxapp_acceptance.pages.studio.utils import drag
 
 from selenium.webdriver.common.action_chains import ActionChains
@@ -146,22 +147,23 @@ class PagesPageExtended(CoursePageExtended):
         """
         Toggles Wiki page display
         """
+        disable_animations(self)
         icon_visibility = self.q(
             css='.is-movable[data-tab-id="wiki"] .fa-eye'
         ).visible
         toggle_checkbox_css = '.is-movable[data-tab-id="wiki"] ' \
                               '.toggle-checkbox'
-        checkbox_css_action = self.q(css=toggle_checkbox_css).results[0]
+
         self.wait_for_element_presence(
             toggle_checkbox_css, 'Toggle button presence'
         )
-        ActionChains(self.browser).move_to_element(checkbox_css_action).click(
-            checkbox_css_action
-        ).perform()
+        checkbox_css_action = self.q(css=toggle_checkbox_css).results[0]
+        self.browser.execute_script("arguments[0].click();", checkbox_css_action)
         sync_on_notification(self)
+        self.wait_for_ajax()
         if icon_visibility:
-            self.wait_for_element_invisibility(
-                '.is-movable[data-tab-id="wiki"] .fa-eye',
+            self.wait_for_element_visibility(
+                '.is-movable[data-tab-id="wiki"] .fa-eye-slash',
                 'Eye icon invisibility'
             )
         else:
@@ -197,6 +199,10 @@ class PagesPageExtended(CoursePageExtended):
         Returns:
             bool: True if configured to show otherwise False.
         """
+        self.wait_for_element_visibility(
+            '.is-movable[data-tab-id="wiki"] .action-visible',
+            'Toggle button is visible'
+        )
         toggle_value = self.q(
             css='.is-movable[data-tab-id="wiki"] '
                 '.action-visible [type="checkbox"]'
