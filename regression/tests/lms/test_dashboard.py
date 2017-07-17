@@ -21,7 +21,7 @@ from regression.pages.studio.course_outline_page import (
 
 class DashboardTest(WebAppTest):
     """
-    Regression tests on LMS Dashboard
+    Regression tests on LMS Dashboard.
     """
 
     def setUp(self):
