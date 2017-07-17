@@ -2,6 +2,8 @@
 # Copy to a new file (local_env.sh) and fill the blanks
 # Use the 'source local_env.sh' to setup your environment
 
+# Following environment variables need to be set for edx-e2e-tests tests
+
 export BASIC_AUTH_USER=<FILLIN>
 export BASIC_AUTH_PASSWORD=<FILLIN>
 export USER_LOGIN_EMAIL=<FILLIN>
@@ -10,4 +12,16 @@ export COURSE_ORG=<FILLIN>
 export COURSE_NUMBER=<FILLIN>
 export COURSE_RUN=<FILLIN>
 export COURSE_DISPLAY_NAME=<FILLIN>
+export ACCESS_TOKEN=<FILLIN>
+export GLOBAL_PASSWORD=<FILLIN>
+export STAFF_USER_EMAIL=<FILLIN>
+export TEST_EMAIL_SERVICE=<FILLIN>
+export TEST_EMAIL_ACCOUNT=<FILLIN>
+export TEST_EMAIL_PASSWORD=<FILLIN>
 
+# Following set prior to issuing the paver e2e_test command, will tell the
+# test runner to use the container's browser
+
+export SELENIUM_BROWSER=firefox
+export SELENIUM_HOST=<FILLINYOURMACHINEIP>
+export SELENIUM_PORT=4444

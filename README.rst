@@ -39,7 +39,40 @@ You will also need a deployed installation of edX lms and studio to run the test
 See `edx/configuration <http://github.com/edx/configuration>`_ for instructions on provisioning an edX instance.
 For additional information on how to setup your development environment, see `Developer Onboarding <https://openedx.atlassian.net/wiki/pages/viewpage.action?spaceKey=ENG&title=Developer+Onboarding#DeveloperOnboarding-Step4:Getreadytodevelop>`_
 
+OR Using Dockers
+------------
 
+1. Clone the repo:
+
+.. code:: bash
+
+    git clone https://github.com/edx/edx-e2e-tests
+
+2. Build up:
+
+.. code:: bash
+
+    docker-compose up --build
+
+3. Open a new terminal window and work inside the container:
+
+.. code:: bash
+
+    docker exec -it edxe2etests /bin/bash
+
+4. Set the environment variables:
+
+.. code:: bash
+
+    source local_env.sh (make sure you have replaced the local_env.sh.sample)
+
+5. Run lms and studio tests, as given below in 'How to run LMS and Studio tests' section
+
+6. In OSX at least (not sure about other host systems) you can VNC in with the following (the password is 'secret'):
+
+.. code:: bash
+
+    open vnc://localhost:5900
 
 Configuration
 -------------
