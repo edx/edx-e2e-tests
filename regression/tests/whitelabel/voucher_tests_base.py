@@ -192,7 +192,7 @@ class VouchersTest(CourseEnrollmentTest):
             ]
         )
 
-    def use_discount_redeem_url(self):
+    def make_payment_after_discount(self):
         """
         Payment by active user after discount redeem url was applied.
         """

@@ -36,9 +36,7 @@ from regression.pages.whitelabel.const import (
 )
 
 from regression.tests.whitelabel.voucher_tests_base import VouchersTest
-from regression.pages.whitelabel.inactive_account import InactiveAccount
 from regression.tests.helpers.coupon import Coupon
-from regression.tests.helpers.utils import activate_account
 from regression.pages.whitelabel.redeem_coupon_page import (
     RedeemCouponPage
 )
@@ -242,7 +240,7 @@ class TestDiscountCoupon(VouchersTest):
             self.login_user_using_ui(coupon_user, PASSWORD)
             self.redeem_single_course_discount_coupon(coupon_code)
             self.basket_page.wait_for_page()
-            self.use_discount_redeem_url()
+            self.make_payment_after_discount()
             self.dashboard_page.wait_for_page()
             self.assert_enrollment_and_logout()
 
@@ -261,8 +259,6 @@ class TestDiscountCoupon(VouchersTest):
             benefit_type=BENEFIT_TYPE['per'],
             benefit_value=BENEFIT_VALUE['per']
         )
-
-        inactive_account = InactiveAccount(self.browser)
         self.coupon.setup_coupons_using_api(self.course_price)
         coupon_code = self.coupon.coupon_codes[0]
         self.home.visit()
@@ -280,14 +276,8 @@ class TestDiscountCoupon(VouchersTest):
                 user_name=temp_mail.user_name
             )
         )
-
-        inactive_account.wait_for_page()
-        self.assertTrue(inactive_account.is_activation_message_present())
-        activate_account(self, temp_mail)
-        self.verify_info_is_populated_on_basket(
-            self.coupon.discounted_course_price
-        )
-        self.use_discount_redeem_url()
+        self.single_seat_basket.wait_for_page()
+        self.make_payment_after_discount()
         self.assert_enrollment_and_unenroll()
         redeem_coupon = RedeemCouponPage(self.browser, coupon_code).visit()
         self.assertEqual(

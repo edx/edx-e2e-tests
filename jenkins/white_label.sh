@@ -27,12 +27,12 @@ paver install_pages > log/paver_install_pages.log
 
 
 # Run the tests
-organizations="MITProfessionalX HarvardMedGlobalAcademy"
+organizations="HarvardMedGlobalAcademy"
 
 for organization in ${organizations}; do
     export SELENIUM_BROWSER=firefox
     export ORG=${organization}
-    echo "Running General tests using Chrome on" ${organization}
+    echo "Running General tests on" ${organization}
     paver e2e_wl_test || EXIT=1
 done
 
