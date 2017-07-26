@@ -7,6 +7,8 @@ from bok_choy.promise import BrokenPromise
 
 from regression.pages.studio import LOGIN_BASE_URL
 from regression.pages.lms import LMS_REDIRECT_URL
+from regression.pages.studio.utils import get_course_key
+from regression.tests.helpers.utils import get_course_info
 
 
 class DashboardPageExtended(DashboardPage):
@@ -52,9 +54,15 @@ class DashboardPageExtended(DashboardPage):
         Clicks view live button
         """
         disable_animations(self)
+        course_info = get_course_info()
+        course_key = get_course_key({
+            'course_org': course_info['org'],
+            'course_num': course_info['number'],
+            'course_run': course_info['run']
+        })
         self.browser.execute_script(
-            "document.querySelectorAll('[data-course-key = \"course-v1:"
-            "ArbiRaees+AR-1000+fall\"] .view-button')[0].click();")
+            "document.querySelectorAll('[data-course-key = \""
+            "{}\"] .view-button')[0].click();".format(str(course_key)))
         self.browser.switch_to_window(self.browser.window_handles[-1])
 
     def click_terms_of_service(self):

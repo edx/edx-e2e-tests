@@ -14,9 +14,9 @@ from guerrillamail import GuerrillaMailSession
 from regression.pages import (
     BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD, LOGIN_EMAIL, LOGIN_PASSWORD
 )
-from regression.pages.lms import LMS_BASE_URL
+from regression.pages.lms import LMS_BASE_URL, LMS_PROTOCOL
 from regression.pages.lms import LOGIN_BASE_URL as LMS_AUTH_URL
-from regression.pages.studio import STUDIO_BASE_URL
+from regression.pages.studio import STUDIO_BASE_URL, STUDIO_PROTOCOL
 from regression.pages.studio import LOGIN_BASE_URL as STUDIO_AUTH_URL
 from regression.pages.whitelabel.const import (
     EMAIL_SENDER_ACCOUNT,
@@ -145,12 +145,12 @@ class LmsLoginApi(LoginApiBaseClass):
 
         target_page_name = target_page
 
-        self.login_url = 'https://{}/{}'.format(
-            LMS_BASE_URL, 'login'
+        self.login_url = '{}://{}/{}'.format(
+            LMS_PROTOCOL, LMS_BASE_URL, 'login'
         )
 
-        self.login_post_url = 'https://{}/{}'.format(
-            LMS_BASE_URL, 'user_api/v1/account/login_session/'
+        self.login_post_url = '{}://{}/{}'.format(
+            LMS_PROTOCOL, LMS_BASE_URL, 'user_api/v1/account/login_session/'
         )
 
         self.browser_get_url = LMS_AUTH_URL + target_page_name
@@ -163,12 +163,12 @@ class StudioLoginApi(LoginApiBaseClass):
     def __init__(self):
         super(StudioLoginApi, self).__init__()
 
-        self.login_url = 'https://{}/{}'.format(
-            STUDIO_BASE_URL, 'signin'
+        self.login_url = '{}://{}/{}'.format(
+            STUDIO_PROTOCOL, STUDIO_BASE_URL, 'signin'
         )
 
-        self.login_post_url = 'https://{}/{}'.format(
-            STUDIO_BASE_URL, 'login_post'
+        self.login_post_url = '{}://{}/{}'.format(
+            STUDIO_PROTOCOL, STUDIO_BASE_URL, 'login_post'
         )
 
         self.browser_get_url = STUDIO_AUTH_URL + '/home'

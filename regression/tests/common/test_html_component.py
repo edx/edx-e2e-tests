@@ -98,9 +98,6 @@ class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
             self.unit_container_page
         )
 
-        # Publish Unit
-        self.studio_course_outline.publish()
-
         # View Live
         self.unit_container_page.view_live_version()
         self.lms_courseware.wait_for_page()

@@ -1,6 +1,8 @@
 """
 Extended Pages page for a course.
 """
+from bok_choy.promise import EmptyPromise
+
 from edxapp_acceptance.pages.common.utils import (
     click_css, sync_on_notification
 )
@@ -19,10 +21,25 @@ class PagesPageExtended(CoursePageExtended):
     def is_browser_on_page(self):
         return self.q(css='body.view-static-pages').visible
 
+    def is_click_handler_registered(self):
+        """
+        Check if the click handler for the add page button has been
+        registered yet.
+        """
+        script = """
+            var $ = require('jquery'),
+                    buttonEvents = $._data($('.button.new-button.new-tab')[0],
+                                             'events');
+            return buttonEvents && buttonEvents.hasOwnProperty('click');"""
+        stripped_script = ''.join(
+            [line.strip() for line in script.split('\n')])
+        return self.browser.execute_script(stripped_script)
+
     def add_page(self):
         """
         Adds a new empty page.
         """
+        self.wait_for_add_page_click_handler()
         click_css(
             page=self,
             css='.button.new-button.new-tab',
@@ -85,6 +102,14 @@ class PagesPageExtended(CoursePageExtended):
         """
         self.browser.refresh()
         self.wait_for_the_visibility_of_new_page()
+
+    def wait_for_add_page_click_handler(self):
+        """
+        Wait for the add page button click handler to be registered
+        """
+        EmptyPromise(self.is_click_handler_registered,
+                     'Add Page button click handler registered',
+                     timeout=30).fulfill()
 
     def wait_for_the_visibility_of_new_page(self):
         """
