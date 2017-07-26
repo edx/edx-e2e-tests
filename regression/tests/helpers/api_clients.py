@@ -140,8 +140,10 @@ class LmsLoginApi(LoginApiBaseClass):
     """
     Login api for LMS
     """
-    def __init__(self):
+    def __init__(self, target_page='/dashboard'):
         super(LmsLoginApi, self).__init__()
+
+        target_page_name = target_page
 
         self.login_url = 'https://{}/{}'.format(
             LMS_BASE_URL, 'login'
@@ -151,7 +153,7 @@ class LmsLoginApi(LoginApiBaseClass):
             LMS_BASE_URL, 'user_api/v1/account/login_session/'
         )
 
-        self.browser_get_url = LMS_AUTH_URL + '/dashboard'
+        self.browser_get_url = LMS_AUTH_URL + target_page_name
 
 
 class StudioLoginApi(LoginApiBaseClass):
