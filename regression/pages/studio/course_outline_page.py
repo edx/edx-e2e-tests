@@ -36,7 +36,7 @@ class CourseOutlinePageExtended(CourseOutlinePage):
             css=section_css
         ).results[0].send_keys(text)
 
-        self.q(css='.content').first.click()
+        self.q(css='.section-status').first.click()
         # Click initiates an ajax call
         self.wait_for_ajax()
 
@@ -63,7 +63,7 @@ class CourseOutlinePageExtended(CourseOutlinePage):
             css=subsection_css
         ).results[-1].send_keys(text)
 
-        self.q(css='.content').first.click()
+        self.q(css='.subsection-status').first.click()
         # Click initiates an ajax call
         self.wait_for_ajax()
 
