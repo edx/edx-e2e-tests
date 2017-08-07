@@ -29,4 +29,4 @@ paver install_pages > log/paver_install_pages.log
 export DISPLAY=:1
 
 # Run the tests
-paver e2e_test --exclude=whitelabel, enterprise
+paver e2e_test --exclude="whitelabel|enterprise"
