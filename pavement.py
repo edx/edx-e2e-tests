@@ -14,7 +14,8 @@ from pavelib.paver_consts import (
     BASELINE_DIR,
     PAVER_TEST_REPORT_DIR,
     UPLOAD_FILE_DIR,
-    WHITE_LABEL_TEST_REPORT
+    WHITE_LABEL_TEST_REPORT,
+    ENTERPRISE_TEST_REPORT
 )
 
 
@@ -148,4 +149,48 @@ def wl_test_config():
 @needs('wl_test_config')
 @consume_args
 def e2e_wl_test(args):
-    sh(NoseCommand.command(WHITE_LABEL_TEST_REPORT, args, True))
+    sh(NoseCommand.command(WHITE_LABEL_TEST_REPORT, args, test_type='wl'))
+
+
+@task
+def configure_enterprise_tests_pre_reqs():
+
+    # Make sure environment variables are set.
+    env_vars = [
+        'BASIC_AUTH_USER',
+        'BASIC_AUTH_PASSWORD',
+        'USER_LOGIN_EMAIL',
+        'USER_LOGIN_PASSWORD',
+        'IDP_USERNAME',
+        'IDP_PASSWORD',
+        ]
+    for env_var in env_vars:
+        try:
+            os.environ[env_var]
+        except:
+            raise BuildFailure(
+                "Please set the environment variable :" + env_var)
+
+    # Set environment variables for screen shots.
+    os.environ['NEEDLE_OUTPUT_DIR'] = SCREENSHOT_DIR
+    os.environ['NEEDLE_BASELINE_DIR'] = BASELINE_DIR
+    os.environ['UPLOAD_FILE_DIR'] = UPLOAD_FILE_DIR
+
+    # Create log directory
+    LOG_DIR.makedirs_p()
+
+    # Create report directory
+    REPORT_DIR.makedirs_p()
+
+
+@task
+@needs('configure_enterprise_tests_pre_reqs')
+@consume_args
+def enterprise_test(args):
+    sh(
+        NoseCommand.command(
+            ENTERPRISE_TEST_REPORT,
+            args,
+            test_type='enterprise'
+        )
+    )

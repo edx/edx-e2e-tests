@@ -6,13 +6,14 @@ from paver_consts import (
     REPORT_DIR,
     PAVER_TEST_DIR,
     PAVER_TEST_REPORT_DIR,
-    WHITE_LABEL_TEST_DIR
+    WHITE_LABEL_TEST_DIR,
+    ENTERPRISE_TEST_DIR
 )
 
 
 class NoseCommand(object):
     @staticmethod
-    def command(report_name="report.xml", user_args="", white_label=False):
+    def command(report_name="report.xml", user_args="", test_type=None):
         """
         Construct the nose command with all path and nose options and
         return this command to paver tasks (Used for e2e tests)
@@ -20,8 +21,11 @@ class NoseCommand(object):
         arguments = get_file_path_and_other_args(user_args)
         test_directory = TEST_DIR
 
-        if white_label:
-            test_directory = WHITE_LABEL_TEST_DIR
+        if test_type:
+            if test_type=='wl':
+                test_directory = WHITE_LABEL_TEST_DIR
+            elif test_type=='enterprise':
+                test_directory = ENTERPRISE_TEST_DIR
         # Default to running all tests if no specific test is specified
         if not arguments['file_path']:
             test_path = test_directory
