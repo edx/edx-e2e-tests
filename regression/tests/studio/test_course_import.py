@@ -8,7 +8,7 @@ from regression.pages.studio.course_outline_page import (
     CourseOutlinePageExtended
 )
 from regression.tests.helpers.utils import get_course_info
-from regression.tests.helpers.api_clients import StudioLoginApi
+from regression.tests.helpers.api_clients import StudioSessionApi
 
 
 class TestCourseImport(WebAppTest):
@@ -21,7 +21,7 @@ class TestCourseImport(WebAppTest):
 
     def setUp(self):
         super(TestCourseImport, self).setUp()
-        login_api = StudioLoginApi()
+        login_api = StudioSessionApi()
         login_api.authenticate(self.browser)
 
         self.course_info = get_course_info()

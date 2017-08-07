@@ -32,12 +32,13 @@ from regression.pages.whitelabel.const import (
 )
 
 
-class LoginApiBaseClass(object):
+class UserSessionApiBaseClass(object):
     """
     Base class for login api
     """
     def __init__(self):
         self.login_url = None
+        self.logout_url = None
         self.session = requests.Session()
         self.session.auth = (
             BASIC_AUTH_USERNAME,
@@ -140,13 +141,19 @@ class LoginApiBaseClass(object):
             browser.add_cookie(cookie_dict)
         browser.get(self.browser_get_url)
 
+    def logout(self):
+        """
+        Logout existing user
+        """
+        self.session.get(self.logout_url)
 
-class LmsLoginApi(LoginApiBaseClass):
+
+class LmsSessionApi(UserSessionApiBaseClass):
     """
     Login api for LMS
     """
     def __init__(self, target_page='/dashboard'):
-        super(LmsLoginApi, self).__init__()
+        super(LmsSessionApi, self).__init__()
 
         target_page_name = target_page
 
@@ -155,18 +162,26 @@ class LmsLoginApi(LoginApiBaseClass):
         )
 
         self.login_post_url = '{}://{}/{}'.format(
-            LMS_PROTOCOL, LMS_BASE_URL, 'user_api/v1/account/login_session/'
+            LMS_PROTOCOL,
+            LMS_BASE_URL,
+            'user_api/v1/account/login_session/'
+        )
+
+        self.logout_url = '{}://{}/{}'.format(
+            LMS_PROTOCOL,
+            LMS_BASE_URL,
+            'logout'
         )
 
         self.browser_get_url = LMS_AUTH_URL + target_page_name
 
 
-class StudioLoginApi(LoginApiBaseClass):
+class StudioSessionApi(UserSessionApiBaseClass):
     """
     Login api for Studio
     """
     def __init__(self):
-        super(StudioLoginApi, self).__init__()
+        super(StudioSessionApi, self).__init__()
 
         self.login_url = '{}://{}/{}'.format(
             STUDIO_PROTOCOL, STUDIO_BASE_URL, 'signin'

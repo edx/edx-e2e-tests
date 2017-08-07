@@ -13,7 +13,7 @@ from regression.pages.lms.course_page_lms import CourseInfoPageExtended
 from regression.tests.helpers.utils import (
     get_course_info, get_course_display_name
 )
-from regression.tests.helpers.api_clients import LmsLoginApi
+from regression.tests.helpers.api_clients import LmsSessionApi
 from regression.pages.lms.utils import get_course_key
 
 
@@ -25,7 +25,7 @@ class AnalyticsTest(WebAppTest):
     def setUp(self):
         super(AnalyticsTest, self).setUp()
 
-        login_api = LmsLoginApi()
+        login_api = LmsSessionApi()
         login_api.authenticate(self.browser)
 
         course_info = get_course_info()

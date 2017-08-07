@@ -16,7 +16,10 @@ from regression.tests.helpers.utils import (
     get_course_info, get_data_id_of_component, get_data_locator
 )
 
-from regression.tests.helpers.api_clients import StudioLoginApi, LmsLoginApi
+from regression.tests.helpers.api_clients import (
+    StudioSessionApi,
+    LmsSessionApi
+)
 
 
 class StudioLmsComponentBaseTest(WebAppTest):
@@ -29,10 +32,10 @@ class StudioLmsComponentBaseTest(WebAppTest):
         """
         super(StudioLmsComponentBaseTest, self).setUp()
 
-        studio_login = StudioLoginApi()
+        studio_login = StudioSessionApi()
         studio_login.authenticate(self.browser)
 
-        lms_login = LmsLoginApi()
+        lms_login = LmsSessionApi()
         lms_login.authenticate(self.browser)
 
         self.unit_container_page = UnitPageExtended(

@@ -59,7 +59,11 @@ def install_pages():
 
     sh("cd {path_capa}; python setup.py install".format(path_capa=capa_path))
 
-    sh("cd {path_xmodule}; python setup.py install".format(path_xmodule=xmodule_path))
+    sh(
+        "cd {path_xmodule}; python setup.py install".format(
+            path_xmodule=xmodule_path
+        )
+    )
 
 
 @task
@@ -159,10 +163,9 @@ def configure_enterprise_tests_pre_reqs():
     env_vars = [
         'BASIC_AUTH_USER',
         'BASIC_AUTH_PASSWORD',
-        'USER_LOGIN_EMAIL',
-        'USER_LOGIN_PASSWORD',
-        'IDP_USERNAME',
-        'IDP_PASSWORD',
+        'ENTERPRISE_PORTAL_USERNAME',
+        'ENTERPRISE_PORTAL_PASSWORD',
+        'ENTERPRISE_COURSE_TITLE'
         ]
     for env_var in env_vars:
         try:
