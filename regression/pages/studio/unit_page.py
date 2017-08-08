@@ -81,9 +81,18 @@ class UnitPageExtended(ContainerPage):
         self.q(
             css='.add-xblock-component-button[data-type="problem"]'
         ).click()
-        self.q(css='#ui-id-2').click()
-        self.q(
-            css='.button-component[data-boilerplate="jsinput_response.yaml"]'
-        ).click()
+        advanced_tab_selector = '#ui-id-2'
+        custom_js_selector = '.button-component[data-boilerplate=' \
+                             '"jsinput_response.yaml"]'
+        self.wait_for_element_visibility(
+            advanced_tab_selector,
+            'Advanced tab is visible.'
+        )
+        self.q(css=advanced_tab_selector).click()
+        self.wait_for_element_visibility(
+            custom_js_selector,
+            'Custom JavaScript Display and Grading button is visible.'
+        )
+        self.q(css=custom_js_selector).click()
         self.wait_for_ajax()
         return self.q(css='.xblock-display-name').text[1]

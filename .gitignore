@@ -53,3 +53,9 @@ log/*.log
 
 # Local environment
 local_env.sh
+
+# OS X artifacts
+*.DS_Store
+
+# Output from tests
+geckodriver.log

@@ -76,10 +76,19 @@ class AssetIndexPageExtended(AssetIndexPage):
 
     def confirm_asset_deletion(self):
         """ Click to confirm deletion and sync on the notification"""
+        confirmation_title_selector = '#prompt-warning-title'
+        self.wait_for_element_visibility(
+            confirmation_title_selector,
+            'Confirm file deletion prompt is visible.'
+        )
         self.q(css='button.action-primary').click()
         # Click initiates an ajax call, waiting for it to complete
         self.wait_for_ajax()
         sync_on_notification(self)
+        self.wait_for_element_invisibility(
+            confirmation_title_selector,
+            'Confirm file deletion prompt is hidden.'
+        )
 
     def delete_first_asset(self):
         """ Deletes file then clicks delete on confirmation """

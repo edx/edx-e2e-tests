@@ -8,6 +8,7 @@ from edxapp_acceptance.tests.helpers import assert_side_bar_help_link
 from regression.pages.studio.course_outline_page import (
     CourseOutlinePageExtended
 )
+from regression.pages.studio import EDXAPP_CMS_DOC_LINK_BASE_URL
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.settings_studio import SettingsPageExtended
 from regression.pages.studio.studio_home import DashboardPageExtended
@@ -51,9 +52,8 @@ class StudioCourseOutlineTest(WebAppTest):
         studio_course_outline.wait_for_page()
 
         # First verify the Help link
-        expected_href = 'https://edx.readthedocs.io/projects/' \
-                        'edx-partner-course-staff/en/latest/' \
-                        'developing_course/controlling_content_visibility.html'
+        expected_href = EDXAPP_CMS_DOC_LINK_BASE_URL + \
+            '/en/latest/developing_course/controlling_content_visibility.html'
         # Assert that help link is correct.
         assert_side_bar_help_link(
             test=self,
