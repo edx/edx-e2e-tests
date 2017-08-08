@@ -19,7 +19,7 @@ script:
   - pep8 regression/
   - pylint regression/
 after_success:
-  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then;
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
     docker --version;
     sudo apt-get -y update;
     sudo apt-get -y install -o Dpkg::Options::="--force-confnew" docker-ce;
