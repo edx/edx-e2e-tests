@@ -1,7 +1,9 @@
 """
 Utility functions for lms page objects.
 """
+import os
 from opaque_keys.edx.locator import CourseLocator
+from regression.pages.lms.login_lms import LmsLogin
 
 
 def get_course_key(course_info, module_store='split'):
@@ -17,3 +19,17 @@ def get_course_key(course_info, module_store='split'):
         deprecated=(module_store == 'draft')
     )
     return unicode(course_key)
+
+
+def workaround_login_redirect(page):
+    """
+    Temporary workaround while we investigate the root cause
+    of the user being redirected to the login page. TE-2207
+    """
+    page.browser.get(page.url)
+    if page.browser.current_url.find('/signin?next=') > 0:
+        user = os.environ.get('USER_LOGIN_EMAIL')
+        password = os.environ.get('USER_LOGIN_PASSWORD')
+        login_page = LmsLogin(page.browser)
+        login_page.provide_info(user, password)
+        login_page.submit()
