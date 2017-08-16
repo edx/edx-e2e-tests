@@ -1,13 +1,11 @@
 """
 Extended Textbooks page
 """
-from bok_choy.page_object import unguarded
 from edxapp_acceptance.pages.studio.textbook_upload import TextbookUploadPage
 
 from selenium.webdriver.common.action_chains import ActionChains
 from regression.pages import UPLOAD_FILE_DIR
 from regression.tests.helpers.utils import get_url
-from regression.pages.studio.utils import workaround_login_redirect
 
 
 class TextbookPageExtended(TextbookUploadPage):
@@ -20,11 +18,6 @@ class TextbookPageExtended(TextbookUploadPage):
         Construct a URL to the page within the course.
         """
         return get_url(self.url_path, self.course_info)
-
-    @unguarded
-    def visit(self):
-        workaround_login_redirect(self)
-        super(TextbookPageExtended, self).visit()
 
     def upload_textbook(self, file_name):
         """

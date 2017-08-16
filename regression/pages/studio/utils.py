@@ -1,12 +1,10 @@
 """
 Utility functions for studio page objects.
 """
-import os
 from opaque_keys.edx.locator import CourseLocator
 from edxapp_acceptance.pages.common.utils import click_css
 from edxapp_acceptance.tests.helpers import disable_animations
 from regression.pages import UPLOAD_FILE_DIR
-from regression.pages.studio.login_studio import StudioLogin
 
 
 def get_course_key(course_info, module_store='split'):
@@ -74,16 +72,3 @@ def get_text(page, css, index=0):
         index (int): index position of element.
     """
     return page.q(css=css).text[index]
-
-
-def workaround_login_redirect(page):
-    """
-    Temporary workaround while we investigate the root cause
-    of the user being redirected to the login page. TE-2207
-    """
-    page.browser.get(page.url)
-    if page.browser.current_url.find('/signin?next=') > 0:
-        user = os.environ.get('USER_LOGIN_EMAIL')
-        password = os.environ.get('USER_LOGIN_PASSWORD')
-        studio_login_page = StudioLogin(page.browser)
-        studio_login_page.login(user, password)

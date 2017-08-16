@@ -1,12 +1,10 @@
 """
 Course Outline Page for Studio
 """
-from bok_choy.page_object import unguarded
 from edxapp_acceptance.pages.studio.overview import CourseOutlinePage
 from selenium.webdriver.common.action_chains import ActionChains
 from regression.pages.studio.utils import (
-    click_confirmation_prompt_primary_button,
-    workaround_login_redirect
+    click_confirmation_prompt_primary_button
 )
 
 from regression.tests.helpers.utils import get_url
@@ -22,11 +20,6 @@ class CourseOutlinePageExtended(CourseOutlinePage):
         Construct a URL to the page within the course.
         """
         return get_url(self.url_path, self.course_info)
-
-    @unguarded
-    def visit(self):
-        workaround_login_redirect(self)
-        super(CourseOutlinePageExtended, self).visit()
 
     def add_section_with_name(self, text):
         """
