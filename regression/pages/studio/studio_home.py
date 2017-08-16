@@ -3,11 +3,15 @@ Dashboard page for Studio
 """
 from edxapp_acceptance.pages.studio.index import DashboardPage
 from edxapp_acceptance.tests.helpers import disable_animations
+from bok_choy.page_object import unguarded
 from bok_choy.promise import BrokenPromise
 
 from regression.pages.studio import LOGIN_BASE_URL
 from regression.pages.lms import LMS_REDIRECT_URL
-from regression.pages.studio.utils import get_course_key
+from regression.pages.studio.utils import (
+    get_course_key,
+    workaround_login_redirect
+)
 from regression.tests.helpers.utils import get_course_info
 
 
@@ -24,6 +28,11 @@ class DashboardPageExtended(DashboardPage):
         Verifies if the browser is on the correct page
         """
         return self.q(css='.courses.courses-tab.active').visible
+
+    @unguarded
+    def visit(self):
+        workaround_login_redirect(self)
+        super(DashboardPageExtended, self).visit()
 
     def select_course(self, course_title):
         """
