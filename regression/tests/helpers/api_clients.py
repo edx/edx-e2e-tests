@@ -125,14 +125,19 @@ class LoginApiBaseClass(object):
         # effective, we don't need to login.
         browser.get(self.browser_get_url)
         for cookie in self.session.cookies:
-            browser.add_cookie(
-                {
-                    'name': cookie.name,
-                    'value': cookie.value,
-                    'path': cookie.path,
-                    'expiry': cookie.expires
-                }
-            )
+            cookie_dict = {
+                'name': cookie.name,
+                'value': cookie.value,
+                'path': cookie.path,
+                'expiry': cookie.expires
+            }
+            # The domain for the sessionid cookie needs to be
+            # '.stage.edx.org'. The browser was setting it correctly
+            # when logging into lms, but was setting it to
+            # 'studio.stage.edx.org' when logging into studio.
+            if cookie.name == 'stage-edx-sessionid':
+                cookie_dict['domain'] = '.stage.edx.org'
+            browser.add_cookie(cookie_dict)
         browser.get(self.browser_get_url)
 
 
