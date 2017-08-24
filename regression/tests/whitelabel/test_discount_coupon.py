@@ -41,7 +41,6 @@ from regression.pages.whitelabel.redeem_coupon_page import (
     RedeemCouponPage
 )
 from regression.tests.helpers.utils import get_white_label_registration_fields
-from regression.tests.helpers.api_clients import GuerrillaMailApi
 
 
 class TestDiscountCoupon(VouchersTest):
@@ -267,18 +266,18 @@ class TestDiscountCoupon(VouchersTest):
         self.login_page.toggle_to_registration_page()
         self.registration_page.wait_for_page()
         user_name = str(uuid.uuid4().node)
-        temp_mail = GuerrillaMailApi(user_name)
+        temp_mail = user_name + "@example.com"
 
         self.registration_page.register_white_label_user(
             get_white_label_registration_fields(
-                email=temp_mail.user_email,
+                email=temp_mail,
                 password=PASSWORD,
-                user_name=temp_mail.user_name
+                user_name=user_name
             )
         )
         self.single_seat_basket.wait_for_page()
         self.make_payment_after_discount()
-        self.assert_enrollment_and_unenroll()
+        self.assert_course_added_to_dashboard()
         redeem_coupon = RedeemCouponPage(self.browser, coupon_code).visit()
         self.assertEqual(
             redeem_coupon.error_message,

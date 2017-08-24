@@ -54,9 +54,3 @@ class LmsLogin(LoginPage):
         self.q(css='#login-remember').click()
         # Click initiates an ajax call
         self.wait_for_ajax()
-
-    def click_idp_icon(self, idp_css_id):
-        """
-        Click Identity provider button
-        """
-        self.q(css='.login-saml-'+idp_css_id).click()

@@ -5,18 +5,13 @@ URLs and constants for enterprise stuff
 import os
 
 
-DEFAULT_IDP_URL = u"https://idp.testshib.org/idp/Authn/UserPassword"
+ENTERPRISE_PORTAL_LOGIN_URL = u"https://pmsalesdemo8.successfactors.com/" \
+                              u"login?company=SFPART011327#/login"
 
-IDP_URL = os.environ.get('IDP_URL', DEFAULT_IDP_URL)
-
-DEFAULT_IDP_NAME = "TestShib"
-
-IDP_NAME = os.environ.get('IDP_NAME', DEFAULT_IDP_NAME)
-
-DEFAULT_ENTERPRISE_NAME = 'TestDemoEnterprise'
+DEFAULT_ENTERPRISE_NAME = 'SuccessFactors'
 
 ENTERPRISE_NAME = os.environ.get('ENTERPRISE_NAME', DEFAULT_ENTERPRISE_NAME)
 
-DEFAULT_IDP_CSS_ID = 'arbi-test-shib'
+DEFAULT_IDP_CSS_ID = 'bestrun'
 
 IDP_CSS_ID = os.environ.get('IDP_CSS_ID', DEFAULT_IDP_CSS_ID)

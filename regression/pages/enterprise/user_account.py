@@ -18,7 +18,7 @@ class UserAccountSettings(AccountSettingsPage):
     def is_idp_account_linked(self, idp_css_id):
         """
         Check if idp account is linked or not
-        Args:
+        Arguments:
             idp_css_id
         Returns:
             Linked Status
@@ -30,7 +30,7 @@ class UserAccountSettings(AccountSettingsPage):
     def unlink_idp_account(self, idp_css_id):
         """
         Unlink idp account
-        Args:
+        Arguments:
             idp_css_id
         """
         idp_css_selector = self.IDP_PARTIAL_CSS_SELECTOR + idp_css_id + ' a'
