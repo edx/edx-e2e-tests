@@ -75,7 +75,7 @@ VOUCHER_TYPE = {
 BENEFIT_VALUE = {'fixed': 60, 'per': 40}
 
 STOCK_RECORD_IDS = {
-    'HarvardMedGlobalAcademy': [8398],
+    'HarvardMedGlobalAcademy': [7900],
     'HarvardXPLUS': [8396],
     'MITProfessionalX': [8400],
 }
