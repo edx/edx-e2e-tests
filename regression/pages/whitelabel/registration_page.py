@@ -75,8 +75,8 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
             select_drop_down_values(
                 self,
                 {
-                    "#register-profession": registration_fields['profession'],
-                    "#register-specialty": registration_fields['specialty']
+                    "profession": registration_fields['profession'],
+                    "specialty": registration_fields['specialty']
                 }
             )
 
