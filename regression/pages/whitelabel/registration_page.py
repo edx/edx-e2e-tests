@@ -43,7 +43,6 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
 
         drop_down_names_and_values = {
             "country": registration_fields['country'],
-            "year_of_birth": registration_fields['yob'],
         }
         select_drop_down_values(self, drop_down_names_and_values)
         fill_input_fields(self, elements_and_values)
@@ -67,8 +66,17 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
             select_drop_down_values(
                 self,
                 {
+                    "year_of_birth": registration_fields['yob'],
                     "gender": registration_fields['gender'],
                     "level_of_education": registration_fields['edu_level']
+                }
+            )
+        else:
+            select_drop_down_values(
+                self,
+                {
+                    "#register-profession": registration_fields['profession'],
+                    "#register-specialty": registration_fields['specialty']
                 }
             )
 
