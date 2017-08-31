@@ -74,7 +74,8 @@ def get_white_label_registration_fields(
         email='', password='', full_name='White label Test User',
         first_name='White Label', last_name='Test User', gender='m',
         yob='1994', state='Massachusetts', country='US', edu_level='m',
-        company='Arbisoft', title='SQA', user_name=''
+        company='Arbisoft', title='SQA', user_name='', profession='physician',
+        specialty='neurology'
 
 ):
     """
@@ -94,6 +95,8 @@ def get_white_label_registration_fields(
         company(str): User's current company  of affiliation.
         title(str): User's title.
         user_name(str): User's user name
+        profession(str): Profession of user
+        specialty(str): Area of specialty
 
     Returns:
         dict: A dictionary of all fields.
@@ -111,7 +114,9 @@ def get_white_label_registration_fields(
         'edu_level': edu_level,
         'company': company,
         'title': title,
-        'user_name': user_name
+        'user_name': user_name,
+        'profession': profession,
+        'specialty': specialty
     }
 
 
