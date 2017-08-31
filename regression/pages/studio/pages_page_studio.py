@@ -1,6 +1,7 @@
 """
 Extended Pages page for a course.
 """
+from bok_choy.javascript import requirejs
 from bok_choy.promise import EmptyPromise
 
 from edxapp_acceptance.pages.common.utils import (
@@ -12,6 +13,10 @@ from selenium.webdriver.common.action_chains import ActionChains
 from regression.pages.studio.course_page_studio import CoursePageExtended
 
 
+# Wait for the custom js for this page to be loaded.
+# TODO: this should obviate the need for the is_click_handler_registered
+# method. Remove it and its references.
+@requirejs('js/factories/edit_tabs')
 class PagesPageExtended(CoursePageExtended):
     """
     Extended Pages page for a course.
