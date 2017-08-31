@@ -40,6 +40,7 @@ class EnterprisePortalCourseStart(EnterprisePortalCourse):
         button_css = 'button[title*="Course"]'
         self.wait_for_element_visibility(button_css, 'wait for button')
         self.q(css=button_css).click()
+        self.wait_for_ajax()
 
 
 class EnterprisePortalCourseStructure(EnterprisePortalCourse):
@@ -51,7 +52,6 @@ class EnterprisePortalCourseStructure(EnterprisePortalCourse):
         """
         Open the edx course page in new browser window
         """
-        self.switch_to_iframe()
         course_link_css = '.BodyText>a'
-        self.wait_for_element_visibility(course_link_css, 'wait for button')
+        self.wait_for_element_visibility(course_link_css, 'wait for link')
         self.q(css=course_link_css).click()

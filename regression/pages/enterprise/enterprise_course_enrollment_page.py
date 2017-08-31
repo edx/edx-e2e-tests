@@ -9,6 +9,8 @@ class EnterpriseCourseEnrollment(PageObject):
     Enterprise Course Enrollment class
     """
 
+    COURSE_TYPE_CSS = '.radio>input[value="{}"]'
+
     url = None
 
     def is_browser_on_page(self):
@@ -22,3 +24,80 @@ class EnterpriseCourseEnrollment(PageObject):
         Returns course title
         """
         return self.q(css='.course-title').text[0]
+
+    def target_course_type_is_present(self, course_type):
+        """
+        Find if provided course type is present.
+
+        Arguments:
+            course_type (str): Course type
+
+        Returns:
+            Boolean: True if desired course type is present
+        """
+        return self.q(
+            css=self.COURSE_TYPE_CSS.format(course_type)
+        ).present
+
+    def target_course_type_is_checked(self, course_type):
+        """
+        Arguments:
+            course_type:
+        Returns:
+            True(if desired course type is checked)
+        """
+        return self.q(
+            css=self.COURSE_TYPE_CSS.format(
+                course_type
+            ) + '[checked="checked"]'
+        ).present
+
+    def get_course_org(self):
+        """
+        Returns Course Organization name
+        """
+        return self.q(css='.course-org').text[0]
+
+    def get_course_info(self):
+        """
+        Returns Course Organization name
+        """
+        return self.q(css='.course-info>span').text[0]
+
+    def open_course_detail_popup(self):
+        """
+        Open Course Detail popup
+        """
+        course_details_popup = '#course-details-modal-content'
+        self.q(css='#view-course-details-link').click()
+        self.wait_for_element_visibility(
+            course_details_popup,
+            "wait for coure detail popup"
+        )
+
+    def get_course_detail_headers(self):
+        """
+        Returns Course Name and Organization from detail headers
+        """
+        detail_header_css = '#course-details-modal-content header .details'
+        course_name = self.q(
+            css=detail_header_css + ' #modal-header-text'
+        ).text[0]
+        course_org = self.q(
+            css=detail_header_css + ' .organization>img'
+        ).attrs('alt')[0]
+        return course_name, course_org
+
+    def get_course_detail_body(self):
+        """
+        Returns details present in detail body as a dictionary where keys are
+        detail titles and values are detail text
+        """
+        detail_header_css = '#course-details-modal-content .body .details'
+        detail_title = self.q(
+            css=detail_header_css + ' .detail-title-container>.title'
+        ).text
+        detail_value = self.q(
+            css=detail_header_css + ' .detail-value-container>.text'
+        ).text
+        return dict(zip(detail_title, detail_value))
