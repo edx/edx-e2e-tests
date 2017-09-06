@@ -74,7 +74,9 @@ class TestDiscountCoupon(VouchersTest):
         coupon_code = self.coupon.coupon_codes[0]
         self.addCleanup(self.coupon.delete_coupon)
         # Login to application using the existing credentials
-        self.login_and_go_to_basket(COUPON_USERS['coupon_user_01'])
+        self.login_page.visit()
+        self.login_user_using_ui(COUPON_USERS['coupon_user_01'], PASSWORD)
+        self.go_to_basket()
 
         self.addCleanup(
             self.unenroll_using_api,
@@ -84,7 +86,9 @@ class TestDiscountCoupon(VouchersTest):
 
         self.enroll_using_discount_code(coupon_code)
         self.assert_enrollment_and_logout()
-        self.login_and_go_to_basket(COUPON_USERS['coupon_user_02'])
+        self.login_page.visit()
+        self.login_user_using_ui(COUPON_USERS['coupon_user_02'], PASSWORD)
+        self.go_to_basket()
         self.assertEqual(
             self.error_message_on_invalid_coupon_code(coupon_code),
             SINGLE_USE_CODE_REUSE_ERROR.format(coupon_code)
@@ -114,7 +118,9 @@ class TestDiscountCoupon(VouchersTest):
         coupon_users = list(COUPON_USERS.values())
         last_user_index = len(coupon_users) - 1
         for coupon_user_index, coupon_user in enumerate(coupon_users):
-            self.login_and_go_to_basket(coupon_user)
+            self.login_page.visit()
+            self.login_user_using_ui(coupon_user, PASSWORD)
+            self.go_to_basket()
             if coupon_user_index != last_user_index:
                 self.addCleanup(
                     self.unenroll_using_api,
@@ -158,7 +164,9 @@ class TestDiscountCoupon(VouchersTest):
         # running for domain checks, use of random user in all of these will
         # pretty much cover most of the possibilities
         invalid_domain_user = random.choice(invalid_domain_users)
-        self.login_and_go_to_basket(invalid_domain_user)
+        self.login_page.visit()
+        self.login_user_using_ui(invalid_domain_user, PASSWORD)
+        self.go_to_basket()
         self.assertEqual(
             self.error_message_on_invalid_coupon_code(coupon_code),
             INVALID_DOMAIN_ERROR_MESSAGE_ON_BASKET
@@ -176,7 +184,9 @@ class TestDiscountCoupon(VouchersTest):
             valid_domain_user,
             self.course_id
         )
-        self.login_and_go_to_basket(valid_domain_user)
+        self.login_page.visit()
+        self.login_user_using_ui(valid_domain_user, PASSWORD)
+        self.go_to_basket()
         self.enroll_using_discount_code(coupon_code)
         self.assert_enrollment_and_logout()
 
@@ -201,7 +211,9 @@ class TestDiscountCoupon(VouchersTest):
         self.coupon.setup_coupons_using_api(self.course_price)
         coupon_code = self.coupon.coupon_codes[0]
         # Login to application using the existing credentials
-        self.login_and_go_to_basket(COUPON_USERS['coupon_user_01'])
+        self.login_page.visit()
+        self.login_user_using_ui(COUPON_USERS['coupon_user_01'], PASSWORD)
+        self.go_to_basket()
         self.assertEqual(
             self.error_message_on_invalid_coupon_code(coupon_code),
             EXPIRED_CODE_ERROR.format(coupon_code)
@@ -272,7 +284,7 @@ class TestDiscountCoupon(VouchersTest):
             get_white_label_registration_fields(
                 email=temp_mail,
                 password=PASSWORD,
-                user_name=user_name
+                username=user_name
             )
         )
         self.single_seat_basket.wait_for_page()

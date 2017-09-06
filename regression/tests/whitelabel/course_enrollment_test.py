@@ -56,21 +56,17 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
         self.total_price = 0.0
         self.full_cleanup = True
 
-    def login_and_go_to_basket(self, user_email, bulk_purchase=False):
+    def go_to_basket(self, bulk_purchase=False):
         """
-        Perform all the steps from login to reaching the basket page.
+        Perform all the steps from dashboard to reaching the basket page.
 
         If bulk_purchase is set to 'True' then go to multi seat basket,
         otherwise go to single seat basket.
 
         Arguments:
-            user_email(str): Email of the user.
             bulk_purchase(bool): Indicates type of the purchase.
         """
         course_about_page = CourseAboutPage(self.browser, self.course_id)
-        self.login_page.visit()
-        self.login_user_using_ui(user_email, PASSWORD)
-        self.dashboard_page.wait_for_page()
         # Check that course is not already present on dashboard and use find
         # course link to go to courses page
         self.assertFalse(self.dashboard_page.is_course_present(self.course_id))

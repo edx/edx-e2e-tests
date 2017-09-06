@@ -8,6 +8,7 @@ from regression.pages.whitelabel.home_page import HomePage
 from regression.pages.whitelabel.registration_page import RegisterPageExtended
 from regression.pages.whitelabel.login_page import LoginPage
 from regression.pages.whitelabel.logout_page import EcommerceLogoutPage
+from regression.tests.helpers.api_clients import WLRegisterApi
 
 
 class WhiteLabelTestsBaseClass(WebAppTest):
@@ -32,6 +33,15 @@ class WhiteLabelTestsBaseClass(WebAppTest):
         """
         self.login_page.provide_info(email, password)
         self.dashboard_page.wait_for_page()
+
+    def register_using_api(self, target=None):
+        """
+        Register a new user using api
+        Arguments:
+            target: url for page where user should land after registering
+        """
+        register_user = WLRegisterApi(target_page=target)
+        register_user.authenticate(self.browser)
 
     def logout_user_from_lms(self):
         """

@@ -193,3 +193,15 @@ SAMPLE_LANGUAGES = [
 SELECTED_COUNTRY = u'Pakistan'
 
 SELECTED_LANGUAGE = u'Urdu'
+
+UNUSED_REGISTRATION_FIELDS_MAPPING = {
+    "MITProfessionalX": ["profession", "specialty"],
+    "HarvardMedGlobalAcademy": [
+        'level_of_education',
+        'gender',
+        'company',
+        'title',
+        'year_of_birth',
+        'honor_code'
+    ]
+}
