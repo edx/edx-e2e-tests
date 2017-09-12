@@ -6,7 +6,7 @@ from regression.tests.enterprise.enterprise_test_base import EnterpriseTestBase
 
 class TestEnterpriseRegistration(EnterpriseTestBase):
     """
-    Test Enterprise Login
+    Test Enterprise Registration
     """
 
     def setUp(self):
