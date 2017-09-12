@@ -2,6 +2,7 @@
 Test helper functions.
 """
 import os
+import uuid
 
 from regression.pages.studio.utils import get_course_key
 from regression.pages.studio import LOGIN_BASE_URL
@@ -11,6 +12,15 @@ COURSE_ORG = 'COURSE_ORG'
 COURSE_NUMBER = 'COURSE_NUMBER'
 COURSE_RUN = 'COURSE_RUN'
 COURSE_DISPLAY_NAME = 'COURSE_DISPLAY_NAME'
+
+
+def get_random_credentials():
+    """
+    Get random user name and email address
+    """
+    username = 'test_{}'.format(str(uuid.uuid4().node))
+    email = "{}@example.com".format(username)
+    return username, email
 
 
 def get_course_info():
