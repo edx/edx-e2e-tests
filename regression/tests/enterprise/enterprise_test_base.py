@@ -27,7 +27,7 @@ from regression.pages.enterprise.enterprise_const import (
     ENTERPRISE_NAME,
     IDP_CSS_ID
 )
-from regression.tests.helpers.api_clients import LmsSessionApi
+from regression.tests.helpers.api_clients import LmsLogoutApi, LmsLoginApi
 from regression.tests.helpers.utils import get_random_credentials
 
 
@@ -70,7 +70,7 @@ class EnterpriseTestBase(WebAppTest):
         of test is true
         """
         # Login using api and transfer session to browser
-        lms_login_api = LmsSessionApi('/account/settings')
+        lms_login_api = LmsLoginApi('/account/settings')
         lms_login_api.authenticate(self.browser)
         # Visit account setting page
         # self.user_account.visit()
@@ -78,8 +78,8 @@ class EnterpriseTestBase(WebAppTest):
         # If linked account is found, unlink it
         if self.user_account.is_idp_account_linked(IDP_CSS_ID):
             self.user_account.unlink_idp_account(IDP_CSS_ID)
-        # Delete all cookies to simulate logout behavior
-        lms_login_api.logout()
+        # Logout using api
+        self.logout_using_api()
 
     def login_to_enterprise_portal(self):
         """
@@ -157,3 +157,9 @@ class EnterpriseTestBase(WebAppTest):
             country="US",
             terms_of_service=True
         )
+
+    def logout_using_api(self):
+        """
+        Get the cookies from active page and logout user using these cookies
+        """
+        LmsLogoutApi(self.browser.get_cookies()).logout()

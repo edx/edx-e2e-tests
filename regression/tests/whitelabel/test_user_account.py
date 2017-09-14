@@ -106,7 +106,7 @@ class TestUserAccount(WhiteLabelTestsBaseClass):
             get_white_label_registration_fields(
                 email=self.temp_mail.user_email,
                 password=PASSWORD,
-                user_name=self.temp_mail.user_name
+                username=self.temp_mail.user_name
             )
         )
         self.dashboard_page.wait_for_page()

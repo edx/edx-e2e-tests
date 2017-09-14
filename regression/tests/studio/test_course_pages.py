@@ -5,7 +5,7 @@ from uuid import uuid4
 
 from bok_choy.web_app_test import WebAppTest
 
-from regression.tests.helpers.api_clients import StudioSessionApi
+from regression.tests.helpers.api_clients import StudioLoginApi
 from regression.tests.helpers.utils import get_course_info
 from regression.pages.studio.pages_page_studio import PagesPageExtended
 
@@ -18,7 +18,7 @@ class CoursePagesTest(WebAppTest):
         super(CoursePagesTest, self).setUp()
         self.course_info = get_course_info()
 
-        login_api = StudioSessionApi()
+        login_api = StudioLoginApi()
         login_api.authenticate(self.browser)
 
         self.pages_page = PagesPageExtended(
