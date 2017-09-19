@@ -3,8 +3,8 @@ Tests for enrollment through Otto
 """
 from regression.pages.whitelabel.const import (
     PROF_COURSE_ID,
-    PROF_COURSE_TITLE,
-    PROF_COURSE_PRICE
+    PROF_COURSE_PRICE,
+    PROF_COURSE_TITLE
 )
 from regression.pages.whitelabel.course_about_page import CourseAboutPage
 from regression.tests.helpers.utils import construct_course_basket_page_url

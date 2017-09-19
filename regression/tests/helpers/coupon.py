@@ -3,14 +3,13 @@ Coupon(voucher) class.
 """
 import uuid
 
+from regression.tests.helpers.api_clients import EcommerceApiClient
 from regression.tests.helpers.coupon_consts import (
     BENEFIT_TYPE,
     COUPON_TYPE,
     DEFAULT_END_DATE,
     DEFAULT_START_DATE
 )
-
-from regression.tests.helpers.api_clients import EcommerceApiClient
 
 
 class Coupon(object):

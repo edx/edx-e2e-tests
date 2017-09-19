@@ -4,14 +4,14 @@ Test helper functions.
 import os
 import uuid
 
-from regression.pages.studio.utils import get_course_key
 from regression.pages.studio import LOGIN_BASE_URL
+from regression.pages.studio.utils import get_course_key
+from regression.pages.whitelabel.activate_account import ActivateAccount
 from regression.pages.whitelabel.const import (
     ORG,
     PASSWORD,
     UNUSED_REGISTRATION_FIELDS_MAPPING
 )
-from regression.pages.whitelabel.activate_account import ActivateAccount
 
 COURSE_ORG = 'COURSE_ORG'
 COURSE_NUMBER = 'COURSE_NUMBER'

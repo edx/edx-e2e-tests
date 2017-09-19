@@ -5,22 +5,26 @@ import datetime
 
 from bok_choy.promise import EmptyPromise
 
+from regression.pages.whitelabel.basket_page import (
+    BasketPage,
+    CyberSourcePage,
+    MultiSeatBasketPage,
+    SingleSeatBasketPage
+)
+from regression.pages.whitelabel.const import (
+    BILLING_INFO,
+    CARD_HOLDER_INFO,
+    PASSWORD
+)
+from regression.pages.whitelabel.course_about_page import CourseAboutPage
+from regression.pages.whitelabel.courses_page import CoursesPage
+from regression.pages.whitelabel.receipt_page import ReceiptPage
+from regression.tests.helpers.api_clients import (
+    EnrollmentApiClient,
+    LmsApiClient
+)
 from regression.tests.whitelabel.white_label_tests_base import (
     WhiteLabelTestsBaseClass
-)
-from regression.tests.helpers.api_clients import (
-    EnrollmentApiClient
-)
-from regression.pages.whitelabel.basket_page import (
-    BasketPage, CyberSourcePage, MultiSeatBasketPage, SingleSeatBasketPage
-)
-from regression.pages.whitelabel.receipt_page import ReceiptPage
-from regression.pages.whitelabel.courses_page import CoursesPage
-from regression.pages.whitelabel.course_about_page import CourseAboutPage
-from regression.pages.whitelabel.const import (
-    PASSWORD,
-    CARD_HOLDER_INFO,
-    BILLING_INFO
 )
 
 
@@ -38,6 +42,7 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
 
     def setUp(self):
         super(CourseEnrollmentTest, self).setUp()
+        self.lms_api_client = LmsApiClient()
         self.enrollment_api_client = EnrollmentApiClient()
         # Initialize all page objects
         self.basket_page = BasketPage(self.browser)

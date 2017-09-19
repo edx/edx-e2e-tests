@@ -6,10 +6,10 @@ from bok_choy.web_app_test import WebAppTest
 from regression.pages.whitelabel.const import URL_WITHOUT_AUTH
 from regression.pages.whitelabel.dashboard_page import DashboardPageExtended
 from regression.pages.whitelabel.home_page import HomePage
-from regression.pages.whitelabel.registration_page import RegisterPageExtended
 from regression.pages.whitelabel.login_page import LoginPage
 from regression.pages.whitelabel.logout_page import EcommerceLogoutPage
-from regression.tests.helpers.api_clients import WLRegisterApi, LogoutApi
+from regression.pages.whitelabel.registration_page import RegisterPageExtended
+from regression.tests.helpers.api_clients import LogoutApi, WLRegisterApi
 
 
 class WhiteLabelTestsBaseClass(WebAppTest):

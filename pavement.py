@@ -128,7 +128,8 @@ def wl_test_config():
     env_vars = [
         'STAFF_USER_EMAIL',
         'GLOBAL_PASSWORD',
-        'ACCESS_TOKEN'
+        'OAUTH_CLIENT_ID',
+        'OAUTH_CLIENT_SECRET'
         ]
     for env_var in env_vars:
         try:

@@ -4,19 +4,18 @@ Tests for new users using Otto
 import uuid
 from unittest import skip
 
-from regression.tests.helpers.api_clients import GuerrillaMailApi
-from regression.tests.whitelabel.white_label_tests_base import (
-    WhiteLabelTestsBaseClass
-)
+from regression.pages.whitelabel.activate_account import ActivateAccount
+from regression.pages.whitelabel.const import PASSWORD
 from regression.pages.whitelabel.inactive_account import InactiveAccount
 from regression.pages.whitelabel.reset_password_page import (
     ResetPassword,
     ResetPasswordComplete
 )
-
+from regression.tests.helpers.api_clients import GuerrillaMailApi
 from regression.tests.helpers.utils import get_white_label_registration_fields
-from regression.pages.whitelabel.const import PASSWORD
-from regression.pages.whitelabel.activate_account import ActivateAccount
+from regression.tests.whitelabel.white_label_tests_base import (
+    WhiteLabelTestsBaseClass
+)
 
 
 class TestUserAccount(WhiteLabelTestsBaseClass):
