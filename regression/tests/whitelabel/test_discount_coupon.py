@@ -40,7 +40,10 @@ from regression.tests.helpers.coupon import Coupon
 from regression.pages.whitelabel.redeem_coupon_page import (
     RedeemCouponPage
 )
-from regression.tests.helpers.utils import get_white_label_registration_fields
+from regression.tests.helpers.utils import (
+    construct_course_basket_page_url,
+    get_white_label_registration_fields
+)
 
 
 class TestDiscountCoupon(VouchersTest):
@@ -72,23 +75,16 @@ class TestDiscountCoupon(VouchersTest):
         )
         self.coupon.setup_coupons_using_api(self.course_price)
         coupon_code = self.coupon.coupon_codes[0]
-        self.addCleanup(self.coupon.delete_coupon)
-        # Login to application using the existing credentials
-        self.login_page.visit()
-        self.login_user_using_ui(COUPON_USERS['coupon_user_01'], PASSWORD)
-        self.go_to_basket()
-
-        self.addCleanup(
-            self.unenroll_using_api,
-            COUPON_USERS['coupon_user_01'],
-            self.course_id
+        # Register to application using api
+        self.register_using_api(
+            construct_course_basket_page_url(PROF_COURSE_ID)
         )
-
         self.enroll_using_discount_code(coupon_code)
         self.assert_enrollment_and_logout()
-        self.login_page.visit()
-        self.login_user_using_ui(COUPON_USERS['coupon_user_02'], PASSWORD)
-        self.go_to_basket()
+        self.home_page.visit()
+        self.register_using_api(
+            construct_course_basket_page_url(PROF_COURSE_ID)
+        )
         self.assertEqual(
             self.error_message_on_invalid_coupon_code(coupon_code),
             SINGLE_USE_CODE_REUSE_ERROR.format(coupon_code)
@@ -100,6 +96,7 @@ class TestDiscountCoupon(VouchersTest):
         Scenario: Discount Once Per Customer Fixed Code: Code can be used up
         to the number of allowed uses and after that it is not usable by anyone
         """
+        maximum_uses = 2
         self.coupon = Coupon(
             COURSE_CATALOG_TYPE['single'],
             COUPON_TYPE['disc'],
@@ -109,24 +106,19 @@ class TestDiscountCoupon(VouchersTest):
             stock_record_ids=STOCK_RECORD_ID,
             benefit_type=BENEFIT_TYPE['abs'],
             benefit_value=BENEFIT_VALUE['fixed'],
-            max_uses=2
+            max_uses=maximum_uses
         )
 
         self.coupon.setup_coupons_using_api(self.course_price)
         coupon_code = self.coupon.coupon_codes[0]
         # Login to application using the existing credentials
-        coupon_users = list(COUPON_USERS.values())
-        last_user_index = len(coupon_users) - 1
-        for coupon_user_index, coupon_user in enumerate(coupon_users):
-            self.login_page.visit()
-            self.login_user_using_ui(coupon_user, PASSWORD)
-            self.go_to_basket()
-            if coupon_user_index != last_user_index:
-                self.addCleanup(
-                    self.unenroll_using_api,
-                    coupon_user,
-                    self.course_id
-                )
+        for i in range(maximum_uses):
+            # Register to application using api
+            self.home_page.visit()
+            self.register_using_api(
+                construct_course_basket_page_url(PROF_COURSE_ID)
+            )
+            if i < maximum_uses:
                 self.enroll_using_discount_code(coupon_code)
                 self.assert_enrollment_and_logout()
             else:
@@ -255,6 +247,7 @@ class TestDiscountCoupon(VouchersTest):
             self.dashboard_page.wait_for_page()
             self.assert_enrollment_and_logout()
 
+    @skip
     def test_discount_once_per_customer_percentage_redeem_url(self):
         """
         Scenario: Inactive Users - Discount Once Per Customer Percentage
@@ -296,6 +289,7 @@ class TestDiscountCoupon(VouchersTest):
             ONCE_PER_CUSTOMER_REDEEM_URL_SAME_USER_REUSE
         )
 
+    @skip
     def test_discount_once_per_customer_fixed_redeem_url_future(self):
         """
         Scenario: Discount Once Per Customer Fixed Redeem URL: Relevant error

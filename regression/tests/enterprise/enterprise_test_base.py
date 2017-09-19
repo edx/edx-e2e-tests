@@ -4,6 +4,7 @@ Enterprise Login tests
 import os
 from bok_choy.web_app_test import WebAppTest
 from regression.pages import LOGIN_EMAIL, LOGIN_PASSWORD
+from regression.pages.lms import LMS_BASE_URL, LMS_PROTOCOL
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.lms.login_lms import LmsLogin
 from regression.pages.enterprise.enterprise_edx_logistration_page import (
@@ -27,7 +28,7 @@ from regression.pages.enterprise.enterprise_const import (
     ENTERPRISE_NAME,
     IDP_CSS_ID
 )
-from regression.tests.helpers.api_clients import LmsLogoutApi, LmsLoginApi
+from regression.tests.helpers.api_clients import LogoutApi, LmsLoginApi
 from regression.tests.helpers.utils import get_random_credentials
 
 
@@ -158,8 +159,16 @@ class EnterpriseTestBase(WebAppTest):
             terms_of_service=True
         )
 
-    def logout_using_api(self):
+    def logout_from_lms_using_api(self):
         """
-        Get the cookies from active page and logout user using these cookies
+        Get cookies from browser and send these cookie to python request to
+        logout using api
         """
-        LmsLogoutApi(self.browser.get_cookies()).logout()
+        logout_api = LogoutApi()
+        logout_api.logout_url = '{}://{}/{}'.format(
+            LMS_PROTOCOL,
+            LMS_BASE_URL,
+            'login'
+            )
+        logout_api.cookies = self.browser.get_cookies()
+        logout_api.logout()
