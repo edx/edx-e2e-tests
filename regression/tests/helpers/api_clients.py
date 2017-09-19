@@ -182,24 +182,25 @@ class LogistrationApiBaseClass(object):
         browser.get(self.browser_get_url)
 
 
-class LogoutApiBaseClass(object):
+class LogoutApi(object):
     """
-    Logout api
+    This class uses the cookies from browser session to logout
+    current user with the help of api request
     """
     def __init__(self):
-        super(LogoutApiBaseClass, self).__init__()
+        super(LogoutApi, self).__init__()
         self.logout_url = None
         self.cookies = {}
         self.session = requests.Session()
         self.session.auth = (BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD)
-        self.session.cookies.update(
-            {cookie['name']: cookie['value'] for cookie in self.cookies}
-        )
 
     def logout(self):
         """
         Logout from application using api
         """
+        self.session.cookies.update(
+            {cookie['name']: cookie['value'] for cookie in self.cookies}
+        )
         response = self.session.get(self.logout_url)
         check_response(response)
 
@@ -226,22 +227,6 @@ class LmsLoginApi(LogistrationApiBaseClass):
         )
 
         self.browser_get_url = LMS_AUTH_URL + target_page_partial_link
-
-
-class LmsLogoutApi(LogoutApiBaseClass):
-    """
-    Logout user from LMS
-    """
-    def __init__(self, cookies):
-        super(LmsLogoutApi, self).__init__()
-
-        self.cookies = cookies
-
-        self.logout_url = '{}://{}/{}'.format(
-            LMS_PROTOCOL,
-            LMS_BASE_URL,
-            'logout'
-        )
 
 
 class StudioLoginApi(LogistrationApiBaseClass):
