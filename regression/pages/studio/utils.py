@@ -3,7 +3,7 @@ Utility functions for studio page objects.
 """
 from opaque_keys.edx.locator import CourseLocator
 from edxapp_acceptance.pages.common.utils import click_css
-#from edxapp_acceptance.tests.helpers import disable_animations
+from edxapp_acceptance.tests.helpers import disable_animations
 from regression.pages import UPLOAD_FILE_DIR
 
 
