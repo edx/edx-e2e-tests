@@ -8,7 +8,7 @@ from regression.pages.enterprise.enterprise_const import (
 )
 
 
-class EnterprisePortalLogin(PageObject):
+class EntPortalLogin(PageObject):
     """
     This class handles the IDP login page
     """

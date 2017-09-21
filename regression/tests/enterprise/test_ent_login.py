@@ -1,10 +1,10 @@
 """
 Enterprise Login tests
 """
-from regression.tests.enterprise.enterprise_test_base import EnterpriseTestBase
+from regression.tests.enterprise.ent_test_base import EntTestBase
 
 
-class TestEnterpriseLogin(EnterpriseTestBase):
+class TestEntLogin(EntTestBase):
     """
     Test Enterprise Login
     """
@@ -13,7 +13,7 @@ class TestEnterpriseLogin(EnterpriseTestBase):
         """
         Initialize all page objects
         """
-        super(TestEnterpriseLogin, self).setUp()
+        super(TestEntLogin, self).setUp()
         self.browser.maximize_window()
 
     def test_enterprise_login_linked_user(self):
@@ -31,15 +31,15 @@ class TestEnterpriseLogin(EnterpriseTestBase):
         # from portal we don't have to handle authentication popup
         self.lms_login.visit()
         # Enterprise portal flow
-        self.login_to_enterprise_portal()
+        self.login_to_ent_portal()
         self.access_course()
-        self.login_enterprise_edx_user()
+        self.login_ent_edx_user()
         # Verify that user is on course enrollment page and correct course
         # is displayed there
-        self.enterprise_course_enrollment.wait_for_page()
+        self.ent_course_enrollment.wait_for_page()
         self.assertDictEqual(
             self.ENT_COURSE_TITLE,
-            self.enterprise_course_enrollment.get_course_title()
+            self.ent_course_enrollment.get_course_title()
         )
 
     def test_enterprise_login_unlinked_user(self):
@@ -57,13 +57,13 @@ class TestEnterpriseLogin(EnterpriseTestBase):
         # Call the fixture to unlink any existing account for the user
         self.login_and_unlink_account()
         # Enterprise portal flow
-        self.login_to_enterprise_portal()
+        self.login_to_ent_portal()
         self.access_course()
-        self.login_enterprise_edx_user()
+        self.login_ent_edx_user()
         # Verify that user is on course enrollment page and correct course
         # is displayed there
-        self.enterprise_course_enrollment.wait_for_page()
+        self.ent_course_enrollment.wait_for_page()
         self.assertDictEqual(
             self.ENT_COURSE_TITLE,
-            self.enterprise_course_enrollment.get_course_title()
+            self.ent_course_enrollment.get_course_title()
         )

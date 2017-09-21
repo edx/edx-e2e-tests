@@ -4,7 +4,7 @@ Enterprise Course Enrollment page
 from bok_choy.page_object import PageObject
 
 
-class EnterpriseCourseEnrollment(PageObject):
+class EntCourseEnrollment(PageObject):
     """
     Enterprise Course Enrollment class
     """
@@ -101,3 +101,15 @@ class EnterpriseCourseEnrollment(PageObject):
             css=detail_header_css + ' .detail-value-container>.text'
         ).text
         return dict(zip(detail_title, detail_value))
+
+    def get_data_sharing_consent_warning(self):
+        """
+        Return warning shown on declining data sharing consent
+        """
+        return self.q(css=".alert.warning>strong").text[0]
+
+    def go_to_data_consent_page(self):
+        """
+        Go to data sharing consent page
+        """
+        self.q(css=".btn-continue").click()
