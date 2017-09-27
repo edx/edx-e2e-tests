@@ -3,22 +3,21 @@
 List of constants to be used throughout the tests
 """
 import os
-
-# Get HTTP Authentication credentials from environment variables
-AUTH_USERNAME = os.environ['BASIC_AUTH_USER']
-AUTH_PASSWORD = os.environ['BASIC_AUTH_PASSWORD']
-
-# Get API Access token
-
-ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
-
-# Select the Org for which to run the tests, Default is MITProfessionalX
-ORG = os.getenv('ORG', 'MITProfessionalX')
+from regression.pages import BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD
 
 # Global password
-PASSWORD = os.environ['GLOBAL_PASSWORD']
+PASSWORD = os.environ.get('GLOBAL_PASSWORD')
 
-BASIC_AUTH = AUTH_USERNAME + ":" + AUTH_PASSWORD + "@"
+# Client information for access token
+OAUTH_CLIENT_ID = os.environ.get('OAUTH_CLIENT_ID')
+OAUTH_CLIENT_SECRET = os.environ.get('OAUTH_CLIENT_SECRET')
+
+BASIC_AUTH = BASIC_AUTH_USERNAME + ":" + BASIC_AUTH_PASSWORD + "@"
+
+# Select the Org for which to run the tests
+DEFAULT_ORG = 'HarvardMedGlobalAcademy'
+
+ORG = os.environ.get('ORG', DEFAULT_ORG)
 
 # Organization Based Settings
 ##############################################################################

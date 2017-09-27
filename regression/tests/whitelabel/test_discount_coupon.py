@@ -6,16 +6,24 @@ import uuid
 from itertools import izip
 from unittest import skip
 
+from regression.pages.whitelabel.const import (
+    PASSWORD,
+    PROF_COURSE_ID,
+    PROF_COURSE_PRICE,
+    PROF_COURSE_TITLE
+)
+from regression.pages.whitelabel.redeem_coupon_page import RedeemCouponPage
+from regression.tests.helpers.coupon import Coupon
 from regression.tests.helpers.coupon_consts import (
     BENEFIT_TYPE,
     BENEFIT_VALUE,
-    COUPON_USERS,
     COUPON_TYPE,
+    COUPON_USERS,
     COURSE_CATALOG_TYPE,
     EXPIRED_CODE_ERROR,
     EXPIRED_END_DATE,
-    FUTURE_START_DATE,
     FUTURE_REDEEM_URL_ERROR,
+    FUTURE_START_DATE,
     INVALID_DOMAIN_ERROR_MESSAGE_ON_BASKET,
     INVALID_DOMAIN_USERS,
     ONCE_PER_CUSTOMER_CODE_MAX_LIMIT,
@@ -27,23 +35,11 @@ from regression.tests.helpers.coupon_consts import (
     VALID_EMAIL_DOMAINS,
     VOUCHER_TYPE
 )
-
-from regression.pages.whitelabel.const import (
-    PROF_COURSE_ID,
-    PROF_COURSE_TITLE,
-    PROF_COURSE_PRICE,
-    PASSWORD
-)
-
-from regression.tests.whitelabel.voucher_tests_base import VouchersTest
-from regression.tests.helpers.coupon import Coupon
-from regression.pages.whitelabel.redeem_coupon_page import (
-    RedeemCouponPage
-)
 from regression.tests.helpers.utils import (
     construct_course_basket_page_url,
     get_white_label_registration_fields
 )
+from regression.tests.whitelabel.voucher_tests_base import VouchersTest
 
 
 class TestDiscountCoupon(VouchersTest):
@@ -247,7 +243,6 @@ class TestDiscountCoupon(VouchersTest):
             self.dashboard_page.wait_for_page()
             self.assert_enrollment_and_logout()
 
-    @skip
     def test_discount_once_per_customer_percentage_redeem_url(self):
         """
         Scenario: Inactive Users - Discount Once Per Customer Percentage
@@ -289,7 +284,6 @@ class TestDiscountCoupon(VouchersTest):
             ONCE_PER_CUSTOMER_REDEEM_URL_SAME_USER_REUSE
         )
 
-    @skip
     def test_discount_once_per_customer_fixed_redeem_url_future(self):
         """
         Scenario: Discount Once Per Customer Fixed Redeem URL: Relevant error
@@ -314,13 +308,6 @@ class TestDiscountCoupon(VouchersTest):
 
         self.login_page.visit()
         self.login_user_using_ui(COUPON_USERS['coupon_user_01'], PASSWORD)
-
-        # self.login_user(COUPON_USERS['coupon_user_01'])
-        self.addCleanup(
-            self.unenroll_using_api,
-            COUPON_USERS['coupon_user_01'],
-            self.course_id
-        )
         redeem_coupon = RedeemCouponPage(self.browser, coupon_code).visit()
         self.assertEqual(
             redeem_coupon.error_message,

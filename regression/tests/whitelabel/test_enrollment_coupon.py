@@ -6,9 +6,19 @@ import uuid
 from itertools import izip
 from unittest import skip
 
+from regression.pages.whitelabel.const import (
+    PASSWORD,
+    PROF_COURSE_ID,
+    PROF_COURSE_PRICE,
+    PROF_COURSE_TITLE
+)
+from regression.pages.whitelabel.course_about_page import CourseAboutPage
+from regression.pages.whitelabel.redeem_coupon_page import RedeemCouponPage
+from regression.tests.helpers.api_clients import GuerrillaMailApi
+from regression.tests.helpers.coupon import Coupon
 from regression.tests.helpers.coupon_consts import (
-    COUPON_USERS,
     COUPON_TYPE,
+    COUPON_USERS,
     COURSE_CATALOG_TYPE,
     EXPIRED_END_DATE,
     EXPIRED_REDEEM_URL_ERROR,
@@ -27,19 +37,11 @@ from regression.tests.helpers.coupon_consts import (
     VALID_EMAIL_DOMAINS,
     VOUCHER_TYPE
 )
-from regression.pages.whitelabel.redeem_coupon_page import RedeemCouponPage
-from regression.tests.helpers.coupon import Coupon
-from regression.pages.whitelabel.const import (
-    PASSWORD,
-    PROF_COURSE_ID,
-    PROF_COURSE_TITLE,
-    PROF_COURSE_PRICE
+from regression.tests.helpers.utils import (
+    activate_account,
+    get_white_label_registration_fields
 )
-from regression.pages.whitelabel.course_about_page import CourseAboutPage
 from regression.tests.whitelabel.voucher_tests_base import VouchersTest
-from regression.tests.helpers.utils import get_white_label_registration_fields
-from regression.tests.helpers.api_clients import GuerrillaMailApi
-from regression.tests.helpers.utils import activate_account
 
 
 class TestEnrollmentCoupon(VouchersTest):

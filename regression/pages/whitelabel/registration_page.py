@@ -1,16 +1,18 @@
 """
 Registration page.
 """
+
 from edxapp_acceptance.pages.lms.login_and_register import (
     CombinedLoginAndRegisterPage
 )
-
+from edxapp_acceptance.tests.helpers import disable_animations
+from regression.pages.whitelabel.const import ORG, URL_WITH_AUTH
 from regression.tests.helpers.utils import (
+    click_checkbox,
     fill_input_fields,
     select_drop_down_values,
-    click_checkbox
+
 )
-from regression.pages.whitelabel.const import ORG, URL_WITH_AUTH
 
 
 class RegisterPageExtended(CombinedLoginAndRegisterPage):
@@ -27,6 +29,7 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
             registration_fields(dict): A dictionary of all fields to be filled.
             submit(bool): If True then registration form will be submitted.
         """
+        disable_animations(self)
         self.wait_for_element_visibility(
             '.form-toggle[data-type="login"]', 'Registration form is visible.'
         )

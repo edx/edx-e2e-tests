@@ -3,21 +3,21 @@ Miscellaneous tests
 """
 from regression.pages.whitelabel.const import (
     EXISTING_USER_EMAIL,
-    SELECTED_COUNTRY,
-    NO_OF_COUNTRIES,
-    SAMPLE_COUNTRIES,
-    SELECTED_LANGUAGE,
-    NO_OF_LANGUAGES,
-    SAMPLE_LANGUAGES,
-    LOGO_LINK,
     LOGO_ALT_TEXT,
+    LOGO_LINK,
+    NO_OF_COUNTRIES,
+    NO_OF_LANGUAGES,
+    PASSWORD,
+    SAMPLE_COUNTRIES,
+    SAMPLE_LANGUAGES,
+    SELECTED_COUNTRY,
+    SELECTED_LANGUAGE,
     SOCIAL_MEDIA_LINK
 )
 from regression.pages.whitelabel.profile_page import ProfilePage
 from regression.tests.whitelabel.white_label_tests_base import (
     WhiteLabelTestsBaseClass
 )
-from regression.pages.whitelabel.const import PASSWORD
 
 
 class TestMisc(WhiteLabelTestsBaseClass):

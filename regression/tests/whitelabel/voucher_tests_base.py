@@ -3,14 +3,14 @@ Common functions for Vouchers
 """
 from datetime import datetime
 
-from regression.tests.helpers.api_clients import EcommerceApiClient
 from regression.pages.whitelabel.basket_page import SingleSeatBasketPage
-from regression.pages.whitelabel.redeem_coupon_page import (
-    RedeemCouponPage,
-    RedeemCouponErrorPage
-)
-from regression.pages.whitelabel.home_page import HomePage
 from regression.pages.whitelabel.const import ORG
+from regression.pages.whitelabel.home_page import HomePage
+from regression.pages.whitelabel.redeem_coupon_page import (
+    RedeemCouponErrorPage,
+    RedeemCouponPage
+)
+from regression.tests.helpers.api_clients import EcommerceApiClient
 from regression.tests.whitelabel.course_enrollment_test import (
     CourseEnrollmentTest
 )

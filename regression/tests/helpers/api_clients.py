@@ -1,37 +1,48 @@
 """
 Api clients for tests.
 """
-import time
-import datetime
 import Cookie
+import datetime
 import json
+import time
+
 import requests
 from requests.auth import AuthBase
 from edx_rest_api_client.client import EdxRestApiClient
 from guerrillamail import GuerrillaMailSession
 
-from regression.tests.helpers.utils import get_org_specific_registration_fields
+
 from regression.pages import (
-    BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD, LOGIN_EMAIL, LOGIN_PASSWORD
-)
-from regression.pages.lms import LMS_BASE_URL, LMS_PROTOCOL
-from regression.pages.lms import LOGIN_BASE_URL as LMS_AUTH_URL
-from regression.pages.studio import STUDIO_BASE_URL, STUDIO_PROTOCOL
-from regression.pages.studio import LOGIN_BASE_URL as STUDIO_AUTH_URL
-from regression.pages.whitelabel.const import (
-    ACCESS_TOKEN,
-    EMAIL_SENDER_ACCOUNT,
-    INITIAL_WAIT_TIME,
-    TIME_OUT_LIMIT,
-    WAIT_TIME,
-    ENROLLMENT_API_URL,
-    ECOMMERCE_API_URL,
-    URL_WITHOUT_AUTH,
-    URL_WITH_AUTH,
-    AUTH_USERNAME,
-    AUTH_PASSWORD
+    BASIC_AUTH_PASSWORD,
+    BASIC_AUTH_USERNAME,
+    LOGIN_EMAIL,
+    LOGIN_PASSWORD
 )
 from regression.pages.common.utils import get_target_url_from_text
+from regression.pages.lms import LOGIN_BASE_URL as LMS_AUTH_URL
+from regression.pages.lms import LMS_BASE_URL, LMS_PROTOCOL
+from regression.pages.studio import LOGIN_BASE_URL as STUDIO_AUTH_URL
+from regression.pages.studio import STUDIO_BASE_URL, STUDIO_PROTOCOL
+from regression.pages.whitelabel.const import (
+    ECOMMERCE_API_URL,
+    EMAIL_SENDER_ACCOUNT,
+    ENROLLMENT_API_URL,
+    INITIAL_WAIT_TIME,
+    OAUTH_CLIENT_ID,
+    OAUTH_CLIENT_SECRET,
+    TIME_OUT_LIMIT,
+    URL_WITH_AUTH,
+    URL_WITHOUT_AUTH,
+    WAIT_TIME
+)
+from regression.tests.helpers.utils import get_org_specific_registration_fields
+
+
+OAUTH_ACCESS_TOKEN_URL = '{}://{}/{}'.format(
+    LMS_PROTOCOL,
+    LMS_BASE_URL,
+    'oauth2/access_token'
+)
 
 
 class BearerAuth(AuthBase):
@@ -344,48 +355,44 @@ class GuerrillaMailApi(object):
         return get_target_url_from_text(matching_string, email_text)
 
 
-class EnrollmentApiClient(object):
+class EdxRestApiBaseClass(object):
     """
-    Enrollment API client
+    Base class for creating EdxRestAPiClient instance
     """
+    api_url_root = None
+    append_slash = True
 
-    def __init__(self, host=None, key=None):
-        self.host = host or ENROLLMENT_API_URL
-        self.key = key or ACCESS_TOKEN
-
-    def is_user_enrolled(self, username, course_id):
-        """
-        Retrieve the enrollment status for given user in a given course.
-        Args:
-            username:
-            course_id:
-        Returns:
-            True or false based on whether user is enrolled
-        """
-        url = '{host}/enrollment/{username},{course_id}'.format(
-            host=self.host,
-            username=username,
-            course_id=course_id
+    def __init__(self):
+        assert self.api_url_root
+        access_token, __ = self.get_access_token()
+        self.client = EdxRestApiClient(
+            self.api_url_root,
+            jwt=access_token,
+            append_slash=self.append_slash
         )
-        response = requests.get(url, auth=BearerAuth(self.key))
-        check_response(response)
-        formatted_response = response.json()
-        return formatted_response['is_active']
+
+    @staticmethod
+    def get_access_token():
+        """ Returns an access token and expiration date from the OAuth
+        provider.
+        Returns:
+            (str, datetime):Tuple containing access token and expiration date.
+        """
+        return EdxRestApiClient.get_oauth_access_token(
+            OAUTH_ACCESS_TOKEN_URL,
+            OAUTH_CLIENT_ID,
+            OAUTH_CLIENT_SECRET,
+            token_type='jwt'
+        )
 
 
-class EcommerceApiClient(object):
+class EcommerceApiClient(EdxRestApiBaseClass):
     """
     Ecommerce API client for various actions like creating, deleting
     downloading coupons
     """
 
-    @property
-    def ecommerce_api_client(self):
-        """
-        E-Commerce API Client
-        """
-        return EdxRestApiClient(
-            ECOMMERCE_API_URL, oauth_access_token=ACCESS_TOKEN)
+    api_url_root = ECOMMERCE_API_URL
 
     def create_coupon(self, payload):
         """
@@ -393,7 +400,7 @@ class EcommerceApiClient(object):
         Args:
             payload:
         """
-        response = self.ecommerce_api_client.coupons.post(data=payload)
+        response = self.client.coupons.post(data=payload)
         if 'coupon_id' not in response.keys():
             raise ApiException('Coupon not created')
         return response['coupon_id']
@@ -404,7 +411,7 @@ class EcommerceApiClient(object):
         Args:
             coupon_id:
         """
-        response = self.ecommerce_api_client.products(coupon_id).get()
+        response = self.client.products(coupon_id).get()
         if not response:
             raise ApiException('No coupon report found')
         return response
@@ -416,7 +423,7 @@ class EcommerceApiClient(object):
         Args:
             coupon_id:
         """
-        response = self.ecommerce_api_client.coupons(coupon_id).delete()
+        response = self.client.coupons(coupon_id).delete()
         if not response:
             raise ApiException('Failed to delete the coupon using API')
 
@@ -435,6 +442,29 @@ class EcommerceApiClient(object):
         return coupon_codes
 
 
+class EnrollmentApiClient(EdxRestApiBaseClass):
+    """
+    Enrollment API client
+    """
+
+    api_url_root = ENROLLMENT_API_URL
+    append_slash = False
+
+    def is_user_enrolled(self, username, course_run_id):
+        """
+        Get enrollment details for the given user and course run.
+        Arguments:
+            username (str): user name for enrolled user
+            course_run_id (str): course id in which user is enrolled
+        """
+        response = self.client.enrollment(
+            '{},{}'.format(username, course_run_id)
+        ).get()
+        check_response(response)
+        formatted_response = response.json()
+        return formatted_response['is_active']
+
+
 class LmsApiClient(object):
     """
     API class for accessing different APIs
@@ -446,14 +476,14 @@ class LmsApiClient(object):
         """
         self.host = host or URL_WITHOUT_AUTH
         self.session = requests.Session()
-        self.session.auth = (AUTH_USERNAME, AUTH_PASSWORD)
+        self.session.auth = (BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD)
         self.login_response = None
 
     def _post_headers(self, x_csrf=None):
         """
         Default HTTP headers dict.
-        Args:
-            x_csrf:
+        Arguments:
+            x_csrf: csrf token value
         """
         return {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -479,7 +509,7 @@ class LmsApiClient(object):
     def create_login_session(self, user_email, user_password):
         """
         Create a session and assign cookies to it after successful login
-        Args:
+        Arguments:
             user_email:
             user_password:
         """
@@ -503,7 +533,7 @@ class LmsApiClient(object):
         """
         get cookie info from response headers
         Returns:
-
+            Cookie info: Cookie information in simple cookie format
         """
         set_cookie = self.login_response.headers['Set-Cookie']
         if not set_cookie:
@@ -544,7 +574,7 @@ class LmsApiClient(object):
     def get_coupon_request(self, target_url):
         """
         Send a Get request and return the response if successful
-        Args:
+        Arguments:
           target_url:
         """
         response = self.session.get(target_url)
