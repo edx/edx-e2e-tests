@@ -7,21 +7,21 @@ from regression.pages import LOGIN_EMAIL, LOGIN_PASSWORD
 from regression.pages.lms import LMS_BASE_URL, LMS_PROTOCOL
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.lms.login_lms import LmsLogin
-from regression.pages.enterprise.enterprise_edx_logistration_page import (
-    EnterpriseEdxLogistration
+from regression.pages.enterprise.ent_edx_logistration_page import (
+    EntEdxLogistration
 )
-from regression.pages.enterprise.enterprise_portal_login_page import (
-    EnterprisePortalLogin
+from regression.pages.enterprise.ent_portal_login_page import (
+    EntPortalLogin
 )
-from regression.pages.enterprise.enterprise_portal_home_page import (
-    EnterprisePortalHome
+from regression.pages.enterprise.ent_portal_home_page import (
+    EntPortalHome
 )
-from regression.pages.enterprise.enterprise_portal_course_page import (
-    EnterprisePortalCourseStart,
-    EnterprisePortalCourseStructure
+from regression.pages.enterprise.ent_portal_course_page import (
+    EntPortalCourseStart,
+    EntPortalCourseStructure
 )
-from regression.pages.enterprise.enterprise_course_enrollment_page import (
-    EnterpriseCourseEnrollment
+from regression.pages.enterprise.ent_course_enrollment_page import (
+    EntCourseEnrollment
 )
 from regression.pages.enterprise.user_account import UserAccountSettings
 from regression.pages.enterprise.enterprise_const import (
@@ -32,7 +32,7 @@ from regression.tests.helpers.api_clients import LogoutApi, LmsLoginApi
 from regression.tests.helpers.utils import get_random_credentials
 
 
-class EnterpriseTestBase(WebAppTest):
+class EntTestBase(WebAppTest):
     """
     Test Enterprise Login
     """
@@ -47,19 +47,19 @@ class EnterpriseTestBase(WebAppTest):
         """
         Initialize all page objects
         """
-        super(EnterpriseTestBase, self).setUp()
+        super(EntTestBase, self).setUp()
         self.browser.maximize_window()
-        self.enterprise_portal_login = EnterprisePortalLogin(self.browser)
-        self.enterprise_portal_home = EnterprisePortalHome(self.browser)
-        self.enterprise_portal_course_start = \
-            EnterprisePortalCourseStart(self.browser)
-        self.enterprise_portal_course_structure = \
-            EnterprisePortalCourseStructure(self.browser)
-        self.enterprise_course_enrollment = \
-            EnterpriseCourseEnrollment(self.browser)
+        self.ent_portal_login = EntPortalLogin(self.browser)
+        self.ent_portal_home = EntPortalHome(self.browser)
+        self.ent_portal_course_start = \
+            EntPortalCourseStart(self.browser)
+        self.ent_portal_course_structure = \
+            EntPortalCourseStructure(self.browser)
+        self.ent_course_enrollment = \
+            EntCourseEnrollment(self.browser)
         self.lms_login = LmsLogin(self.browser)
-        self.enterprise_edx_logistration = \
-            EnterpriseEdxLogistration(self.browser)
+        self.ent_edx_logistration = \
+            EntEdxLogistration(self.browser)
         self.dashboard = DashboardPageExtended(self.browser)
         self.user_account = UserAccountSettings(self.browser)
 
@@ -80,78 +80,78 @@ class EnterpriseTestBase(WebAppTest):
         if self.user_account.is_idp_account_linked(IDP_CSS_ID):
             self.user_account.unlink_idp_account(IDP_CSS_ID)
         # Logout using api
-        self.logout_using_api()
+        self.logout_from_lms_using_api()
 
-    def login_to_enterprise_portal(self):
+    def login_to_ent_portal(self):
         """
         Login to enterprise portal and find the course and click on it
         """
         # Open portal
-        self.enterprise_portal_login.visit()
+        self.ent_portal_login.visit()
         # Login
-        self.enterprise_portal_login.login_to_portal(
+        self.ent_portal_login.login_to_portal(
             self.ENT_PORTAL_USERNAME,
             self.ENT_PORTAL_PASSWORD)
-        self.enterprise_portal_home.wait_for_page()
+        self.ent_portal_home.wait_for_page()
 
     def access_course(self):
         """
         Access the course from portal
         """
         # Open the course pop up and look for the desired course
-        self.enterprise_portal_home.open_courses_popup()
-        course_titles = self.enterprise_portal_home.fetch_course_titles_list()
+        self.ent_portal_home.open_courses_popup()
+        course_titles = self.ent_portal_home.fetch_course_titles_list()
         self.assert_(
             self.ENT_COURSE_TITLE in course_title
             for course_title in course_titles
         )
         # Go to course page and then use the link there to go to edX
-        self.enterprise_portal_home.open_enterprise_course_page(
+        self.ent_portal_home.open_enterprise_course_page(
             self.ENT_COURSE_TITLE
         )
-        self.enterprise_portal_course_start.wait_for_page()
-        self.enterprise_portal_course_start.start_or_continue_course()
-        self.enterprise_portal_course_structure.wait_for_page()
-        self.enterprise_portal_course_structure.open_course_on_edx()
+        self.ent_portal_course_start.wait_for_page()
+        self.ent_portal_course_start.start_or_continue_course()
+        self.ent_portal_course_structure.wait_for_page()
+        self.ent_portal_course_structure.open_course_on_edx()
         # Get handle of newly opened edx window and switch control to it
         edx_window = self.driver.window_handles[1]
         self.driver.switch_to_window(edx_window)
 
-    def login_enterprise_edx_user(self):
+    def login_ent_edx_user(self):
         """
         Login the user using edX customized logistration page
         """
         # On the logistration page switch to login form and then login with
         # edx credentials
-        self.enterprise_edx_logistration.wait_for_page()
+        self.ent_edx_logistration.wait_for_page()
         self.assertEqual(
             ENTERPRISE_NAME,
-            self.enterprise_edx_logistration.get_enterprise_name()
+            self.ent_edx_logistration.get_enterprise_name()
         )
         # Get the current form and if currently registration page is shown
         # toggle to display login page
-        if self.enterprise_edx_logistration.current_form == 'register':
-            self.enterprise_edx_logistration.toggle_form()
-        self.enterprise_edx_logistration.login(
+        if self.ent_edx_logistration.current_form == 'register':
+            self.ent_edx_logistration.toggle_form()
+        self.ent_edx_logistration.login(
             LOGIN_EMAIL,
             LOGIN_PASSWORD
         )
 
-    def register_enterprise_edx_user(self):
+    def register_ent_edx_user(self):
         """
         Register the enterprise user using edX customized logistration page
         """
         username, email = get_random_credentials()
-        self.enterprise_edx_logistration.wait_for_page()
+        self.ent_edx_logistration.wait_for_page()
         self.assertEqual(
             ENTERPRISE_NAME,
-            self.enterprise_edx_logistration.get_enterprise_name()
+            self.ent_edx_logistration.get_enterprise_name()
         )
         # Get the current form and if currently registration page is not shown
         # toggle to display register page
-        if self.enterprise_edx_logistration.current_form != 'register':
-            self.enterprise_edx_logistration.toggle_form()
-        self.enterprise_edx_logistration.register(
+        if self.ent_edx_logistration.current_form != 'register':
+            self.ent_edx_logistration.toggle_form()
+        self.ent_edx_logistration.register(
             email=email,
             username=username,
             full_name='Enterprise Test User',
@@ -168,7 +168,37 @@ class EnterpriseTestBase(WebAppTest):
         logout_api.logout_url = '{}://{}/{}'.format(
             LMS_PROTOCOL,
             LMS_BASE_URL,
-            'login'
+            'logout'
             )
         logout_api.cookies = self.browser.get_cookies()
         logout_api.logout()
+
+    def login_and_go_to_course_enrollment_page(self):
+        """
+        Flow which covers the user login on enterprise portal, selecting the
+        course and then login to edx course enrollment page
+        """
+        # The edX site is visited just to make sure that when user jumps to
+        # edX from portal we don't have to handle authentication popup
+        self.lms_login.visit()
+        # Enterprise portal flow
+        self.login_to_ent_portal()
+        self.access_course()
+        self.login_ent_edx_user()
+        # Verify that user is on course enrollment page
+        self.ent_course_enrollment.wait_for_page()
+
+    def register_and_go_to_course_enrollment_page(self):
+        """
+        Flow which covers the user login on enterprise portal, selecting the
+        course and then register to edx course enrollment page
+        """
+        # The edX site is visited just to make sure that when user jumps to
+        # edX from portal we don't have to handle authentication popup
+        self.lms_login.visit()
+        # Enterprise portal flow
+        self.login_to_ent_portal()
+        self.access_course()
+        self.register_ent_edx_user()
+        # Verify that user is on course enrollment page
+        self.ent_course_enrollment.wait_for_page()

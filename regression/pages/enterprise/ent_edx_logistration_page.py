@@ -6,7 +6,7 @@ from edxapp_acceptance.pages.lms.login_and_register import (
 )
 
 
-class EnterpriseEdxLogistration(CombinedLoginAndRegisterPage):
+class EntEdxLogistration(CombinedLoginAndRegisterPage):
     """
     This class is an extended class of CombinedLoginAndRegisterPage,
     where we add methods that are different or not used in LMS

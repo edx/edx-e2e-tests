@@ -1,10 +1,10 @@
 """
 Enterprise Registration tests
 """
-from regression.tests.enterprise.enterprise_test_base import EnterpriseTestBase
+from regression.tests.enterprise.ent_test_base import EntTestBase
 
 
-class TestEnterpriseRegistration(EnterpriseTestBase):
+class TestEntRegistration(EntTestBase):
     """
     Test Enterprise Registration
     """
@@ -13,7 +13,7 @@ class TestEnterpriseRegistration(EnterpriseTestBase):
         """
         Initialize all page objects
         """
-        super(TestEnterpriseRegistration, self).setUp()
+        super(TestEntRegistration, self).setUp()
         self.browser.maximize_window()
 
     def test_enterprise_user_registration(self):
@@ -31,13 +31,13 @@ class TestEnterpriseRegistration(EnterpriseTestBase):
         # from portal we don't have to handle authentication popup
         self.lms_login.visit()
         # Enterprise portal flow
-        self.login_to_enterprise_portal()
+        self.login_to_ent_portal()
         self.access_course()
-        self.register_enterprise_edx_user()
+        self.register_ent_edx_user()
         # Verify that user is on course enrollment page and correct course
         # is displayed there
-        self.enterprise_course_enrollment.wait_for_page()
+        self.ent_course_enrollment.wait_for_page()
         self.assertDictEqual(
             self.ENT_COURSE_TITLE,
-            self.enterprise_course_enrollment.get_course_title()
+            self.ent_course_enrollment.get_course_title()
         )
