@@ -1,6 +1,8 @@
 """
 Tests for enrollment through Otto
 """
+from unittest import skip
+
 from regression.pages.whitelabel.const import (
     PROF_COURSE_ID,
     PROF_COURSE_PRICE,
@@ -30,6 +32,7 @@ class TestEnrollmentOtto(CourseEnrollmentTest):
         self.course_price = PROF_COURSE_PRICE
         self.total_price = PROF_COURSE_PRICE
 
+    @skip
     def test_register_and_select_course(self):
         """
         Scenario: Otto flow - A registered user is able to register, select a
@@ -41,6 +44,7 @@ class TestEnrollmentOtto(CourseEnrollmentTest):
         self.dashboard_page.wait_for_page()
         self.assert_enrollment_and_logout()
 
+    @skip
     def test_select_course_and_register(self):
         """
         Scenario: Otto flow - A user is able to select a course,

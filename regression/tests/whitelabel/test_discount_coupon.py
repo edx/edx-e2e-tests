@@ -243,6 +243,7 @@ class TestDiscountCoupon(VouchersTest):
             self.dashboard_page.wait_for_page()
             self.assert_enrollment_and_logout()
 
+    @skip
     def test_discount_once_per_customer_percentage_redeem_url(self):
         """
         Scenario: Inactive Users - Discount Once Per Customer Percentage
