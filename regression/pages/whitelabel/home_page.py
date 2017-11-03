@@ -13,13 +13,16 @@ class HomePage(PageObject):
     url = URL_WITH_AUTH
 
     def is_browser_on_page(self):
-        return self.q(css='.brand-link[href^="/login"]').visible
+        """
+        Verify that login button is visible
+        """
+        return self.q(css='.nav-links .sign-in-btn.btn').visible
 
     def click_registration_button(self):
         """
         Clicks registration button.
         """
-        registration_button_css = '.btn-brand.btn-client[href^="/register"]'
+        registration_button_css = '.nav-links .register-btn.btn'
         self.wait_for_element_visibility(
             registration_button_css,
             'Registration button is visible'
@@ -30,7 +33,7 @@ class HomePage(PageObject):
         """
         Clicks login button.
         """
-        login_button_css = '.brand-link[href^="/login"]'
+        login_button_css = '.nav-links .sign-in-btn.btn'
         self.wait_for_element_visibility(
             login_button_css,
             'Login button is visible'
@@ -73,7 +76,7 @@ class HomePage(PageObject):
         Returns:
             header logo link
         """
-        return self.q(css='.logo>a>img').attrs('src')[0]
+        return self.q(css='.logo').attrs('src')[0]
 
     @property
     def header_logo_alt_text(self):
@@ -82,7 +85,7 @@ class HomePage(PageObject):
         Returns:
             header logo alt text
         """
-        return self.q(css='.logo>a>img').attrs('alt')[0]
+        return self.q(css='.logo').attrs('alt')[0]
 
     @property
     def footer_logo_link(self):
@@ -91,7 +94,7 @@ class HomePage(PageObject):
         Returns:
             footer logo link
         """
-        return self.q(css='.footer-logo>ul>li>a>img').attrs('src')[0]
+        return self.q(css='.footer-logo>a>img').attrs('src')[0]
 
     @property
     def footer_logo_alt_text(self):
@@ -100,18 +103,18 @@ class HomePage(PageObject):
         Returns:
             footer logo alt text
         """
-        return self.q(css='.footer-logo>ul>li>a>img').attrs('alt')[0]
+        return self.q(css='.footer-logo>a>img').attrs('alt')[0]
 
     def go_to_registration_page(self):
         """
         Go to registration page
         """
         # Requires wait_for_page() statement in the test
-        self.q(css='.btn-brand.btn-client[href^="/register"]').click()
+        self.q(css='.register-btn.btn').click()
 
     def go_to_courses_page(self):
         """
         Go to courses page
         """
         # Requires wait_for_page() statement in the test
-        self.q(css='.brand-link[href="/courses"]').click()
+        self.q(css='.nav-links a[href="/courses"]').click()

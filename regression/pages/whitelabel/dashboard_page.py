@@ -37,13 +37,13 @@ class DashboardPageExtended(DashboardPage):
         """
         Select the My Profile page from profile drop down
         """
-        self.q(css='.user-name').click()
+        self.q(css='.toggle-user-dropdown[aria-expanded="false"]').click()
         self.wait_for_element_visibility(
-            '.show-user-menu',
+            '.toggle-user-dropdown[aria-expanded="true"]',
             'wait for user drop down to expand',
             timeout=DEFAULT_TIMEOUT
         )
-        self.q(css='.show-user-menu>li>a[href^="/u/"]').click()
+        self.q(css='#user-menu a[href^="/u/"]').click()
 
     def is_course_present(self, course_id):
         """
@@ -78,8 +78,8 @@ class DashboardPageExtended(DashboardPage):
         course_number = CourseKey.from_string(course_id).course
         course_link = '#actions-dropdown-link-0[data-course-number="' + \
                       course_number + '"]'
-        un_enroll_button = '#actions-dropdown-list-0>#actions-item-unenroll-0>' \
-                           '#unenroll-0'
+        un_enroll_button = '#actions-dropdown-list-0>#actions-item-unenroll' \
+                           '-0>#unenroll-0'
         self.q(css=course_link).click()
         self.wait_for_element_visibility(
             un_enroll_button,
