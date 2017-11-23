@@ -94,7 +94,7 @@ class HomePage(PageObject):
         Returns:
             footer logo link
         """
-        return self.q(css='.footer-logo>a>img').attrs('src')[0]
+        return self.q(css='.footer-logo img').attrs('src')[0]
 
     @property
     def footer_logo_alt_text(self):
@@ -103,7 +103,7 @@ class HomePage(PageObject):
         Returns:
             footer logo alt text
         """
-        return self.q(css='.footer-logo>a>img').attrs('alt')[0]
+        return self.q(css='.footer-logo img').attrs('alt')[0]
 
     def go_to_registration_page(self):
         """

@@ -1,12 +1,15 @@
 """
 Miscellaneous tests
 """
+from unittest import skipIf
+
 from regression.pages.whitelabel.const import (
     EXISTING_USER_EMAIL,
     LOGO_ALT_TEXT,
     LOGO_LINK,
     NO_OF_COUNTRIES,
     NO_OF_LANGUAGES,
+    ORG,
     PASSWORD,
     SAMPLE_COUNTRIES,
     SAMPLE_LANGUAGES,
@@ -32,6 +35,7 @@ class TestMisc(WhiteLabelTestsBaseClass):
         super(TestMisc, self).setUp()
         self.profile_page = ProfilePage(self.browser)
 
+    @skipIf(ORG == 'MITxPRO', 'MITxPRO has no social media links')
     def test_verify_social_media_links(self):
         """
         Scenario: To verify that correct social media links are present in

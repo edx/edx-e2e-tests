@@ -75,9 +75,9 @@ VOUCHER_TYPE = {
 BENEFIT_VALUE = {'fixed': 60, 'per': 40}
 
 STOCK_RECORD_IDS = {
-    'HarvardMedGlobalAcademy': [8398],
+    'HarvardMedGlobalAcademy': [24931],
     'HarvardXPLUS': [8396],
-    'MITProfessionalX': [8400],
+    'MITxPRO': [24930],
 }
 
 STOCK_RECORD_ID = STOCK_RECORD_IDS[ORG]
@@ -107,43 +107,25 @@ VALID_EMAIL_DOMAINS = "emaildomainfour.com,emaildomainfive.com"
 # Courses for dynamic coupons testing
 COUPON_COURSES = {
     u'HarvardMedGlobalAcademy': {
-        u'course-v1:HarvardMedGlobalAcademy+HMGA01+2016': {
-            'price': 100.0, 'title': u'Automated Tests-HMGA01'
+        u'course-v1:HarvardMedGlobalAcademy+E2E02+2018': {
+            'price': 200.0, 'title': u'HarvardMedGlobalAcademy-E2E-Test-2'
         },
-        u'course-v1:HarvardMedGlobalAcademy+HMGA02+2016': {
-            'price': 100.0, 'title': u'Automated Tests-HMGA02'
+        u'course-v1:HarvardMedGlobalAcademy+E2E03+2018': {
+            'price': 300.0, 'title': u'HarvardMedGlobalAcademy-E2E-Test-3'
         },
-        u'course-v1:HarvardMedGlobalAcademy+HMGA03+2016': {
-            'price': 200.0, 'title': u'Automated Tests-HMGA03'
-        },
-        u'course-v1:HarvardMedGlobalAcademy+HMGA04+2016': {
-            'price': 200.0, 'title': u'Automated Tests-HMGA04'
-        },
-        u'course-v1:HarvardMedGlobalAcademy+HMGA05+2016': {
-            'price': 300.0, 'title': u'Automated Tests-HMGA05'
-        },
-        u'course-v1:HarvardMedGlobalAcademy+HMGA06+2016': {
-            'price': 300.0, 'title': u'Automated Tests-HMGA06'
+        u'course-v1:HarvardMedGlobalAcademy+E2E04+2018': {
+            'price': 400.0, 'title': u'HarvardMedGlobalAcademy-E2E-Test-4'
         }
     },
-    u'MITProfessionalX': {
-        u'course-v1:MITProfessionalX+MITPX01+2016': {
-            'price': 100.0, 'title': u'Automated Tests-MITPX01'
+    u'MITxPRO': {
+        u'course-v1:MITxPRO+E2E02+2018': {
+            'price': 200.0, 'title': u'MITxPRO-E2E-Test-2'
         },
-        u'course-v1:MITProfessionalX+MITPX02+2016': {
-            'price': 100.0, 'title': u'Automated Tests-MITPX02'
+        u'course-v1:MITxPRO+E2E03+2018': {
+            'price': 300.0, 'title': u'MITxPRO-E2E-Test-3'
         },
-        u'course-v1:MITProfessionalX+MITPX03+2016': {
-            'price': 200.0, 'title': u'Automated Tests-MITPX03'
-        },
-        u'course-v1:MITProfessionalX+MITPX04+2016': {
-            'price': 200.0, 'title': u'Automated Tests-MITPX04'
-        },
-        u'course-v1:MITProfessionalX+MITPX05+2016': {
-            'price': 300.0, 'title': u'Automated Tests-MITPX05'
-        },
-        u'course-v1:MITProfessionalX+MITPX06+2016': {
-            'price': 300.0, 'title': u'Automated Tests-MITPX06'
+        u'course-v1:MITxPRO+E2E04+2018': {
+            'price': 400.0, 'title': u'MITxPRO-E2E-Test-4'
         }
     },
     u'HarvardXPLUS': {
@@ -155,15 +137,6 @@ COUPON_COURSES = {
         },
         u'course-v1:HarvardXPLUS+HXP03+2016': {
             'price': 200.0, 'title': u'Automated Tests-HXP03'
-        },
-        u'course-v1:HarvardXPLUS+HXP04+2016': {
-            'price': 200.0, 'title': u'Automated Tests-HXP04'
-        },
-        u'course-v1:HarvardXPLUS+HXP05+2016': {
-            'price': 300.0, 'title': u'Automated Tests-HXP05'
-        },
-        u'course-v1:HarvardXPLUS+HXP06+2016': {
-            'price': 300.0, 'title': u'Automated Tests-HXP06'
         }
     }
 }
@@ -171,9 +144,9 @@ COUPON_COURSES = {
 COURSES_CATALOG = COUPON_COURSES[ORG]
 
 COURSES_CATALOG_QUERIES = {
-    'MITProfessionalX': 'org:MITProfessionalX and number:MITPX*',
+    'MITxPRO': 'org:MITxPRO and number:E2E*',
     'HarvardXPLUS': 'org:HarvardXPLUS and number:HXP*',
-    'HarvardMedGlobalAcademy': 'org:HarvardMedGlobalAcademy and number:HMGA*'
+    'HarvardMedGlobalAcademy': 'org:HarvardMedGlobalAcademy and number:E2E*'
 }
 
 CATALOG_QUERY = COURSES_CATALOG_QUERIES[ORG]
