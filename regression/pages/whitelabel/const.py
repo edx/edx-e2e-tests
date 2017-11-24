@@ -26,7 +26,7 @@ RAW_ECOMMERCE_URL = {
     'HarvardMedGlobalAcademy':
         u'https://{}payments.globalacademy-stage.hms.harvard.edu/',
     'HarvardXPLUS': u'https://{}stage-payments.harvardxplus.harvard.edu/',
-    'MITProfessionalX': u'https://{}payments.mitprofessionalx-stage.mit.edu/'
+    'MITxPRO': u'https://{}payments.stage.mitxpro.mit.edu/'
 }
 
 # BASIC raw URL
@@ -34,7 +34,7 @@ RAW_URL = {
     'HarvardMedGlobalAcademy':
         u'https://{}globalacademy-stage.hms.harvard.edu/',
     'HarvardXPLUS': u'https://{}stage-courses.harvardxplus.harvard.edu/',
-    'MITProfessionalX': u'https://{}mitprofessionalx-stage.mit.edu/'
+    'MITxPRO': u'https://{}stage.mitxpro.mit.edu/'
 }
 
 # E-commerce urls
@@ -54,16 +54,16 @@ ENROLLMENT_API_URL = URL_WITHOUT_AUTH + 'api/enrollment/v1'
 CYBERSOURCE_CHECKOUT_URL = \
     u'https://testsecureacceptance.cybersource.com/checkout'
 
-PROF_COURSE_ID = u'course-v1:{}+RTX_101+2016_02'.format(ORG)
+PROF_COURSE_ID = u'course-v1:{}+E2E+2018'.format(ORG)
 
-PROF_COURSE_TITLE = u'{} Regression Test'.format(ORG)
+PROF_COURSE_TITLE = u'{}-E2E-Test'.format(ORG)
 
 PROF_COURSE_PRICE = 167.0
 
 EMAIL_SENDER_ACCOUNTS = {
     'HarvardMedGlobalAcademy': 'globalacademy@hms.harvard.edu',
     'HarvardXPLUS': 'hxplus-support@edx.org',
-    'MITProfessionalX': 'mitprofessionalx@mit.edu',
+    'MITxPRO': 'mitxpro@mit.edu',
 }
 
 EMAIL_SENDER_ACCOUNT = EMAIL_SENDER_ACCOUNTS[ORG]
@@ -71,7 +71,7 @@ EMAIL_SENDER_ACCOUNT = EMAIL_SENDER_ACCOUNTS[ORG]
 LOGO_LINKS = {
     'HarvardMedGlobalAcademy': 'hms-logo',
     'HarvardXPLUS': 'harvardX-logo',
-    'MITProfessionalX': 'mit-prof-logo'
+    'MITxPRO': 'mitx-pro-logo'
 }
 
 LOGO_LINK = LOGO_LINKS[ORG]
@@ -79,7 +79,7 @@ LOGO_LINK = LOGO_LINKS[ORG]
 LOGO_ALT_TEXTS = {
     'HarvardMedGlobalAcademy': 'HMS Logo',
     'HarvardXPLUS': 'HarvardX Logo',
-    'MITProfessionalX': 'MIT Logo'
+    'MITxPRO': 'MIT Logo'
 }
 
 LOGO_ALT_TEXT = LOGO_ALT_TEXTS[ORG]
@@ -96,12 +96,7 @@ SOCIAL_MEDIA_LINKS = {
         'https://www.facebook.com/HarvardX-187429968296722/',
         'https://twitter.com/harvardonline'
     ],
-    'MITProfessionalX': [
-        'https://www.facebook.com/MITProfessionalEducation',
-        'https://twitter.com/mitprofessional',
-        'https://www.linkedin.com/groups/73833/profile',
-        'https://www.youtube.com/user/MITProfessionalEd'
-    ]
+    'MITxPRO': []
 }
 
 SOCIAL_MEDIA_LINK = SOCIAL_MEDIA_LINKS[ORG]
@@ -194,7 +189,7 @@ SELECTED_COUNTRY = u'Pakistan'
 SELECTED_LANGUAGE = u'Urdu'
 
 UNUSED_REGISTRATION_FIELDS_MAPPING = {
-    "MITProfessionalX": ["profession", "specialty"],
+    "MITxPRO": ["profession", "specialty"],
     "HarvardMedGlobalAcademy": [
         'level_of_education',
         'gender',

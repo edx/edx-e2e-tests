@@ -56,7 +56,7 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
             click_checkbox(self, '#register-honor_code')
         click_checkbox(self, '#register-terms_of_service')
 
-        if ORG == 'MITProfessionalX':
+        if ORG == 'MITxPRO':
             fill_input_fields(
                 self,
                 {
