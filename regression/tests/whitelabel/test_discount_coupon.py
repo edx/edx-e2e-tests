@@ -54,7 +54,6 @@ class TestDiscountCoupon(VouchersTest):
         self.course_title = PROF_COURSE_TITLE
         self.total_price = PROF_COURSE_PRICE
 
-    @skip
     def test_discount_single_use_percentage_code(self):
         """
         Scenario: Discount Single Use Percentage Code: Code cannot be reused
@@ -71,13 +70,14 @@ class TestDiscountCoupon(VouchersTest):
         )
         self.coupon.setup_coupons_using_api(self.course_price)
         coupon_code = self.coupon.coupon_codes[0]
+        # Delete coupon after test
+        self.addCleanup(self.coupon.delete_coupon)
         # Register to application using api
         self.register_using_api(
             construct_course_basket_page_url(PROF_COURSE_ID)
         )
         self.enroll_using_discount_code(coupon_code)
         self.assert_enrollment_and_logout()
-        self.home_page.visit()
         self.register_using_api(
             construct_course_basket_page_url(PROF_COURSE_ID)
         )
@@ -86,7 +86,6 @@ class TestDiscountCoupon(VouchersTest):
             SINGLE_USE_CODE_REUSE_ERROR.format(coupon_code)
         )
 
-    @skip
     def test_discount_once_per_customer_fixed_code(self):
         """
         Scenario: Discount Once Per Customer Fixed Code: Code can be used up
@@ -107,10 +106,11 @@ class TestDiscountCoupon(VouchersTest):
 
         self.coupon.setup_coupons_using_api(self.course_price)
         coupon_code = self.coupon.coupon_codes[0]
+        # Delete coupon after test
+        self.addCleanup(self.coupon.delete_coupon)
         # Login to application using the existing credentials
         for i in range(maximum_uses):
             # Register to application using api
-            self.home_page.visit()
             self.register_using_api(
                 construct_course_basket_page_url(PROF_COURSE_ID)
             )
@@ -243,7 +243,6 @@ class TestDiscountCoupon(VouchersTest):
             self.dashboard_page.wait_for_page()
             self.assert_enrollment_and_logout()
 
-    @skip
     def test_discount_once_per_customer_percentage_redeem_url(self):
         """
         Scenario: Inactive Users - Discount Once Per Customer Percentage
@@ -261,6 +260,8 @@ class TestDiscountCoupon(VouchersTest):
         )
         self.coupon.setup_coupons_using_api(self.course_price)
         coupon_code = self.coupon.coupon_codes[0]
+        # Delete coupon after test
+        self.addCleanup(self.coupon.delete_coupon)
         self.home.visit()
         self.redeem_single_course_discount_coupon(coupon_code)
         self.login_page.wait_for_page()
@@ -306,7 +307,8 @@ class TestDiscountCoupon(VouchersTest):
 
         self.coupon.setup_coupons_using_api(self.course_price)
         coupon_code = self.coupon.coupon_codes[0]
-
+        # Delete coupon after test
+        self.addCleanup(self.coupon.delete_coupon)
         self.login_page.visit()
         self.login_user_using_ui(COUPON_USERS['coupon_user_01'], PASSWORD)
         redeem_coupon = RedeemCouponPage(self.browser, coupon_code).visit()

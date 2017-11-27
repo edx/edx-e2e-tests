@@ -98,6 +98,7 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
         """
         Verify that course name is displayed correctly on basket page.
         """
+        self.ecom_cookies = self.browser.get_cookies()
         self.assertIn(self.course_title, self.basket_page.course_name)
 
     def verify_price_on_basket(self):
@@ -116,7 +117,7 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
         the course. After that, logout from application.
         """
         self.assert_course_added_to_dashboard()
-        self.logout_from_wl_using_api()
+        self.logout_from_ecommerce_using_api()
 
     def assert_course_added_to_dashboard(self):
         """
