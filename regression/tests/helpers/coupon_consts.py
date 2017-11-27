@@ -90,19 +90,14 @@ COUPON_USERS = {
     'coupon_user_03': 'wl_coupon_user03@example.com'
 }
 
-VALID_DOMAIN_USERS = {
-    'coupon_user_04': 'wl_coupon_user04@emaildomainfour.com',
-    'coupon_user_05': 'wl_coupon_user05@emaildomainfive.com'
-}
-
 INVALID_DOMAIN_USERS = {
     'coupon_user_06': 'wl_coupon_user06@emaildomainsix.com',
     'coupon_user_07': 'wl_coupon_user07@emaildomainseven.com'
 }
 
-# Email domains
+# Valid Email domain
 
-VALID_EMAIL_DOMAINS = "emaildomainfour.com,emaildomainfive.com"
+VALID_EMAIL_DOMAIN = "example.com"
 
 # Courses for dynamic coupons testing
 COUPON_COURSES = {
