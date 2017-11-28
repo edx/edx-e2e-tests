@@ -82,14 +82,6 @@ STOCK_RECORD_IDS = {
 
 STOCK_RECORD_ID = STOCK_RECORD_IDS[ORG]
 
-# Coupon users
-
-COUPON_USERS = {
-    'coupon_user_01': 'wl_coupon_user01@example.com',
-    'coupon_user_02': 'wl_coupon_user02@example.com',
-    'coupon_user_03': 'wl_coupon_user03@example.com'
-}
-
 INVALID_DOMAIN_USERS = {
     'coupon_user_06': 'wl_coupon_user06@emaildomainsix.com',
     'coupon_user_07': 'wl_coupon_user07@emaildomainseven.com'
