@@ -4,7 +4,6 @@ Multi course Discount coupons tests
 import random
 from unittest import skip
 
-from regression.pages.whitelabel.const import PASSWORD
 from regression.pages.whitelabel.course_about_page import CourseAboutPage
 from regression.tests.helpers.coupon import Coupon
 from regression.tests.helpers.coupon_consts import (
@@ -12,13 +11,13 @@ from regression.tests.helpers.coupon_consts import (
     BENEFIT_VALUE,
     CATALOG_QUERY,
     COUPON_TYPE,
-    COUPON_USERS,
     COURSE_CATALOG_TYPE,
     COURSE_SEAT_TYPES,
     COURSES_CATALOG,
     SINGLE_USE_CODE_REUSE_ERROR,
     VOUCHER_TYPE
 )
+from regression.tests.helpers.utils import construct_course_basket_page_url
 from regression.tests.whitelabel.voucher_tests_base import VouchersTest
 
 
@@ -61,18 +60,16 @@ class TestDynamicDiscountCoupon(VouchersTest):
         coupon_code = self.coupon.coupon_codes[0]
         # Login to application using the existing credentials
         self.login_page.visit()
-        self.login_user_using_ui(COUPON_USERS['coupon_user_01'], PASSWORD)
-        self.go_to_basket()
-        self.addCleanup(
-            self.unenroll_using_api,
-            COUPON_USERS['coupon_user_01'],
-            self.course_id
+        # Register to application using api
+        self.register_using_api(
+            construct_course_basket_page_url(self.course_id)
         )
         self.enroll_using_discount_code(coupon_code)
         self.assert_enrollment_and_logout()
-        self.login_page.visit()
-        self.login_user_using_ui(COUPON_USERS['coupon_user_02'], PASSWORD)
-        self.go_to_basket()
+        # Register to application using api
+        self.register_using_api(
+            construct_course_basket_page_url(self.course_id)
+        )
         self.assertEqual(
             self.error_message_on_invalid_coupon_code(coupon_code),
             SINGLE_USE_CODE_REUSE_ERROR.format(coupon_code)

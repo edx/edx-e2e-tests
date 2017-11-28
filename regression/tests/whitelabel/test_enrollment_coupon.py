@@ -14,7 +14,6 @@ from regression.pages.whitelabel.redeem_coupon_page import RedeemCouponPage
 from regression.tests.helpers.coupon import Coupon
 from regression.tests.helpers.coupon_consts import (
     COUPON_TYPE,
-    COUPON_USERS,
     COURSE_CATALOG_TYPE,
     EXPIRED_END_DATE,
     EXPIRED_REDEEM_URL_ERROR,
@@ -130,10 +129,10 @@ class TestEnrollmentCoupon(VouchersTest):
         coupon_code = self.coupon.coupon_codes[0]
         # Delete coupon after test
         self.addCleanup(self.coupon.delete_coupon)
-        # Login to application using the existing credentials
-        self.login_page.visit()
-        self.login_user_using_ui(COUPON_USERS['coupon_user_01'], PASSWORD)
-        self.go_to_basket()
+        # Register to application using api
+        self.register_using_api(
+            construct_course_basket_page_url(PROF_COURSE_ID)
+        )
         self.assertEqual(
             self.error_message_on_invalid_coupon_code(coupon_code),
             FUTURE_CODE_ERROR.format(coupon_code)
@@ -227,9 +226,8 @@ class TestEnrollmentCoupon(VouchersTest):
         coupon_code = self.coupon.coupon_codes[0]
         # Delete coupon after test
         self.addCleanup(self.coupon.delete_coupon)
-        self.login_page.visit()
-        self.login_user_using_ui(COUPON_USERS['coupon_user_01'], PASSWORD)
-        self.go_to_basket()
+        # Register to application using api
+        self.register_using_api()
         redeem_coupon = RedeemCouponPage(self.browser, coupon_code).visit()
         self.assertEqual(
             redeem_coupon.error_message,
