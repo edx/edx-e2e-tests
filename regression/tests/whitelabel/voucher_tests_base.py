@@ -165,7 +165,7 @@ class VouchersTest(CourseEnrollmentTest):
         v) Discounted Price
 
         Arguments:
-             redeem_coupon(PageObject): The redeem coupon page.
+             redeem_coupon_page: The redeem coupon page.
         """
 
         course_info = redeem_coupon_page.get_course_info()
