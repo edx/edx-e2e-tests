@@ -3,8 +3,6 @@ Single course Discount coupons tests
 """
 import random
 import uuid
-from itertools import izip
-from unittest import skip
 
 from regression.pages.whitelabel.const import (
     PASSWORD,
@@ -31,8 +29,7 @@ from regression.tests.helpers.coupon_consts import (
     SEAT_TYPE,
     SINGLE_USE_CODE_REUSE_ERROR,
     STOCK_RECORD_ID,
-    VALID_DOMAIN_USERS,
-    VALID_EMAIL_DOMAINS,
+    VALID_EMAIL_DOMAIN,
     VOUCHER_TYPE
 )
 from regression.tests.helpers.utils import (
@@ -108,7 +105,6 @@ class TestDiscountCoupon(VouchersTest):
         coupon_code = self.coupon.coupon_codes[0]
         # Delete coupon after test
         self.addCleanup(self.coupon.delete_coupon)
-        # Login to application using the existing credentials
         for i in range(maximum_uses):
             # Register to application using api
             self.register_using_api(
@@ -123,11 +119,10 @@ class TestDiscountCoupon(VouchersTest):
                     ONCE_PER_CUSTOMER_CODE_MAX_LIMIT
                 )
 
-    @skip
     def test_discount_once_per_customer_fixed_code_email_domain(self):
         """
-        Scenario: Discount Once Per Customer Fixed Code: Code can be used only
-        by users of valid email domains
+        Scenario: Discount Once Per Customer Fixed Code: Code cannot be used
+        by users of invalid email domains
         """
         self.coupon = Coupon(
             COURSE_CATALOG_TYPE['single'],
@@ -138,19 +133,15 @@ class TestDiscountCoupon(VouchersTest):
             stock_record_ids=STOCK_RECORD_ID,
             benefit_type=BENEFIT_TYPE['abs'],
             benefit_value=BENEFIT_VALUE['fixed'],
-            email_domains=VALID_EMAIL_DOMAINS,
-            max_uses=5
+            email_domains=VALID_EMAIL_DOMAIN
         )
         self.coupon.setup_coupons_using_api(self.course_price)
         coupon_code = self.coupon.coupon_codes[0]
-        # Login to application using the existing credentials
-        valid_domain_users = list(VALID_DOMAIN_USERS.values())
+        # Delete coupon after test
+        self.addCleanup(self.coupon.delete_coupon)
+        # Login to application using the invalid domain user credentials
         invalid_domain_users = list(INVALID_DOMAIN_USERS.values())
         # Verify that coupon code cannot be added for unauthorized email domain
-        # In each test we are selecting a random user from the invalid domain
-        # list to bring down the test run time. Since multiple tests will be
-        # running for domain checks, use of random user in all of these will
-        # pretty much cover most of the possibilities
         invalid_domain_user = random.choice(invalid_domain_users)
         self.login_page.visit()
         self.login_user_using_ui(invalid_domain_user, PASSWORD)
@@ -159,26 +150,7 @@ class TestDiscountCoupon(VouchersTest):
             self.error_message_on_invalid_coupon_code(coupon_code),
             INVALID_DOMAIN_ERROR_MESSAGE_ON_BASKET
         )
-        self.basket_page.logout_from_lms()
-        self.home_page.wait_for_page()
-        # Verify that coupon code can be added for authorized email domain
-        # In each test we are selecting a random user from the valid domain
-        # list to bring down the test run time. Since multiple tests will be
-        # running for domain checks, use of random user in all of these will
-        # pretty much cover most of the possibilities
-        valid_domain_user = random.choice(valid_domain_users)
-        self.addCleanup(
-            self.unenroll_using_api,
-            valid_domain_user,
-            self.course_id
-        )
-        self.login_page.visit()
-        self.login_user_using_ui(valid_domain_user, PASSWORD)
-        self.go_to_basket()
-        self.enroll_using_discount_code(coupon_code)
-        self.assert_enrollment_and_logout()
 
-    @skip
     def test_discount_single_use_fixed_code_expired(self):
         """
         Scenario: Discount Single Use Fixed Code: Relevant error message is
@@ -198,6 +170,8 @@ class TestDiscountCoupon(VouchersTest):
 
         self.coupon.setup_coupons_using_api(self.course_price)
         coupon_code = self.coupon.coupon_codes[0]
+        # Delete coupon after test
+        self.addCleanup(self.coupon.delete_coupon)
         # Login to application using the existing credentials
         self.login_page.visit()
         self.login_user_using_ui(COUPON_USERS['coupon_user_01'], PASSWORD)
@@ -207,7 +181,6 @@ class TestDiscountCoupon(VouchersTest):
             EXPIRED_CODE_ERROR.format(coupon_code)
         )
 
-    @skip
     def test_discount_single_use_fixed_redeem_url(self):
         """
         Scenario: Existing Users - Discount Single Use Fixed Redeem URL: Each
@@ -222,23 +195,19 @@ class TestDiscountCoupon(VouchersTest):
             stock_record_ids=STOCK_RECORD_ID,
             benefit_type=BENEFIT_TYPE['abs'],
             benefit_value=BENEFIT_VALUE['fixed'],
-            quantity=3
+            quantity=2
         )
 
         self.coupon.setup_coupons_using_api(self.course_price)
         coupon_codes = self.coupon.coupon_codes
-        # Login to application using the existing credentials
-        coupon_users = list(COUPON_USERS.values())
-        for coupon_user, coupon_code in izip(coupon_users, coupon_codes):
-            self.addCleanup(
-                self.unenroll_using_api,
-                coupon_user,
-                self.course_id
-            )
-            self.login_page.visit()
-            self.login_user_using_ui(coupon_user, PASSWORD)
+        # Delete coupon after test
+        self.addCleanup(self.coupon.delete_coupon)
+        for coupon_code in coupon_codes:
+            # Register to application using api
+            self.register_using_api()
             self.redeem_single_course_discount_coupon(coupon_code)
             self.basket_page.wait_for_page()
+            self.ecom_cookies = self.browser.get_cookies()
             self.make_payment_after_discount()
             self.dashboard_page.wait_for_page()
             self.assert_enrollment_and_logout()
