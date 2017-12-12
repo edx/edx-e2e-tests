@@ -1,7 +1,7 @@
 """
 Redeem coupon page
 """
-from bok_choy.page_object import PageObject
+from regression.tests.helpers.new_page_object import NewPageObject
 from opaque_keys.edx.keys import AssetKey
 
 from regression.pages.whitelabel.const import ECOMMERCE_URL_WITH_AUTH
@@ -25,7 +25,7 @@ def get_course_ids_from_link(link):
     return AssetKey.from_string(asset_str).course_key
 
 
-class RedeemCouponPage(PageObject):
+class RedeemCouponPage(NewPageObject):
     """
     Redeem Coupon page
     """
@@ -191,7 +191,7 @@ class RedeemCouponPage(PageObject):
         )
 
 
-class RedeemCouponErrorPage(PageObject):
+class RedeemCouponErrorPage(NewPageObject):
     """
     Redeem Coupon Error page
     """

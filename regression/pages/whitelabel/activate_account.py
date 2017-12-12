@@ -1,10 +1,10 @@
 """
 Page for account activation
 """
-from bok_choy.page_object import PageObject
+from regression.tests.helpers.new_page_object import NewPageObject
 
 
-class ActivateAccount(PageObject):
+class ActivateAccount(NewPageObject):
     """
     Account activation page.
     """
