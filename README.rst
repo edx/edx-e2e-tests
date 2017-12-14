@@ -15,31 +15,17 @@ UI-level tests for edX applications:
 Installation
 ------------
 
-We recommend using the provided Vagrant environment to develop and run tests.
-
-1. `Install Vagrant <http://docs.vagrantup.com/v2/installation/index.html>`_
-
-
-2. In the `edx-e2e-tests` directory, execute this command:
-
-.. code:: bash
-
-    vagrant up
-
-3. This will create and provision a new Vagrant environment.
-
-4. Enter a terminal session in the virtual environment with:
-
-.. code:: bash
-
-    vagrant ssh
-
-
 You will also need a deployed installation of edX lms and studio to run the tests against.
 See `edx/configuration <http://github.com/edx/configuration>`_ for instructions on provisioning an edX instance.
 For additional information on how to setup your development environment, see `Developer Onboarding <https://openedx.atlassian.net/wiki/pages/viewpage.action?spaceKey=ENG&title=Developer+Onboarding#DeveloperOnboarding-Step4:Getreadytodevelop>`_
 
-OR Using Dockers
+Devstack
+--------
+
+If you are running against devstack you are in luck! E2E test functionality is built-in and you can run it using the
+``make e2e-tests`` make command from the ``devstack`` directory.
+
+Using Docker
 ------------
 
 1. Clone the repo:
@@ -48,31 +34,35 @@ OR Using Dockers
 
     git clone https://github.com/edx/edx-e2e-tests
 
-2. Build up:
+2. Share your directory:
+
+Make sure your edx-e2e-tests directory is shared in Docker settings or the next step will fail
+
+3. Build up:
 
 .. code:: bash
 
     docker-compose up --build
 
-3. Open a new terminal window and work inside the container:
+4. Open a new terminal window and work inside the container:
 
 .. code:: bash
 
     docker exec -it edxe2etests /bin/bash
 
-4. Set the environment variables:
+5. Set the environment variables:
+
+You will need to configure the target environment that you want to run tests against. There is an example file that
+has all of the environment variables that need to be exported. Copy local_env.sh.sample to a new file and update the
+variables as necessary. Once done, source the file to get all of the variables into your environment.
+
+6. Run lms and studio tests, as given below in 'How to run LMS and Studio tests' section
+
+7. In OSX at least (not sure about other host systems) you can VNC in with the following (the password is 'secret'):
 
 .. code:: bash
 
-    source local_env.sh (make sure you have replaced the local_env.sh.sample)
-
-5. Run lms and studio tests, as given below in 'How to run LMS and Studio tests' section
-
-6. In OSX at least (not sure about other host systems) you can VNC in with the following (the password is 'secret'):
-
-.. code:: bash
-
-    open vnc://localhost:5900
+    open vnc://localhost:35900
 
 Configuration
 -------------
@@ -85,13 +75,13 @@ Configuration
     cd edx-e2e-tests/
 
 2. Update the base python requirements in case they have changed
-   since you created the vagrant environment:
+   since you created the environment:
 
 .. code:: bash
 
     pip install -r requirements/base.txt
 
-3. OPTIONAL: Cloning the edx-platform repo into a mounted directory in a vagrant environment
+3. OPTIONAL: Cloning the edx-platform repo into a mounted directory in a docker environment
    can take a long time (several minutes). An alternative is to navigate to the lib directory
    back on your host system and clone the edx-platform repo there before proceeding.
 
@@ -186,7 +176,7 @@ To run all the tests in the file:
 
     paver e2e_wl_test whitelabel/test_user_account.py
 
-NOTE: In order to run tests in a particular class or a single test, use the same Nose specifiers as mentioned in the above section. However, do not forget to change the paver target to e2e_wl_test 
+NOTE: In order to run tests in a particular class or a single test, use the same Nose specifiers as mentioned in the above section. However, do not forget to change the paver target to e2e_wl_test
 
 
 Where and How to add new tests
@@ -201,6 +191,7 @@ Change your working directory to `regression/tests`. Add your tests to the below
     5. `common`: tests required for common components of lms and studio
 
 NOTE: Please make a pull request from the master branch before writing and adding new tests.
+
 
 How to change target environment?
 ---------------------------------
@@ -225,6 +216,9 @@ and ``https://lms.sandbox.edx.org`` respectively. To let repo know, set environm
 
     export STUDIO_BASE_URL=studio.sandbox.edx.org
     export LMS_BASE_URL=lms.sandbox.edx.org
+
+Depending on the target environment you may also need to change ``LMS_PROTOCOL`` and ``STUDIO_PROTOCOL`` to ``http`` or
+``https``.
 
 To run tests back on stage, unset the above set environment variables.
 
