@@ -90,7 +90,7 @@ def get_white_label_registration_fields(
         username='', first_name='Test', last_name='User',
         gender='m', year_of_birth='1994', state='Massachusetts',
         country='US', level_of_education='m', company='Arbisoft', title='SQA',
-        job_title='doctor', profession='physician', specialty='neurology', 
+        job_title='doctor', profession='physician', specialty='neurology',
         terms_of_service="true", honor_code="true"
 ):
     """
