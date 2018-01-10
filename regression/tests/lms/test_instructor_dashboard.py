@@ -9,7 +9,7 @@ from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.lms.instructor_dashboard import (
     InstructorDashboardPageExtended
 )
-from regression.pages.lms.course_page_lms import CourseInfoPageExtended
+from regression.pages.lms.course_page_lms import CourseHomePageExtended
 from regression.tests.helpers.utils import (
     get_course_info, get_course_display_name
 )
@@ -34,7 +34,7 @@ class AnalyticsTest(WebAppTest):
             self.browser,
             get_course_key(course_info)
         )
-        self.course_page = CourseInfoPageExtended(
+        self.course_page = CourseHomePageExtended(
             self.browser,
             get_course_key(course_info)
         )

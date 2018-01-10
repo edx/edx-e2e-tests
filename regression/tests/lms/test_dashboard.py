@@ -7,7 +7,7 @@ from bok_choy.web_app_test import WebAppTest
 
 from regression.pages.lms import LMS_BASE_URL, LMS_STAGE_BASE_URL
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
-from regression.pages.lms.course_page_lms import CourseInfoPageExtended
+from regression.pages.lms.course_page_lms import CourseHomePageExtended
 from regression.pages.lms.utils import get_course_key
 from regression.pages.lms.lms_courseware import CoursewarePageExtended
 from regression.tests.helpers.utils import (
@@ -46,7 +46,7 @@ class DashboardTest(WebAppTest):
             self.browser,
             get_course_key(self.course_info)
         )
-        self.course_page = CourseInfoPageExtended(
+        self.course_page = CourseHomePageExtended(
             self.browser, get_course_info()
         )
         self.dashboard_page = DashboardPageExtended(self.browser)
