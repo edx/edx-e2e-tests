@@ -1,6 +1,7 @@
 """
 Api clients for tests.
 """
+import os
 import Cookie
 import datetime
 import json
@@ -23,6 +24,7 @@ from regression.pages.lms import LOGIN_BASE_URL as LMS_AUTH_URL
 from regression.pages.lms import LMS_BASE_URL, LMS_PROTOCOL
 from regression.pages.studio import LOGIN_BASE_URL as STUDIO_AUTH_URL
 from regression.pages.studio import STUDIO_BASE_URL, STUDIO_PROTOCOL
+from regression.pages.whitelabel import LMS_URL, LMS_URL_WITH_AUTH
 from regression.pages.whitelabel.const import (
     ECOMMERCE_API_URL,
     EMAIL_SENDER_ACCOUNT,
@@ -31,18 +33,12 @@ from regression.pages.whitelabel.const import (
     OAUTH_CLIENT_ID,
     OAUTH_CLIENT_SECRET,
     TIME_OUT_LIMIT,
-    URL_WITH_AUTH,
-    URL_WITHOUT_AUTH,
     WAIT_TIME
 )
 from regression.tests.helpers.utils import get_org_specific_registration_fields
 
 
-OAUTH_ACCESS_TOKEN_URL = '{}://{}/{}'.format(
-    LMS_PROTOCOL,
-    LMS_BASE_URL,
-    'oauth2/access_token'
-)
+OAUTH_ACCESS_TOKEN_URL = os.path.join(LMS_URL_WITH_AUTH, 'oauth2/access_token')
 
 
 class BearerAuth(AuthBase):
@@ -223,7 +219,7 @@ class LmsLoginApi(LogistrationApiBaseClass):
     def __init__(self, target_page=None):
         super(LmsLoginApi, self).__init__()
 
-        target_page_partial_link = target_page or '/dashboard'
+        partial_url_string = target_page or 'dashboard'
 
         self.logistration_base_url = '{}://{}/{}'.format(
             LMS_PROTOCOL,
@@ -237,7 +233,7 @@ class LmsLoginApi(LogistrationApiBaseClass):
             'user_api/v1/account/login_session/'
         )
 
-        self.browser_get_url = LMS_AUTH_URL + target_page_partial_link
+        self.browser_get_url = os.path.join(LMS_AUTH_URL, partial_url_string)
 
 
 class StudioLoginApi(LogistrationApiBaseClass):
@@ -265,21 +261,24 @@ class WLRegisterApi(LogistrationApiBaseClass):
     def __init__(self, target_page=None):
         super(WLRegisterApi, self).__init__()
 
-        target_page_partial_link = target_page or 'dashboard'
+        partial_url_string = target_page or 'dashboard'
 
         self.payload = get_org_specific_registration_fields()
 
         self.logistration_base_url = '{}{}'.format(
-            URL_WITHOUT_AUTH,
-            'register?next=%2F'
+            LMS_URL,
+            '/register?next=%2F'
         )
 
         self.logistration_post_url = '{}{}'.format(
-            URL_WITHOUT_AUTH,
-            'user_api/v1/account/registration/'
+            LMS_URL,
+            '/user_api/v1/account/registration/'
         )
 
-        self.browser_get_url = URL_WITH_AUTH + target_page_partial_link
+        self.browser_get_url = os.path.join(
+            LMS_URL_WITH_AUTH,
+            partial_url_string
+        )
 
 
 class GuerrillaMailApi(object):
@@ -394,6 +393,35 @@ class EcommerceApiClient(EdxRestApiBaseClass):
 
     api_url_root = ECOMMERCE_API_URL
 
+    def get_course_products(self, course_id):
+        """
+        Get course products
+        Arguments:
+            course_id
+        """
+        response = self.client.courses(course_id).products.get()["results"]
+        if not response:
+            raise ApiException('No course product found')
+        return response
+
+    def get_stock_record_id(self, course_id, course_title):
+        """
+        Get stock record id from course report
+        Arguments:
+            course_id
+            course_title
+        """
+        product_title = "Seat in {} with professional certificate".format(
+            course_title
+        )
+        stock_record_id = []
+        for item in self.get_course_products(course_id):
+            if item["stockrecords"] and item["title"].lower() == \
+                    product_title.lower():
+                stock_record_id.append(item["stockrecords"][0]["id"])
+                break
+        return stock_record_id
+
     def create_coupon(self, payload):
         """
         Create coupons using API
@@ -474,7 +502,7 @@ class LmsApiClient(object):
         """
         Instantiate the api class.
         """
-        self.host = host or URL_WITHOUT_AUTH
+        self.host = host or LMS_URL
         self.session = requests.Session()
         self.session.auth = (BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD)
         self.login_response = None

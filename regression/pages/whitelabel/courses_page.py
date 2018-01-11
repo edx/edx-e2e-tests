@@ -1,9 +1,11 @@
 """
 Courses page
 """
+import os
+
 from bok_choy.page_object import PageObject
 
-from regression.pages.whitelabel.const import URL_WITH_AUTH
+from regression.pages.whitelabel import LMS_URL_WITH_AUTH
 
 
 class CoursesPage(PageObject):
@@ -11,7 +13,7 @@ class CoursesPage(PageObject):
     Course Page
     """
 
-    url = URL_WITH_AUTH + 'courses'
+    url = os.path.join(LMS_URL_WITH_AUTH, 'courses')
 
     def is_browser_on_page(self):
         return self.q(css='.course-name .course-title').visible

@@ -1,12 +1,13 @@
 """
 Registration page.
 """
+import os
 
 from edxapp_acceptance.pages.lms.login_and_register import (
     CombinedLoginAndRegisterPage
 )
 from edxapp_acceptance.tests.helpers import disable_animations
-from regression.pages.whitelabel.const import ORG, URL_WITH_AUTH
+from regression.pages.whitelabel import ORG, LMS_URL_WITH_AUTH
 from regression.tests.helpers.utils import (
     click_checkbox,
     fill_input_fields,
@@ -20,7 +21,7 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
     This class is an extended class of Register Page,
     where we add methods that are different or not used in Register Page
     """
-    url = URL_WITH_AUTH + "register"
+    url = os.path.join(LMS_URL_WITH_AUTH, "register")
 
     def register_white_label_user(self, registration_fields, submit=True):
         """

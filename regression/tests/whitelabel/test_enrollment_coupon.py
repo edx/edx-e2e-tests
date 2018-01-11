@@ -2,15 +2,17 @@
 Single course Enrollment coupons tests
 """
 import random
-from unittest import skip
+from unittest import skip, skipIf
 
-from regression.pages.whitelabel.const import (
-    PASSWORD,
-    PROF_COURSE_ID,
-    PROF_COURSE_PRICE,
-    PROF_COURSE_TITLE
+from regression.pages.studio.utils import get_course_key
+from regression.pages.whitelabel import (
+    COURSE_ORG,
+    COURSE_NUMBER,
+    COURSE_RUN,
+    DEFAULT_COURSE_PRICE,
+    TEST_ENV
 )
-from regression.pages.whitelabel.course_about_page import CourseAboutPage
+from regression.pages.whitelabel.const import PASSWORD
 from regression.pages.whitelabel.redeem_coupon_page import RedeemCouponPage
 from regression.tests.helpers.coupon import Coupon
 from regression.tests.helpers.coupon_consts import (
@@ -25,11 +27,13 @@ from regression.tests.helpers.coupon_consts import (
     ONCE_PER_CUSTOMER_CODE_MAX_LIMIT,
     SEAT_TYPE,
     SINGLE_USE_REDEEM_URL_REUSE_ERROR,
-    STOCK_RECORD_ID,
     VALID_EMAIL_DOMAIN,
     VOUCHER_TYPE
 )
-from regression.tests.helpers.utils import construct_course_basket_page_url
+from regression.tests.helpers.utils import (
+    construct_course_basket_page_url,
+    get_wl_course_info
+)
 from regression.tests.whitelabel.voucher_tests_base import VouchersTest
 
 
@@ -43,15 +47,21 @@ class TestEnrollmentCoupon(VouchersTest):
         Prepare setup for running tests
         """
         super(TestEnrollmentCoupon, self).setUp()
-        # Initialize all page objects
-        self.course_about = CourseAboutPage(self.browser, PROF_COURSE_ID)
         # Initialize common variables
-        self.course_id = PROF_COURSE_ID
-        self.course_price = PROF_COURSE_PRICE
-        self.course_title = PROF_COURSE_TITLE
-        self.total_price = PROF_COURSE_PRICE
+        self.course_info = get_wl_course_info(
+            org=COURSE_ORG,
+            num=COURSE_NUMBER,
+            run=COURSE_RUN
+        )
+        self.course_id = str(get_course_key(self.course_info))
+        self.course_title = self.course_info["display_name"]
+        self.course_price = DEFAULT_COURSE_PRICE
+        self.total_price = DEFAULT_COURSE_PRICE
+        self.stock_record_id = self.ecommerce_api.get_stock_record_id(
+            self.course_id,
+            self.course_title
+        )
 
-    @skip('skipped as coupon creation is behaving erratically')
     def test_enrollment_single_use_code(self):
         """
         Scenario: Enrollment Single Use Code: Each code can be used by one
@@ -61,9 +71,9 @@ class TestEnrollmentCoupon(VouchersTest):
             COURSE_CATALOG_TYPE['single'],
             COUPON_TYPE['enroll'],
             VOUCHER_TYPE['single'],
-            course_id=PROF_COURSE_ID,
+            course_id=self.course_info,
             seat_type=SEAT_TYPE['prof'],
-            stock_record_ids=STOCK_RECORD_ID,
+            stock_record_ids=self.stock_record_id,
             quantity=2
         )
         self.coupon.setup_coupons_using_api(self.course_price)
@@ -73,12 +83,12 @@ class TestEnrollmentCoupon(VouchersTest):
         for coupon_code in coupon_codes:
             # Register to application using api
             self.register_using_api(
-                construct_course_basket_page_url(PROF_COURSE_ID)
+                construct_course_basket_page_url(self.course_id)
             )
             self.enroll_using_enrollment_code(coupon_code)
             self.assert_enrollment_and_logout()
 
-    @skip('skipped as coupon creation is behaving erratically')
+    @skipIf(TEST_ENV == "stage", "skip tests on stage")
     def test_enrollment_once_per_customer_code_max_limit(self):
         """
         Scenario: Enrollment Once Per Customer - Code Max Limit: Each code can
@@ -90,9 +100,9 @@ class TestEnrollmentCoupon(VouchersTest):
             COURSE_CATALOG_TYPE['single'],
             COUPON_TYPE['enroll'],
             VOUCHER_TYPE['once_per_cust'],
-            course_id=PROF_COURSE_ID,
+            course_id=self.course_info,
             seat_type=SEAT_TYPE['prof'],
-            stock_record_ids=STOCK_RECORD_ID,
+            stock_record_ids=self.stock_record_id,
             max_uses=maximum_uses
         )
         self.coupon.setup_coupons_using_api(self.course_price)
@@ -103,7 +113,7 @@ class TestEnrollmentCoupon(VouchersTest):
         for i in range(maximum_uses):
             # Register to application using api
             self.register_using_api(
-                construct_course_basket_page_url(PROF_COURSE_ID)
+                construct_course_basket_page_url(self.course_id)
             )
             if i < maximum_uses:
                 self.enroll_using_enrollment_code(coupon_code)
@@ -114,7 +124,7 @@ class TestEnrollmentCoupon(VouchersTest):
                     ONCE_PER_CUSTOMER_CODE_MAX_LIMIT
                 )
 
-    @skip('skipped as coupon creation is behaving erratically')
+    @skipIf(TEST_ENV == "stage", "skip tests on stage")
     def test_enrollment_single_use_code_future(self):
         """
         Scenario: Enrollment Single Use Code: Relevant error message is
@@ -125,9 +135,9 @@ class TestEnrollmentCoupon(VouchersTest):
             COUPON_TYPE['enroll'],
             VOUCHER_TYPE['single'],
             start_datetime=FUTURE_START_DATE,
-            course_id=PROF_COURSE_ID,
+            course_id=self.course_info,
             seat_type=SEAT_TYPE['prof'],
-            stock_record_ids=STOCK_RECORD_ID
+            stock_record_ids=self.stock_record_id
         )
         self.coupon.setup_coupons_using_api(self.course_price)
         coupon_code = self.coupon.coupon_codes[0]
@@ -135,14 +145,14 @@ class TestEnrollmentCoupon(VouchersTest):
         self.addCleanup(self.coupon.delete_coupon)
         # Register to application using api
         self.register_using_api(
-            construct_course_basket_page_url(PROF_COURSE_ID)
+            construct_course_basket_page_url(self.course_id)
         )
         self.assertEqual(
             self.error_message_on_invalid_coupon_code(coupon_code),
             FUTURE_CODE_ERROR.format(coupon_code)
         )
 
-    @skip('skipped as coupon creation is behaving erratically')
+    @skipIf(TEST_ENV == "stage", "skip tests on stage")
     def test_apply_enrollment_single_use_redeem_url(self):
         """
         Scenario: Enrollment Single Use Redeem URL: URL cannot be reused
@@ -151,9 +161,9 @@ class TestEnrollmentCoupon(VouchersTest):
             COURSE_CATALOG_TYPE['single'],
             COUPON_TYPE['enroll'],
             VOUCHER_TYPE['single'],
-            course_id=PROF_COURSE_ID,
+            course_id=self.course_info,
             seat_type=SEAT_TYPE['prof'],
-            stock_record_ids=STOCK_RECORD_ID
+            stock_record_ids=self.stock_record_id
         )
         self.coupon.setup_coupons_using_api(self.course_price)
         coupon_code = self.coupon.coupon_codes[0]
@@ -180,7 +190,7 @@ class TestEnrollmentCoupon(VouchersTest):
             SINGLE_USE_REDEEM_URL_REUSE_ERROR
         )
 
-    @skip('skipped as coupon creation is behaving erratically')
+    @skip("test case modification in progress")
     def test_enrollment_once_per_customer_redeem_url_email_domain(self):
         """
         Scenario: Enrollment Once Per Customer URL: URL can be used only by
@@ -190,9 +200,9 @@ class TestEnrollmentCoupon(VouchersTest):
             COURSE_CATALOG_TYPE['single'],
             COUPON_TYPE['enroll'],
             VOUCHER_TYPE['once_per_cust'],
-            course_id=PROF_COURSE_ID,
+            course_id=self.course_info,
             seat_type=SEAT_TYPE['prof'],
-            stock_record_ids=STOCK_RECORD_ID,
+            stock_record_ids=self.stock_record_id,
             email_domains=VALID_EMAIL_DOMAIN
         )
         self.coupon.setup_coupons_using_api(self.course_price)
@@ -214,7 +224,7 @@ class TestEnrollmentCoupon(VouchersTest):
             INVALID_DOMAIN_ERROR_MESSAGE_ON_REDEEM_URL
         )
 
-    @skip('skipped as coupon creation is behaving erratically')
+    @skipIf(TEST_ENV == "stage", "skip tests on stage")
     def test_enrollment_once_per_customer_redeem_url_expired(self):
         """
         Scenario: Enrollment Once Per Customer Redeem URL: Relevant error
@@ -225,9 +235,9 @@ class TestEnrollmentCoupon(VouchersTest):
             COUPON_TYPE['enroll'],
             VOUCHER_TYPE['once_per_cust'],
             end_datetime=EXPIRED_END_DATE,
-            course_id=PROF_COURSE_ID,
+            course_id=self.course_info,
             seat_type=SEAT_TYPE['prof'],
-            stock_record_ids=STOCK_RECORD_ID
+            stock_record_ids=self.stock_record_id
         )
         self.coupon.setup_coupons_using_api(self.course_price)
         coupon_code = self.coupon.coupon_codes[0]

@@ -42,6 +42,25 @@ def get_course_info():
     }
 
 
+def get_wl_course_info(org, num, run):
+    """
+    Returns the course info of the course that we use for
+    the wl regression tests.
+    Arguments:
+        org
+        num
+        run
+    Returns:
+        Course Info
+    """
+    return {
+        'course_org': org,
+        'course_num': num,
+        'course_run': run,
+        'display_name': "{}-{}-Test".format(org, num)
+    }
+
+
 def get_course_display_name():
     """
     Returns the course info of the course that we use for
@@ -53,6 +72,8 @@ def get_course_display_name():
 def visit_all(pages):
     """
     Visit each page object in `pages` (an iterable).
+    Arguments:
+        pages:
     """
     for page in pages:
         print "Visiting: {}".format(page)
@@ -62,6 +83,9 @@ def visit_all(pages):
 def get_url(url_path, course_info):
     """
     Construct a URL to the page within the course.
+    Arguments:
+        url_path:
+        course_info:
     """
     course_key = get_course_key(course_info)
     return "/".join([LOGIN_BASE_URL, url_path, unicode(course_key)])
@@ -69,6 +93,9 @@ def get_url(url_path, course_info):
 
 def get_data_locator(page):
     """
+    Get Data locator
+    Arguments:
+        page:
     Returns:
         Unique data locator for the component
     """
@@ -78,6 +105,9 @@ def get_data_locator(page):
 
 def get_data_id_of_component(page):
     """
+    Get data id of component
+    Arguments:
+        page
     Returns:
         ID for the component
     """
@@ -165,11 +195,12 @@ def select_drop_down_values(page, elements_and_values_dict):
             drop down elements(css) and values.
     """
     for element, val in elements_and_values_dict.iteritems():
+        target_css = 'select[name={}] option[value="{}"]'.format(element, val)
         page.wait_for_element_visibility(
-            'select[name={}]'.format(element), 'Drop down is visible')
-        page.q(
-            css='select[name={}] option[value="{}"]'.format(element, val)
-        ).click()
+            target_css,
+            'target value is visible in Drop down'
+        )
+        page.q(css=target_css).click()
 
 
 def click_checkbox(page, checkbox_css, toggle=False):

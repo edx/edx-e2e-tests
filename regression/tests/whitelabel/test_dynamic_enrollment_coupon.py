@@ -17,8 +17,7 @@ from regression.tests.helpers.coupon_consts import (
 from regression.pages.whitelabel.redeem_coupon_page import RedeemCouponPage
 from regression.tests.helpers.coupon import Coupon
 from regression.pages.whitelabel.const import (
-    PASSWORD,
-    PROF_COURSE_ID
+    PASSWORD
 )
 from regression.pages.whitelabel.course_about_page import CourseAboutPage
 from regression.tests.helpers.utils import construct_course_basket_page_url
@@ -42,9 +41,9 @@ class TestDynamicEnrollmentCoupon(VouchersTest):
         self.total_price = course_info['price']
         self.course_title = course_info['title']
         # Initialize all page objects
-        self.course_about = CourseAboutPage(self.browser, PROF_COURSE_ID)
+        self.course_about = CourseAboutPage(self.browser, self.course_id)
 
-    @skip
+    @skip("Need to rewrite tests for sandbox")
     def test_enrollment_once_per_customer_code_max_limit(self):
         """
         Scenario: Dynamic Enrollment Once Per Customer - Code Max Limit: Each
@@ -82,7 +81,7 @@ class TestDynamicEnrollmentCoupon(VouchersTest):
                     ONCE_PER_CUSTOMER_CODE_MAX_LIMIT
                 )
 
-    @skip
+    @skip("Need to rewrite tests for sandbox")
     def test_apply_enrollment_once_per_customer_redeem_url(self):
         """
         Scenario: Registered Users: Dynamic Enrollment Once Per Customer

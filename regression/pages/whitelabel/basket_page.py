@@ -1,9 +1,10 @@
 """
 Pages for single course and multi course purchase baskets
 """
+import os
 from bok_choy.page_object import PageObject
 
-from regression.pages.whitelabel.const import ECOMMERCE_URL_WITH_AUTH
+from regression.pages.whitelabel import ECOM_URL_WITH_AUTH
 
 from regression.pages.common.utils import (
     extract_numerical_value_from_price_string,
@@ -17,7 +18,7 @@ class BasketPage(PageObject):
     Generic class for E-Commerce basket pages
     """
 
-    url = ECOMMERCE_URL_WITH_AUTH + 'basket'
+    url = os.path.join(ECOM_URL_WITH_AUTH, 'basket')
 
     def is_browser_on_page(self):
         return self.q(css='#basket-total .price').visible
@@ -175,7 +176,6 @@ class SingleSeatBasketPage(BasketPage):
         Arguments:
              coupon_code(str): The coupon to apply.
         """
-        self.q(css='#voucher_form_link').click()
         self.wait_for_element_visibility(
             '#voucher_form',
             'Wait for Voucher form to display'

@@ -4,17 +4,14 @@ Miscellaneous tests
 from unittest import skipIf
 
 from regression.pages.whitelabel.const import (
-    EXISTING_USER_EMAIL,
     LOGO_ALT_TEXT,
     LOGO_LINK,
     NO_OF_COUNTRIES,
     NO_OF_LANGUAGES,
     ORG,
-    PASSWORD,
     SAMPLE_COUNTRIES,
     SAMPLE_LANGUAGES,
     SELECTED_COUNTRY,
-    SELECTED_LANGUAGE,
     SOCIAL_MEDIA_LINK
 )
 from regression.pages.whitelabel.profile_page import ProfilePage
@@ -36,7 +33,7 @@ class TestMisc(WhiteLabelTestsBaseClass):
         self.profile_page = ProfilePage(self.browser)
 
     @skipIf(ORG == 'MITxPRO', 'MITxPRO has no social media links')
-    def test_verify_social_media_links(self):
+    def test_social_media_links(self):
         """
         Scenario: To verify that correct social media links are present in
         footer section
@@ -44,7 +41,7 @@ class TestMisc(WhiteLabelTestsBaseClass):
         self.home_page.visit()
         self.assertEqual(SOCIAL_MEDIA_LINK, self.home_page.social_links)
 
-    def test_verify_logos(self):
+    def test_logos(self):
         """
         Scenario: To verify that correct images are being used for header and
         footer logos
@@ -59,13 +56,12 @@ class TestMisc(WhiteLabelTestsBaseClass):
         # Get the alt text for footer logo and verify it
         self.assertEqual(LOGO_ALT_TEXT, self.home_page.footer_logo_alt_text)
 
-    def test_verify_countries_data(self):
+    def test_countries_data(self):
         """
         Scenario: To verify that correct countries data is present in user
         profile
         """
-        self.login_page.visit()
-        self.login_page.provide_info(EXISTING_USER_EMAIL, PASSWORD)
+        self.register_using_api()
         self.dashboard_page.wait_for_page()
         # Open the profile page
         self.dashboard_page.go_to_profile_page()
@@ -78,21 +74,16 @@ class TestMisc(WhiteLabelTestsBaseClass):
         for country in SAMPLE_COUNTRIES:
             self.assertIn(country, countries)
 
-    def test_verify_languages_data(self):
+    def test_languages_data(self):
         """
         Scenario: To verify that correct languages data is present in user
         profile
         """
-        self.login_page.visit()
-        self.login_page.provide_info(EXISTING_USER_EMAIL, PASSWORD)
+        self.register_using_api()
         self.dashboard_page.wait_for_page()
         # Open the profile page
         self.dashboard_page.go_to_profile_page()
         self.profile_page.wait_for_page()
-        # Get selected Language and validate it
-        self.assertEqual(
-            SELECTED_LANGUAGE, self.profile_page.selected_language
-        )
         # Get languages list and validate it
         languages = self.profile_page.languages_list
         self.assertEqual(NO_OF_LANGUAGES, len(languages))

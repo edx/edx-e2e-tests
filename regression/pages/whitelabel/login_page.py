@@ -1,9 +1,11 @@
 """
 LMS login page
 """
+import os
+
 from bok_choy.page_object import PageObject
 
-from regression.pages.whitelabel.const import URL_WITH_AUTH
+from regression.pages.whitelabel import LMS_URL_WITH_AUTH
 from regression.pages.common.utils import fill_input_fields
 
 
@@ -11,7 +13,7 @@ class LoginPage(PageObject):
     """
     Login page for LMS.
     """
-    url = URL_WITH_AUTH + 'login'
+    url = os.path.join(LMS_URL_WITH_AUTH, 'login')
 
     def is_browser_on_page(self):
         return self.q(css='.form-toggle[data-type="register"]').visible

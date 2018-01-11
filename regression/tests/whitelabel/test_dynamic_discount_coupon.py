@@ -40,7 +40,7 @@ class TestDynamicDiscountCoupon(VouchersTest):
         # Initialize all page objects
         self.course_about = CourseAboutPage(self.browser, self.course_id)
 
-    @skip
+    @skip("Need to rewrite tests for sandbox")
     def test_discount_single_use_percentage_code(self):
         """
         Scenario: Dynamic Discount Single Use Percentage Code: Code cannot

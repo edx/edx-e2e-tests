@@ -36,7 +36,7 @@ class ProfilePage(PageObject):
         """
         self.q(
             css='.u-field.u-field-dropdown.u-field-country.'
-            'editable-toggle.mode-display'
+            'editable-toggle'
         ).click()
         self.wait_for_element_presence(
             '.u-field.u-field-dropdown.u-field-country.'
@@ -69,7 +69,7 @@ class ProfilePage(PageObject):
         """
         self.q(
             css='.u-field.u-field-dropdown.u-field-language_proficiencies.'
-            'editable-toggle.mode-display'
+            'editable-toggle'
         ).click()
         self.wait_for_element_presence(
             '.u-field.u-field-dropdown.u-field-language_proficiencies.'

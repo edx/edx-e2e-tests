@@ -3,14 +3,14 @@ LMS Home page
 """
 from bok_choy.page_object import PageObject
 
-from regression.pages.whitelabel.const import URL_WITH_AUTH
+from regression.pages.whitelabel import LMS_URL_WITH_AUTH
 
 
 class HomePage(PageObject):
     """
     LMS Home Page
     """
-    url = URL_WITH_AUTH
+    url = LMS_URL_WITH_AUTH
 
     def is_browser_on_page(self):
         """
