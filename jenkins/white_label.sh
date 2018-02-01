@@ -30,6 +30,7 @@ paver install_pages > log/paver_install_pages.log
 organizations="HarvardMedGlobalAcademy MITxPRO"
 
 for organization in ${organizations}; do
+    export SELENIUM_BROWSER=firefox
     export ORG=${organization}
     echo "Running wl tests on" ${organization}
     paver e2e_wl_test || EXIT=1
