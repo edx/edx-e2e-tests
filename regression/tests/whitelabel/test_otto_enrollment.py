@@ -30,6 +30,17 @@ class TestEnrollmentOtto(CourseEnrollmentTest):
         self.course_price = PROF_COURSE_PRICE
         self.total_price = PROF_COURSE_PRICE
 
+    def test_register_and_select_course(self):
+        """
+        Scenario: Otto flow - A registered user is able to register, select a
+        course and make payment for the course using the credit card
+        """
+        self.register_using_api()
+        self.go_to_basket()
+        self.pay_with_cybersource()
+        self.dashboard_page.wait_for_page()
+        self.assert_enrollment_and_logout()
+
     def test_select_course_and_register(self):
         """
         Scenario: Otto flow - A user is able to select a course,
