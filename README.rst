@@ -1,4 +1,4 @@
-edx-e2e-tests
+testedx-e2e-tests
 =============
 
 End-to-end tests for edX applications.
