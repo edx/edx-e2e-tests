@@ -1,14 +1,14 @@
 """
-Course info page
+Course Home page
 """
-from edxapp_acceptance.pages.lms.course_info import CourseInfoPage
+from edxapp_acceptance.pages.lms.course_home import CourseHomePage
 from regression.pages.lms import LOGIN_BASE_URL
 
 
-class CourseInfoPageExtended(CourseInfoPage):
+class CourseHomePageExtended(CourseHomePage):
     """
-    This class is an extended class of CourseInfoPage,
-    where we add methods that are different or not used in CourseInfoPage
+    This class is an extended class of CourseHomePage,
+    where we add methods that are different or not used in CourseHomePage
     """
     @property
     def url(self):
@@ -23,4 +23,4 @@ class CourseInfoPageExtended(CourseInfoPage):
         """
         Clicks Resume button of the course selected
         """
-        self.q(css='.last-accessed-link').first.click()
+        self.q(css='.action-resume-course span').first.click()

@@ -3,7 +3,7 @@ End to end test for page's visit.
 """
 from bok_choy.web_app_test import WebAppTest
 
-from regression.pages.lms.course_page_lms import CourseInfoPageExtended
+from regression.pages.lms.course_page_lms import CourseHomePageExtended
 from regression.tests.helpers.api_clients import LmsLoginApi
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.studio.utils import get_course_key
@@ -32,5 +32,5 @@ class PagesTest(WebAppTest):
         })
         visit_all([
             clz(self.browser, unicode(course_key)) for clz in
-            [CourseInfoPageExtended]
+            [CourseHomePageExtended]
         ])
