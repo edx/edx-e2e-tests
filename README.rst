@@ -64,6 +64,21 @@ variables as necessary. Once done, source the file to get all of the variables i
 
     open vnc://localhost:35900
 
+
+Creating a test course on stage
+-------------------------------
+
+By default, the tests in this repo run against our staging server. If you plan to keep this as the target environment, you must create your own course on stage (this requires an account with staff access). Using your own course will prevent collisions with other developers and ensure that your test results are accurate.
+
+To create the course:
+
+1. Log into studio.edx.org with staff credentials
+
+2. Create a new course. To ensure that your course is unique, use your github username as the Course Number. Make sure you select Organization and Course Run as well. The Course Name won't matter here, as it will be overwritten to "E2E Test Course" by the next step. These values will be set as environment variables when actually running the tests. For more on this, see ``How to run LMS and Studio tests``
+
+3. Go to the course import page and upload the ``course.tar.gz`` file found in the ``upload_files`` directory of this repo. This tarball will generate a fairly simple test course that includes all of the advanced modules necessary for the e2e tests.
+
+
 Configuration
 -------------
 
@@ -198,8 +213,8 @@ How to change target environment?
 
 Studio and LMS urls for stage are ``https://studio.stage.edx.org``
 and ``https://courses.stage.edx.org`` respectively. We don't need to
-do anything extra to run tests on the stage. By default, all tests
-run on the stage.
+do anything extra to run tests on stage. By default, all tests
+run on stage.
 
 If we want to change this behaviour then we would need to set
 environment variables to point to our desired environment.
