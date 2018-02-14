@@ -1,7 +1,7 @@
 """
 Pages for single course and multi course purchase baskets
 """
-from bok_choy.page_object import PageObject
+from regression.tests.helpers.new_page_object import NewPageObject
 
 from regression.pages.whitelabel.const import ECOMMERCE_URL_WITH_AUTH
 
@@ -12,7 +12,7 @@ from regression.pages.common.utils import (
 )
 
 
-class BasketPage(PageObject):
+class BasketPage(NewPageObject):
     """
     Generic class for E-Commerce basket pages
     """

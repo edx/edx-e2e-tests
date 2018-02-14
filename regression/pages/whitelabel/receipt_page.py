@@ -1,7 +1,7 @@
 """
 Receipt page
 """
-from bok_choy.page_object import PageObject
+from regression.tests.helpers.new_page_object import NewPageObject
 
 from regression.pages.common.utils import (
     convert_date_format,
@@ -9,7 +9,7 @@ from regression.pages.common.utils import (
 )
 
 
-class ReceiptPage(PageObject):
+class ReceiptPage(NewPageObject):
     """
     Course receipt page
     """

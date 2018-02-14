@@ -2,7 +2,7 @@
 Student dashboard page.
 """
 from opaque_keys.edx.keys import CourseKey
-from edxapp_acceptance.pages.lms.dashboard import DashboardPage
+from regression.pages.whitelabel.new_dashboard import DashboardPage
 
 from regression.pages.whitelabel.const import URL_WITH_AUTH, DEFAULT_TIMEOUT
 

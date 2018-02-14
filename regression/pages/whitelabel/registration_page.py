@@ -2,7 +2,7 @@
 Registration page.
 """
 
-from edxapp_acceptance.pages.lms.login_and_register import (
+from regression.pages.whitelabel.new_logistration import (
     CombinedLoginAndRegisterPage
 )
 from edxapp_acceptance.tests.helpers import disable_animations

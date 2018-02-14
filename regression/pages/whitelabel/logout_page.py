@@ -1,10 +1,10 @@
 """
 Logout Page
 """
-from bok_choy.page_object import PageObject
+from regression.tests.helpers.new_page_object import NewPageObject
 
 
-class EcommerceLogoutPage(PageObject):
+class EcommerceLogoutPage(NewPageObject):
     """
     E-Commerce Logout
     """

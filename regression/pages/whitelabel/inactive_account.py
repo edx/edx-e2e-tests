@@ -1,10 +1,10 @@
 """
 Inactive account page
 """
-from bok_choy.page_object import PageObject
+from regression.tests.helpers.new_page_object import NewPageObject
 
 
-class InactiveAccount(PageObject):
+class InactiveAccount(NewPageObject):
     """
     Inactive Account
     """

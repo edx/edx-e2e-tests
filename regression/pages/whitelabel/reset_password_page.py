@@ -1,12 +1,12 @@
 """
 Reset Password page
 """
-from bok_choy.page_object import PageObject
+from regression.tests.helpers.new_page_object import NewPageObject
 
 from regression.pages.whitelabel.const import URL_WITH_AUTH
 
 
-class ResetPassword(PageObject):
+class ResetPassword(NewPageObject):
     """
     Reset password
     """
@@ -41,7 +41,7 @@ class ResetPassword(PageObject):
             self.q(css='.action.action-primary.action-update.js-reset').click()
 
 
-class ResetPasswordComplete(PageObject):
+class ResetPasswordComplete(NewPageObject):
     """
     Reset password completion page
     """

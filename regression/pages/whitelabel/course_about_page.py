@@ -1,12 +1,12 @@
 """
 Course About page
 """
-from bok_choy.page_object import PageObject
+from regression.tests.helpers.new_page_object import NewPageObject
 
 from regression.pages.whitelabel.const import URL_WITH_AUTH
 
 
-class CourseAboutPage(PageObject):
+class CourseAboutPage(NewPageObject):
     """
     Course About page class
     """
