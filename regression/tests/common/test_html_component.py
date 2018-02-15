@@ -12,9 +12,7 @@ from regression.pages.studio.unit_page import UnitPageExtended
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.lms.utils import get_course_key
 from regression.pages.lms.lms_courseware import CoursewarePageExtended
-from regression.tests.helpers.utils import (
-    get_course_info, get_data_id_of_component, get_data_locator
-)
+from regression.tests.helpers.utils import get_course_info, get_data_locator
 
 from regression.tests.helpers.api_clients import (
     StudioLoginApi,
@@ -107,53 +105,6 @@ class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
         self.assertEqual(
             word_cloud_data_locator,
             get_data_locator(self.lms_courseware)
-        )
-        # Remove the added section
-        self.studio_course_outline.visit()
-        self.studio_course_outline.delete_section()
-
-    def test_custom_js_display_advanced_component(self):
-        """
-        Verifies that user can add Custom JavaScript Display and Grading
-        component on Studio and LMS
-        """
-        section_name = 'Section :{}'.format(uuid4().hex)
-        self.studio_course_outline.add_section_with_name(section_name)
-        self.assertIn(
-            section_name,
-            self.studio_course_outline.q(
-                css='.incontext-editor-value').text
-        )
-
-        subsection_name = 'Subsection :{}'.format(uuid4().hex)
-        self.studio_course_outline.add_subsection_with_name(
-            subsection_name
-        )
-        self.assertIn(
-            subsection_name,
-            self.studio_course_outline.q(
-                css='.incontext-editor-value').text
-        )
-
-        self.studio_course_outline.click_add_unit_button()
-        self.unit_container_page.wait_for_page()
-
-        self.assertEqual(
-            self.unit_container_page.add_custom_js_display_and_grading(),
-            'Custom JavaScript Display and Grading'
-        )
-
-        studio_custom_js = get_data_id_of_component(
-            self.unit_container_page
-        )
-
-        # Publish Unit
-        self.studio_course_outline.publish()
-        # View Live
-        self.unit_container_page.view_live_version()
-        self.assertEqual(
-            studio_custom_js,
-            get_data_id_of_component(self.lms_courseware)
         )
         # Remove the added section
         self.studio_course_outline.visit()
