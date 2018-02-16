@@ -91,16 +91,8 @@ class StudioFooterTest(WebAppTest):
         Privacy Policy
         """
         self.studio_home_page.click_terms_of_service()
-        # Temporary condition for Acquia issue
-        self.assertTrue(
-            'Web Site Not Found' in self.browser.title or
-            self.terms_of_service.wait_for_page()
-        )
+        self.terms_of_service.wait_for_page()
 
         self.studio_home_page.visit()
         self.studio_home_page.click_privacy_policy()
-        # Temporary condition for Acquia issue
-        self.assertTrue(
-            'Web Site Not Found' not in self.browser.title or
-            self.privacy_policy.wait_for_page()
-        )
+        self.privacy_policy.wait_for_page()
