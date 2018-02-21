@@ -1,12 +1,15 @@
 """
 Base class for white label tests
 """
+import os
+
 from bok_choy.web_app_test import WebAppTest
 
 from regression.pages.whitelabel.const import (
-    ECOMMERCE_URL_WITHOUT_AUTH,
-    URL_WITHOUT_AUTH
+    ECOM_URL,
+    LMS_URL
 )
+from regression.pages.whitelabel.basket_page import BasketPage
 from regression.pages.whitelabel.dashboard_page import DashboardPageExtended
 from regression.pages.whitelabel.home_page import HomePage
 from regression.pages.whitelabel.login_page import LoginPage
@@ -30,6 +33,7 @@ class WhiteLabelTestsBaseClass(WebAppTest):
         self.login_page = LoginPage(self.browser)
         self.registration_page = RegisterPageExtended(self.browser)
         self.logout_page = EcommerceLogoutPage(self.browser)
+        self.basket_page = BasketPage(self.browser)
         self.ecom_cookies = None
 
     def login_user_using_ui(self, email, password):
@@ -47,6 +51,11 @@ class WhiteLabelTestsBaseClass(WebAppTest):
         """
         register_user = WLRegisterApi(target_page=target)
         register_user.authenticate(self.browser)
+        if target:
+            if "account/finish_auth?course_id" in target:
+                self.basket_page.wait_for_page()
+        else:
+            self.dashboard_page.wait_for_page()
 
     def logout_user_from_lms(self):
         """
@@ -67,7 +76,7 @@ class WhiteLabelTestsBaseClass(WebAppTest):
         logout using api
         """
         logout_api = LogoutApi()
-        logout_api.logout_url = '{}{}'.format(URL_WITHOUT_AUTH, 'logout')
+        logout_api.logout_url = os.path.join(LMS_URL, 'logout')
         logout_api.cookies = self.browser.get_cookies()
         logout_api.logout()
 
@@ -76,9 +85,6 @@ class WhiteLabelTestsBaseClass(WebAppTest):
         Use ecommerce cookies to logout
         """
         logout_api = LogoutApi()
-        logout_api.logout_url = '{}{}'.format(
-            ECOMMERCE_URL_WITHOUT_AUTH,
-            'logout'
-        )
+        logout_api.logout_url = os.path.join(ECOM_URL, 'logout')
         logout_api.cookies = self.ecom_cookies
         logout_api.logout()

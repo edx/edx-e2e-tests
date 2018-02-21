@@ -1,10 +1,12 @@
 """
 Redeem coupon page
 """
+import os
+
 from bok_choy.page_object import PageObject
 from opaque_keys.edx.keys import AssetKey
 
-from regression.pages.whitelabel.const import ECOMMERCE_URL_WITH_AUTH
+from regression.pages.whitelabel import ECOM_URL_WITH_AUTH
 from regression.pages.common.utils import (
     extract_mmm_dd_yyyy_date_string_from_text,
     convert_date_format,
@@ -43,11 +45,8 @@ class RedeemCouponPage(PageObject):
         """
         Construct a URL to the page using the coupon code.
         """
-        return (
-            ECOMMERCE_URL_WITH_AUTH +
-            'coupons/offer/?code=' +
-            self.coupon_code
-        )
+        partial_url_string = 'coupons/offer/?code=' + self.coupon_code
+        return os.path.join(ECOM_URL_WITH_AUTH, partial_url_string)
 
     def is_browser_on_page(self):
         return all(

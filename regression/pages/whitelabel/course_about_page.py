@@ -1,9 +1,11 @@
 """
 Course About page
 """
+import os
+
 from bok_choy.page_object import PageObject
 
-from regression.pages.whitelabel.const import URL_WITH_AUTH
+from regression.pages.whitelabel import LMS_URL_WITH_AUTH
 
 
 class CourseAboutPage(PageObject):
@@ -23,7 +25,8 @@ class CourseAboutPage(PageObject):
         """
         Construct url for the page.
         """
-        return URL_WITH_AUTH + u"courses/" + self.course_id + u"/about"
+        partial_url_str = u"courses/" + self.course_id + u"/about"
+        return os.path.join(LMS_URL_WITH_AUTH, partial_url_str)
 
     def is_browser_on_page(self):
         return all(

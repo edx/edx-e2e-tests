@@ -3,14 +3,18 @@ Single course Discount coupons tests
 """
 import random
 import uuid
-from unittest import skip
+from unittest import skip, skipIf
 
-from regression.pages.whitelabel.const import (
-    PASSWORD,
-    PROF_COURSE_ID,
-    PROF_COURSE_PRICE,
-    PROF_COURSE_TITLE
+from regression.pages.studio.utils import get_course_key
+from regression.pages.whitelabel import (
+    COURSE_ORG,
+    COURSE_NUMBER,
+    COURSE_RUN,
+    DEFAULT_COURSE_PRICE,
+    TEST_ENV
 )
+from regression.pages.whitelabel.const import PASSWORD
+
 from regression.pages.whitelabel.redeem_coupon_page import RedeemCouponPage
 from regression.tests.helpers.coupon import Coupon
 from regression.tests.helpers.coupon_consts import (
@@ -28,13 +32,13 @@ from regression.tests.helpers.coupon_consts import (
     ONCE_PER_CUSTOMER_REDEEM_URL_SAME_USER_REUSE,
     SEAT_TYPE,
     SINGLE_USE_CODE_REUSE_ERROR,
-    STOCK_RECORD_ID,
     VALID_EMAIL_DOMAIN,
     VOUCHER_TYPE
 )
 from regression.tests.helpers.utils import (
     construct_course_basket_page_url,
-    get_white_label_registration_fields
+    get_white_label_registration_fields,
+    get_wl_course_info
 )
 from regression.tests.whitelabel.voucher_tests_base import VouchersTest
 
@@ -46,12 +50,20 @@ class TestDiscountCoupon(VouchersTest):
     def setUp(self):
         super(TestDiscountCoupon, self).setUp()
         # Initialize common variables
-        self.course_id = PROF_COURSE_ID
-        self.course_price = PROF_COURSE_PRICE
-        self.course_title = PROF_COURSE_TITLE
-        self.total_price = PROF_COURSE_PRICE
+        self.course_info = get_wl_course_info(
+            org=COURSE_ORG,
+            num=COURSE_NUMBER,
+            run=COURSE_RUN
+        )
+        self.course_id = str(get_course_key(self.course_info))
+        self.course_title = self.course_info["display_name"]
+        self.course_price = DEFAULT_COURSE_PRICE
+        self.total_price = DEFAULT_COURSE_PRICE
+        self.stock_record_id = self.ecommerce_api.get_stock_record_id(
+            self.course_id,
+            self.course_title
+        )
 
-    @skip('skipped as coupon creation is behaving erratically')
     def test_discount_single_use_percentage_code(self):
         """
         Scenario: Discount Single Use Percentage Code: Code cannot be reused
@@ -60,9 +72,9 @@ class TestDiscountCoupon(VouchersTest):
             COURSE_CATALOG_TYPE['single'],
             COUPON_TYPE['disc'],
             VOUCHER_TYPE['single'],
-            course_id=PROF_COURSE_ID,
+            course_id=self.course_id,
             seat_type=SEAT_TYPE['prof'],
-            stock_record_ids=STOCK_RECORD_ID,
+            stock_record_ids=self.stock_record_id,
             benefit_type=BENEFIT_TYPE['per'],
             benefit_value=BENEFIT_VALUE['per']
         )
@@ -72,19 +84,19 @@ class TestDiscountCoupon(VouchersTest):
         self.addCleanup(self.coupon.delete_coupon)
         # Register to application using api
         self.register_using_api(
-            construct_course_basket_page_url(PROF_COURSE_ID)
+            construct_course_basket_page_url(self.course_id)
         )
         self.enroll_using_discount_code(coupon_code)
         self.assert_enrollment_and_logout()
         self.register_using_api(
-            construct_course_basket_page_url(PROF_COURSE_ID)
+            construct_course_basket_page_url(self.course_id)
         )
         self.assertEqual(
             self.error_message_on_invalid_coupon_code(coupon_code),
             SINGLE_USE_CODE_REUSE_ERROR.format(coupon_code)
         )
 
-    @skip('skipped as coupon creation is behaving erratically')
+    @skipIf(TEST_ENV == "stage", "skip tests on stage")
     def test_discount_once_per_customer_fixed_code(self):
         """
         Scenario: Discount Once Per Customer Fixed Code: Code can be used up
@@ -95,9 +107,9 @@ class TestDiscountCoupon(VouchersTest):
             COURSE_CATALOG_TYPE['single'],
             COUPON_TYPE['disc'],
             VOUCHER_TYPE['once_per_cust'],
-            course_id=PROF_COURSE_ID,
+            course_id=self.course_id,
             seat_type=SEAT_TYPE['prof'],
-            stock_record_ids=STOCK_RECORD_ID,
+            stock_record_ids=self.stock_record_id,
             benefit_type=BENEFIT_TYPE['abs'],
             benefit_value=BENEFIT_VALUE['fixed'],
             max_uses=maximum_uses
@@ -110,7 +122,7 @@ class TestDiscountCoupon(VouchersTest):
         for i in range(maximum_uses):
             # Register to application using api
             self.register_using_api(
-                construct_course_basket_page_url(PROF_COURSE_ID)
+                construct_course_basket_page_url(self.course_id)
             )
             if i < maximum_uses:
                 self.enroll_using_discount_code(coupon_code)
@@ -131,9 +143,9 @@ class TestDiscountCoupon(VouchersTest):
             COURSE_CATALOG_TYPE['single'],
             COUPON_TYPE['disc'],
             VOUCHER_TYPE['once_per_cust'],
-            course_id=PROF_COURSE_ID,
+            course_id=self.course_id,
             seat_type=SEAT_TYPE['prof'],
-            stock_record_ids=STOCK_RECORD_ID,
+            stock_record_ids=self.stock_record_id,
             benefit_type=BENEFIT_TYPE['abs'],
             benefit_value=BENEFIT_VALUE['fixed'],
             email_domains=VALID_EMAIL_DOMAIN
@@ -154,7 +166,7 @@ class TestDiscountCoupon(VouchersTest):
             INVALID_DOMAIN_ERROR_MESSAGE_ON_BASKET
         )
 
-    @skip('skipped as coupon creation is behaving erratically')
+    @skipIf(TEST_ENV == "stage", "skip tests on stage")
     def test_discount_single_use_fixed_code_expired(self):
         """
         Scenario: Discount Single Use Fixed Code: Relevant error message is
@@ -165,9 +177,9 @@ class TestDiscountCoupon(VouchersTest):
             COUPON_TYPE['disc'],
             VOUCHER_TYPE['single'],
             end_datetime=EXPIRED_END_DATE,
-            course_id=PROF_COURSE_ID,
+            course_id=self.course_id,
             seat_type=SEAT_TYPE['prof'],
-            stock_record_ids=STOCK_RECORD_ID,
+            stock_record_ids=self.stock_record_id,
             benefit_type=BENEFIT_TYPE['abs'],
             benefit_value=BENEFIT_VALUE['fixed']
         )
@@ -178,14 +190,14 @@ class TestDiscountCoupon(VouchersTest):
         self.addCleanup(self.coupon.delete_coupon)
         # Register to application using api
         self.register_using_api(
-            construct_course_basket_page_url(PROF_COURSE_ID)
+            construct_course_basket_page_url(self.course_id)
         )
         self.assertEqual(
             self.error_message_on_invalid_coupon_code(coupon_code),
             EXPIRED_CODE_ERROR.format(coupon_code)
         )
 
-    @skip('skipped as coupon creation is behaving erratically')
+    @skipIf(TEST_ENV == "stage", "skip tests on stage")
     def test_discount_single_use_fixed_redeem_url(self):
         """
         Scenario: Existing Users - Discount Single Use Fixed Redeem URL: Each
@@ -195,9 +207,9 @@ class TestDiscountCoupon(VouchersTest):
             COURSE_CATALOG_TYPE['single'],
             COUPON_TYPE['disc'],
             VOUCHER_TYPE['single'],
-            course_id=PROF_COURSE_ID,
+            course_id=self.course_id,
             seat_type=SEAT_TYPE['prof'],
-            stock_record_ids=STOCK_RECORD_ID,
+            stock_record_ids=self.stock_record_id,
             benefit_type=BENEFIT_TYPE['abs'],
             benefit_value=BENEFIT_VALUE['fixed'],
             quantity=2
@@ -217,7 +229,7 @@ class TestDiscountCoupon(VouchersTest):
             self.dashboard_page.wait_for_page()
             self.assert_enrollment_and_logout()
 
-    @skip('skipped as coupon creation is behaving erratically')
+    @skipIf(TEST_ENV == "stage", "skip tests on stage")
     def test_discount_once_per_customer_percentage_redeem_url(self):
         """
         Scenario: Inactive Users - Discount Once Per Customer Percentage
@@ -227,9 +239,9 @@ class TestDiscountCoupon(VouchersTest):
             COURSE_CATALOG_TYPE['single'],
             COUPON_TYPE['disc'],
             VOUCHER_TYPE['once_per_cust'],
-            course_id=PROF_COURSE_ID,
+            course_id=self.course_id,
             seat_type=SEAT_TYPE['prof'],
-            stock_record_ids=STOCK_RECORD_ID,
+            stock_record_ids=self.stock_record_id,
             benefit_type=BENEFIT_TYPE['per'],
             benefit_value=BENEFIT_VALUE['per']
         )
@@ -261,7 +273,7 @@ class TestDiscountCoupon(VouchersTest):
             ONCE_PER_CUSTOMER_REDEEM_URL_SAME_USER_REUSE
         )
 
-    @skip('skipped as coupon creation is behaving erratically')
+    @skipIf(TEST_ENV == "stage", "skip tests on stage")
     def test_discount_once_per_customer_fixed_redeem_url_future(self):
         """
         Scenario: Discount Once Per Customer Fixed Redeem URL: Relevant error
@@ -273,9 +285,9 @@ class TestDiscountCoupon(VouchersTest):
             COUPON_TYPE['disc'],
             VOUCHER_TYPE['once_per_cust'],
             start_datetime=FUTURE_START_DATE,
-            course_id=PROF_COURSE_ID,
+            course_id=self.course_id,
             seat_type=SEAT_TYPE['prof'],
-            stock_record_ids=STOCK_RECORD_ID,
+            stock_record_ids=self.stock_record_id,
             benefit_type=BENEFIT_TYPE['abs'],
             benefit_value=BENEFIT_VALUE['fixed'],
             max_uses=2

@@ -74,14 +74,6 @@ VOUCHER_TYPE = {
 
 BENEFIT_VALUE = {'fixed': 60, 'per': 40}
 
-STOCK_RECORD_IDS = {
-    'HarvardMedGlobalAcademy': [24931],
-    'HarvardXPLUS': [8396],
-    'MITxPRO': [24930],
-}
-
-STOCK_RECORD_ID = STOCK_RECORD_IDS[ORG]
-
 INVALID_DOMAIN_USERS = {
     'coupon_user_06': 'wl_coupon_user06@emaildomainsix.com',
     'coupon_user_07': 'wl_coupon_user07@emaildomainseven.com'

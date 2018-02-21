@@ -1,9 +1,11 @@
 """
 Reset Password page
 """
+import os
+
 from bok_choy.page_object import PageObject
 
-from regression.pages.whitelabel.const import URL_WITH_AUTH
+from regression.pages.whitelabel import LMS_URL_WITH_AUTH
 
 
 class ResetPassword(PageObject):
@@ -46,7 +48,7 @@ class ResetPasswordComplete(PageObject):
     Reset password completion page
     """
 
-    url = URL_WITH_AUTH + u'password_reset_complete'
+    url = os.path.join(LMS_URL_WITH_AUTH, u'password_reset_complete')
 
     def is_browser_on_page(self):
         return self.q(css='.status.submission-success').present

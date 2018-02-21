@@ -3,66 +3,37 @@
 List of constants to be used throughout the tests
 """
 import os
-from regression.pages import BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD
+
+from regression.pages.whitelabel import (
+    LMS_URL,
+    ECOM_URL,
+    ORG
+)
 
 # Global password
 PASSWORD = os.environ.get('GLOBAL_PASSWORD')
 
 # Client information for access token
-OAUTH_CLIENT_ID = os.environ.get('OAUTH_CLIENT_ID')
-OAUTH_CLIENT_SECRET = os.environ.get('OAUTH_CLIENT_SECRET')
-
-BASIC_AUTH = BASIC_AUTH_USERNAME + ":" + BASIC_AUTH_PASSWORD + "@"
-
-# Select the Org for which to run the tests
-DEFAULT_ORG = 'HarvardMedGlobalAcademy'
-
-ORG = os.environ.get('ORG', DEFAULT_ORG)
+SANDBOX_CLIENT_ID = "ecommerce-key"
+OAUTH_CLIENT_ID = os.environ.get('OAUTH_CLIENT_ID', SANDBOX_CLIENT_ID)
+SANDBOX_CLIENT_SECRET = "ecommerce-secret"
+OAUTH_CLIENT_SECRET = os.environ.get(
+    'OAUTH_CLIENT_SECRET',
+    SANDBOX_CLIENT_SECRET
+)
 
 # Organization Based Settings
 ##############################################################################
-# E-commerce raw url
-RAW_ECOMMERCE_URL = {
-    'HarvardMedGlobalAcademy':
-        u'https://{}payments.globalacademy-stage.hms.harvard.edu/',
-    'HarvardXPLUS': u'https://{}stage-payments.harvardxplus.harvard.edu/',
-    'MITxPRO': u'https://{}payments.stage.mitxpro.mit.edu/'
-}
 
-# BASIC raw URL
-RAW_URL = {
-    'HarvardMedGlobalAcademy':
-        u'https://{}globalacademy-stage.hms.harvard.edu/',
-    'HarvardXPLUS': u'https://{}stage-courses.harvardxplus.harvard.edu/',
-    'MITxPRO': u'https://{}stage.mitxpro.mit.edu/'
-}
+ECOMMERCE_API_URL = os.path.join(ECOM_URL, 'api/v2/')
 
-# E-commerce urls
-ECOMMERCE_URL_WITHOUT_AUTH = RAW_ECOMMERCE_URL[ORG].format("")
-
-ECOMMERCE_URL_WITH_AUTH = RAW_ECOMMERCE_URL[ORG].format(BASIC_AUTH)
-
-# BASIC URLs
-URL_WITHOUT_AUTH = RAW_URL[ORG].format("")
-
-URL_WITH_AUTH = RAW_URL[ORG].format(BASIC_AUTH)
-
-ECOMMERCE_API_URL = ECOMMERCE_URL_WITHOUT_AUTH + 'api/v2/'
-
-ENROLLMENT_API_URL = URL_WITHOUT_AUTH + 'api/enrollment/v1'
+ENROLLMENT_API_URL = os.path.join(LMS_URL, 'api/enrollment/v1')
 
 CYBERSOURCE_CHECKOUT_URL = \
     u'https://testsecureacceptance.cybersource.com/checkout'
 
-PROF_COURSE_ID = u'course-v1:{}+E2E+2018'.format(ORG)
-
-PROF_COURSE_TITLE = u'{}-E2E-Test'.format(ORG)
-
-PROF_COURSE_PRICE = 167.0
-
 EMAIL_SENDER_ACCOUNTS = {
     'HarvardMedGlobalAcademy': 'globalacademy@hms.harvard.edu',
-    'HarvardXPLUS': 'hxplus-support@edx.org',
     'MITxPRO': 'mitxpro@mit.edu',
 }
 
@@ -70,7 +41,6 @@ EMAIL_SENDER_ACCOUNT = EMAIL_SENDER_ACCOUNTS[ORG]
 
 LOGO_LINKS = {
     'HarvardMedGlobalAcademy': 'hms-logo',
-    'HarvardXPLUS': 'harvardX-logo',
     'MITxPRO': 'mitx-pro-logo'
 }
 
@@ -78,7 +48,6 @@ LOGO_LINK = LOGO_LINKS[ORG]
 
 LOGO_ALT_TEXTS = {
     'HarvardMedGlobalAcademy': 'HMS Logo',
-    'HarvardXPLUS': 'HarvardX Logo',
     'MITxPRO': 'MIT Logo'
 }
 
@@ -91,10 +60,6 @@ SOCIAL_MEDIA_LINKS = {
         'https://www.linkedin.com/company/harvard-medical-school-global-'
         'education',
         'https://instagram.com/harvardmed/?hl=en'
-    ],
-    'HarvardXPLUS': [
-        'https://www.facebook.com/HarvardX-187429968296722/',
-        'https://twitter.com/harvardonline'
     ],
     'MITxPRO': []
 }
@@ -140,10 +105,10 @@ BILLING_INFO = {
 }
 
 # Existing user email
-EXISTING_USER_EMAIL = 'wl_smoke_user01@example.com'
+# EXISTING_USER_EMAIL = 'wl_smoke_user01@example.com'
 
 # Staff user email
-STAFF_EMAIL = os.environ['STAFF_USER_EMAIL']
+# STAFF_EMAIL = os.environ['STAFF_USER_EMAIL']
 
 # Student user email
 VISUAL_USER_EMAIL = 'wl_visual_test01@example.com'
@@ -184,9 +149,9 @@ SAMPLE_LANGUAGES = [
     u'Tonga (Tonga Islands)'
 ]
 
-SELECTED_COUNTRY = u'Pakistan'
+SELECTED_COUNTRY = u'United States of America'
 
-SELECTED_LANGUAGE = u'Urdu'
+SELECTED_LANGUAGE = u'English'
 
 UNUSED_REGISTRATION_FIELDS_MAPPING = {
     "MITxPRO": ["profession", "specialty"],
@@ -195,7 +160,6 @@ UNUSED_REGISTRATION_FIELDS_MAPPING = {
         'gender',
         'company',
         'title',
-        'year_of_birth',
         'honor_code'
     ]
 }

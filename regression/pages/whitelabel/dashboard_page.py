@@ -1,10 +1,13 @@
 """
 Student dashboard page.
 """
+import os
+
 from opaque_keys.edx.keys import CourseKey
 from edxapp_acceptance.pages.lms.dashboard import DashboardPage
 
-from regression.pages.whitelabel.const import URL_WITH_AUTH, DEFAULT_TIMEOUT
+from regression.pages.whitelabel import LMS_URL_WITH_AUTH
+from regression.pages.whitelabel.const import DEFAULT_TIMEOUT
 
 
 class DashboardPageExtended(DashboardPage):
@@ -12,7 +15,7 @@ class DashboardPageExtended(DashboardPage):
     This class is an extended class of Dashboard Page,
     where we add methods that are different or not used in DashboardPage
     """
-    url = URL_WITH_AUTH + u'dashboard'
+    url = os.path.join(LMS_URL_WITH_AUTH, u'dashboard')
 
     def logout_lms(self):
         """
