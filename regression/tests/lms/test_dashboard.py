@@ -50,38 +50,3 @@ class DashboardTest(WebAppTest):
         self.dashboard_page = DashboardPageExtended(self.browser)
 
         self.dashboard_page.visit()
-
-    def test_resume_course(self):
-        """
-        Verifies that user can successfully resume the course
-        """
-        # Delete any existing sections
-        self.studio_course_outline.visit()
-        self.studio_course_outline.delete_all_sections()
-
-        # Pre Reqs
-        section_name = 'Section :{}'.format(uuid4().hex)
-        self.studio_course_outline.add_section_with_name(section_name)
-        self.assertIn(
-            section_name,
-            self.studio_course_outline.q(
-                css='.incontext-editor-value'
-            ).text
-        )
-
-        subsection_name = 'Subsection :{}'.format(uuid4().hex)
-        self.studio_course_outline.add_subsection_with_name(
-            subsection_name
-        )
-        self.assertIn(
-            subsection_name,
-            self.studio_course_outline.q(
-                css='.incontext-editor-value'
-            ).text
-        )
-        # Test
-        self.dashboard_page.visit()
-        self.dashboard_page.select_course(get_course_display_name())
-        self.course_page.wait_for_page()
-        self.course_page.click_resume_button()
-        self.lms_courseware.wait_for_page()
