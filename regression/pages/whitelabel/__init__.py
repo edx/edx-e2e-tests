@@ -19,7 +19,7 @@ DEFAULT_ORG = 'MITxPRO'
 
 ORG = os.environ.get('ORG', DEFAULT_ORG)
 
-SANDBOX_ECOM_PREFIX = "ecommerce-"
+SANDBOX_AND_DEVSTACK_ECOM_PREFIX = "ecommerce-"
 STAGE_ECOM_PREFIX = "payments."
 
 BASE_URL = ""
@@ -43,8 +43,17 @@ elif TEST_ENV == "sandbox":
         'Harvard': "hms-{}.sandbox.edx.org".format(TARGET_DNS)
     }
     BASE_URL = BASE_URLS[ORG]
-    ECOM_PREFIX = SANDBOX_ECOM_PREFIX
+    ECOM_PREFIX = SANDBOX_AND_DEVSTACK_ECOM_PREFIX
 
+elif TEST_ENV == "devstack":
+    # Get DNS name if tests are running on sandbox
+    BASE_URLS = {
+        'edX': u"edx.e2e.devstack:18000",
+        'MITxPRO': u"mitxpro.e2e.devstack:18000",
+        'Harvard': u"hms.e2e.devstack:18000"
+    }
+    BASE_URL = BASE_URLS[ORG]
+    ECOM_PREFIX = SANDBOX_AND_DEVSTACK_ECOM_PREFIX
 
 LMS_PROTOCOL = os.environ.get('LMS_PROTOCOL', 'https')
 
@@ -74,7 +83,6 @@ else:
         ECOM_PREFIX,
         BASE_URL
     )
-
 
 # Get Course ID, Price and Name
 DEFAULT_COURSE_NUM = "WL_E2E"
