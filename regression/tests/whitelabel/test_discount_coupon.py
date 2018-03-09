@@ -260,7 +260,6 @@ class TestDiscountCoupon(VouchersTest):
         self.registration_page.register_white_label_user(
             get_white_label_registration_fields(
                 email=temp_mail,
-                password=PASSWORD,
                 username=user_name
             )
         )

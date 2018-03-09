@@ -5,14 +5,16 @@ import uuid
 from unittest import skip
 
 from regression.pages.whitelabel.activate_account import ActivateAccount
-from regression.pages.whitelabel.const import PASSWORD
 from regression.pages.whitelabel.inactive_account import InactiveAccount
 from regression.pages.whitelabel.reset_password_page import (
     ResetPassword,
     ResetPasswordComplete
 )
 from regression.tests.helpers.api_clients import GuerrillaMailApi
-from regression.tests.helpers.utils import get_white_label_registration_fields
+from regression.tests.helpers.utils import (
+    get_random_password,
+    get_white_label_registration_fields
+)
 from regression.tests.whitelabel.white_label_tests_base import (
     WhiteLabelTestsBaseClass
 )
@@ -70,7 +72,7 @@ class TestUserAccount(WhiteLabelTestsBaseClass):
         temp_mail = GuerrillaMailApi()
         self.user_name = str(uuid.uuid4().node)
         self.user_email = temp_mail.get_email_account(self.user_name)
-        new_password = str(uuid.uuid4().node)
+        new_password = get_random_password()
         # Got to login page and use the forgot password functionality
         self.login_page.visit()
         self.login_page.send_forgot_password(self.user_email)
@@ -104,7 +106,6 @@ class TestUserAccount(WhiteLabelTestsBaseClass):
         self.registration_page.register_white_label_user(
             get_white_label_registration_fields(
                 email=self.temp_mail.user_email,
-                password=PASSWORD,
                 username=self.temp_mail.user_name
             )
         )
@@ -135,7 +136,7 @@ class TestUserAccount(WhiteLabelTestsBaseClass):
         reset_password_url = self.temp_mail.get_url_from_email(
             'password_reset_confirm'
         )
-        new_password = str(uuid.uuid4().node)
+        new_password = get_random_password()
         reset_password_page = ResetPassword(self.browser, reset_password_url)
         reset_password_page.visit()
         # Reset password and log back in.
