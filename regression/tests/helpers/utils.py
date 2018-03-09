@@ -9,7 +9,6 @@ from regression.pages.studio.utils import get_course_key
 from regression.pages.whitelabel.activate_account import ActivateAccount
 from regression.pages.whitelabel.const import (
     ORG,
-    PASSWORD,
     UNUSED_REGISTRATION_FIELDS_MAPPING
 )
 
@@ -26,6 +25,16 @@ def get_random_credentials():
     username = 'test_{}'.format(str(uuid.uuid4().node))
     email = "{}@example.com".format(username)
     return username, email
+
+
+def get_random_password():
+    """
+    Get random password, suitable for registering a user
+    """
+    # Allow specifying a prefix in case a site has specific complexity
+    # requirements. But provide a default that should cover most cases.
+    prefix = os.environ.get('NEW_PASSWORD_PREFIX', 'a0.')
+    return prefix + uuid.uuid4().hex
 
 
 def get_course_info():
@@ -151,10 +160,11 @@ def get_white_label_registration_fields(
     # use the username and email values if set by function call, otherwise
     # set random values
     get_user_name, get_user_email = get_random_credentials()
+    get_user_password = get_random_password()
     return {
         'email': email or get_user_email,
         'username': username or get_user_name,
-        'password': password or PASSWORD,
+        'password': password or get_user_password,
         'name': name,
         'first_name': first_name,
         'last_name': last_name,
