@@ -12,6 +12,6 @@ class PrivacyPolicy(PageObject):
     url = LOGIN_BASE_URL + '/edx-privacy-policy'
 
     def is_browser_on_page(self):
-        return "As used in this Privacy Policy" in self.q(
-            css='.field-page-body'
+        return "This Privacy Policy only applies to information" in self.q(
+            css='.content-section'
         ).text[0]

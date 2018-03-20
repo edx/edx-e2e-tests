@@ -2,10 +2,12 @@
 End to end tests for Studio Home page
 """
 import os
+from unittest import skipIf
 
 from bok_choy.web_app_test import WebAppTest
 from edxapp_acceptance.pages.studio.overview import CourseOutlinePage
 
+from regression.pages.studio import STUDIO_BASE_URL, STUDIO_STAGE_BASE_URL
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.studio.terms_of_service import TermsOfService
 from regression.pages.studio.privacy_policy import PrivacyPolicy
@@ -77,3 +79,20 @@ class StudioFooterTest(WebAppTest):
             self.course_info['run'])
 
         self.studio_home_page.visit()
+
+    @ skipIf(
+            STUDIO_BASE_URL != STUDIO_STAGE_BASE_URL,
+            "No link on sandbox"
+    )  # LT-62
+    def test_studio_footer_links(self):
+            """
+            Verifies that user can click and navigate to studio footer links
+            Terms of Service
+            Privacy Policy
+            """
+
+            self.studio_home_page.click_terms_of_service()
+            self.terms_of_service.wait_for_page()
+            self.studio_home_page.visit()
+            self.studio_home_page.click_privacy_policy()
+            self.privacy_policy.wait_for_page()
