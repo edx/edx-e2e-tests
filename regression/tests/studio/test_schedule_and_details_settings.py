@@ -94,7 +94,7 @@ class ScheduleAndDetailsTest(WebAppTest):
         ).get_attribute('value')
         self.settings_page.visit()
         # Upload the image.
-        self.settings_page.upload_course_image('Image.png')
+        self.settings_page.upload_course_image('1.png')
         # Cancel the upload
         self.settings_page.cancel_upload()
         # Course card image should be the same as before.
