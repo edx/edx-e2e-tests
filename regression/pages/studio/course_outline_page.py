@@ -117,7 +117,9 @@ class CourseOutlinePageExtended(CourseOutlinePage):
         """
         Clicks edit start date button on Course Outline page
         """
-        button = self.q(css='.action-button span.icon.fa.fa-pencil').results[0]
+        button_selector = '.action-button span.icon.fa.fa-pencil'
+        self.scroll_to_element(button_selector)
+        button = self.q(css=button_selector).results[0]
         # This button is hidden, hovering on it makes it visible
         # Using ActionChains to handle this
         ActionChains(

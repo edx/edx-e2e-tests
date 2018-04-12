@@ -23,7 +23,7 @@ class SettingsPageExtended(SettingsPage):
         return LOGIN_BASE_URL + "/" + self.url_path + "/" + unicode(course_id)
 
     def is_browser_on_page(self):
-        return self.q(css='body.view-settings').visible \
+        return self.q(css='body.view-settings #course-organization').visible \
             and self.q(
                 css='#course-organization'
             ).results[0].get_attribute('value')
