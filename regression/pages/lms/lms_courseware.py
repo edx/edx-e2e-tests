@@ -12,9 +12,6 @@ class CoursewarePageExtended(CoursewarePage):
     Courseware Page
     """
 
-    def is_browser_on_page(self):
-        return self.q(css='body .active').visible
-
     @property
     def url(self):
         """
