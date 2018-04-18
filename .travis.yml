@@ -22,7 +22,7 @@ after_success:
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
     docker --version;
     sudo apt-get -y update;
-    sudo apt-get -y install -o Dpkg::Options::="--force-confnew" docker-ce;
+    sudo apt-get -y install -o Dpkg::Options::="--force-confnew" docker-ce=18.03.0~ce-0~ubuntu;
     docker --version;
     docker-compose build;
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASS";
