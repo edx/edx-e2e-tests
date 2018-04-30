@@ -23,6 +23,7 @@ class ImportCoursePageExtended(ImportMixin, CoursePageExtended):
         self.browser.execute_script(
             '$(".file-name-block").show();$(".file-input").show()'
         )
+        self.wait_for_element_visibility(".file-input", "Input is visible")
         # Upload the file.
         self.q(css='input[type="file"]')[0].send_keys(asset_file_path)
         # Upload the same file again. Reason behind this is to decrease the
