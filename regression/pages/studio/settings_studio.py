@@ -46,6 +46,7 @@ class SettingsPageExtended(SettingsPage):
         self.browser.execute_script(
             '$("{}").css("display","block");'.format(file_input_css)
         )
+        self.wait_for_element_visibility(file_input_css, "File input visible")
         self.q(css=file_input_css).results[0].send_keys(
             UPLOAD_FILE_DIR + "/" + file_name
         )
