@@ -129,8 +129,8 @@ def get_white_label_registration_fields(
         username='', first_name='Test', last_name='User',
         gender='m', year_of_birth='1994', state='Massachusetts',
         country='US', level_of_education='m', company='Arbisoft', title='SQA',
-        profession='physician', specialty='neurology', terms_of_service="true",
-        honor_code="true"
+        job_title='doctor', profession='physician', specialty='neurology',
+        terms_of_service="true", honor_code="true"
 ):
     """
     Returns a dictionary of fields to register a user.
@@ -148,6 +148,7 @@ def get_white_label_registration_fields(
         level_of_education(str): User's education level.
         company(str): User's current company  of affiliation.
         title(str): User's title.
+        job_title(str): User's job title.
         username(str): User's user name
         profession(str): Profession of user
         specialty(str): User's Area of specialty,
@@ -175,6 +176,7 @@ def get_white_label_registration_fields(
         'level_of_education': level_of_education,
         'company': company,
         'title': title,
+        'job_title': job_title,
         'profession': profession,
         'specialty': specialty,
         'terms_of_service': terms_of_service,
