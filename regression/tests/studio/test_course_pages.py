@@ -1,8 +1,6 @@
 """
 Course pages test
 """
-from uuid import uuid4
-
 from bok_choy.web_app_test import WebAppTest
 
 from regression.tests.helpers.api_clients import StudioLoginApi
