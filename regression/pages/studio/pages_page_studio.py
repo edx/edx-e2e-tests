@@ -2,7 +2,7 @@
 Extended Pages page for a course.
 """
 from bok_choy.javascript import requirejs
-from bok_choy.promise import EmptyPromise
+from bok_choy.promise import EmptyPromise, Promise
 
 from edxapp_acceptance.pages.common.utils import (
     click_css, sync_on_notification
@@ -31,14 +31,38 @@ class PagesPageExtended(CoursePageExtended):
         Check if the click handler for the add page button has been
         registered yet.
         """
-        script = """
-            var $ = require('jquery'),
-                    buttonEvents = $._data($('.button.new-button.new-tab')[0],
-                                             'events');
-            return buttonEvents && buttonEvents.hasOwnProperty('click');"""
-        stripped_script = ''.join(
-            [line.strip() for line in script.split('\n')])
-        return self.browser.execute_script(stripped_script)
+        setup_script = """
+            delete window.click_handler_registered;
+
+            require(['jquery'], function($) {
+                buttonEvents = $._data(
+                    $('.button.new-button.new-tab')[0],
+                    'events'
+                );
+                window.click_handler_registered = (
+                    buttonEvents && buttonEvents.hasOwnProperty('click')
+                );
+            });
+            """
+        stripped_setup_script = ''.join([
+            line.strip() for line in setup_script.split('\n')
+        ])
+        self.browser.execute_script(stripped_setup_script)
+
+        def check_func():
+            """
+            Return whether the click handler is registered.
+            """
+            registered = self.browser.execute_script(
+                'return window.click_handler_registered;'
+            )
+            return registered is not None, registered
+
+        return Promise(
+            check_func,
+            'Click Handler Registration updated',
+            timeout=30
+        ).fulfill()
 
     def add_page(self):
         """
