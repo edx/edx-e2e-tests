@@ -96,7 +96,6 @@ class TestDiscountCoupon(VouchersTest):
             SINGLE_USE_CODE_REUSE_ERROR.format(coupon_code)
         )
 
-    @skipIf(TEST_ENV == "stage", "skip tests on stage")
     def test_discount_once_per_customer_fixed_code(self):
         """
         Scenario: Discount Once Per Customer Fixed Code: Code can be used up
@@ -166,7 +165,6 @@ class TestDiscountCoupon(VouchersTest):
             INVALID_DOMAIN_ERROR_MESSAGE_ON_BASKET
         )
 
-    @skipIf(TEST_ENV == "stage", "skip tests on stage")
     def test_discount_single_use_fixed_code_expired(self):
         """
         Scenario: Discount Single Use Fixed Code: Relevant error message is
@@ -197,7 +195,6 @@ class TestDiscountCoupon(VouchersTest):
             EXPIRED_CODE_ERROR.format(coupon_code)
         )
 
-    @skipIf(TEST_ENV == "stage", "skip tests on stage")
     def test_discount_single_use_fixed_redeem_url(self):
         """
         Scenario: Existing Users - Discount Single Use Fixed Redeem URL: Each
@@ -272,7 +269,6 @@ class TestDiscountCoupon(VouchersTest):
             ONCE_PER_CUSTOMER_REDEEM_URL_SAME_USER_REUSE
         )
 
-    @skipIf(TEST_ENV == "stage", "skip tests on stage")
     def test_discount_once_per_customer_fixed_redeem_url_future(self):
         """
         Scenario: Discount Once Per Customer Fixed Redeem URL: Relevant error

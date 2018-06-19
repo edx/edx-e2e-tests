@@ -1,14 +1,12 @@
 """
 Tests for enrollment through Otto
 """
-from unittest import skipIf
 
 from regression.pages.whitelabel import (
     COURSE_ORG,
     COURSE_NUMBER,
     COURSE_RUN,
-    DEFAULT_COURSE_PRICE,
-    TEST_ENV
+    DEFAULT_COURSE_PRICE
 )
 from regression.pages.studio.utils import get_course_key
 from regression.pages.whitelabel.course_about_page import CourseAboutPage
@@ -40,7 +38,6 @@ class TestEnrollmentOtto(CourseEnrollmentTest):
         # Initialize page objects
         self.course_about = CourseAboutPage(self.browser, self.course_id)
 
-    @skipIf(TEST_ENV == "stage", "skip tests on stage")
     def test_register_and_select_course(self):
         """
         Scenario: Otto flow - A registered user is able to register, select a
