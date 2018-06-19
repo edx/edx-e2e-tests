@@ -195,24 +195,6 @@ def fill_input_fields(page, elements_and_values_dict):
         page.q(css=key).fill(value)
 
 
-def select_drop_down_values(page, elements_and_values_dict):
-    """
-    Select drop down values.
-
-    Arguments:
-        page(PageObject): Page on which drop down exists
-        elements_and_values_dict(dict): A dictionary of
-            drop down elements(css) and values.
-    """
-    for element, val in elements_and_values_dict.iteritems():
-        target_css = 'select[name={}] option[value="{}"]'.format(element, val)
-        page.wait_for_element_visibility(
-            target_css,
-            'target value is visible in Drop down'
-        )
-        page.q(css=target_css).click()
-
-
 def click_checkbox(page, checkbox_css, toggle=False):
     """
     Click a checkbox.
