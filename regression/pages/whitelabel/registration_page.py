@@ -6,7 +6,10 @@ import os
 from edxapp_acceptance.pages.lms.login_and_register import (
     CombinedLoginAndRegisterPage
 )
-from edxapp_acceptance.tests.helpers import disable_animations, select_option_by_value
+from edxapp_acceptance.tests.helpers import (
+    disable_animations,
+    select_option_by_value
+)
 from regression.pages.whitelabel import ORG, LMS_URL_WITH_AUTH
 from regression.tests.helpers.utils import (
     click_checkbox,
@@ -43,7 +46,10 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
             '#register-state': registration_fields['state']
         }
 
-        select_option_by_value(self.q(css="#register-country"), registration_fields['country'])
+        select_option_by_value(
+            self.q(css="#register-country"),
+            registration_fields['country']
+        )
 
         fill_input_fields(self, elements_and_values)
 
