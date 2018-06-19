@@ -209,12 +209,9 @@ def select_drop_down_values(page, elements_and_values_dict, focus_out=False):
     """
     for element, val in elements_and_values_dict.iteritems():
         if focus_out:
-            element_css = 'select[name={}]'.format(element)
-            page.wait_for_element_visibility(
-                element_css,
-                'Drop down is visible'
-            )
-            page.q(css=element_css).results[0].send_keys(Keys.TAB)
+            page.q(
+                css='.form-field.select-{}'.format(element)
+            ).results[0].send_keys(Keys.TAB)
             page.wait_for_element_absence(
                 '.focus-out[for$="{}"]'.format(element),
                 "Focus out is still present"
