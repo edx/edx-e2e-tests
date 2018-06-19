@@ -214,7 +214,7 @@ def select_drop_down_values(page, elements_and_values_dict, focus_out=False):
             )
             page.q(css=element_css).click()
             page.wait_for_element_absence(
-                '.focus-out[for$="country"]'.format(element),
+                '.focus-out[for$="{}"]'.format(element),
                 "Focus out is still present"
             )
         target_css = 'select[name={}] option[value="{}"]'.format(element, val)
