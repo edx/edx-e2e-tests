@@ -44,22 +44,15 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
             '#register-last_name': registration_fields['last_name'],
             '#register-state': registration_fields['state']
         }
+        fill_input_fields(self, elements_and_values)
 
-        drop_down_names_and_values = {
-            "country": registration_fields['country'],
+        drop_down_css_and_values = {
+            "#register-country": registration_fields['country'],
         }
         select_drop_down_values(
             self,
-            drop_down_names_and_values,
-            focus_out=True
+            {"#register-country": registration_fields['country']}
         )
-        fill_input_fields(self, elements_and_values)
-
-        # Some tests still don't display the new registration page when running
-        # on Jenkins. Once registration page is updated, remove this condition.
-        if self.q(css='#register-honor_code').visible:
-            click_checkbox(self, '#register-honor_code')
-        click_checkbox(self, '#register-terms_of_service')
 
         if ORG == 'MITxPRO':
             fill_input_fields(
@@ -69,14 +62,17 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
                     '#register-title': registration_fields['title']
                 }
             )
+            click_checkbox(self, '#register-honor_code')
 
         if ORG != 'HarvardMedGlobalAcademy':
             select_drop_down_values(
                 self,
                 {
-                    "year_of_birth": registration_fields['year_of_birth'],
-                    "gender": registration_fields['gender'],
-                    "level_of_education": registration_fields[
+                    "#register-year_of_birth": registration_fields[
+                        'year_of_birth'
+                    ],
+                    "#register-gender": registration_fields['gender'],
+                    "#register-level_of_education": registration_fields[
                         'level_of_education'
                     ]
                 }
@@ -85,10 +81,12 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
             select_drop_down_values(
                 self,
                 {
-                    "profession": registration_fields['profession'],
-                    "specialty": registration_fields['specialty']
+                    "#register-profession": registration_fields['profession'],
+                    "#register-specialty": registration_fields['specialty']
                 }
             )
+
+        click_checkbox(self, '#register-terms_of_service')
 
         if submit:
             self.q(css='.register-button').click()

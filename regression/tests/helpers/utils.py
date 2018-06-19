@@ -197,7 +197,7 @@ def fill_input_fields(page, elements_and_values_dict):
         page.q(css=key).fill(value)
 
 
-def select_drop_down_values(page, elements_and_values_dict, focus_out=False):
+def select_drop_down_values(page, elements_and_values_dict):
     """
     Select drop down values.
 
@@ -205,21 +205,18 @@ def select_drop_down_values(page, elements_and_values_dict, focus_out=False):
         page(PageObject): Page on which drop down exists
         elements_and_values_dict(dict): A dictionary of
             drop down elements(css) and values.
-        focus_out(bool): Checks if element has focus_out class implemented
     """
     for element, val in elements_and_values_dict.iteritems():
-        if focus_out:
-            page.q(
-                css='.form-field.select-{}'.format(element)
-            ).results[0].send_keys(Keys.TAB)
+        if page.q(css='.focus-out[for="{}"]'.format(element)).present:
+            page.q(css=element).click()
             page.wait_for_element_absence(
-                '.focus-out[for$="{}"]'.format(element),
-                "Focus out is still present"
+                '.focus-out[for="{}"]'.format(element),
+                "Focus out is not present anymore"
             )
-        target_css = 'select[name={}] option[value="{}"]'.format(element, val)
-        page.wait_for_element_visibility(
+        target_css = '{} option[value="{}"]'.format(element, val)
+        page.wait_for_element_presence(
             target_css,
-            'target value is visible in Drop down'
+            'target value is present in Drop down'
         )
         page.q(css=target_css).click()
 
