@@ -48,7 +48,8 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
 
         select_option_by_value(
             self.q(css="#register-country"),
-            registration_fields['country']
+            registration_fields['country'],
+            focus_out=True
         )
 
         fill_input_fields(self, elements_and_values)
