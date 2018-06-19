@@ -4,8 +4,6 @@ Test helper functions.
 import os
 import uuid
 
-from selenium.webdriver.common.keys import Keys
-
 from regression.pages.studio import LOGIN_BASE_URL
 from regression.pages.studio.utils import get_course_key
 from regression.pages.whitelabel.activate_account import ActivateAccount
@@ -214,7 +212,11 @@ def select_drop_down_values(page, elements_and_values_dict, focus_out=False):
                 element_css,
                 'Drop down is visible'
             )
-            page.q(css=element_css).clicl()
+            page.q(css=element_css).click()
+            page.wait_for_element_absence(
+                '.focus-out[for$="country"]'.format(element),
+                "Focus out is still present"
+            )
         target_css = 'select[name={}] option[value="{}"]'.format(element, val)
         page.wait_for_element_visibility(
             target_css,
