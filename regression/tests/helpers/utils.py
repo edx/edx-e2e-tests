@@ -4,6 +4,8 @@ Test helper functions.
 import os
 import uuid
 
+from selenium.webdriver.common.keys import Keys
+
 from regression.pages.studio import LOGIN_BASE_URL
 from regression.pages.studio.utils import get_course_key
 from regression.pages.whitelabel.activate_account import ActivateAccount
@@ -193,6 +195,29 @@ def fill_input_fields(page, elements_and_values_dict):
     """
     for key, value in elements_and_values_dict.iteritems():
         page.q(css=key).fill(value)
+
+
+def select_drop_down_values(page, elements_and_values_dict, focus_out=False):
+    """
+    Select drop down values.
+
+    Arguments:
+        page(PageObject): Page on which drop down exists
+        elements_and_values_dict(dict): A dictionary of
+            drop down elements(css) and values.
+        focus_out(bool): Checks if element has focus_out class implemented
+    """
+    for element, val in elements_and_values_dict.iteritems():
+        if focus_out:
+            page.q(
+                css='select[name={}]'.format(element)
+            ).results[0].send_keys(Keys.TAB)
+        target_css = 'select[name={}] option[value="{}"]'.format(element, val)
+        page.wait_for_element_visibility(
+            target_css,
+            'target value is visible in Drop down'
+        )
+        page.q(css=target_css).click()
 
 
 def click_checkbox(page, checkbox_css, toggle=False):

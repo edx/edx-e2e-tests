@@ -6,14 +6,13 @@ import os
 from edxapp_acceptance.pages.lms.login_and_register import (
     CombinedLoginAndRegisterPage
 )
-from edxapp_acceptance.tests.helpers import (
-    disable_animations,
-    select_option_by_value
-)
+from edxapp_acceptance.tests.helpers import disable_animations
 from regression.pages.whitelabel import ORG, LMS_URL_WITH_AUTH
 from regression.tests.helpers.utils import (
     click_checkbox,
-    fill_input_fields
+    fill_input_fields,
+    select_drop_down_values,
+
 )
 
 
@@ -46,12 +45,14 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
             '#register-state': registration_fields['state']
         }
 
-        select_option_by_value(
-            self.q(css="#register-country"),
-            registration_fields['country'],
+        drop_down_names_and_values = {
+            "country": registration_fields['country'],
+        }
+        select_drop_down_values(
+            self,
+            drop_down_names_and_values,
             focus_out=True
         )
-
         fill_input_fields(self, elements_and_values)
 
         # Some tests still don't display the new registration page when running
@@ -70,27 +71,25 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
             )
 
         if ORG != 'HarvardMedGlobalAcademy':
-            select_option_by_value(
-                self.q(css="#register-year_of_birth"),
-                registration_fields['year_of_birth']
-            )
-            select_option_by_value(
-                self.q(css="#register-gender"),
-                registration_fields['gender']
-            )
-            select_option_by_value(
-                self.q(css="#register-level_of_education"),
-                registration_fields['level_of_education']
+            select_drop_down_values(
+                self,
+                {
+                    "year_of_birth": registration_fields['year_of_birth'],
+                    "gender": registration_fields['gender'],
+                    "level_of_education": registration_fields[
+                        'level_of_education'
+                    ]
+                }
             )
         else:
-            select_option_by_value(
-                self.q(css="#register-profession"),
-                registration_fields['profession']
+            select_drop_down_values(
+                self,
+                {
+                    "profession": registration_fields['profession'],
+                    "specialty": registration_fields['specialty']
+                }
             )
-            select_option_by_value(
-                self.q(css="#register-specialty"),
-                registration_fields['specialty']
-            )
+
         if submit:
             self.q(css='.register-button').click()
 
