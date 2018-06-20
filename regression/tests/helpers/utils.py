@@ -4,9 +4,6 @@ Test helper functions.
 import os
 import uuid
 
-from selenium.webdriver import ActionChains
-from selenium.webdriver.common.keys import Keys
-
 from regression.pages.studio import LOGIN_BASE_URL
 from regression.pages.studio.utils import get_course_key
 from regression.pages.whitelabel.activate_account import ActivateAccount
@@ -208,15 +205,11 @@ def select_drop_down_values(page, elements_and_values_dict):
             drop down elements(css) and values.
     """
     for element, val in elements_and_values_dict.iteritems():
-        drop_down_elem = page.q(css=element).results[0]
-        drop_down_option = page.q(css='{} option[value="{}"]'.format(element, val)).results[0]
         page.wait_for_element_presence(
             '{} option[value="{}"]'.format(element, val),
             'target value is present in Drop down'
         )
-        # page.browser.execute_script('$("{}").val("{}");'.format(element, val))
-        action_chains = ActionChains(page.browser)
-        action_chains.move_to_element(drop_down_elem).click(on_element=drop_down_option).send_keys(Keys.TAB).perform()
+        page.browser.execute_script('$("{}").val("{}");'.format(element, val))
 
 
 def click_checkbox(page, checkbox_css, toggle=False):
