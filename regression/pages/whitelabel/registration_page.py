@@ -59,9 +59,6 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
                     '#register-title': registration_fields['title']
                 }
             )
-            click_checkbox(self, '#register-honor_code')
-
-        if ORG != 'HarvardMedGlobalAcademy':
             select_drop_down_values(
                 self,
                 {
@@ -74,7 +71,9 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
                     ]
                 }
             )
-        else:
+            click_checkbox(self, '#register-honor_code')
+
+        if ORG == 'HarvardMedGlobalAcademy':
             select_drop_down_values(
                 self,
                 {
