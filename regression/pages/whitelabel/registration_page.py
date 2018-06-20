@@ -46,9 +46,6 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
         }
         fill_input_fields(self, elements_and_values)
 
-        drop_down_css_and_values = {
-            "#register-country": registration_fields['country'],
-        }
         select_drop_down_values(
             self,
             {"#register-country": registration_fields['country']}
