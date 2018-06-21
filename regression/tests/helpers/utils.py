@@ -205,11 +205,15 @@ def select_drop_down_values(page, elements_and_values_dict):
             drop down elements(css) and values.
     """
     for element, val in elements_and_values_dict.iteritems():
+        target_css = '{} option[value="{}"]'.format(element, val)
         page.wait_for_element_presence(
-            '{} option[value="{}"]'.format(element, val),
+            target_css,
             'target value is present in Drop down'
         )
         page.browser.execute_script('$("{}").val("{}");'.format(element, val))
+        page.wait_for(
+            lambda: page.q(css=target_css).selected, "option selected"
+        )
 
 
 def click_checkbox(page, checkbox_css, toggle=False):
