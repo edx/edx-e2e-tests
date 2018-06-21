@@ -210,8 +210,8 @@ def select_drop_down_values(page, elements_and_values_dict):
             'target value is present in Drop down'
         )
         page.browser.execute_script('$("{}").val("{}");'.format(element, val))
-        page.wait_for(lambda: page.q(
-            css='{} option[value="{}"]'.format(element, val)
+        page.wait_for(lambda e=element, v=val: page.q(
+            css='{} option[value="{}"]'.format(e, v)
         ).selected, "option selected")
 
 
