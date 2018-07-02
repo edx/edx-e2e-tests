@@ -69,7 +69,7 @@ class DashboardPageExtended(DashboardPage):
         """
         Click on the courses link to go to courses page
         """
-        self.q(css='.nav-links a[href="/courses"]').click()
+        self.q(css='a[href="/courses"]').click()
 
     def unenroll_course(self, course_id):
         """

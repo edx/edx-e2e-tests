@@ -33,7 +33,7 @@ CYBERSOURCE_CHECKOUT_URL = \
     u'https://testsecureacceptance.cybersource.com/checkout'
 
 EMAIL_SENDER_ACCOUNTS = {
-    'HarvardMedGlobalAcademy': 'globalacademy@hms.harvard.edu',
+    'HarvardMedGlobalAcademy': 'support_cmeonline@hms.harvard.edu',
     'MITxPRO': 'mitxpro@mit.edu',
 }
 
