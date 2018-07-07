@@ -168,12 +168,9 @@ class TestEnrollmentCoupon(VouchersTest):
         self.register_using_api()
         self.redeem_single_course_enrollment_coupon(
             coupon_code,
-            self.receipt_page
+            self.dashboard_page
         )
         self.ecom_cookies = self.browser.get_cookies()
-        self.receipt_page.wait_for_page()
-        self.verify_receipt_info_for_discounted_course()
-        self.receipt_page.click_in_nav_to_go_to_dashboard()
         self.dashboard_page.wait_for_page()
         self.assert_enrollment_and_logout()
         self.register_using_api()
