@@ -10,7 +10,6 @@ from regression.pages.studio.course_outline_page import (
 )
 from regression.pages.studio import EDXAPP_CMS_DOC_LINK_BASE_URL
 from regression.pages.studio.login_studio import StudioLogin
-from regression.pages.studio.settings_studio import SettingsPageExtended
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.tests.helpers.utils import (
     get_course_info, get_course_display_name
@@ -25,9 +24,8 @@ class StudioCourseOutlineTest(WebAppTest):
 
     def test_course_outline(self):
         """
-        Verifies that user can click Edit Start Date button and is navigated
-        to Schedule and Details page, and that the Help link for
-        'Learn more about content visibility settings' is working.
+        Verifies that the Help link for 'Learn more about content
+        visibility settings' is working.
         """
         studio_login_page = StudioLogin(self.browser)
         studio_home_page = DashboardPageExtended(self.browser)
@@ -37,10 +35,6 @@ class StudioCourseOutlineTest(WebAppTest):
         course_info = get_course_info()
 
         studio_course_outline = CourseOutlinePageExtended(
-            self.browser, course_info['org'], course_info['number'],
-            course_info['run'])
-
-        schedule_page = SettingsPageExtended(
             self.browser, course_info['org'], course_info['number'],
             course_info['run'])
 
@@ -70,9 +64,3 @@ class StudioCourseOutlineTest(WebAppTest):
             # and it's the right one (i.e. Studio or LMS)
             self.browser.close()  # close only the current window
             self.browser.switch_to_window(self.browser.window_handles[0])
-
-        # Now do the verification for the edit start date button.
-        studio_course_outline.click_edit_start_date_button()
-
-        # This wait_for_page will also assert that we are on the correct page.
-        schedule_page.wait_for_page()
