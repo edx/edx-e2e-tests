@@ -69,7 +69,7 @@ class DashboardPageExtended(DashboardPage):
         """
         Click on the courses link to go to courses page
         """
-        self.q(css='a[href="/courses"]').click()
+        self.q(css='.btn[href="/courses"]').click()
 
     def unenroll_course(self, course_id):
         """
@@ -101,9 +101,3 @@ class DashboardPageExtended(DashboardPage):
             'Course disappears from the dashboard',
             timeout=DEFAULT_TIMEOUT
         )
-
-    def go_to_find_courses_page(self):
-        """
-        Click on the courses link to go to courses page
-        """
-        self.q(css='.brand-link[href="/courses"]').click()
