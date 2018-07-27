@@ -27,7 +27,7 @@ paver install_pages > log/paver_install_pages.log
 
 
 # Run the tests
-organizations="MITxPRO"
+organizations="MITxPRO HarvardMedGlobalAcademy"
 
 for organization in ${organizations}; do
     export ORG=${organization}

@@ -47,11 +47,16 @@ def get_base_service_urls(base_url, ecom_prefix, ecom_base_url):
             BASIC_AUTH_PASSWORD
         )
 
-    ecom_url = '{}://{}{}'.format(
-        LMS_PROTOCOL,
-        ecom_prefix,
-        ecom_base_url
-    )
+    if ORG == "HarvardMedGlobalAcademy":
+        ecom_url = "{}://stage-payments.cmeonline.hms.harvard.edu".format(
+            LMS_PROTOCOL
+        )
+    else:
+        ecom_url = '{}://{}{}'.format(
+            LMS_PROTOCOL,
+            ecom_prefix,
+            ecom_base_url
+        )
 
     lms_url_with_auth = '{}://{}{}'.format(
         LMS_PROTOCOL,
@@ -59,12 +64,18 @@ def get_base_service_urls(base_url, ecom_prefix, ecom_base_url):
         base_url
     )
 
-    ecom_url_with_auth = '{}://{}{}{}'.format(
-        LMS_PROTOCOL,
-        basic_auth_str,
-        ecom_prefix,
-        ecom_base_url
-    )
+    if ORG == "HarvardMedGlobalAcademy":
+        ecom_url_with_auth = "{}://{}stage-payments.cmeonline.hms.harvard.edu".format(
+            LMS_PROTOCOL,
+            basic_auth_str
+        )
+    else:
+        ecom_url_with_auth = '{}://{}{}{}'.format(
+            LMS_PROTOCOL,
+            basic_auth_str,
+            ecom_prefix,
+            ecom_base_url
+        )
 
     return ecom_url, lms_url_with_auth, ecom_url_with_auth
 
@@ -73,7 +84,7 @@ if TEST_ENV in (DEFAULT_ENV, "sandbox"):
     if TEST_ENV == DEFAULT_ENV:
         BASE_URLS = {
             'edX': u'courses.stage.edx.org',
-            'HarvardMedGlobalAcademy': u'globalacademy-stage.hms.harvard.edu',
+            'HarvardMedGlobalAcademy': u'stage.cmeonline.hms.harvard.edu',
             'MITxPRO': u'stage.MITxPRO.mit.edu'
         }
 
