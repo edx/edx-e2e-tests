@@ -2,6 +2,7 @@
 """
 List of constants to be used throughout the tests
 """
+import datetime
 import os
 
 from regression.pages.whitelabel import (
@@ -96,12 +97,14 @@ CARD_HOLDER_INFO = {
 }
 
 # PAYMENT DETAILS
+CREDIT_CARD_EXPIRATION_DATE = (datetime.date.today()
+                               + datetime.timedelta(days=60))
 BILLING_INFO = {
     'card_type': 'visa',
     'card_number': '4111111111111111',
     'cvn': '123',
-    'expiry_month': '07',
-    'expiry_year': '2018'
+    'expiry_month': str(CREDIT_CARD_EXPIRATION_DATE.month),
+    'expiry_year': str(CREDIT_CARD_EXPIRATION_DATE.year)
 }
 
 # Existing user email
