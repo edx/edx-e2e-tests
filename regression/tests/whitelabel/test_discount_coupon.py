@@ -28,7 +28,6 @@ from regression.tests.helpers.coupon_consts import (
     FUTURE_START_DATE,
     INVALID_DOMAIN_ERROR_MESSAGE_ON_BASKET,
     INVALID_DOMAIN_USERS,
-    ONCE_PER_CUSTOMER_CODE_MAX_LIMIT,
     ONCE_PER_CUSTOMER_REDEEM_URL_SAME_USER_REUSE,
     SEAT_TYPE,
     SINGLE_USE_CODE_REUSE_ERROR,
@@ -95,42 +94,6 @@ class TestDiscountCoupon(VouchersTest):
             self.error_message_on_invalid_coupon_code(coupon_code),
             SINGLE_USE_CODE_REUSE_ERROR.format(coupon_code)
         )
-
-    def test_discount_once_per_customer_fixed_code(self):
-        """
-        Scenario: Discount Once Per Customer Fixed Code: Code can be used up
-        to the number of allowed uses and after that it is not usable by anyone
-        """
-        maximum_uses = 2
-        self.coupon = Coupon(
-            COURSE_CATALOG_TYPE['single'],
-            COUPON_TYPE['disc'],
-            VOUCHER_TYPE['once_per_cust'],
-            course_id=self.course_id,
-            seat_type=SEAT_TYPE['prof'],
-            stock_record_ids=self.stock_record_id,
-            benefit_type=BENEFIT_TYPE['abs'],
-            benefit_value=BENEFIT_VALUE['fixed'],
-            max_uses=maximum_uses
-        )
-
-        self.coupon.setup_coupons_using_api(self.course_price)
-        coupon_code = self.coupon.coupon_codes[0]
-        # Delete coupon after test
-        self.addCleanup(self.coupon.delete_coupon)
-        for i in range(maximum_uses):
-            # Register to application using api
-            self.register_using_api(
-                construct_course_basket_page_url(self.course_id)
-            )
-            if i < maximum_uses:
-                self.enroll_using_discount_code(coupon_code)
-                self.assert_enrollment_and_logout()
-            else:
-                self.assertEqual(
-                    self.error_message_on_invalid_coupon_code(coupon_code),
-                    ONCE_PER_CUSTOMER_CODE_MAX_LIMIT
-                )
 
     @skip('skipped as coupon creation is behaving erratically')
     def test_discount_once_per_customer_fixed_code_email_domain(self):
