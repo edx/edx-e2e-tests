@@ -168,6 +168,7 @@ class LogistrationApiBaseClass(object):
         # Browser will navigate to the login page, but
         # no one is required to login. Once cookies become
         # effective, we don't need to login.
+        print ("url is " + self.browser_get_url)
         browser.get(self.browser_get_url)
         for cookie in self.session.cookies:
             cookie_dict = {
