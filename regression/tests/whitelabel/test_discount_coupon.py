@@ -42,7 +42,6 @@ from regression.tests.helpers.utils import (
 from regression.tests.whitelabel.voucher_tests_base import VouchersTest
 
 
-@skip("Skipped due to wl_1791")
 class TestDiscountCoupon(VouchersTest):
     """
     Tests for Single Course Discount Coupons
