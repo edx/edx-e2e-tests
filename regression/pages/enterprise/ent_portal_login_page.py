@@ -3,7 +3,6 @@ Enterprise portal login page
 """
 from bok_choy.page_object import PageObject
 from regression.pages.enterprise.enterprise_const import (
-    ENTERPRISE_NAME,
     ENTERPRISE_PORTAL_LOGIN_URL
 )
 
@@ -18,7 +17,8 @@ class EntPortalLogin(PageObject):
         """
         Verifies if the browser is on the correct page
         """
-        return ENTERPRISE_NAME in self.browser.title
+        # return ENTERPRISE_NAME in self.browser.title
+        return self.q(css="#__button2").present
 
     def login_to_portal(self, username, password):
         """

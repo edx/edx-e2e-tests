@@ -4,7 +4,7 @@ Enterprise Registration tests
 from regression.tests.enterprise.ent_test_base import EntTestBase
 
 
-class TestEntRegistration(EntTestBase):
+class TestEnterpriseRegistration(EntTestBase):
     """
     Test Enterprise Registration
     """
@@ -13,10 +13,10 @@ class TestEntRegistration(EntTestBase):
         """
         Initialize all page objects
         """
-        super(TestEntRegistration, self).setUp()
+        super(TestEnterpriseRegistration, self).setUp()
         self.browser.maximize_window()
 
-    def test_enterprise_user_registration(self):
+    def test_enterprise_unlinked_user_registration(self):
         """
         Scenario: To verify that user is able to use enterprise portal to
         register into edX and link accounts
@@ -31,13 +31,18 @@ class TestEntRegistration(EntTestBase):
         # from portal we don't have to handle authentication popup
         self.lms_login.visit()
         # Enterprise portal flow
-        self.login_to_ent_portal()
+        self.login_to_ent_portal(
+            self.ENT_PORTAL_USERNAME,
+            self.ENT_PORTAL_PASSWORD)
         self.access_course()
+        self.ent_edx_login.wait_for_page()
         self.register_ent_edx_user()
         # Verify that user is on course enrollment page and correct course
         # is displayed there
         self.ent_course_enrollment.wait_for_page()
-        self.assertDictEqual(
+        self.assertEqual(
             self.ENT_COURSE_TITLE,
             self.ent_course_enrollment.get_course_title()
         )
+        # Call the fixture to unlink existing account for the user
+        self.unlink_account()

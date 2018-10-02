@@ -10,7 +10,8 @@ class EntPortalHome(PageObject):
     """
     url = None
 
-    COURSE_LIST_CSS = '#__dialog2 #__table0 a'
+    COURSE_LIST_CSS = '#__dialog2 #__dialog2-cont' \
+                      ' #__xmlview0--todoList-listUl a'
 
     def wait_for_course_list(self):
         """
@@ -26,13 +27,14 @@ class EntPortalHome(PageObject):
         """
         Verifies if the browser is on the correct page
         """
-        return "Home" in self.q(css='#__xbutton1').attrs('title')[0]
+        return "Home" in self.q(css='#bizxSubTab_HOME_TAB').attrs('title')
 
     def open_courses_popup(self):
         """
         Open courses popup
         """
-        self.q(css='#__tile2').click()
+        self.wait_for_element_visibility('#__tile31', 'wait for courses box')
+        self.q(css='#__tile31').click()
         self.wait_for_element_visibility('#__dialog2', 'wait for pop up')
 
     def fetch_course_titles_list(self):

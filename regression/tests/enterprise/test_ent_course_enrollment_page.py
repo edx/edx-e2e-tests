@@ -23,15 +23,16 @@ class TestEntCourseEnrollmentPage(EntTestBase):
         """
         Scenario: To verify that user sees the correct settings for verified
          course on enrollment landing page
-            Given a user has an edx account which is linked to an Enterprise
-                portal account
+            Given a user has an edx account
+            which will be linked to an Enterprise
+            portal account
             When this user lands on the enrollment landing page
             Then this user is shown verified check box which is checked
             And unchecked Audit check box
 
         """
         self.login_and_go_to_course_enrollment_page()
-        self.assertDictEqual(
+        self.assertEqual(
             self.ENT_COURSE_TITLE,
             self.ent_course_enrollment.get_course_title()
         )
@@ -53,6 +54,8 @@ class TestEntCourseEnrollmentPage(EntTestBase):
                 "audit"
             )
         )
+        # Call the fixture to unlink existing account for the user
+        self.unlink_account()
 
     def test_enrollment_course_info_and_detail(self):
         """
@@ -65,7 +68,7 @@ class TestEntCourseEnrollmentPage(EntTestBase):
         """
         self.login_and_go_to_course_enrollment_page()
         # Verify Course Title on landing page
-        self.assertDictEqual(
+        self.assertEqual(
             self.ENT_COURSE_TITLE,
             self.ent_course_enrollment.get_course_title()
         )

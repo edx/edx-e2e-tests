@@ -27,6 +27,16 @@ class EntPortalCourse(PageObject):
         iframe = self.q(css=self.IFRAME_CSS).results[0]
         self.browser.switch_to_frame(iframe)
 
+    def switch_to_new_iframe(self):
+        """
+        Switch to iframe
+        """
+        self.wait_for_element_visibility(
+            "iframe[id='frmpmod']", 'wait for iframe'
+            )
+        iframe = self.q(css="iframe[id='frmpmod']").results[0]
+        self.browser.switch_to_frame(iframe)
+
 
 class EntPortalCourseStart(EntPortalCourse):
     """
@@ -44,6 +54,7 @@ class EntPortalCourseStart(EntPortalCourse):
 
 
 class EntPortalCourseStructure(EntPortalCourse):
+
     """
     This class handles the Enterprise portal course structure objects
     """
@@ -52,6 +63,8 @@ class EntPortalCourseStructure(EntPortalCourse):
         """
         Open the edx course page in new browser window
         """
+        self.switch_to_new_iframe()
         course_link_css = '.BodyText>a'
         self.wait_for_element_visibility(course_link_css, 'wait for link')
+
         self.q(css=course_link_css).click()
