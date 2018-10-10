@@ -2,13 +2,19 @@
 Enterprise Data consent tests
 """
 from regression.pages.enterprise.ent_data_sharing_consent_page import (
-    EntDataSharingConsentPage
+    EnterpriseDataSharingConsentPage
 )
 from regression.pages.whitelabel.basket_page import SingleSeatBasketPage
-from regression.tests.enterprise.ent_test_base import EntTestBase
+from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
+from regression.pages.whitelabel.ecommerce_courses_page import (
+    EcommerceCoursesPage
+)
+from regression.pages.enterprise.enterprise_const import (
+    ENTERPRISE_NAME
+)
 
 
-class TestEntDataSharingConsent(EntTestBase):
+class TestEnterpriseDataSharingConsent(EnterpriseTestBase):
     """
     Test Enterprise Data Consent
     """
@@ -20,9 +26,12 @@ class TestEntDataSharingConsent(EntTestBase):
         """
         Initialize all page objects
         """
-        super(TestEntDataSharingConsent, self).setUp()
+        super(TestEnterpriseDataSharingConsent, self).setUp()
         self.browser.maximize_window()
-        self.ent_data_sharing_consent = EntDataSharingConsentPage(self.browser)
+        self.ent_data_sharing_consent = \
+            EnterpriseDataSharingConsentPage(self.browser)
+        self.ecommerce_courses_page = \
+            EcommerceCoursesPage(self.browser)
 
     def test_data_sharing_consent_page_details(self):
         """
@@ -34,7 +43,7 @@ class TestEntDataSharingConsent(EntTestBase):
             And relevant details are shown on this page
         """
         self.register_and_go_to_course_enrollment_page()
-        self.assertDictEqual(
+        self.assertEqual(
             self.ENT_COURSE_TITLE,
             self.ent_course_enrollment.get_course_title()
         )
@@ -45,13 +54,15 @@ class TestEntDataSharingConsent(EntTestBase):
             self.CONSENT_MSG,
             self.ent_data_sharing_consent.get_consent_message_text()
         )
-        # Verify org name in consent text
+        # Verify enterprise name in consent text
         self.assertEqual(
-            self.ENT_COURSE_ORG,
+            ENTERPRISE_NAME,
             self.ent_data_sharing_consent.get_enterprise_name_from_msg()
         )
         # Verify that user is able to open policy dropdown from policy link
         self.ent_data_sharing_consent.open_policy_text()
+        # Call the fixture to unlink existing account for the user
+        self.unlink_account()
 
     def test_data_sharing_consent_acceptance(self):
         """
@@ -62,8 +73,10 @@ class TestEntDataSharingConsent(EntTestBase):
             And Clicks on the Continue button
             Then this user is taken to basket page
         """
+        self.ecommerce_courses_page.visit()
         self.register_and_go_to_course_enrollment_page()
-        self.assertDictEqual(
+
+        self.assertEqual(
             self.ENT_COURSE_TITLE,
             self.ent_course_enrollment.get_course_title()
         )
@@ -72,6 +85,8 @@ class TestEntDataSharingConsent(EntTestBase):
         # Verify that accepting data consent takes user to basket page
         self.ent_data_sharing_consent.accept_data_sharing_consent()
         SingleSeatBasketPage(self.browser).wait_for_page()
+        # Call the fixture to unlink existing account for the user
+        self.unlink_account()
 
     def test_data_sharing_consent_rejection(self):
         """
@@ -84,7 +99,7 @@ class TestEntDataSharingConsent(EntTestBase):
             And this user is shown a warning on Enrollment page
         """
         self.register_and_go_to_course_enrollment_page()
-        self.assertDictEqual(
+        self.assertEqual(
             self.ENT_COURSE_TITLE,
             self.ent_course_enrollment.get_course_title()
         )
@@ -97,3 +112,5 @@ class TestEntDataSharingConsent(EntTestBase):
             self.CONSENT_DECLINE_WARNING,
             self.ent_course_enrollment.get_data_sharing_consent_warning()
         )
+        # Call the fixture to unlink existing account for the user
+        self.unlink_account()

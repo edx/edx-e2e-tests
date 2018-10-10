@@ -4,10 +4,10 @@ Enterprise Enrollment Page tests
 from regression.pages.common.utils import (
     extract_mmm_dd_yyyy_date_string_from_text
 )
-from regression.tests.enterprise.ent_test_base import EntTestBase
+from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
 
 
-class TestEntCourseEnrollmentPage(EntTestBase):
+class TestEnterpriseCourseEnrollmentPage(EnterpriseTestBase):
     """
     Test Enterprise Enrollment page
     """
@@ -16,7 +16,7 @@ class TestEntCourseEnrollmentPage(EntTestBase):
         """
         Initialize all page objects
         """
-        super(TestEntCourseEnrollmentPage, self).setUp()
+        super(TestEnterpriseCourseEnrollmentPage, self).setUp()
         self.browser.maximize_window()
 
     def test_enrollment_verified_course(self):
@@ -84,6 +84,8 @@ class TestEntCourseEnrollmentPage(EntTestBase):
                 self.ent_course_enrollment.get_course_info()
             )
         )
+        # Open course detail pop up
+        self.ent_course_enrollment.open_course_detail_popup()
         # Fetch and verify Course Title and Org from details header
         course_title, course_org = \
             self.ent_course_enrollment.get_course_detail_headers()
@@ -92,5 +94,7 @@ class TestEntCourseEnrollmentPage(EntTestBase):
         # Fetch and verify Price from details body
         self.assertIn(
             self.ENT_COURSE_PRICE,
-            self.ent_course_enrollment.get_course_detail_body()['price']
+            self.ent_course_enrollment.get_course_detail_body()['Price']
         )
+        # Call the fixture to unlink existing account for the user
+        self.unlink_account()

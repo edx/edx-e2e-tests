@@ -4,11 +4,11 @@ Enterprise Data Consent page
 from bok_choy.page_object import PageObject
 
 from regression.pages.enterprise.ent_course_enrollment_page import (
-    EntCourseEnrollment
+    EnterpriseCourseEnrollment
 )
 
 
-class EntDataSharingConsentPage(PageObject):
+class EnterpriseDataSharingConsentPage(PageObject):
     """
     Enterprise data consent page class
     """
@@ -19,10 +19,11 @@ class EntDataSharingConsentPage(PageObject):
 
     def is_browser_on_page(self):
         """
-        Verifies if the logo conatiner is visible on the page
+        Verifies if the data sharing consent
+        title is visible on the page
         """
         return self.q(
-            css='.logo-container[aria-label="Data sharing consent required"]'
+            css='.consent-title'
         ).visible
 
     def get_consent_message_text(self):
@@ -82,4 +83,4 @@ class EntDataSharingConsentPage(PageObject):
             'wait for consent pop up'
         )
         self.q(css="#modal-no-consent-button").click()
-        EntCourseEnrollment(self.browser).wait_for_page()
+        EnterpriseCourseEnrollment(self.browser).wait_for_page()

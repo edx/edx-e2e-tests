@@ -4,7 +4,7 @@ Enterprise portal course start page
 from bok_choy.page_object import PageObject
 
 
-class EntPortalCourse(PageObject):
+class EnterprisePortalCourse(PageObject):
     """
     This class handles the Enterprise Portal Course objects
     """
@@ -38,7 +38,7 @@ class EntPortalCourse(PageObject):
         self.browser.switch_to_frame(iframe)
 
 
-class EntPortalCourseStart(EntPortalCourse):
+class EnterprisePortalCourseStart(EnterprisePortalCourse):
     """
     This class handles the Enterprise portal course start/continue objects
     """
@@ -53,7 +53,7 @@ class EntPortalCourseStart(EntPortalCourse):
         self.wait_for_ajax()
 
 
-class EntPortalCourseStructure(EntPortalCourse):
+class EnterprisePortalCourseStructure(EnterprisePortalCourse):
 
     """
     This class handles the Enterprise portal course structure objects

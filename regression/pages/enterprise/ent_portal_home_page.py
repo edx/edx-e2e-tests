@@ -4,7 +4,7 @@ Enterprise portal login page
 from bok_choy.page_object import PageObject
 
 
-class EntPortalHome(PageObject):
+class EnterprisePortalHome(PageObject):
     """
     This class handles the IDP login page
     """

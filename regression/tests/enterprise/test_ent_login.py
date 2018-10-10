@@ -1,10 +1,10 @@
 """
 Enterprise Login tests
 """
-from regression.tests.enterprise.ent_test_base import EntTestBase
+from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
 
 
-class TestEnterpriseLogin(EntTestBase):
+class TestEnterpriseLogin(EnterpriseTestBase):
     """
     Test Enterprise Login
     """
