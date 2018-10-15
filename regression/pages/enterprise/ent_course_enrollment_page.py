@@ -4,7 +4,7 @@ Enterprise Course Enrollment page
 from bok_choy.page_object import PageObject
 
 
-class EntCourseEnrollment(PageObject):
+class EnterpriseCourseEnrollment(PageObject):
     """
     Enterprise Course Enrollment class
     """
@@ -60,7 +60,7 @@ class EntCourseEnrollment(PageObject):
 
     def get_course_info(self):
         """
-        Returns Course Organization name
+        Returns Course start date
         """
         return self.q(css='.course-info>span').text[0]
 
@@ -68,8 +68,8 @@ class EntCourseEnrollment(PageObject):
         """
         Open Course Detail popup
         """
-        course_details_popup = '#course-details-modal-content'
-        self.q(css='#view-course-details-link').click()
+        course_details_popup = '.modal-dialog .modal-content'
+        self.q(css='#view-course-details-link-0').click()
         self.wait_for_element_visibility(
             course_details_popup,
             "wait for coure detail popup"
@@ -79,9 +79,9 @@ class EntCourseEnrollment(PageObject):
         """
         Returns Course Name and Organization from detail headers
         """
-        detail_header_css = '#course-details-modal-content header .details'
+        detail_header_css = '.modal-content .modal-header-wrapper .details'
         course_name = self.q(
-            css=detail_header_css + ' #modal-header-text'
+            css=detail_header_css + ' .modal-header-text'
         ).text[0]
         course_org = self.q(
             css=detail_header_css + ' .organization>img'
@@ -93,7 +93,7 @@ class EntCourseEnrollment(PageObject):
         Returns details present in detail body as a dictionary where keys are
         detail titles and values are detail text
         """
-        detail_header_css = '#course-details-modal-content .body .details'
+        detail_header_css = '.modal-content .modal-body>.details'
         detail_title = self.q(
             css=detail_header_css + ' .detail-title-container>.title'
         ).text
@@ -112,4 +112,4 @@ class EntCourseEnrollment(PageObject):
         """
         Go to data sharing consent page
         """
-        self.q(css=".btn-continue").click()
+        self.q(css=".btn-confirm").click()

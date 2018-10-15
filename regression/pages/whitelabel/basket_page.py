@@ -17,7 +17,6 @@ class BasketPage(PageObject):
     """
     Generic class for E-Commerce basket pages
     """
-
     url = os.path.join(ECOM_URL_WITH_AUTH, 'basket')
 
     def is_browser_on_page(self):

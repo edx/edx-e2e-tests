@@ -1,10 +1,10 @@
 """
 Enterprise Registration tests
 """
-from regression.tests.enterprise.ent_test_base import EntTestBase
+from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
 
 
-class TestEnterpriseRegistration(EntTestBase):
+class TestEnterpriseRegistration(EnterpriseTestBase):
     """
     Test Enterprise Registration
     """

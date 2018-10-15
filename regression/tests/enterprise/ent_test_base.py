@@ -14,17 +14,17 @@ from regression.pages.enterprise.ent_edx_login_page import (
     EnterpriseEdxLogin
 )
 from regression.pages.enterprise.ent_portal_login_page import (
-    EntPortalLogin
+    EnterprisePortalLogin
 )
 from regression.pages.enterprise.ent_portal_home_page import (
-    EntPortalHome
+    EnterprisePortalHome
 )
 from regression.pages.enterprise.ent_portal_course_page import (
-    EntPortalCourseStart,
-    EntPortalCourseStructure
+    EnterprisePortalCourseStart,
+    EnterprisePortalCourseStructure
 )
 from regression.pages.enterprise.ent_course_enrollment_page import (
-    EntCourseEnrollment
+    EnterpriseCourseEnrollment
 )
 from regression.pages.enterprise.user_account import UserAccountSettings
 from regression.pages.enterprise.enterprise_const import (
@@ -35,7 +35,7 @@ from regression.tests.helpers.api_clients import LogoutApi
 from regression.tests.helpers.utils import get_random_credentials
 
 
-class EntTestBase(WebAppTest):
+class EnterpriseTestBase(WebAppTest):
     """
     Test Enterprise Login
     """
@@ -54,16 +54,16 @@ class EntTestBase(WebAppTest):
         """
         Initialize all page objects
         """
-        super(EntTestBase, self).setUp()
+        super(EnterpriseTestBase, self).setUp()
         self.browser.maximize_window()
-        self.ent_portal_login = EntPortalLogin(self.browser)
-        self.ent_portal_home = EntPortalHome(self.browser)
+        self.ent_portal_login = EnterprisePortalLogin(self.browser)
+        self.ent_portal_home = EnterprisePortalHome(self.browser)
         self.ent_portal_course_start = \
-            EntPortalCourseStart(self.browser)
+            EnterprisePortalCourseStart(self.browser)
         self.ent_portal_course_structure = \
-            EntPortalCourseStructure(self.browser)
+            EnterprisePortalCourseStructure(self.browser)
         self.ent_course_enrollment = \
-            EntCourseEnrollment(self.browser)
+            EnterpriseCourseEnrollment(self.browser)
         self.lms_login = LmsLogin(self.browser)
         self.ent_edx_registration = EnterpriseEdxRegistration(self.browser)
         self.ent_edx_login = EnterpriseEdxLogin(self.browser)
@@ -197,6 +197,7 @@ class EntTestBase(WebAppTest):
             self.ENT_PORTAL_USERNAME,
             self.ENT_PORTAL_PASSWORD)
         self.access_course()
+        self.ent_edx_login.wait_for_page()
         self.register_ent_edx_user()
         # Verify that user is on course enrollment page
         self.ent_course_enrollment.wait_for_page()
