@@ -117,12 +117,14 @@ COUPON_COURSES = {
         u'course-v1:HarvardXPLUS+HXP03+2016': {
             'price': 200.0, 'title': u'Automated Tests-HXP03'
         }
-    }
+    },
+    u'Enterprise': {}
 }
 
 COURSES_CATALOG = COUPON_COURSES[ORG]
 
 COURSES_CATALOG_QUERIES = {
+    'Enterprise': '',
     'MITxPRO': 'org:MITxPRO and number:E2E*',
     'HarvardXPLUS': 'org:HarvardXPLUS and number:HXP*',
     'HarvardMedGlobalAcademy': 'org:HarvardMedGlobalAcademy and number:E2E*'

@@ -20,3 +20,10 @@ class TrackSelectionPage(PageObject):
         Clicks audit this course button after enrolling in a course
         """
         self.q(css='.action-select [value="Audit This Course"]').click()
+
+    def click_verified_mode(self):
+        """
+        Click verified this course button
+        """
+        value = '[value="Pursue a Verified Certificate "($100 USD)"]'
+        self.q(css='.action-select {}'.format(value)).click()

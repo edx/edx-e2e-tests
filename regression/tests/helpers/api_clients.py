@@ -11,8 +11,6 @@ import requests
 from requests.auth import AuthBase
 from edx_rest_api_client.client import EdxRestApiClient
 from guerrillamail import GuerrillaMailSession
-
-
 from regression.pages import (
     BASIC_AUTH_PASSWORD,
     BASIC_AUTH_USERNAME,

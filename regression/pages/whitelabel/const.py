@@ -34,6 +34,7 @@ CYBERSOURCE_CHECKOUT_URL = \
     u'https://testsecureacceptance.cybersource.com/checkout'
 
 EMAIL_SENDER_ACCOUNTS = {
+    'Enterprise': 'business@edx.org',
     'HarvardMedGlobalAcademy': 'globalacademy@hms.harvard.edu',
     'MITxPRO': 'mitxpro@mit.edu',
 }
@@ -41,6 +42,7 @@ EMAIL_SENDER_ACCOUNTS = {
 EMAIL_SENDER_ACCOUNT = EMAIL_SENDER_ACCOUNTS[ORG]
 
 LOGO_LINKS = {
+    'Enterprise': 'enterprise-logo',
     'HarvardMedGlobalAcademy': 'hms-logo',
     'MITxPRO': 'mitx-pro-logo'
 }
@@ -48,6 +50,7 @@ LOGO_LINKS = {
 LOGO_LINK = LOGO_LINKS[ORG]
 
 LOGO_ALT_TEXTS = {
+    'Enterprise': 'Enterprise Logo',
     'HarvardMedGlobalAcademy': 'HMS Logo',
     'MITxPRO': 'MIT Logo'
 }
@@ -62,7 +65,8 @@ SOCIAL_MEDIA_LINKS = {
         'education',
         'https://instagram.com/harvardmed/?hl=en'
     ],
-    'MITxPRO': []
+    'MITxPRO': [],
+    'Enterprise': []
 }
 
 SOCIAL_MEDIA_LINK = SOCIAL_MEDIA_LINKS[ORG]

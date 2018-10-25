@@ -4,7 +4,6 @@ Course About page
 import os
 
 from bok_choy.page_object import PageObject
-
 from regression.pages.whitelabel import LMS_URL_WITH_AUTH
 
 
