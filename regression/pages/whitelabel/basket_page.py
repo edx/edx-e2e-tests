@@ -3,7 +3,6 @@ Pages for single course and multi course purchase baskets
 """
 import os
 from bok_choy.page_object import PageObject
-
 from regression.pages.whitelabel import ECOM_URL_WITH_AUTH
 
 from regression.pages.common.utils import (
@@ -20,6 +19,7 @@ class BasketPage(PageObject):
     url = os.path.join(ECOM_URL_WITH_AUTH, 'basket')
 
     def is_browser_on_page(self):
+        self.wait_for_ajax()
         return self.q(css='#basket-total .price').visible
 
     def get_error_message_for_invalid_coupon(self):

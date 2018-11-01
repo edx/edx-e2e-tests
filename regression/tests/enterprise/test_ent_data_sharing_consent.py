@@ -1,14 +1,8 @@
 """
 Enterprise Data consent tests
 """
-from regression.pages.enterprise.ent_data_sharing_consent_page import (
-    EnterpriseDataSharingConsentPage
-)
 from regression.pages.whitelabel.basket_page import SingleSeatBasketPage
 from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
-from regression.pages.whitelabel.ecommerce_courses_page import (
-    EcommerceCoursesPage
-)
 from regression.pages.enterprise.enterprise_const import (
     ENTERPRISE_NAME
 )
@@ -28,10 +22,6 @@ class TestEnterpriseDataSharingConsent(EnterpriseTestBase):
         """
         super(TestEnterpriseDataSharingConsent, self).setUp()
         self.browser.maximize_window()
-        self.ent_data_sharing_consent = \
-            EnterpriseDataSharingConsentPage(self.browser)
-        self.ecommerce_courses_page = \
-            EcommerceCoursesPage(self.browser)
 
     def test_data_sharing_consent_page_details(self):
         """

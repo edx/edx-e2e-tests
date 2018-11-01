@@ -1,9 +1,10 @@
 """
 Student dashboard page.
 """
-from edxapp_acceptance.pages.lms.dashboard import DashboardPage
 from bok_choy .promise import BrokenPromise
+from edxapp_acceptance.pages.lms.dashboard import DashboardPage
 from regression.pages.lms import LOGIN_BASE_URL
+from regression.pages.whitelabel.courses_page import CoursesPage
 
 
 class DashboardPageExtended(DashboardPage):
@@ -42,3 +43,11 @@ class DashboardPageExtended(DashboardPage):
             '.item a[href="/logout"]', 'SignOut button'
         )
         self.q(css='.item a[href="/logout"]').click()
+
+    def click_explore_courses_link(self):
+        """
+        Click Explore Courses link
+        """
+        self.q(css='.btn-neutral').click()
+        courses_page = CoursesPage(self.browser)
+        courses_page.wait_for_page()

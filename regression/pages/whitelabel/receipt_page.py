@@ -76,3 +76,9 @@ class ReceiptPage(PageObject):
             css='.line-price.price'
         ).text[0]
         return extract_numerical_value_from_price_string(amount)
+
+    def get_id_verification_panel_status(self):
+        """
+        Return the status of the id verification panel.
+        """
+        return self.q(css=".nav-wizard.row").present

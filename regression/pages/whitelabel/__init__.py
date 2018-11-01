@@ -82,6 +82,7 @@ if TEST_ENV in (DEFAULT_ENV, "sandbox"):
         # Get DNS name if tests are running on sandbox
         TARGET_DNS = os.environ.get("TARGET_DNS")
         BASE_URLS = {
+            'Enterprise': "{}.sandbox.edx.org".format(TARGET_DNS),
             'MITxPRO': "mitxpro-{}.sandbox.edx.org".format(TARGET_DNS),
             'Harvard': "hms-{}.sandbox.edx.org".format(TARGET_DNS)
         }
@@ -97,7 +98,7 @@ if TEST_ENV in (DEFAULT_ENV, "sandbox"):
     )
 
 elif TEST_ENV == "devstack":
-    # Get DNS name if tests are running on sandbox
+    # Get DNS name if tests are running on devstack
     BASE_URLS = {
         'edX': u"edx-wl-ci.e2e.devstack:18000",
         'MITxPRO': u"mitxpro-wl-ci.e2e.devstack:18000",

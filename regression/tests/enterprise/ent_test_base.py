@@ -6,12 +6,18 @@ from bok_choy.web_app_test import WebAppTest
 from regression.pages import LOGIN_EMAIL, LOGIN_PASSWORD
 from regression.pages.lms import LMS_BASE_URL, LMS_PROTOCOL
 from regression.pages.lms.dashboard_lms import DashboardPageExtended
+from regression.pages.lms.track_selection_page import TrackSelectionPage
+from regression.pages.whitelabel.courses_page import CoursesPage
 from regression.pages.lms.login_lms import LmsLogin
+from regression.pages.whitelabel.receipt_page import ReceiptPage
 from regression.pages.enterprise.ent_edx_registration_page import (
     EnterpriseEdxRegistration
 )
 from regression.pages.enterprise.ent_edx_login_page import (
     EnterpriseEdxLogin
+)
+from regression.pages.enterprise.course_about_page import (
+    CourseAboutPageExtended
 )
 from regression.pages.enterprise.ent_portal_login_page import (
     EnterprisePortalLogin
@@ -30,6 +36,19 @@ from regression.pages.enterprise.user_account import UserAccountSettings
 from regression.pages.enterprise.enterprise_const import (
     ENTERPRISE_NAME,
     IDP_CSS_ID
+)
+from regression.pages.whitelabel.ecommerce_courses_page import (
+    EcommerceCoursesPage
+)
+from regression.pages.enterprise.ent_data_sharing_consent_page import (
+    EnterpriseDataSharingConsentPage
+)
+from regression.pages.whitelabel.basket_page import (
+    CyberSourcePage
+)
+from regression.pages.whitelabel.const import (
+    BILLING_INFO,
+    CARD_HOLDER_INFO
 )
 from regression.tests.helpers.api_clients import LogoutApi
 from regression.tests.helpers.utils import get_random_credentials
@@ -64,11 +83,20 @@ class EnterpriseTestBase(WebAppTest):
             EnterprisePortalCourseStructure(self.browser)
         self.ent_course_enrollment = \
             EnterpriseCourseEnrollment(self.browser)
+        self.ent_data_sharing_consent = \
+            EnterpriseDataSharingConsentPage(self.browser)
+        self.ecommerce_courses_page = \
+            EcommerceCoursesPage(self.browser)
         self.lms_login = LmsLogin(self.browser)
         self.ent_edx_registration = EnterpriseEdxRegistration(self.browser)
         self.ent_edx_login = EnterpriseEdxLogin(self.browser)
         self.dashboard = DashboardPageExtended(self.browser)
+        self.courses_page = CoursesPage(self.browser)
+        self.course_about_page = CourseAboutPageExtended(self.browser)
+        self.track_selection_page = TrackSelectionPage(self.browser)
         self.user_account = UserAccountSettings(self.browser)
+        self.cyber_source_page = CyberSourcePage(self.browser)
+        self.receipt_page = ReceiptPage(self.browser)
 
     def unlink_account(self):
         """
@@ -201,3 +229,28 @@ class EnterpriseTestBase(WebAppTest):
         self.register_ent_edx_user()
         # Verify that user is on course enrollment page
         self.ent_course_enrollment.wait_for_page()
+
+    def payment_using_cyber_source(self):
+        """
+        Make payment for course by providing Billing Info and Payment details
+        in respected areas.
+        """
+        self.cyber_source_page.set_card_holder_info(CARD_HOLDER_INFO)
+        self.cyber_source_page.set_billing_info(BILLING_INFO)
+        self.cyber_source_page.click_payment_button()
+        self.receipt_page.wait_for_page()
+
+    def register_edx_user(self):
+        """
+        Register the user using edX registration page
+        """
+        username, email = get_random_credentials()
+        self.ent_edx_registration.visit()
+        self.ent_edx_registration.register(
+            email=email,
+            full_name='Test User',
+            username=username,
+            password='test123test',
+            country="US"
+        )
+        self.dashboard.wait_for_page()
