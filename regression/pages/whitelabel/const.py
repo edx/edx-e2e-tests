@@ -107,7 +107,7 @@ BILLING_INFO = {
     'card_type': 'visa',
     'card_number': '4111111111111111',
     'cvn': '123',
-    'expiry_month': str(CREDIT_CARD_EXPIRATION_DATE.month),
+    'expiry_month': '{:02d}'.format(CREDIT_CARD_EXPIRATION_DATE.month),
     'expiry_year': str(CREDIT_CARD_EXPIRATION_DATE.year)
 }
 
