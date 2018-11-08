@@ -25,5 +25,5 @@ class TrackSelectionPage(PageObject):
         """
         Click verified this course button
         """
-        value = '[value="Pursue a Verified Certificate "($100 USD)"]'
-        self.q(css='.action-select {}'.format(value)).click()
+        value = '[value="Pursue a Verified Certificate ($100 USD)"]'
+        self.q(css='.action-select {value}'.format(value=value)).click()

@@ -5,6 +5,12 @@ from regression.pages.common.utils import (
     extract_mmm_dd_yyyy_date_string_from_text
 )
 from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
+from regression.pages.enterprise.enterprise_const import (
+    ENT_COURSE_TITLE,
+    ENT_COURSE_ORG,
+    ENT_COURSE_START_DATE,
+    ENT_COURSE_PRICE
+)
 
 
 class TestEnterpriseCourseEnrollmentPage(EnterpriseTestBase):
@@ -17,7 +23,6 @@ class TestEnterpriseCourseEnrollmentPage(EnterpriseTestBase):
         Initialize all page objects
         """
         super(TestEnterpriseCourseEnrollmentPage, self).setUp()
-        self.browser.maximize_window()
 
     def test_enrollment_verified_course(self):
         """
@@ -32,8 +37,11 @@ class TestEnterpriseCourseEnrollmentPage(EnterpriseTestBase):
 
         """
         self.login_and_go_to_course_enrollment_page()
+        # Call the fixture to unlink existing account for the user
+        self.addCleanup(self.unlink_account)
+
         self.assertEqual(
-            self.ENT_COURSE_TITLE,
+            ENT_COURSE_TITLE,
             self.ent_course_enrollment.get_course_title()
         )
         # Verify that course type "verified" is present as a selectable option
@@ -54,8 +62,6 @@ class TestEnterpriseCourseEnrollmentPage(EnterpriseTestBase):
                 "audit"
             )
         )
-        # Call the fixture to unlink existing account for the user
-        self.unlink_account()
 
     def test_enrollment_course_info_and_detail(self):
         """
@@ -67,19 +73,22 @@ class TestEnterpriseCourseEnrollmentPage(EnterpriseTestBase):
             Then this user is shown correct course details
         """
         self.login_and_go_to_course_enrollment_page()
+        # Call the fixture to unlink existing account for the user
+        self.addCleanup(self.unlink_account)
         # Verify Course Title on landing page
         self.assertEqual(
-            self.ENT_COURSE_TITLE,
+            ENT_COURSE_TITLE,
             self.ent_course_enrollment.get_course_title()
         )
         # Verify Course Org on landing page
         self.assertEqual(
-            self.ENT_COURSE_ORG,
+            ENT_COURSE_ORG,
             self.ent_course_enrollment.get_course_org()
         )
         # Verify Course Start Date on landing page
+
         self.assertIn(
-            self.ENT_COURSE_START_DATE,
+            ENT_COURSE_START_DATE,
             extract_mmm_dd_yyyy_date_string_from_text(
                 self.ent_course_enrollment.get_course_info()
             )
@@ -89,12 +98,10 @@ class TestEnterpriseCourseEnrollmentPage(EnterpriseTestBase):
         # Fetch and verify Course Title and Org from details header
         course_title, course_org = \
             self.ent_course_enrollment.get_course_detail_headers()
-        self.assertEqual(course_title, self.ENT_COURSE_TITLE)
-        self.assertEqual(course_org, self.ENT_COURSE_ORG)
+        self.assertEqual(course_title, ENT_COURSE_TITLE)
+        self.assertEqual(course_org, ENT_COURSE_ORG)
         # Fetch and verify Price from details body
         self.assertIn(
-            self.ENT_COURSE_PRICE,
+            ENT_COURSE_PRICE,
             self.ent_course_enrollment.get_course_detail_body()['Price']
         )
-        # Call the fixture to unlink existing account for the user
-        self.unlink_account()

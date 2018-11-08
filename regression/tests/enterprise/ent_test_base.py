@@ -1,7 +1,6 @@
 """
 Enterprise Login tests
 """
-import os
 from bok_choy.web_app_test import WebAppTest
 from regression.pages import LOGIN_EMAIL, LOGIN_PASSWORD
 from regression.pages.lms import LMS_BASE_URL, LMS_PROTOCOL
@@ -35,6 +34,9 @@ from regression.pages.enterprise.ent_course_enrollment_page import (
 from regression.pages.enterprise.user_account import UserAccountSettings
 from regression.pages.enterprise.enterprise_const import (
     ENTERPRISE_NAME,
+    ENT_PORTAL_USERNAME,
+    ENT_PORTAL_PASSWORD,
+    ENT_COURSE_TITLE,
     IDP_CSS_ID
 )
 from regression.pages.whitelabel.ecommerce_courses_page import (
@@ -58,16 +60,6 @@ class EnterpriseTestBase(WebAppTest):
     """
     Test Enterprise Login
     """
-    ENT_PORTAL_USERNAME = os.environ.get('ENT_PORTAL_USERNAME')
-    ENT_PORTAL_PASSWORD = os.environ.get('ENT_PORTAL_PASSWORD')
-    ENT_PORTAL_EDX_LINKED_USERNAME = \
-        os.environ.get('ENT_PORTAL_EDX_LINKED_USERNAME')
-    ENT_PORTAL_EDX_LINKED_PASSWORD = \
-        os.environ.get('ENT_PORTAL_EDX_LINKED_PASSWORD')
-    ENT_COURSE_TITLE = os.environ.get('ENT_COURSE_TITLE')
-    ENT_COURSE_ORG = os.environ.get('ENT_COURSE_ORG')
-    ENT_COURSE_PRICE = os.environ.get('ENT_COURSE_PRICE')
-    ENT_COURSE_START_DATE = os.environ.get('ENT_COURSE_START_DATE')
 
     def setUp(self):
         """
@@ -134,12 +126,12 @@ class EnterpriseTestBase(WebAppTest):
         self.ent_portal_home.open_courses_popup()
         course_titles = self.ent_portal_home.fetch_course_titles_list()
         self.assert_(
-            self.ENT_COURSE_TITLE in course_title
+            ENT_COURSE_TITLE in course_title
             for course_title in course_titles
         )
         # Go to course page and then use the link there to go to edX
         self.ent_portal_home.open_enterprise_course_page(
-            self.ENT_COURSE_TITLE
+            ENT_COURSE_TITLE
         )
         self.ent_portal_course_start.wait_for_page()
         self.ent_portal_course_start.start_or_continue_course()
@@ -205,8 +197,8 @@ class EnterpriseTestBase(WebAppTest):
         self.lms_login.visit()
         # Enterprise portal flow
         self.login_to_ent_portal(
-            self.ENT_PORTAL_USERNAME,
-            self.ENT_PORTAL_PASSWORD)
+            ENT_PORTAL_USERNAME,
+            ENT_PORTAL_PASSWORD)
         self.access_course()
         self.login_ent_edx_user()
         # Verify that user is on course enrollment page
@@ -222,8 +214,8 @@ class EnterpriseTestBase(WebAppTest):
         self.lms_login.visit()
         # Enterprise portal flow
         self.login_to_ent_portal(
-            self.ENT_PORTAL_USERNAME,
-            self.ENT_PORTAL_PASSWORD)
+            ENT_PORTAL_USERNAME,
+            ENT_PORTAL_PASSWORD)
         self.access_course()
         self.ent_edx_login.wait_for_page()
         self.register_ent_edx_user()

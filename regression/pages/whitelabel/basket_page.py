@@ -4,7 +4,6 @@ Pages for single course and multi course purchase baskets
 import os
 from bok_choy.page_object import PageObject
 from regression.pages.whitelabel import ECOM_URL_WITH_AUTH
-
 from regression.pages.common.utils import (
     extract_numerical_value_from_price_string,
     fill_input_fields,

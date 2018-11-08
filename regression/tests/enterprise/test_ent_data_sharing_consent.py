@@ -4,7 +4,8 @@ Enterprise Data consent tests
 from regression.pages.whitelabel.basket_page import SingleSeatBasketPage
 from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
 from regression.pages.enterprise.enterprise_const import (
-    ENTERPRISE_NAME
+    ENTERPRISE_NAME,
+    ENT_COURSE_TITLE
 )
 
 
@@ -33,8 +34,10 @@ class TestEnterpriseDataSharingConsent(EnterpriseTestBase):
             And relevant details are shown on this page
         """
         self.register_and_go_to_course_enrollment_page()
+        # Call the fixture to unlink existing account for the user
+        self.addCleanup(self.unlink_account)
         self.assertEqual(
-            self.ENT_COURSE_TITLE,
+            ENT_COURSE_TITLE,
             self.ent_course_enrollment.get_course_title()
         )
         self.ent_course_enrollment.go_to_data_consent_page()
@@ -51,8 +54,6 @@ class TestEnterpriseDataSharingConsent(EnterpriseTestBase):
         )
         # Verify that user is able to open policy dropdown from policy link
         self.ent_data_sharing_consent.open_policy_text()
-        # Call the fixture to unlink existing account for the user
-        self.unlink_account()
 
     def test_data_sharing_consent_acceptance(self):
         """
@@ -65,9 +66,9 @@ class TestEnterpriseDataSharingConsent(EnterpriseTestBase):
         """
         self.ecommerce_courses_page.visit()
         self.register_and_go_to_course_enrollment_page()
-
+        self.addCleanup(self.unlink_account)
         self.assertEqual(
-            self.ENT_COURSE_TITLE,
+            ENT_COURSE_TITLE,
             self.ent_course_enrollment.get_course_title()
         )
         self.ent_course_enrollment.go_to_data_consent_page()
@@ -75,8 +76,6 @@ class TestEnterpriseDataSharingConsent(EnterpriseTestBase):
         # Verify that accepting data consent takes user to basket page
         self.ent_data_sharing_consent.accept_data_sharing_consent()
         SingleSeatBasketPage(self.browser).wait_for_page()
-        # Call the fixture to unlink existing account for the user
-        self.unlink_account()
 
     def test_data_sharing_consent_rejection(self):
         """
@@ -89,8 +88,10 @@ class TestEnterpriseDataSharingConsent(EnterpriseTestBase):
             And this user is shown a warning on Enrollment page
         """
         self.register_and_go_to_course_enrollment_page()
+        # Call the fixture to unlink existing account for the user
+        self.addCleanup(self.unlink_account)
         self.assertEqual(
-            self.ENT_COURSE_TITLE,
+            ENT_COURSE_TITLE,
             self.ent_course_enrollment.get_course_title()
         )
         self.ent_course_enrollment.go_to_data_consent_page()
@@ -102,5 +103,3 @@ class TestEnterpriseDataSharingConsent(EnterpriseTestBase):
             self.CONSENT_DECLINE_WARNING,
             self.ent_course_enrollment.get_data_sharing_consent_warning()
         )
-        # Call the fixture to unlink existing account for the user
-        self.unlink_account()
