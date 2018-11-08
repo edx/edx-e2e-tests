@@ -102,7 +102,7 @@ CARD_HOLDER_INFO = {
 
 # PAYMENT DETAILS
 CREDIT_CARD_EXPIRATION_DATE = (datetime.date.today()
-                               + datetime.timedelta(days=60))
+                               + datetime.timedelta(days=30))
 BILLING_INFO = {
     'card_type': 'visa',
     'card_number': '4111111111111111',
