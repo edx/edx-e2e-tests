@@ -2,6 +2,11 @@
 Enterprise Registration tests
 """
 from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
+from regression.pages.enterprise.enterprise_const import (
+    ENT_PORTAL_USERNAME,
+    ENT_PORTAL_PASSWORD,
+    ENT_COURSE_TITLE
+)
 
 
 class TestEnterpriseRegistration(EnterpriseTestBase):
@@ -14,7 +19,6 @@ class TestEnterpriseRegistration(EnterpriseTestBase):
         Initialize all page objects
         """
         super(TestEnterpriseRegistration, self).setUp()
-        self.browser.maximize_window()
 
     def test_enterprise_unlinked_user_registration(self):
         """
@@ -32,17 +36,17 @@ class TestEnterpriseRegistration(EnterpriseTestBase):
         self.lms_login.visit()
         # Enterprise portal flow
         self.login_to_ent_portal(
-            self.ENT_PORTAL_USERNAME,
-            self.ENT_PORTAL_PASSWORD)
+            ENT_PORTAL_USERNAME,
+            ENT_PORTAL_PASSWORD)
         self.access_course()
         self.ent_edx_login.wait_for_page()
         self.register_ent_edx_user()
+        # Call the fixture to unlink existing account for the user
+        self.addCleanup(self.unlink_account)
         # Verify that user is on course enrollment page and correct course
         # is displayed there
         self.ent_course_enrollment.wait_for_page()
         self.assertEqual(
-            self.ENT_COURSE_TITLE,
+            ENT_COURSE_TITLE,
             self.ent_course_enrollment.get_course_title()
         )
-        # Call the fixture to unlink existing account for the user
-        self.unlink_account()

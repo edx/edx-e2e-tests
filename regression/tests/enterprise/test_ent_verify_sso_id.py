@@ -6,7 +6,8 @@ from regression.pages.whitelabel.basket_page import (
     SingleSeatBasketPage
 )
 from regression.pages.enterprise.enterprise_const import (
-    ENT_COURSE_ID
+    ENT_COURSE_ID,
+    ENT_COURSE_TITLE
 )
 
 
@@ -37,8 +38,10 @@ class TestEnterpriseSSOIDVerification(EnterpriseTestBase):
         """
         self.ecommerce_courses_page.visit()
         self.register_and_go_to_course_enrollment_page()
+        # Call the fixture to unlink existing account for the user
+        self.addCleanup(self.unlink_account)
         self.assertEqual(
-            self.ENT_COURSE_TITLE,
+            ENT_COURSE_TITLE,
             self.ent_course_enrollment.get_course_title()
         )
         self.ent_course_enrollment.go_to_data_consent_page()
@@ -47,13 +50,11 @@ class TestEnterpriseSSOIDVerification(EnterpriseTestBase):
         self.ent_data_sharing_consent.accept_data_sharing_consent()
         SingleSeatBasketPage(self.browser).wait_for_page()
         self.payment_using_cyber_source()
-        self.assertIn(self.ENT_COURSE_TITLE, self.receipt_page.order_desc)
+        self.assertIn(ENT_COURSE_TITLE, self.receipt_page.order_desc)
         # Enterprise user ID is already verified as learner go through
         # the SSO process, so no ID verification panel appears on receipt page
         self.assertFalse(self.receipt_page.get_id_verification_panel_status())
         self.receipt_page.click_in_nav_to_go_to_dashboard()
-        # Call the fixture to unlink existing account for the user
-        self.unlink_account()
 
     def test_edx_user_id_verification_status(self):
         """
@@ -68,7 +69,7 @@ class TestEnterpriseSSOIDVerification(EnterpriseTestBase):
         self.courses_page.click_on_the_course(ENT_COURSE_ID)
         self.course_about_page.wait_for_page()
         self.assertEqual(
-            self.ENT_COURSE_TITLE,
+            ENT_COURSE_TITLE,
             self.course_about_page.get_course_title()
         )
         self.course_about_page.click_enroll_button()
@@ -76,9 +77,7 @@ class TestEnterpriseSSOIDVerification(EnterpriseTestBase):
         self.track_selection_page.click_verified_mode()
         SingleSeatBasketPage(self.browser).wait_for_page()
         self.payment_using_cyber_source()
-        self.assertIn(self.ENT_COURSE_TITLE, self.receipt_page.order_desc)
+        self.assertIn(ENT_COURSE_TITLE, self.receipt_page.order_desc)
         # User ID is not verified,
         # so ID verification panel appears on receipt page
         self.assertTrue(self.receipt_page.get_id_verification_panel_status())
-        # Call the fixture to unlink existing account for the user
-        self.unlink_account()
