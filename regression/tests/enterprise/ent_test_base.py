@@ -1,6 +1,7 @@
 """
 Enterprise Login tests
 """
+from datetime import datetime
 from bok_choy.web_app_test import WebAppTest
 from regression.pages import LOGIN_EMAIL, LOGIN_PASSWORD
 from regression.pages.lms import LMS_BASE_URL, LMS_PROTOCOL
@@ -34,9 +35,6 @@ from regression.pages.enterprise.ent_course_enrollment_page import (
 from regression.pages.enterprise.user_account import UserAccountSettings
 from regression.pages.enterprise.enterprise_const import (
     ENTERPRISE_NAME,
-    ENT_PORTAL_USERNAME,
-    ENT_PORTAL_PASSWORD,
-    ENT_COURSE_TITLE,
     IDP_CSS_ID
 )
 from regression.pages.whitelabel.ecommerce_courses_page import (
@@ -52,6 +50,7 @@ from regression.pages.whitelabel.const import (
     BILLING_INFO,
     CARD_HOLDER_INFO
 )
+from regression.pages.whitelabel.basket_page import SingleSeatBasketPage
 from regression.tests.helpers.api_clients import LogoutApi
 from regression.tests.helpers.utils import get_random_credentials
 
@@ -88,6 +87,7 @@ class EnterpriseTestBase(WebAppTest):
         self.track_selection_page = TrackSelectionPage(self.browser)
         self.user_account = UserAccountSettings(self.browser)
         self.cyber_source_page = CyberSourcePage(self.browser)
+        self.single_seat_basket = SingleSeatBasketPage(self.browser)
         self.receipt_page = ReceiptPage(self.browser)
 
     def unlink_account(self):
@@ -126,12 +126,12 @@ class EnterpriseTestBase(WebAppTest):
         self.ent_portal_home.open_courses_popup()
         course_titles = self.ent_portal_home.fetch_course_titles_list()
         self.assert_(
-            ENT_COURSE_TITLE in course_title
+            self.ENT_COURSE_TITLE in course_title
             for course_title in course_titles
         )
         # Go to course page and then use the link there to go to edX
         self.ent_portal_home.open_enterprise_course_page(
-            ENT_COURSE_TITLE
+            self.ENT_COURSE_TITLE
         )
         self.ent_portal_course_start.wait_for_page()
         self.ent_portal_course_start.start_or_continue_course()
@@ -197,8 +197,8 @@ class EnterpriseTestBase(WebAppTest):
         self.lms_login.visit()
         # Enterprise portal flow
         self.login_to_ent_portal(
-            ENT_PORTAL_USERNAME,
-            ENT_PORTAL_PASSWORD)
+            self.ENT_PORTAL_USERNAME,
+            self.ENT_PORTAL_PASSWORD)
         self.access_course()
         self.login_ent_edx_user()
         # Verify that user is on course enrollment page
@@ -214,8 +214,8 @@ class EnterpriseTestBase(WebAppTest):
         self.lms_login.visit()
         # Enterprise portal flow
         self.login_to_ent_portal(
-            ENT_PORTAL_USERNAME,
-            ENT_PORTAL_PASSWORD)
+            self.ENT_PORTAL_USERNAME,
+            self.ENT_PORTAL_PASSWORD)
         self.access_course()
         self.ent_edx_login.wait_for_page()
         self.register_ent_edx_user()
@@ -246,3 +246,34 @@ class EnterpriseTestBase(WebAppTest):
             country="US"
         )
         self.dashboard.wait_for_page()
+
+    def verify_info_is_populated_on_basket(self, discounted_price):
+        """
+        After User accept data sharing consent from landing pag
+        verify that following information is
+        displayed correctly on basket page:
+        i) Enterprise offer is applied
+        ii) Discounted amount
+
+        Arguments:
+            discounted_price(float): Discounted price of the course.
+        """
+        self.assertTrue(self.single_seat_basket.is_offer_applied())
+        self.assertEqual(
+            str(int(self.single_seat_basket.total_price_after_discount)),
+            discounted_price
+        )
+
+    def verify_receipt_info_for_discounted_course(self):
+        """
+        Verify that info on receipt page is correct.
+
+        Verify
+        i) Course title.
+        ii) Order date
+        """
+        self.assertIn(self.ENT_COURSE_TITLE, self.receipt_page.order_desc)
+        self.assertEqual(
+            datetime.utcnow().strftime("%Y-%m-%d"),
+            self.receipt_page.order_date
+        )

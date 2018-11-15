@@ -39,3 +39,8 @@ ENT_COURSE_ORG = os.environ.get('ENT_COURSE_ORG')
 ENT_COURSE_PRICE = os.environ.get('ENT_COURSE_PRICE')
 
 ENT_COURSE_START_DATE = os.environ.get('ENT_COURSE_START_DATE')
+
+ENT_COURSE_DISCOUNTED_PRICE = \
+    os.environ.get('ENT_COURSE_DISCOUNTED_PRICE')
+
+ENT_NAME = os.environ.get('ENT_NAME')
