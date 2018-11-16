@@ -40,7 +40,8 @@ class TestDiscountEnterpriseOffer(EnterpriseTestBase):
         discount_value = extract_discount_value_from_response(
             ENT_CUSTOMER_CATALOG_UUID, offers_response
         )
-        course_price_after_discount = self.course_price - discount_value
+        discounted_course_price = self.course_price - \
+            (self.course_price * discount_value) / 100
         self.logout_from_lms_using_api()
         self.ecommerce_courses_page.visit()
         self.register_and_go_to_course_enrollment_page()
@@ -55,7 +56,7 @@ class TestDiscountEnterpriseOffer(EnterpriseTestBase):
             extract_numerical_value_from_price_string(price_details[1])
         )
         self.assertEqual(
-            course_price_after_discount,
+            discounted_course_price,
             extract_numerical_value_from_price_string(price_details[3])
         )
         self.assertIn(
@@ -69,6 +70,6 @@ class TestDiscountEnterpriseOffer(EnterpriseTestBase):
 
         SingleSeatBasketPage(self.browser).wait_for_page()
         self.verify_info_is_populated_on_basket(
-            course_price_after_discount
+            discounted_course_price
         )
         self.verify_receipt_info_for_discounted_course()
