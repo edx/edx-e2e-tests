@@ -16,9 +16,6 @@ from regression.pages.enterprise.ent_edx_registration_page import (
 from regression.pages.enterprise.ent_edx_login_page import (
     EnterpriseEdxLogin
 )
-from regression.pages.enterprise.enterprise_offers_page import (
-    EnterpriseOffersPage
-)
 from regression.pages.enterprise.course_about_page import (
     CourseAboutPageExtended
 )
@@ -99,7 +96,6 @@ class EnterpriseTestBase(WebAppTest):
         self.cyber_source_page = CyberSourcePage(self.browser)
         self.single_seat_basket = SingleSeatBasketPage(self.browser)
         self.receipt_page = ReceiptPage(self.browser)
-        self.enterprise_offer_page = EnterpriseOffersPage(self.browser)
         self.lms_api_client = LmsApiClient()
         self.login_api = LmsLoginApi()
         self.logout_api = LogoutApi()
