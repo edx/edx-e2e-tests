@@ -16,6 +16,9 @@ from regression.pages.enterprise.ent_edx_registration_page import (
 from regression.pages.enterprise.ent_edx_login_page import (
     EnterpriseEdxLogin
 )
+from regression.pages.enterprise.enterprise_offers_page import (
+    EnterpriseOffersPage
+)
 from regression.pages.enterprise.course_about_page import (
     CourseAboutPageExtended
 )
@@ -35,6 +38,9 @@ from regression.pages.enterprise.ent_course_enrollment_page import (
 from regression.pages.enterprise.user_account import UserAccountSettings
 from regression.pages.enterprise.enterprise_const import (
     ENTERPRISE_NAME,
+    ENT_COURSE_TITLE,
+    ENT_PORTAL_USERNAME,
+    ENT_PORTAL_PASSWORD,
     IDP_CSS_ID
 )
 from regression.pages.whitelabel.ecommerce_courses_page import (
@@ -51,7 +57,11 @@ from regression.pages.whitelabel.const import (
     CARD_HOLDER_INFO
 )
 from regression.pages.whitelabel.basket_page import SingleSeatBasketPage
-from regression.tests.helpers.api_clients import LogoutApi
+from regression.tests.helpers.api_clients import (
+    LogoutApi,
+    LmsLoginApi,
+    LmsApiClient
+)
 from regression.tests.helpers.utils import get_random_credentials
 
 
@@ -89,6 +99,10 @@ class EnterpriseTestBase(WebAppTest):
         self.cyber_source_page = CyberSourcePage(self.browser)
         self.single_seat_basket = SingleSeatBasketPage(self.browser)
         self.receipt_page = ReceiptPage(self.browser)
+        self.enterprise_offer_page = EnterpriseOffersPage(self.browser)
+        self.lms_api_client = LmsApiClient()
+        self.login_api = LmsLoginApi()
+        self.logout_api = LogoutApi()
 
     def unlink_account(self):
         """
@@ -126,12 +140,12 @@ class EnterpriseTestBase(WebAppTest):
         self.ent_portal_home.open_courses_popup()
         course_titles = self.ent_portal_home.fetch_course_titles_list()
         self.assert_(
-            self.ENT_COURSE_TITLE in course_title
+            ENT_COURSE_TITLE in course_title
             for course_title in course_titles
         )
         # Go to course page and then use the link there to go to edX
         self.ent_portal_home.open_enterprise_course_page(
-            self.ENT_COURSE_TITLE
+            ENT_COURSE_TITLE
         )
         self.ent_portal_course_start.wait_for_page()
         self.ent_portal_course_start.start_or_continue_course()
@@ -178,14 +192,21 @@ class EnterpriseTestBase(WebAppTest):
         Get cookies from browser and send these cookie to python request to
         logout using api
         """
-        logout_api = LogoutApi()
-        logout_api.logout_url = '{}://{}/{}'.format(
+
+        self.logout_api.logout_url = '{}://{}/{}'.format(
             LMS_PROTOCOL,
             LMS_BASE_URL,
             'logout'
             )
-        logout_api.cookies = self.browser.get_cookies()
-        logout_api.logout()
+        self.logout_api.cookies = self.browser.get_cookies()
+        self.logout_api.logout()
+
+    def login_user_lms_using_api(self):
+        """
+        Login user to LMS using login API
+        """
+
+        self.login_api.authenticate(self.browser)
 
     def login_and_go_to_course_enrollment_page(self):
         """
@@ -197,8 +218,8 @@ class EnterpriseTestBase(WebAppTest):
         self.lms_login.visit()
         # Enterprise portal flow
         self.login_to_ent_portal(
-            self.ENT_PORTAL_USERNAME,
-            self.ENT_PORTAL_PASSWORD)
+            ENT_PORTAL_USERNAME,
+            ENT_PORTAL_PASSWORD)
         self.access_course()
         self.login_ent_edx_user()
         # Verify that user is on course enrollment page
@@ -214,8 +235,8 @@ class EnterpriseTestBase(WebAppTest):
         self.lms_login.visit()
         # Enterprise portal flow
         self.login_to_ent_portal(
-            self.ENT_PORTAL_USERNAME,
-            self.ENT_PORTAL_PASSWORD)
+            ENT_PORTAL_USERNAME,
+            ENT_PORTAL_PASSWORD)
         self.access_course()
         self.ent_edx_login.wait_for_page()
         self.register_ent_edx_user()
@@ -260,9 +281,10 @@ class EnterpriseTestBase(WebAppTest):
         """
         self.assertTrue(self.single_seat_basket.is_offer_applied())
         self.assertEqual(
-            str(int(self.single_seat_basket.total_price_after_discount)),
+            self.single_seat_basket.total_price_after_discount,
             discounted_price
         )
+        self.payment_using_cyber_source()
 
     def verify_receipt_info_for_discounted_course(self):
         """
@@ -272,7 +294,7 @@ class EnterpriseTestBase(WebAppTest):
         i) Course title.
         ii) Order date
         """
-        self.assertIn(self.ENT_COURSE_TITLE, self.receipt_page.order_desc)
+        self.assertIn(ENT_COURSE_TITLE, self.receipt_page.order_desc)
         self.assertEqual(
             datetime.utcnow().strftime("%Y-%m-%d"),
             self.receipt_page.order_date

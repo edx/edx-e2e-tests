@@ -3,6 +3,16 @@ Enterprise Offer Discount tests
 """
 from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
 from regression.pages.whitelabel.basket_page import SingleSeatBasketPage
+from regression.pages.whitelabel import ECOM_URL
+from regression.pages.enterprise.enterprise_const import (
+    ENT_CUSTOMER_CATALOG_UUID,
+    DEFAULT_COURSE_PRICE,
+    ENTERPRISE_NAME
+)
+from regression.pages.common.utils import (
+    extract_discount_value_from_response,
+    extract_numerical_value_from_price_string
+)
 
 
 class TestDiscountEnterpriseOffer(EnterpriseTestBase):
@@ -13,80 +23,8 @@ class TestDiscountEnterpriseOffer(EnterpriseTestBase):
 
     def setUp(self):
         super(TestDiscountEnterpriseOffer, self).setUp()
-
-    def test_percentage_offer_detail_landing_page(self):
-        """
-        Scenario: To verify that user sees the correct discount
-        percentage info and detail on enterprise landing page
-        Given a user has an edx account which is linked to an Enterprise
-        portal account When this user lands on the enrollment landing page
-        Then this user is shown correct discount details
-        """
-        self.register_and_go_to_course_enrollment_page()
-        # Call the fixture to unlink existing account for the user
-        self.addCleanup(self.unlink_account)
-        self.assertEqual(
-            self.ENT_COURSE_TITLE,
-            self.ent_course_enrollment.get_course_title()
-        )
-        # Verify that course type "verified" is present as a selectable option
-        self.assertTrue(
-            self.ent_course_enrollment.target_course_type_is_present(
-                "verified"
-            )
-        )
-        self.assertIn(
-            self.ENT_COURSE_PRICE,
-            self.ent_course_enrollment.get_course_discounted_price()
-        )
-        self.assertIn(
-            self.ENT_COURSE_DISCOUNTED_PRICE,
-            self.ent_course_enrollment.get_course_discounted_price()
-        )
-        self.assertIn(
-            self.DISCOUNT_MSG + self.ENT_NAME,
-            self.ent_course_enrollment.get_course_discounted_price()
-        )
-
-    def test_percentage_offer_detail_basket_page(self):
-        """
-        Scenario: To verify that user sees the correct discount
-        percentage info and detail on basket page
-        """
-        self.ecommerce_courses_page.visit()
-        self.register_and_go_to_course_enrollment_page()
-        # Call the fixture to unlink existing account for the user
-        self.addCleanup(self.unlink_account)
-        self.assertEqual(
-            self.ENT_COURSE_TITLE,
-            self.ent_course_enrollment.get_course_title()
-        )
-        # Verify that course type "verified" is present as a selectable option
-        self.assertTrue(
-            self.ent_course_enrollment.target_course_type_is_present(
-                "verified"
-            )
-        )
-        self.assertIn(
-            self.ENT_COURSE_PRICE,
-            self.ent_course_enrollment.get_course_discounted_price()
-        )
-        self.assertIn(
-            self.ENT_COURSE_DISCOUNTED_PRICE,
-            self.ent_course_enrollment.get_course_discounted_price()
-        )
-        self.assertIn(
-            self.DISCOUNT_MSG + self.ENT_NAME,
-            self.ent_course_enrollment.get_course_discounted_price()
-        )
-        self.ent_course_enrollment.go_to_data_consent_page()
-        self.ent_data_sharing_consent.wait_for_page()
-        # Verify that accepting data consent takes user to basket page
-        self.ent_data_sharing_consent.accept_data_sharing_consent()
-        SingleSeatBasketPage(self.browser).wait_for_page()
-        self.verify_info_is_populated_on_basket(
-            self.ENT_COURSE_DISCOUNTED_PRICE
-        )
+        self.course_price = DEFAULT_COURSE_PRICE
+        self.target_url = ECOM_URL + '/enterprise/offers'
 
     def test_enterprise_percentage_offer(self):
         """
@@ -94,31 +32,35 @@ class TestDiscountEnterpriseOffer(EnterpriseTestBase):
         percentage info and detail on enterprise landing page,
         basket page and on receipt page.
         """
+        # Login user to LMS using staff credentials
+        self.login_user_lms_using_api()
+        # Get all enterprise offers data using api request
+        offers_response = self.login_api.get_offer_request(self.target_url)
+        # Get discount value from response against catalog UUID
+        discount_value = extract_discount_value_from_response(
+            ENT_CUSTOMER_CATALOG_UUID, offers_response
+        )
+        course_price_after_discount = self.course_price - discount_value
+        self.logout_from_lms_using_api()
         self.ecommerce_courses_page.visit()
         self.register_and_go_to_course_enrollment_page()
         # Call the fixture to unlink existing account for the user
         self.addCleanup(self.unlink_account)
+        # Get course original price and course discounted price
+        price_details = \
+            self.ent_course_enrollment.get_course_price_details().split()
+        # extract_numerical_value_from_price_string(price_details)
         self.assertEqual(
-            self.ENT_COURSE_TITLE,
-            self.ent_course_enrollment.get_course_title()
+            self.course_price,
+            extract_numerical_value_from_price_string(price_details[1])
         )
-        # Verify that course type "verified" is present as a selectable option
-        self.assertTrue(
-            self.ent_course_enrollment.target_course_type_is_present(
-                "verified"
-            )
+        self.assertEqual(
+            course_price_after_discount,
+            extract_numerical_value_from_price_string(price_details[3])
         )
         self.assertIn(
-            self.ENT_COURSE_PRICE,
-            self.ent_course_enrollment.get_course_discounted_price()
-        )
-        self.assertIn(
-            self.ENT_COURSE_DISCOUNTED_PRICE,
-            self.ent_course_enrollment.get_course_discounted_price()
-        )
-        self.assertIn(
-            self.DISCOUNT_MSG + self.ENT_NAME,
-            self.ent_course_enrollment.get_course_discounted_price()
+            self.DISCOUNT_MSG + ENTERPRISE_NAME,
+            self.ent_course_enrollment.get_course_price_details()
         )
         self.ent_course_enrollment.go_to_data_consent_page()
         self.ent_data_sharing_consent.wait_for_page()
@@ -127,7 +69,6 @@ class TestDiscountEnterpriseOffer(EnterpriseTestBase):
 
         SingleSeatBasketPage(self.browser).wait_for_page()
         self.verify_info_is_populated_on_basket(
-            self.ENT_COURSE_DISCOUNTED_PRICE
+            course_price_after_discount
         )
-        self.payment_using_cyber_source()
         self.verify_receipt_info_for_discounted_course()

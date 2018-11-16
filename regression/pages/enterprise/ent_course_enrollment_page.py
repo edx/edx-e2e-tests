@@ -114,7 +114,7 @@ class EnterpriseCourseEnrollment(PageObject):
         """
         self.q(css=".btn-confirm").click()
 
-    def get_course_discounted_price(self):
+    def get_course_price_details(self):
         """
         Return course original price and course discounted price
         as well as the name of the organization discount provided by
