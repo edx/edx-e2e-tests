@@ -233,6 +233,16 @@ class LmsLoginApi(LogistrationApiBaseClass):
 
         self.browser_get_url = os.path.join(LMS_AUTH_URL, partial_url_string)
 
+    def get_offer_request(self, target_url):
+        """
+        Send a Get request and return the response if successful
+        Arguments:
+          target_url:
+        """
+        response = self.session.get(target_url)
+        check_response(response)
+        return response.content
+
 
 class StudioLoginApi(LogistrationApiBaseClass):
     """

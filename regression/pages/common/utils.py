@@ -175,3 +175,22 @@ def extract_numerical_value_from_price_string(raw_price_string):
         return float(price_value.replace(",", ""))
     else:
         return 'No numerical value found in search string'
+
+
+def extract_discount_value_from_response(catalog_uuid, offers_response):
+    """
+    Extract numerical value from a string containing price
+    Args:
+        catalog_uuid:
+        offers_response:
+    Returns:
+        numerical price:
+    """
+    regex = r'.+Percentage.+?(\d+,\d+\.\d+|\d+\.\d+|\.\d+|\d+,\d+|\d+)'
+    offer_value = re.findall(
+        catalog_uuid + regex, offers_response, flags=re.DOTALL
+    )
+    if offer_value:
+        return float(offer_value[0].replace(",", ""))
+    else:
+        return 'No Numerical value found in search string'

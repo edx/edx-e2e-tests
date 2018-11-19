@@ -113,3 +113,14 @@ class EnterpriseCourseEnrollment(PageObject):
         Go to data sharing consent page
         """
         self.q(css=".btn-confirm").click()
+
+    def get_course_price_details(self):
+        """
+        Return course original price and course discounted price
+        as well as the name of the organization discount provided by
+        """
+        # from nose.tools import set_trace
+        # set_trace()
+        return self.q(
+            css='label[for="radio0"] .price'
+        ).text[0]

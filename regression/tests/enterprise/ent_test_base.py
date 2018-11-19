@@ -1,6 +1,7 @@
 """
 Enterprise Login tests
 """
+from datetime import datetime
 from bok_choy.web_app_test import WebAppTest
 from regression.pages import LOGIN_EMAIL, LOGIN_PASSWORD
 from regression.pages.lms import LMS_BASE_URL, LMS_PROTOCOL
@@ -34,9 +35,9 @@ from regression.pages.enterprise.ent_course_enrollment_page import (
 from regression.pages.enterprise.user_account import UserAccountSettings
 from regression.pages.enterprise.enterprise_const import (
     ENTERPRISE_NAME,
+    ENT_COURSE_TITLE,
     ENT_PORTAL_USERNAME,
     ENT_PORTAL_PASSWORD,
-    ENT_COURSE_TITLE,
     IDP_CSS_ID
 )
 from regression.pages.whitelabel.ecommerce_courses_page import (
@@ -52,7 +53,12 @@ from regression.pages.whitelabel.const import (
     BILLING_INFO,
     CARD_HOLDER_INFO
 )
-from regression.tests.helpers.api_clients import LogoutApi
+from regression.pages.whitelabel.basket_page import SingleSeatBasketPage
+from regression.tests.helpers.api_clients import (
+    LogoutApi,
+    LmsLoginApi,
+    LmsApiClient
+)
 from regression.tests.helpers.utils import get_random_credentials
 
 
@@ -88,7 +94,11 @@ class EnterpriseTestBase(WebAppTest):
         self.track_selection_page = TrackSelectionPage(self.browser)
         self.user_account = UserAccountSettings(self.browser)
         self.cyber_source_page = CyberSourcePage(self.browser)
+        self.single_seat_basket = SingleSeatBasketPage(self.browser)
         self.receipt_page = ReceiptPage(self.browser)
+        self.lms_api_client = LmsApiClient()
+        self.login_api = LmsLoginApi()
+        self.logout_api = LogoutApi()
 
     def unlink_account(self):
         """
@@ -178,14 +188,21 @@ class EnterpriseTestBase(WebAppTest):
         Get cookies from browser and send these cookie to python request to
         logout using api
         """
-        logout_api = LogoutApi()
-        logout_api.logout_url = '{}://{}/{}'.format(
+
+        self.logout_api.logout_url = '{}://{}/{}'.format(
             LMS_PROTOCOL,
             LMS_BASE_URL,
             'logout'
             )
-        logout_api.cookies = self.browser.get_cookies()
-        logout_api.logout()
+        self.logout_api.cookies = self.browser.get_cookies()
+        self.logout_api.logout()
+
+    def login_user_lms_using_api(self):
+        """
+        Login user to LMS using login API
+        """
+
+        self.login_api.authenticate(self.browser)
 
     def login_and_go_to_course_enrollment_page(self):
         """
@@ -246,3 +263,35 @@ class EnterpriseTestBase(WebAppTest):
             country="US"
         )
         self.dashboard.wait_for_page()
+
+    def verify_info_is_populated_on_basket(self, discounted_price):
+        """
+        After User accept data sharing consent from landing pag
+        verify that following information is
+        displayed correctly on basket page:
+        i) Enterprise offer is applied
+        ii) Discounted amount
+
+        Arguments:
+            discounted_price(float): Discounted price of the course.
+        """
+        self.assertTrue(self.single_seat_basket.is_offer_applied())
+        self.assertEqual(
+            self.single_seat_basket.total_price_after_discount,
+            discounted_price
+        )
+        self.payment_using_cyber_source()
+
+    def verify_receipt_info_for_discounted_course(self):
+        """
+        Verify that info on receipt page is correct.
+
+        Verify
+        i) Course title.
+        ii) Order date
+        """
+        self.assertIn(ENT_COURSE_TITLE, self.receipt_page.order_desc)
+        self.assertEqual(
+            datetime.utcnow().strftime("%Y-%m-%d"),
+            self.receipt_page.order_date
+        )

@@ -191,6 +191,15 @@ class SingleSeatBasketPage(BasketPage):
         """
         return self.q(css='.voucher').present
 
+    def is_offer_applied(self):
+        """
+        Checks whether offer is applied.
+
+        Returns:
+            bool: True if any offer is applied on the page:
+        """
+        return self.q(css='.offer').present
+
     @property
     def total_price_after_discount(self):
         """
