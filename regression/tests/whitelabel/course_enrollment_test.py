@@ -5,23 +5,26 @@ import datetime
 
 from bok_choy.promise import EmptyPromise
 
+from regression.pages.whitelabel.basket_page import (
+    BasketPage,
+    CyberSourcePage,
+    MultiSeatBasketPage,
+    SingleSeatBasketPage
+)
+from regression.pages.whitelabel.const import (
+    BILLING_INFO,
+    CARD_HOLDER_INFO,
+    PASSWORD
+)
+from regression.pages.whitelabel.course_about_page import CourseAboutPage
+from regression.pages.whitelabel.courses_page import CoursesPage
+from regression.pages.whitelabel.receipt_page import ReceiptPage
+from regression.tests.helpers.api_clients import (
+    EnrollmentApiClient,
+    LmsApiClient
+)
 from regression.tests.whitelabel.white_label_tests_base import (
     WhiteLabelTestsBaseClass
-)
-from regression.tests.helpers.api_clients import (
-    LmsApiClient,
-    EnrollmentApiClient
-)
-from regression.pages.whitelabel.basket_page import (
-    BasketPage, CyberSourcePage, MultiSeatBasketPage, SingleSeatBasketPage
-)
-from regression.pages.whitelabel.receipt_page import ReceiptPage
-from regression.pages.whitelabel.courses_page import CoursesPage
-from regression.pages.whitelabel.course_about_page import CourseAboutPage
-from regression.pages.whitelabel.const import (
-    PASSWORD,
-    CARD_HOLDER_INFO,
-    BILLING_INFO
 )
 
 
@@ -56,21 +59,17 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
         self.total_price = 0.0
         self.full_cleanup = True
 
-    def login_and_go_to_basket(self, user_email, bulk_purchase=False):
+    def go_to_basket(self, bulk_purchase=False):
         """
-        Perform all the steps from login to reaching the basket page.
+        Perform all the steps from dashboard to reaching the basket page.
 
         If bulk_purchase is set to 'True' then go to multi seat basket,
         otherwise go to single seat basket.
 
         Arguments:
-            user_email(str): Email of the user.
             bulk_purchase(bool): Indicates type of the purchase.
         """
         course_about_page = CourseAboutPage(self.browser, self.course_id)
-        self.login_page.visit()
-        self.login_user_using_ui(user_email, PASSWORD)
-        self.dashboard_page.wait_for_page()
         # Check that course is not already present on dashboard and use find
         # course link to go to courses page
         self.assertFalse(self.dashboard_page.is_course_present(self.course_id))
@@ -117,7 +116,7 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
         the course. After that, logout from application.
         """
         self.assert_course_added_to_dashboard()
-        self.logout_user_from_lms()
+        self.logout_from_wl_using_api()
 
     def assert_course_added_to_dashboard(self):
         """

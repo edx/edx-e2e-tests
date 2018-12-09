@@ -14,8 +14,8 @@ from regression.tests.helpers.utils import (
     get_course_info, get_course_display_name
 )
 from regression.tests.helpers.api_clients import (
-    StudioSessionApi,
-    LmsSessionApi
+    StudioLoginApi,
+    LmsLoginApi
 )
 from regression.pages.studio.course_outline_page import (
     CourseOutlinePageExtended
@@ -30,10 +30,10 @@ class DashboardTest(WebAppTest):
     def setUp(self):
         super(DashboardTest, self).setUp()
 
-        studio_login = StudioSessionApi()
+        studio_login = StudioLoginApi()
         studio_login.authenticate(self.browser)
 
-        lms_login = LmsSessionApi()
+        lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)
 
         self.studio_home_page = DashboardPageExtended(self.browser)

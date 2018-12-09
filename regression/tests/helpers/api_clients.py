@@ -1,44 +1,103 @@
 """
 Api clients for tests.
 """
-import time
-import datetime
-import re
 import Cookie
+import datetime
 import json
+import time
+
 import requests
 from requests.auth import AuthBase
 from edx_rest_api_client.client import EdxRestApiClient
 from guerrillamail import GuerrillaMailSession
 
+
 from regression.pages import (
-    BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD, LOGIN_EMAIL, LOGIN_PASSWORD
+    BASIC_AUTH_PASSWORD,
+    BASIC_AUTH_USERNAME,
+    LOGIN_EMAIL,
+    LOGIN_PASSWORD
 )
-from regression.pages.lms import LMS_BASE_URL, LMS_PROTOCOL
+from regression.pages.common.utils import get_target_url_from_text
 from regression.pages.lms import LOGIN_BASE_URL as LMS_AUTH_URL
-from regression.pages.studio import STUDIO_BASE_URL, STUDIO_PROTOCOL
+from regression.pages.lms import LMS_BASE_URL, LMS_PROTOCOL
 from regression.pages.studio import LOGIN_BASE_URL as STUDIO_AUTH_URL
+from regression.pages.studio import STUDIO_BASE_URL, STUDIO_PROTOCOL
 from regression.pages.whitelabel.const import (
-    EMAIL_SENDER_ACCOUNT,
-    INITIAL_WAIT_TIME,
-    TIME_OUT_LIMIT,
-    WAIT_TIME,
-    ENROLLMENT_API_URL,
-    ACCESS_TOKEN,
     ECOMMERCE_API_URL,
+    EMAIL_SENDER_ACCOUNT,
+    ENROLLMENT_API_URL,
+    INITIAL_WAIT_TIME,
+    OAUTH_CLIENT_ID,
+    OAUTH_CLIENT_SECRET,
+    TIME_OUT_LIMIT,
+    URL_WITH_AUTH,
     URL_WITHOUT_AUTH,
-    AUTH_USERNAME,
-    AUTH_PASSWORD
+    WAIT_TIME
+)
+from regression.tests.helpers.utils import get_org_specific_registration_fields
+
+
+OAUTH_ACCESS_TOKEN_URL = '{}://{}/{}'.format(
+    LMS_PROTOCOL,
+    LMS_BASE_URL,
+    'oauth2/access_token'
 )
 
 
-class UserSessionApiBaseClass(object):
+class BearerAuth(AuthBase):
+    """ Attaches Bearer Authentication to the given Request object. """
+
+    def __init__(self, token):
+        """ Instantiate the auth class. """
+        self.token = token
+
+    def __call__(self, r):
+        """ Update the request headers. """
+        r.headers['Authorization'] = 'Bearer {}'.format(self.token)
+        return r
+
+
+class ApiException(Exception):
     """
-    Base class for login api
+    Exceptions for API failures
+    """
+    pass
+
+
+class MailException(Exception):
+    """
+    Exceptions for Mail failures
+    """
+    pass
+
+
+def check_response(response):
+    """
+    Check whether a response was successful. If not raise an exception
+    Args:
+        response:
+    """
+    if response.status_code != 200:
+        raise ApiException(
+            'API request failed with following message: ' +
+            str(response.text)
+        )
+
+
+def yesterday_date():
+    """
+    Get and return yesterday's date in dd-mmm-yyyy format
+    """
+    return (datetime.date.today() - datetime.timedelta(1)).strftime("%d-%b-%Y")
+
+
+class LogistrationApiBaseClass(object):
+    """
+    Base class for logistration api
     """
     def __init__(self):
-        self.login_url = None
-        self.logout_url = None
+        self.logistration_base_url = ''
         self.session = requests.Session()
         self.session.auth = (
             BASIC_AUTH_USERNAME,
@@ -51,22 +110,9 @@ class UserSessionApiBaseClass(object):
             'remember': 'false'
         }
 
-        self.login_response = None
-        self.login_post_url = None
-        self.browser_get_url = None
-
-    def check_response(self, response):
-        """
-        Check whether a response was successful. If not raise an exception
-
-        Arguments:
-            response: HTTP response object
-        """
-        if response.status_code != 200:
-            raise Exception(
-                'API request failed with following error code: ' +
-                str(response.status_code)
-            )
+        self.logistration_response = None
+        self.logistration_post_url = ''
+        self.browser_get_url = ''
 
     def post_headers(self, x_csrf):
         """
@@ -79,43 +125,45 @@ class UserSessionApiBaseClass(object):
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'Accept': '*/*',
             'X-Requested-With': 'XMLHttpRequest',
-            'Referer': self.login_url,
+            'Referer': self.logistration_base_url,
             'X-CSRFToken': x_csrf,
         }
 
     def create_base_session(self):
         """
-        Create a session with the host.
+        Create a base session with the host.
         """
-        response = self.session.get(self.login_url)
-        self.check_response(response)
+        response = self.session.get(self.logistration_base_url)
+        check_response(response)
         self.session.cookies = response.cookies
         self.session.headers = self.post_headers(
             response.cookies['csrftoken']
         )
 
-    def login(self):
+    def create_user_session(self):
         """
-        Login to the stage.
+        Create session of a user by registering or logging in
         """
         self.create_base_session()
-
-        response = self.session.post(self.login_post_url, data=self.payload)
-        self.check_response(response)
+        response = self.session.post(
+            self.logistration_post_url,
+            data=self.payload
+        )
+        check_response(response)
         self.session.cookies = response.cookies
         self.session.headers = self.post_headers(
             response.cookies['csrftoken']
         )
-        self.login_response = response
+        self.logistration_response = response
 
     def authenticate(self, browser):
         """
         Authenticate the user and pass the session to the browser.
 
         Arguments:
-        browser: Browser to pass the session to.
+            browser: Browser to pass the session to.
         """
-        self.login()
+        self.create_user_session()
         # To make cookies effective, we have to set the
         # domain of the browser the same as that of the
         # cookies. To do this, just visit a page of the
@@ -136,76 +184,102 @@ class UserSessionApiBaseClass(object):
             # '.stage.edx.org'. The browser was setting it correctly
             # when logging into lms, but was setting it to
             # 'studio.stage.edx.org' when logging into studio.
-            if cookie.name == 'stage-edx-sessionid':
-                cookie_dict['domain'] = '.stage.edx.org'
+            # For studio we need to set domain back to .stage.edx.org
+            # but for WL sites we need the to remain as is
+            if 'studio' in self.logistration_base_url:
+                if cookie.name == 'stage-edx-sessionid':
+                    cookie_dict['domain'] = '.stage.edx.org'
             browser.add_cookie(cookie_dict)
         browser.get(self.browser_get_url)
 
+
+class LogoutApi(object):
+    """
+    This class uses the cookies from browser session to logout
+    current user with the help of api request
+    """
+    def __init__(self):
+        super(LogoutApi, self).__init__()
+        self.logout_url = None
+        self.cookies = {}
+        self.session = requests.Session()
+        self.session.auth = (BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD)
+
     def logout(self):
         """
-        Logout existing user
+        Logout from application using api
         """
-        self.session.get(self.logout_url)
+        self.session.cookies.update(
+            {cookie['name']: cookie['value'] for cookie in self.cookies}
+        )
+        response = self.session.get(self.logout_url)
+        check_response(response)
 
 
-class LmsSessionApi(UserSessionApiBaseClass):
+class LmsLoginApi(LogistrationApiBaseClass):
     """
-    Login api for LMS
+    Logged in session api for LMS
     """
-    def __init__(self, target_page='/dashboard'):
-        super(LmsSessionApi, self).__init__()
+    def __init__(self, target_page=None):
+        super(LmsLoginApi, self).__init__()
 
-        target_page_name = target_page
+        target_page_partial_link = target_page or '/dashboard'
 
-        self.login_url = '{}://{}/{}'.format(
-            LMS_PROTOCOL, LMS_BASE_URL, 'login'
+        self.logistration_base_url = '{}://{}/{}'.format(
+            LMS_PROTOCOL,
+            LMS_BASE_URL,
+            'login'
         )
 
-        self.login_post_url = '{}://{}/{}'.format(
+        self.logistration_post_url = '{}://{}/{}'.format(
             LMS_PROTOCOL,
             LMS_BASE_URL,
             'user_api/v1/account/login_session/'
         )
 
-        self.logout_url = '{}://{}/{}'.format(
-            LMS_PROTOCOL,
-            LMS_BASE_URL,
-            'logout'
-        )
-
-        self.browser_get_url = LMS_AUTH_URL + target_page_name
+        self.browser_get_url = LMS_AUTH_URL + target_page_partial_link
 
 
-class StudioSessionApi(UserSessionApiBaseClass):
+class StudioLoginApi(LogistrationApiBaseClass):
     """
     Login api for Studio
     """
     def __init__(self):
-        super(StudioSessionApi, self).__init__()
+        super(StudioLoginApi, self).__init__()
 
-        self.login_url = '{}://{}/{}'.format(
+        self.logistration_base_url = '{}://{}/{}'.format(
             STUDIO_PROTOCOL, STUDIO_BASE_URL, 'signin'
         )
 
-        self.login_post_url = '{}://{}/{}'.format(
+        self.logistration_post_url = '{}://{}/{}'.format(
             STUDIO_PROTOCOL, STUDIO_BASE_URL, 'login_post'
         )
 
         self.browser_get_url = STUDIO_AUTH_URL + '/home'
 
 
-class MailException(Exception):
+class WLRegisterApi(LogistrationApiBaseClass):
     """
-    Exceptions for Mail failures
+    Register a new user using API
     """
-    pass
+    def __init__(self, target_page=None):
+        super(WLRegisterApi, self).__init__()
 
+        target_page_partial_link = target_page or 'dashboard'
 
-def yesterday_date():
-    """
-    Get and return yesterday's date in dd-mmm-yyyy format
-    """
-    return (datetime.date.today() - datetime.timedelta(1)).strftime("%d-%b-%Y")
+        self.payload = get_org_specific_registration_fields()
+
+        self.logistration_base_url = '{}{}'.format(
+            URL_WITHOUT_AUTH,
+            'register?next=%2F'
+        )
+
+        self.logistration_post_url = '{}{}'.format(
+            URL_WITHOUT_AUTH,
+            'user_api/v1/account/registration/'
+        )
+
+        self.browser_get_url = URL_WITH_AUTH + target_page_partial_link
 
 
 class GuerrillaMailApi(object):
@@ -265,33 +339,12 @@ class GuerrillaMailApi(object):
         else:
             raise MailException('No Email from ' + EMAIL_SENDER_ACCOUNT)
 
-    def get_target_url_from_text(self, url_matching_string, text_chunk):
-        """
-        Search and return the target url from text chunk, the url is searched
-        on the basis of partial string embedded in url
-        Args:
-            url_matching_string:
-            text_chunk:
-        Returns:
-            target url:
-        """
-        pattern = r"(?P<url>http[s]?://[^\s\"]+(/{}/)[^\s\"]+)".format(
-            url_matching_string
-        )
-        regex_result = re.search(pattern, text_chunk)
-        if regex_result:
-            target_url = regex_result.group("url")
-            return target_url.rstrip('.')
-        else:
-            return 'Target URL not found in the text'
-
     def get_url_from_email(self, matching_string):
         """
         Connect to the email client
         Get text of target email
         fetch desired url from the email text
         Args:
-            user_email:
             matching_string:
         Returns:
             target url:
@@ -299,84 +352,47 @@ class GuerrillaMailApi(object):
         email_text = self.get_email_text(
             self.user_email
         )
-        return self.get_target_url_from_text(matching_string, email_text)
+        return get_target_url_from_text(matching_string, email_text)
 
 
-class BearerAuth(AuthBase):
-    """ Attaches Bearer Authentication to the given Request object. """
-
-    def __init__(self, token):
-        """ Instantiate the auth class. """
-        self.token = token
-
-    def __call__(self, r):
-        """ Update the request headers. """
-        r.headers['Authorization'] = 'Bearer {}'.format(self.token)
-        return r
-
-
-class ApiException(Exception):
+class EdxRestApiBaseClass(object):
     """
-    Exceptions for API failures
+    Base class for creating EdxRestAPiClient instance
     """
-    pass
+    api_url_root = None
+    append_slash = True
 
-
-def check_response(response):
-    """
-    Check whether a response was successful. If not raise an exception
-    Args:
-        response:
-    """
-    if response.status_code != 200:
-        raise ApiException(
-            'API request failed with following error code: ' +
-            str(response.status_code)
+    def __init__(self):
+        assert self.api_url_root
+        access_token, __ = self.get_access_token()
+        self.client = EdxRestApiClient(
+            self.api_url_root,
+            jwt=access_token,
+            append_slash=self.append_slash
         )
 
-
-class EnrollmentApiClient(object):
-    """
-    Enrollment API client
-    """
-
-    def __init__(self, host=None, key=None):
-        self.host = host or ENROLLMENT_API_URL
-        self.key = key or ACCESS_TOKEN
-
-    def is_user_enrolled(self, username, course_id):
-        """
-        Retrieve the enrollment status for given user in a given course.
-        Args:
-            username:
-            course_id:
+    @staticmethod
+    def get_access_token():
+        """ Returns an access token and expiration date from the OAuth
+        provider.
         Returns:
-            True or false based on whether user is enrolled
+            (str, datetime):Tuple containing access token and expiration date.
         """
-        url = '{host}/enrollment/{username},{course_id}'.format(
-            host=self.host,
-            username=username,
-            course_id=course_id
+        return EdxRestApiClient.get_oauth_access_token(
+            OAUTH_ACCESS_TOKEN_URL,
+            OAUTH_CLIENT_ID,
+            OAUTH_CLIENT_SECRET,
+            token_type='jwt'
         )
-        response = requests.get(url, auth=BearerAuth(self.key))
-        check_response(response)
-        formatted_response = response.json()
-        return formatted_response['is_active']
 
 
-class EcommerceApiClient(object):
+class EcommerceApiClient(EdxRestApiBaseClass):
     """
     Ecommerce API client for various actions like creating, deleting
     downloading coupons
     """
 
-    @property
-    def ecommerce_api_client(self):
-        """
-        E-Commerce API Client
-        """
-        return EdxRestApiClient(
-            ECOMMERCE_API_URL, oauth_access_token=ACCESS_TOKEN)
+    api_url_root = ECOMMERCE_API_URL
 
     def create_coupon(self, payload):
         """
@@ -384,7 +400,7 @@ class EcommerceApiClient(object):
         Args:
             payload:
         """
-        response = self.ecommerce_api_client.coupons.post(data=payload)
+        response = self.client.coupons.post(data=payload)
         if 'coupon_id' not in response.keys():
             raise ApiException('Coupon not created')
         return response['coupon_id']
@@ -395,7 +411,7 @@ class EcommerceApiClient(object):
         Args:
             coupon_id:
         """
-        response = self.ecommerce_api_client.products(coupon_id).get()
+        response = self.client.products(coupon_id).get()
         if not response:
             raise ApiException('No coupon report found')
         return response
@@ -407,7 +423,7 @@ class EcommerceApiClient(object):
         Args:
             coupon_id:
         """
-        response = self.ecommerce_api_client.coupons(coupon_id).delete()
+        response = self.client.coupons(coupon_id).delete()
         if not response:
             raise ApiException('Failed to delete the coupon using API')
 
@@ -426,6 +442,29 @@ class EcommerceApiClient(object):
         return coupon_codes
 
 
+class EnrollmentApiClient(EdxRestApiBaseClass):
+    """
+    Enrollment API client
+    """
+
+    api_url_root = ENROLLMENT_API_URL
+    append_slash = False
+
+    def is_user_enrolled(self, username, course_run_id):
+        """
+        Get enrollment details for the given user and course run.
+        Arguments:
+            username (str): user name for enrolled user
+            course_run_id (str): course id in which user is enrolled
+        """
+        response = self.client.enrollment(
+            '{},{}'.format(username, course_run_id)
+        ).get()
+        check_response(response)
+        formatted_response = response.json()
+        return formatted_response['is_active']
+
+
 class LmsApiClient(object):
     """
     API class for accessing different APIs
@@ -437,14 +476,14 @@ class LmsApiClient(object):
         """
         self.host = host or URL_WITHOUT_AUTH
         self.session = requests.Session()
-        self.session.auth = (AUTH_USERNAME, AUTH_PASSWORD)
+        self.session.auth = (BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD)
         self.login_response = None
 
     def _post_headers(self, x_csrf=None):
         """
         Default HTTP headers dict.
-        Args:
-            x_csrf:
+        Arguments:
+            x_csrf: csrf token value
         """
         return {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -470,7 +509,7 @@ class LmsApiClient(object):
     def create_login_session(self, user_email, user_password):
         """
         Create a session and assign cookies to it after successful login
-        Args:
+        Arguments:
             user_email:
             user_password:
         """
@@ -494,7 +533,7 @@ class LmsApiClient(object):
         """
         get cookie info from response headers
         Returns:
-
+            Cookie info: Cookie information in simple cookie format
         """
         set_cookie = self.login_response.headers['Set-Cookie']
         if not set_cookie:
@@ -535,7 +574,7 @@ class LmsApiClient(object):
     def get_coupon_request(self, target_url):
         """
         Send a Get request and return the response if successful
-        Args:
+        Arguments:
           target_url:
         """
         response = self.session.get(target_url)

@@ -2,15 +2,30 @@
 Test helper functions.
 """
 import os
+import uuid
 
-from regression.pages.studio.utils import get_course_key
 from regression.pages.studio import LOGIN_BASE_URL
+from regression.pages.studio.utils import get_course_key
 from regression.pages.whitelabel.activate_account import ActivateAccount
+from regression.pages.whitelabel.const import (
+    ORG,
+    PASSWORD,
+    UNUSED_REGISTRATION_FIELDS_MAPPING
+)
 
 COURSE_ORG = 'COURSE_ORG'
 COURSE_NUMBER = 'COURSE_NUMBER'
 COURSE_RUN = 'COURSE_RUN'
 COURSE_DISPLAY_NAME = 'COURSE_DISPLAY_NAME'
+
+
+def get_random_credentials():
+    """
+    Get random user name and email address
+    """
+    username = 'test_{}'.format(str(uuid.uuid4().node))
+    email = "{}@example.com".format(username)
+    return username, email
 
 
 def get_course_info():
@@ -71,11 +86,12 @@ def get_data_id_of_component(page):
 
 
 def get_white_label_registration_fields(
-        email='', password='', full_name='White label Test User',
-        first_name='White Label', last_name='Test User', gender='m',
-        yob='1994', state='Massachusetts', country='US', edu_level='m',
-        company='Arbisoft', title='SQA', user_name=''
-
+        email='', password='', name="Automated Test User",
+        username='', first_name='Test', last_name='User',
+        gender='m', year_of_birth='1994', state='Massachusetts',
+        country='US', level_of_education='m', company='Arbisoft', title='SQA',
+        profession='physician', specialty='neurology', terms_of_service="true",
+        honor_code="true"
 ):
     """
     Returns a dictionary of fields to register a user.
@@ -83,35 +99,46 @@ def get_white_label_registration_fields(
     Arguments:
         email(str): User's email
         password(str): User's password
-        full_name(str): User's full name
+        name(str): User's full name
         first_name(str): User's first name
         last_name(str): User's last name
         gender(str): User's gender
-        yob(str): User's year of birth
+        year_of_birth(str): User's year of birth
         state(str): User's current state of residence.
         country(str): User's country
-        edu_level(str): User's education level.
+        level_of_education(str): User's education level.
         company(str): User's current company  of affiliation.
         title(str): User's title.
-        user_name(str): User's user name
+        username(str): User's user name
+        profession(str): Profession of user
+        specialty(str): User's Area of specialty,
+        terms_of_service(str): Terms of Services checkbox
+        honor_code(str): Honor code check box
 
     Returns:
         dict: A dictionary of all fields.
     """
+    # use the username and email values if set by function call, otherwise
+    # set random values
+    get_user_name, get_user_email = get_random_credentials()
     return {
-        'email': email,
-        'password': password,
-        'full_name': full_name,
+        'email': email or get_user_email,
+        'username': username or get_user_name,
+        'password': password or PASSWORD,
+        'name': name,
         'first_name': first_name,
         'last_name': last_name,
         'gender': gender,
-        'yob': yob,
+        'year_of_birth': year_of_birth,
         'state': state,
         'country': country,
-        'edu_level': edu_level,
+        'level_of_education': level_of_education,
         'company': company,
         'title': title,
-        'user_name': user_name
+        'profession': profession,
+        'specialty': specialty,
+        'terms_of_service': terms_of_service,
+        'honor_code': honor_code
     }
 
 
@@ -172,7 +199,7 @@ def activate_account(test, email_api):
     window, verify that account is activated.
 
     Arguments:
-        browser(NeedleDriver): The browser on which activation is performed.
+        test: The browser on which activation is performed.
         email_api(GuerrillaMailApi): Api to access GuerrillaMail.
     """
     main_window = test.browser.current_window_handle
@@ -191,3 +218,29 @@ def activate_account(test, email_api):
     # Switch back to original window and refresh the page
     test.browser.switch_to.window(main_window)
     test.browser.refresh()
+
+
+def get_org_specific_registration_fields():
+    """
+    Get ORG Specific registration fields by removing unused fields based on
+    the selected ORG
+    Returns:
+        filtered registration data
+    """
+    registration_data = get_white_label_registration_fields()
+    unused_field_keys = UNUSED_REGISTRATION_FIELDS_MAPPING[ORG]
+    for field in unused_field_keys:
+        registration_data.pop(field)
+    return registration_data
+
+
+def construct_course_basket_page_url(course_id):
+    """
+    Uses the course id to construct course related basket page url
+    Arguments:
+        course_id:
+    Returns:
+        constructed url:
+    """
+    return 'account/finish_auth?course_id={}&enrollment_action=enroll&' \
+           'purchase_workflow=single&next=/dashboard'.format(course_id)

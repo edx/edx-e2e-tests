@@ -6,7 +6,7 @@ from uuid import uuid4
 from bok_choy.web_app_test import WebAppTest
 from regression.pages.studio.studio_textbooks import TextbookPageExtended
 from regression.tests.helpers.api_clients import (
-    StudioSessionApi, LmsSessionApi
+    StudioLoginApi, LmsLoginApi
 )
 from regression.tests.helpers.utils import get_course_info
 from regression.pages.lms.lms_textbook import TextbookPage
@@ -19,10 +19,10 @@ class TextbookTest(WebAppTest):
     def setUp(self):
         super(TextbookTest, self).setUp()
 
-        studio_login = StudioSessionApi()
+        studio_login = StudioLoginApi()
         studio_login.authenticate(self.browser)
 
-        lms_login = LmsSessionApi()
+        lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)
 
         self.lms_textbook = TextbookPage(self.browser)

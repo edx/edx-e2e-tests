@@ -1,16 +1,18 @@
 """
 Registration page.
 """
+
 from edxapp_acceptance.pages.lms.login_and_register import (
     CombinedLoginAndRegisterPage
 )
-
+from edxapp_acceptance.tests.helpers import disable_animations
+from regression.pages.whitelabel.const import ORG, URL_WITH_AUTH
 from regression.tests.helpers.utils import (
+    click_checkbox,
     fill_input_fields,
     select_drop_down_values,
-    click_checkbox
+
 )
-from regression.pages.whitelabel.const import ORG, URL_WITH_AUTH
 
 
 class RegisterPageExtended(CombinedLoginAndRegisterPage):
@@ -27,14 +29,15 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
             registration_fields(dict): A dictionary of all fields to be filled.
             submit(bool): If True then registration form will be submitted.
         """
+        disable_animations(self)
         self.wait_for_element_visibility(
             '.form-toggle[data-type="login"]', 'Registration form is visible.'
         )
 
         elements_and_values = {
             '#register-email': registration_fields['email'],
-            '#register-name': registration_fields['full_name'],
-            '#register-username': registration_fields['user_name'],
+            '#register-name': registration_fields['name'],
+            '#register-username': registration_fields['username'],
             '#register-password': registration_fields['password'],
             '#register-first_name': registration_fields['first_name'],
             '#register-last_name': registration_fields['last_name'],
@@ -43,7 +46,6 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
 
         drop_down_names_and_values = {
             "country": registration_fields['country'],
-            "year_of_birth": registration_fields['yob'],
         }
         select_drop_down_values(self, drop_down_names_and_values)
         fill_input_fields(self, elements_and_values)
@@ -67,8 +69,19 @@ class RegisterPageExtended(CombinedLoginAndRegisterPage):
             select_drop_down_values(
                 self,
                 {
+                    "year_of_birth": registration_fields['year_of_birth'],
                     "gender": registration_fields['gender'],
-                    "level_of_education": registration_fields['edu_level']
+                    "level_of_education": registration_fields[
+                        'level_of_education'
+                    ]
+                }
+            )
+        else:
+            select_drop_down_values(
+                self,
+                {
+                    "profession": registration_fields['profession'],
+                    "specialty": registration_fields['specialty']
                 }
             )
 

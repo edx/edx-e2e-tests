@@ -4,7 +4,7 @@ Enterprise portal course start page
 from bok_choy.page_object import PageObject
 
 
-class EnterprisePortalCourse(PageObject):
+class EntPortalCourse(PageObject):
     """
     This class handles the Enterprise Portal Course objects
     """
@@ -28,7 +28,7 @@ class EnterprisePortalCourse(PageObject):
         self.browser.switch_to_frame(iframe)
 
 
-class EnterprisePortalCourseStart(EnterprisePortalCourse):
+class EntPortalCourseStart(EntPortalCourse):
     """
     This class handles the Enterprise portal course start/continue objects
     """
@@ -40,9 +40,10 @@ class EnterprisePortalCourseStart(EnterprisePortalCourse):
         button_css = 'button[title*="Course"]'
         self.wait_for_element_visibility(button_css, 'wait for button')
         self.q(css=button_css).click()
+        self.wait_for_ajax()
 
 
-class EnterprisePortalCourseStructure(EnterprisePortalCourse):
+class EntPortalCourseStructure(EntPortalCourse):
     """
     This class handles the Enterprise portal course structure objects
     """
@@ -51,7 +52,6 @@ class EnterprisePortalCourseStructure(EnterprisePortalCourse):
         """
         Open the edx course page in new browser window
         """
-        self.switch_to_iframe()
         course_link_css = '.BodyText>a'
-        self.wait_for_element_visibility(course_link_css, 'wait for button')
+        self.wait_for_element_visibility(course_link_css, 'wait for link')
         self.q(css=course_link_css).click()

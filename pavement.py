@@ -128,7 +128,8 @@ def wl_test_config():
     env_vars = [
         'STAFF_USER_EMAIL',
         'GLOBAL_PASSWORD',
-        'ACCESS_TOKEN'
+        'OAUTH_CLIENT_ID',
+        'OAUTH_CLIENT_SECRET'
         ]
     for env_var in env_vars:
         try:
@@ -163,9 +164,12 @@ def configure_enterprise_tests_pre_reqs():
     env_vars = [
         'BASIC_AUTH_USER',
         'BASIC_AUTH_PASSWORD',
-        'ENTERPRISE_PORTAL_USERNAME',
-        'ENTERPRISE_PORTAL_PASSWORD',
-        'ENTERPRISE_COURSE_TITLE'
+        'ENT_PORTAL_USERNAME',
+        'ENT_PORTAL_PASSWORD',
+        'ENT_COURSE_TITLE',
+        'ENT_COURSE_ORG',
+        'ENT_COURSE_PRICE',
+        'ENT_COURSE_START_DATE'
         ]
     for env_var in env_vars:
         try:

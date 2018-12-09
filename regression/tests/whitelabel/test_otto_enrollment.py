@@ -1,31 +1,30 @@
 """
-Tests for existing users using Otto
+Tests for enrollment through Otto
 """
 from unittest import skip
 
 from regression.pages.whitelabel.const import (
-    EXISTING_USER_EMAIL,
-    PASSWORD,
     PROF_COURSE_ID,
-    PROF_COURSE_TITLE,
-    PROF_COURSE_PRICE
+    PROF_COURSE_PRICE,
+    PROF_COURSE_TITLE
 )
 from regression.pages.whitelabel.course_about_page import CourseAboutPage
+from regression.tests.helpers.utils import construct_course_basket_page_url
 from regression.tests.whitelabel.course_enrollment_test import (
     CourseEnrollmentTest
 )
 
 
-class TestExistingUserOtto(CourseEnrollmentTest):
+class TestEnrollmentOtto(CourseEnrollmentTest):
     """
-    Tests for Otto Enrollment for Existing Users
+    Tests for Otto Enrollment
     """
 
     def setUp(self):
         """
         Initialize all page objects
         """
-        super(TestExistingUserOtto, self).setUp()
+        super(TestEnrollmentOtto, self).setUp()
         self.course_about = CourseAboutPage(self.browser, PROF_COURSE_ID)
         # Initialize common objects
         self.course_id = PROF_COURSE_ID
@@ -33,28 +32,23 @@ class TestExistingUserOtto(CourseEnrollmentTest):
         self.course_price = PROF_COURSE_PRICE
         self.total_price = PROF_COURSE_PRICE
 
-        self.addCleanup(
-            self.unenroll_using_api,
-            EXISTING_USER_EMAIL,
-            self.course_id
-        )
-
     @skip
-    def test_login_and_select_course(self):
+    def test_register_and_select_course(self):
         """
-        Scenario: Otto flow - A registered user is able to login, select a
+        Scenario: Otto flow - A registered user is able to register, select a
         course and make payment for the course using the credit card
         """
-        self.login_and_go_to_basket(EXISTING_USER_EMAIL)
+        self.register_using_api()
+        self.go_to_basket()
         self.pay_with_cybersource()
         self.dashboard_page.wait_for_page()
         self.assert_enrollment_and_logout()
 
     @skip
-    def test_select_course_and_login(self):
+    def test_select_course_and_register(self):
         """
-        Scenario: Otto flow - A registered user is able to select a course,
-        login  and make payment for the course using the credit card
+        Scenario: Otto flow - A user is able to select a course,
+        register  and make payment for the course using the credit card
         """
         self.home_page.visit()
         self.home_page.go_to_courses_page()
@@ -64,11 +58,10 @@ class TestExistingUserOtto(CourseEnrollmentTest):
         self.assertEqual(self.course_price, self.course_about.course_price)
         self.course_about.register_using_enrollment_button()
         self.registration_page.wait_for_page()
-        self.registration_page.toggle_to_login_page()
-        self.login_page.wait_for_page()
-        self.login_page.authenticate_user(
-            EXISTING_USER_EMAIL,
-            PASSWORD
+        # Register a user using api and send it course specific basket page
+        # as target page
+        self.register_using_api(
+            construct_course_basket_page_url(PROF_COURSE_ID)
         )
         self.basket_page.wait_for_page()
         # Verify course name, course price and total price on basket page

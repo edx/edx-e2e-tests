@@ -67,7 +67,9 @@ class TestDynamicEnrollmentCoupon(VouchersTest):
         coupon_users = list(COUPON_USERS.values())
 
         for coupon_user in coupon_users[:-1]:
-            self.login_and_go_to_basket(coupon_user)
+            self.login_page.visit()
+            self.login_user_using_ui(coupon_user, PASSWORD)
+            self.go_to_basket()
             self.addCleanup(
                 self.unenroll_using_api,
                 coupon_user,
@@ -75,8 +77,9 @@ class TestDynamicEnrollmentCoupon(VouchersTest):
             )
             self.enroll_using_enrollment_code(coupon_code)
             self.assert_enrollment_and_logout()
-
-        self.login_and_go_to_basket(coupon_users[-1])
+        self.login_page.visit()
+        self.login_user_using_ui(coupon_users[-1], PASSWORD)
+        self.go_to_basket()
         self.assertEqual(
             self.error_message_on_invalid_coupon_code(coupon_code),
             ONCE_PER_CUSTOMER_CODE_MAX_LIMIT

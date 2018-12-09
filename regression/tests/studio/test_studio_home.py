@@ -17,8 +17,8 @@ from regression.tests.helpers.utils import (
 )
 
 from regression.tests.helpers.api_clients import (
-    StudioSessionApi,
-    LmsSessionApi
+    StudioLoginApi,
+    LmsLoginApi
 )
 
 
@@ -36,7 +36,7 @@ class StudioHomeTest(WebAppTest):
         """
         super(StudioHomeTest, self).setUp()
 
-        login_api = StudioSessionApi()
+        login_api = StudioLoginApi()
         login_api.authenticate(self.browser)
 
         self.studio_home_page = DashboardPageExtended(self.browser)
@@ -71,10 +71,10 @@ class StudioLmsTest(WebAppTest):
         """
         super(StudioLmsTest, self).setUp()
 
-        studio_login = StudioSessionApi()
+        studio_login = StudioLoginApi()
         studio_login.authenticate(self.browser)
 
-        lms_login = LmsSessionApi()
+        lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)
 
         self.studio_home_page = DashboardPageExtended(self.browser)
@@ -110,7 +110,7 @@ class StudioFooterTest(WebAppTest):
         """
         super(StudioFooterTest, self).setUp()
 
-        studio_login = StudioSessionApi()
+        studio_login = StudioLoginApi()
         studio_login.authenticate(self.browser)
 
         self.terms_of_service = TermsOfService(self.browser)
