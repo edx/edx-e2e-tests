@@ -2,6 +2,7 @@
 End to end tests for Studio Login
 """
 import os
+from unittest import skip
 
 from bok_choy.web_app_test import WebAppTest
 
@@ -27,6 +28,7 @@ class StudioUserLogin(WebAppTest):
         self.studio_home_page = DashboardPageExtended(self.browser)
         self.studio_logout_page = StudioLogout(self.browser)
 
+    @skip("Skip since studio's login/logout now redirects to LMS (ARCH-323)")
     def test_studio_login_logout(self):
         """
         Verifies that user can login and logout successfully
