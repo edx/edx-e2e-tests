@@ -2,7 +2,6 @@
 End to end tests for Studio Course Outline page
 """
 import os
-from unittest import skip
 
 from bok_choy.web_app_test import WebAppTest
 from edxapp_acceptance.tests.helpers import assert_side_bar_help_link
@@ -24,19 +23,19 @@ DEMO_COURSE_PASSWORD = os.environ.get('USER_LOGIN_PASSWORD')
 class StudioCourseOutlineTest(WebAppTest):
     """Tests of the Course Outline in Studio."""
 
-    @skip("Skip since studio's login/logout now redirects to LMS (ARCH-323)")
     def test_course_outline(self):
         """
         Verifies that the Help link for 'Learn more about content
         visibility settings' is working.
         """
-        studio_login_page = StudioLogin(self.browser)
         studio_home_page = DashboardPageExtended(self.browser)
-        studio_login_page.visit()
+        self.browser.get(studio_home_page.url)
+
+        studio_login_page = StudioLogin(self.browser)
+        studio_login_page.wait_for_page()
         studio_login_page.login(DEMO_COURSE_USER, DEMO_COURSE_PASSWORD)
 
         course_info = get_course_info()
-
         studio_course_outline = CourseOutlinePageExtended(
             self.browser, course_info['org'], course_info['number'],
             course_info['run'])
