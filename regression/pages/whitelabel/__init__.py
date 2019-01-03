@@ -73,7 +73,7 @@ if TEST_ENV in (DEFAULT_ENV, "sandbox"):
     if TEST_ENV == DEFAULT_ENV:
         BASE_URLS = {
             'edX': u'courses.stage.edx.org',
-            'HarvardMedGlobalAcademy': u'globalacademy-stage.hms.harvard.edu',
+            'HarvardMedGlobalAcademy': u'stage.cmeonline.hms.harvard.edu',
             'MITxPRO': u'stage.MITxPRO.mit.edu'
         }
 
@@ -96,6 +96,12 @@ if TEST_ENV in (DEFAULT_ENV, "sandbox"):
         ECOM_PREFIX,
         BASE_URL
     )
+
+    if ORG == 'HarvardMedGlobalAcademy' and TEST_ENV == DEFAULT_ENV:
+        ECOM_URL = "{}://{}".format(
+            LMS_PROTOCOL,
+            'stage-payments.cmeonline.hms.harvard.edu'
+        )
 
 elif TEST_ENV == "devstack":
     # Get DNS name if tests are running on devstack
