@@ -73,7 +73,7 @@ if TEST_ENV in (DEFAULT_ENV, "sandbox"):
     if TEST_ENV == DEFAULT_ENV:
         BASE_URLS = {
             'edX': u'courses.stage.edx.org',
-            'HarvardMedGlobalAcademy': u'globalacademy-stage.hms.harvard.edu',
+            'HarvardMedGlobalAcademy': u'stage.cmeonline.hms.harvard.edu',
             'MITxPRO': u'stage.MITxPRO.mit.edu'
         }
 
