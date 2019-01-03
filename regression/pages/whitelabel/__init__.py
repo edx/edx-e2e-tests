@@ -127,7 +127,7 @@ LMS_URL = '{}://{}'.format(LMS_PROTOCOL, BASE_URL)
 
 # Get Course ID, Price and Name
 DEFAULT_COURSE_NUM = "WL_E2E"
-DEFAULT_COURSE_RUN = str(datetime.now().year)
+DEFAULT_COURSE_RUN = "2018"
 
 # This line can be confusing, but the order of setting this is:
 # 1- The COURSE_ORG environment variable
