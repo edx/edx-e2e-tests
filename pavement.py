@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 import sys
 sys.path.insert(0, os.path.dirname(__file__))
@@ -51,7 +52,7 @@ def install_pages():
         'capa'
     ))
 
-    print 'Installing the Page Objects'
+    print('Installing the Page Objects')
     sh("pip install -r {req} --src={lib}".format(
         req=requirement_path, lib=lib_path))
     # Install pages

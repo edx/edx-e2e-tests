@@ -1,6 +1,7 @@
 """
 Test helper functions.
 """
+from __future__ import print_function
 import os
 import uuid
 
@@ -85,7 +86,7 @@ def visit_all(pages):
         pages:
     """
     for page in pages:
-        print "Visiting: {}".format(page)
+        print("Visiting: {}".format(page))
         page.visit()
 
 
