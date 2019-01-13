@@ -4,6 +4,11 @@ import os
 from paver import tasks
 from unittest import TestCase
 
+try:
+    unicode        # Python 2
+except NameError:  # Python 3
+    unicode = str  # pylint: disable=invalid-name,redefined-builtin
+
 
 class PaverTestCase(TestCase):
     """

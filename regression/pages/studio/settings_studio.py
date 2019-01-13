@@ -8,6 +8,11 @@ from regression.pages import UPLOAD_FILE_DIR
 from regression.pages.studio.utils import get_course_key
 from regression.pages.studio import LOGIN_BASE_URL
 
+try:
+    unicode        # Python 2
+except NameError:  # Python 3
+    unicode = str  # pylint: disable=invalid-name,redefined-builtin
+
 
 class SettingsPageExtended(SettingsPage):
     """

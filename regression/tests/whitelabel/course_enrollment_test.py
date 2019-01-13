@@ -26,6 +26,11 @@ from regression.tests.whitelabel.white_label_tests_base import (
     WhiteLabelTestsBaseClass
 )
 
+try:
+    unicode        # Python 2
+except NameError:  # Python 3
+    unicode = str  # pylint: disable=invalid-name,redefined-builtin
+
 
 class CourseNotFoundException(Exception):
     """

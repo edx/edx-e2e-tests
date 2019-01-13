@@ -18,6 +18,11 @@ COURSE_NUMBER = 'COURSE_NUMBER'
 COURSE_RUN = 'COURSE_RUN'
 COURSE_DISPLAY_NAME = 'COURSE_DISPLAY_NAME'
 
+try:
+    unicode        # Python 2
+except NameError:  # Python 3
+    unicode = str  # pylint: disable=invalid-name,redefined-builtin
+
 
 def get_random_credentials():
     """
