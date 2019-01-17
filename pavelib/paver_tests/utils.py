@@ -1,13 +1,9 @@
 """Unit tests for the Paver server tasks."""
 
 import os
+from six import text_type
 from paver import tasks
 from unittest import TestCase
-
-try:
-    unicode        # Python 2
-except NameError:  # Python 3
-    unicode = str  # pylint: disable=invalid-name,redefined-builtin
 
 
 class PaverTestCase(TestCase):
@@ -58,4 +54,4 @@ class MockEnvironment(tasks.Environment):
         else:
             output = message
         if not output.startswith("--->"):
-            self.messages.append(unicode(output))
+            self.messages.append(text_type(output))

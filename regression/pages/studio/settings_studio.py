@@ -8,10 +8,7 @@ from regression.pages import UPLOAD_FILE_DIR
 from regression.pages.studio.utils import get_course_key
 from regression.pages.studio import LOGIN_BASE_URL
 
-try:
-    unicode        # Python 2
-except NameError:  # Python 3
-    unicode = str  # pylint: disable=invalid-name,redefined-builtin
+from six import text_type
 
 
 class SettingsPageExtended(SettingsPage):
@@ -25,7 +22,7 @@ class SettingsPageExtended(SettingsPage):
         Construct a URL to the page within the course.
         """
         course_id = get_course_key(self.course_info)
-        return LOGIN_BASE_URL + "/" + self.url_path + "/" + unicode(course_id)
+        return LOGIN_BASE_URL + "/" + self.url_path + "/" + text_type(course_id)
 
     def is_browser_on_page(self):
         return self.q(css='body.view-settings #course-organization').visible \

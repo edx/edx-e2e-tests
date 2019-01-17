@@ -26,10 +26,7 @@ from regression.tests.whitelabel.white_label_tests_base import (
     WhiteLabelTestsBaseClass
 )
 
-try:
-    unicode        # Python 2
-except NameError:  # Python 3
-    unicode = str  # pylint: disable=invalid-name,redefined-builtin
+from six import text_type
 
 
 class CourseNotFoundException(Exception):
@@ -228,7 +225,7 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
         self.assertEqual(
             # Slight chance that this will fail if the test execution crosses
             # the boundary of midnight
-            unicode(datetime.datetime.utcnow().date()),
+            text_type(datetime.datetime.utcnow().date()),
             self.receipt_page.order_date
         )
         self.assertEqual(

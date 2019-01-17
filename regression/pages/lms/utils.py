@@ -3,10 +3,7 @@ Utility functions for lms page objects.
 """
 from opaque_keys.edx.locator import CourseLocator
 
-try:
-    unicode        # Python 2
-except NameError:  # Python 3
-    unicode = str  # pylint: disable=invalid-name,redefined-builtin
+from six import text_type
 
 
 def get_course_key(course_info, module_store='split'):
@@ -21,4 +18,4 @@ def get_course_key(course_info, module_store='split'):
         course_info['run'],
         deprecated=(module_store == 'draft')
     )
-    return unicode(course_key)
+    return text_type(course_key)

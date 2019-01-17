@@ -5,6 +5,8 @@ from __future__ import print_function
 import os
 import uuid
 
+from six import text_type
+
 from regression.pages.studio import LOGIN_BASE_URL
 from regression.pages.studio.utils import get_course_key
 from regression.pages.whitelabel.activate_account import ActivateAccount
@@ -17,11 +19,6 @@ COURSE_ORG = 'COURSE_ORG'
 COURSE_NUMBER = 'COURSE_NUMBER'
 COURSE_RUN = 'COURSE_RUN'
 COURSE_DISPLAY_NAME = 'COURSE_DISPLAY_NAME'
-
-try:
-    unicode        # Python 2
-except NameError:  # Python 3
-    unicode = str  # pylint: disable=invalid-name,redefined-builtin
 
 
 def get_random_credentials():
@@ -103,7 +100,7 @@ def get_url(url_path, course_info):
         course_info:
     """
     course_key = get_course_key(course_info)
-    return "/".join([LOGIN_BASE_URL, url_path, unicode(course_key)])
+    return "/".join([LOGIN_BASE_URL, url_path, text_type(course_key)])
 
 
 def get_data_locator(page):
