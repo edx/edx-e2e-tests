@@ -22,7 +22,7 @@ class SettingsPageExtended(SettingsPage):
         Construct a URL to the page within the course.
         """
         course_id = get_course_key(self.course_info)
-        return LOGIN_BASE_URL + "/" + self.url_path + "/" + text_type(course_id)
+        return "/".join((LOGIN_BASE_URL, self.url_path, text_type(course_id)))
 
     def is_browser_on_page(self):
         return self.q(css='body.view-settings #course-organization').visible \
