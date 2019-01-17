@@ -4,11 +4,11 @@ Course Schedule and Details Settings page.
 from edxapp_acceptance.pages.studio.settings import SettingsPage
 from edxapp_acceptance.pages.common.utils import click_css
 
+from six import text_type
+
 from regression.pages import UPLOAD_FILE_DIR
 from regression.pages.studio.utils import get_course_key
 from regression.pages.studio import LOGIN_BASE_URL
-
-from six import text_type
 
 
 class SettingsPageExtended(SettingsPage):

@@ -5,6 +5,8 @@ import datetime
 
 from bok_choy.promise import EmptyPromise
 
+from six import text_type
+
 from regression.pages.whitelabel.basket_page import (
     CyberSourcePage,
     MultiSeatBasketPage,
@@ -25,8 +27,6 @@ from regression.tests.helpers.api_clients import (
 from regression.tests.whitelabel.white_label_tests_base import (
     WhiteLabelTestsBaseClass
 )
-
-from six import text_type
 
 
 class CourseNotFoundException(Exception):
