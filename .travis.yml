@@ -1,7 +1,11 @@
-sudo: false
 language: python
-python:
-  - "2.7"
+matrix:
+  allow_failures:
+    - python: "3.7"
+  include:
+    - python: "2.7"
+    - python: "3.7"
+      dist: xenial    # required for Python >= 3.7 (travis-ci/travis-ci#9069)
 branches:
   only:
     - master
@@ -9,7 +13,6 @@ env:
   global:
     - secure: X8Aqo9EwwOF5MJ3P9XDpZvFq2djvo6afB1EzJV9p10DxhrPXPAz3vO1UCdBhHbd2RohGQRulaqATzWd4ICo3woLmxTxl96180sgUBRbYY3vNM7z1wb3VO+YSxfLbTw0MkBwXcZv1/JQIhhmrnTkfmyX89ks0fWGti6ORSxdKs+Y=
     - secure: ceiuLB8lLidI+3Ohk/SiO48StGEgxbDDLto6PHdz8rFW6S4VISQF4PqB3X8jGEkyiiSO+sBdm9OYmgHy7zPdJTw/DYQT+2xN2EGx2vrn2NtoBPkCwu/2wCVQ5z0gzqzzncgfnt3lk9CX/mhVoRbGYpt130CgiaVvP9us5+2KAfI=
-sudo: required
 services:
   - docker
 cache:
