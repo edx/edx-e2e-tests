@@ -3,15 +3,14 @@ Single course Discount coupons tests
 """
 import random
 import uuid
-from unittest import skip, skipIf
+from unittest import skip
 
 from regression.pages.studio.utils import get_course_key
 from regression.pages.whitelabel import (
     COURSE_ORG,
     COURSE_NUMBER,
     COURSE_RUN,
-    DEFAULT_COURSE_PRICE,
-    TEST_ENV
+    DEFAULT_COURSE_PRICE
 )
 from regression.pages.whitelabel.const import PASSWORD
 
@@ -189,7 +188,6 @@ class TestDiscountCoupon(VouchersTest):
             self.dashboard_page.wait_for_page()
             self.assert_enrollment_and_logout()
 
-    @skipIf(TEST_ENV == "stage", "skip tests on stage")
     def test_discount_once_per_customer_percentage_redeem_url(self):
         """
         Scenario: Inactive Users - Discount Once Per Customer Percentage
