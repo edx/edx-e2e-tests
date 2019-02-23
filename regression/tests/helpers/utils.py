@@ -1,8 +1,11 @@
 """
 Test helper functions.
 """
+from __future__ import print_function
 import os
 import uuid
+
+from six import text_type
 
 from regression.pages.studio import LOGIN_BASE_URL
 from regression.pages.studio.utils import get_course_key
@@ -85,7 +88,7 @@ def visit_all(pages):
         pages:
     """
     for page in pages:
-        print "Visiting: {}".format(page)
+        print("Visiting: {}".format(page))
         page.visit()
 
 
@@ -97,7 +100,7 @@ def get_url(url_path, course_info):
         course_info:
     """
     course_key = get_course_key(course_info)
-    return "/".join([LOGIN_BASE_URL, url_path, unicode(course_key)])
+    return "/".join([LOGIN_BASE_URL, url_path, text_type(course_key)])
 
 
 def get_data_locator(page):
