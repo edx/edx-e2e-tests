@@ -1,11 +1,12 @@
 from __future__ import print_function
+from __future__ import absolute_import
 import os
 import sys
 sys.path.insert(0, os.path.dirname(__file__))
 
-from path import Path as path
-from pavelib.paver_utils import NoseCommand, PaverTestCommand
-from paver.easy import task, needs, consume_args, sh, BuildFailure
+from path import Path as path  # noqa
+from pavelib.paver_utils import NoseCommand, PaverTestCommand  # noqa
+from paver.easy import task, needs, consume_args, sh, BuildFailure  # noqa
 
 from pavelib.paver_consts import (
     LOG_DIR,
@@ -17,7 +18,7 @@ from pavelib.paver_consts import (
     UPLOAD_FILE_DIR,
     WHITE_LABEL_TEST_REPORT,
     ENTERPRISE_TEST_REPORT
-)
+)  # noqa
 
 
 @task
@@ -84,7 +85,7 @@ def configure_e2e_tests_pre_reqs():
     for env_var in env_vars:
         try:
             os.environ[env_var]
-        except:
+        except Exception:
             raise BuildFailure(
                 "Please set the environment variable :" + env_var)
 
@@ -132,7 +133,7 @@ def wl_test_config():
     for env_var in env_vars:
         try:
             os.environ[env_var]
-        except:
+        except Exception:
             raise BuildFailure(
                 "Please set the environment variable :" + env_var)
 
@@ -172,7 +173,7 @@ def configure_enterprise_tests_pre_reqs():
     for env_var in env_vars:
         try:
             os.environ[env_var]
-        except:
+        except Exception:
             raise BuildFailure(
                 "Please set the environment variable :" + env_var)
 

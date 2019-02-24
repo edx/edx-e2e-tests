@@ -1,6 +1,7 @@
+from __future__ import absolute_import
 from path import Path as path
 
-from paver_consts import (
+from .paver_consts import (
     LOG_DIR,
     TEST_DIR,
     REPORT_DIR,
@@ -22,9 +23,9 @@ class NoseCommand(object):
         test_directory = TEST_DIR
 
         if test_type:
-            if test_type=='wl':
+            if test_type == 'wl':
                 test_directory = WHITE_LABEL_TEST_DIR
-            elif test_type=='enterprise':
+            elif test_type == 'enterprise':
                 test_directory = ENTERPRISE_TEST_DIR
         # Default to running all tests if no specific test is specified
         if not arguments['file_path']:
