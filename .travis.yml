@@ -23,8 +23,8 @@ install:
   - pip install -r requirements/base.txt
 # command to run tests
 script:
+  - pycodestyle
   - paver install_pages
-  - pep8 regression/
   - pylint regression/
 after_success:
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then

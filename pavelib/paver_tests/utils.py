@@ -1,5 +1,6 @@
 """Unit tests for the Paver server tasks."""
 
+from __future__ import absolute_import
 import os
 from six import text_type
 from paver import tasks
