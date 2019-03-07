@@ -34,7 +34,7 @@ CYBERSOURCE_CHECKOUT_URL = \
     u'https://testsecureacceptance.cybersource.com/checkout'
 
 EMAIL_SENDER_ACCOUNTS = {
-    'Enterprise': 'business@edx.org',
+    'Enterprise': 'no-reply@registration.edx.org',
     'HarvardMedGlobalAcademy': 'globalacademy@hms.harvard.edu',
     'MITxPRO': 'mitxpro@mit.edu',
 }
