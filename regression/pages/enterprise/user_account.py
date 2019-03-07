@@ -1,6 +1,7 @@
 """
 User account page
 """
+from selenium.webdriver.common.keys import Keys
 from edxapp_acceptance.pages.lms.account_settings import AccountSettingsPage
 from regression.pages.lms import LOGIN_BASE_URL
 
@@ -40,3 +41,23 @@ class UserAccountSettings(AccountSettingsPage):
             'Link' in self.q(css=idp_css_selector + '>.sr').text[0],
             'Wait for Link text to appear'
         )
+
+    def fill_secondary_email_field(self, email):
+        """
+        Fill secondary email field
+        Arguments:
+            email
+        """
+        self.wait_for_element_visibility('#field-input-secondary_email', 'Secondary Email field is shown')
+        elem = self.q(css='#field-input-secondary_email').results[0]
+        elem.clear()
+        elem.send_keys(email)
+        elem.send_keys(Keys.ENTER)
+
+    def get_user_email(self):
+        """
+        Get User email address
+        """
+        self.wait_for_element_visibility('#field-input-email', 'Primary Email Field visible')
+        email_input = self.q(css='#field-input-email').results[0]
+        return email_input.get_attribute('value')

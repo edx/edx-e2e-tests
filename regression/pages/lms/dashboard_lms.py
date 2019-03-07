@@ -51,3 +51,13 @@ class DashboardPageExtended(DashboardPage):
         self.q(css='.btn-neutral').click()
         courses_page = CoursesPage(self.browser)
         courses_page.wait_for_page()
+
+    def is_secondary_account_message_visible(self, msg):
+        """
+        Is recovery Email account message visible?
+        Returns:
+            bool: True if secondary email message is visible:
+        """
+        return self.q(css='.msg .copy').filter(
+            lambda elem: msg in elem.text
+        ).visible

@@ -116,6 +116,13 @@ class EnterpriseTestBase(WebAppTest):
         # Logout using api
         self.logout_from_lms_using_api()
 
+    def add_recovery_email(self, email):
+        """
+        Add secondary email address for enterprise learner
+        """
+        self.user_account.visit()
+        self.user_account.fill_secondary_email_field(email)
+
     def login_to_ent_portal(self, ent_portal_username, ent_portal_password):
         """
         Login to enterprise portal and find the course and click on it

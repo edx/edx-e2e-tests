@@ -54,3 +54,30 @@ class LmsLogin(LoginPage):
         self.q(css='#login-remember').click()
         # Click initiates an ajax call
         self.wait_for_ajax()
+
+    def send_forgot_password(self, email):
+        """
+        Send forget password email.
+
+        Arguments:
+             email(str): Email to send forget password to.
+        """
+        self.q(css='.forgot-password.field-link').click()
+        self.wait_for_element_visibility(
+            '#password-reset', 'Wait for Reset Password form'
+        )
+        self.q(css='#password-reset-email').fill(email)
+        self.q(css='.action.action-primary.action-update.js-reset').click()
+        self.wait_for_ajax()
+
+    @property
+    def is_password_reset_email_message_visible(self):
+        """
+        Verify that message for password reset email is visible
+
+        Returns:
+            bool: True if message is visible.
+        """
+        return self.q(
+            css='.message-title'
+        ).filter(lambda elem: elem.text == 'Check Your Email').visible
