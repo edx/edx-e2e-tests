@@ -19,6 +19,14 @@ class CoursewarePageExtended(CoursewarePage):
         """
         return LOGIN_BASE_URL + "/courses/" + self.course_id + "/courseware"
 
+    def submit_graded_problem(self):
+        """
+        Submits graded problem
+        """
+        self.q(css='input[value="choice_1"]').first.click()
+        self.q(css='.problem .submit').first.click()
+        self.wait_for_element_visibility('.notification.success', 'wait for problem submission notification')
+
     def view_unit_in_studio(self):
         """
         Clicks on the 'View unit in Studio' button
