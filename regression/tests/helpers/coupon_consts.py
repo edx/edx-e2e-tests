@@ -11,7 +11,7 @@ EXPIRED_CODE_ERROR = "Coupon code '{}' has expired."
 
 FUTURE_CODE_ERROR = "Coupon code '{}' is not active."
 
-SINGLE_USE_CODE_REUSE_ERROR = "Coupon code '{}' has already been redeemed."
+SINGLE_USE_CODE_REUSE_ERROR = "Coupon code '{}' is not available. This coupon has already been used"
 
 ONCE_PER_CUSTOMER_CODE_MAX_LIMIT = \
     'Your basket does not qualify for a coupon code discount.'
