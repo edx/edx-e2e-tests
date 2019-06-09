@@ -59,13 +59,7 @@ class VouchersTest(CourseEnrollmentTest):
         self.ecom_cookies = self.browser.get_cookies()
         self.single_seat_basket.apply_coupon_code(coupon_code)
         self.verify_after_coupon_is_applied_on_basket()
-        self.single_seat_basket.go_to_receipt_page()
-        self.receipt_page.wait_for_page()
-        # Verify on receipt page that information like course title,
-        # course price, total price
-        # order date and billing to is displayed correctly
-        self.verify_receipt_info_for_discounted_course()
-        self.receipt_page.click_in_nav_to_go_to_dashboard()
+        self.single_seat_basket.checkout_free_course()
         self.dashboard_page.wait_for_page()
 
     def error_message_on_invalid_coupon_code(self, coupon_code):
