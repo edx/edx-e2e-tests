@@ -1,6 +1,8 @@
 """
 Regression tests for Studio's Setting page.
 """
+from unittest import skip
+
 from bok_choy.web_app_test import WebAppTest
 from edxapp_acceptance.pages.studio.users import UsersPageMixin
 from edxapp_acceptance.pages.studio.settings_advanced import (
@@ -38,6 +40,7 @@ class ScheduleAndDetailsTest(WebAppTest):
         )
         self.settings_page.visit()
 
+    @skip("Skip test until all cases are discovered")
     def test_file_format(self):
         """
         Scenario: Upload course image of a wrong format.
@@ -77,6 +80,7 @@ class ScheduleAndDetailsTest(WebAppTest):
             ).get_attribute('value')
         )
 
+    @skip("Skip test until all cases are discovered")
     def test_cancel_upload(self):
         """
         Scenario: Upload a new course card image but cancel afterwards.
