@@ -1,24 +1,20 @@
 """
 Enterprise Registration tests
 """
-from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
+from __future__ import absolute_import
+
 from regression.pages.enterprise.enterprise_const import (
-    ENT_PORTAL_USERNAME,
+    ENT_COURSE_TITLE,
     ENT_PORTAL_PASSWORD,
-    ENT_COURSE_TITLE
+    ENT_PORTAL_USERNAME
 )
+from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
 
 
 class TestEnterpriseRegistration(EnterpriseTestBase):
     """
     Test Enterprise Registration
     """
-
-    def setUp(self):
-        """
-        Initialize all page objects
-        """
-        super(TestEnterpriseRegistration, self).setUp()
 
     def test_enterprise_unlinked_user_registration(self):
         """

@@ -1,11 +1,15 @@
 """
 End to end tests for LMS Login
 """
+from __future__ import absolute_import
+
 import os
+
 from bok_choy.web_app_test import WebAppTest
-from regression.pages.lms.login_lms import LmsLogin
-from regression.pages.lms.dashboard_lms import DashboardPageExtended
+
 from regression.pages.lms import LMS_BASE_URL, LMS_STAGE_BASE_URL
+from regression.pages.lms.dashboard_lms import DashboardPageExtended
+from regression.pages.lms.login_lms import LmsLogin
 
 
 class LoginTest(WebAppTest):

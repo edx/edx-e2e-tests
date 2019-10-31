@@ -1,39 +1,26 @@
 """
 Base class for tests with enrollment capability
 """
+from __future__ import absolute_import
+
 import datetime
 
 from bok_choy.promise import EmptyPromise
-
 from six import text_type
 
-from regression.pages.whitelabel.basket_page import (
-    CyberSourcePage,
-    MultiSeatBasketPage,
-    SingleSeatBasketPage
-)
-from regression.pages.whitelabel.const import (
-    BILLING_INFO,
-    CARD_HOLDER_INFO,
-    PASSWORD
-)
+from regression.pages.whitelabel.basket_page import CyberSourcePage, MultiSeatBasketPage, SingleSeatBasketPage
+from regression.pages.whitelabel.const import BILLING_INFO, CARD_HOLDER_INFO, PASSWORD
 from regression.pages.whitelabel.course_about_page import CourseAboutPage
 from regression.pages.whitelabel.courses_page import CoursesPage
 from regression.pages.whitelabel.receipt_page import ReceiptPage
-from regression.tests.helpers.api_clients import (
-    EnrollmentApiClient,
-    LmsApiClient
-)
-from regression.tests.whitelabel.white_label_tests_base import (
-    WhiteLabelTestsBaseClass
-)
+from regression.tests.helpers.api_clients import EnrollmentApiClient, LmsApiClient
+from regression.tests.whitelabel.white_label_tests_base import WhiteLabelTestsBaseClass
 
 
 class CourseNotFoundException(Exception):
     """
     Course not found Exception
     """
-    pass
 
 
 class CourseEnrollmentTest(WhiteLabelTestsBaseClass):

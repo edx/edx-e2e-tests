@@ -5,9 +5,11 @@ username and basic authentication password
 should be used.
 """
 
+from __future__ import absolute_import
+
 import os
 
-from regression.pages import BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD
+from regression.pages import BASIC_AUTH_PASSWORD, BASIC_AUTH_USERNAME
 
 LMS_STAGE_BASE_URL = 'courses.stage.edx.org'
 # LMS_SANDBOX_BASE_URL = 'business.sandbox.edx.org'

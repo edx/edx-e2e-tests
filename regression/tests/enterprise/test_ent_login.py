@@ -1,14 +1,16 @@
 """
 Enterprise Login tests
 """
-from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
+from __future__ import absolute_import
+
 from regression.pages.enterprise.enterprise_const import (
-    ENT_PORTAL_EDX_LINKED_USERNAME,
+    ENT_COURSE_TITLE,
     ENT_PORTAL_EDX_LINKED_PASSWORD,
-    ENT_PORTAL_USERNAME,
+    ENT_PORTAL_EDX_LINKED_USERNAME,
     ENT_PORTAL_PASSWORD,
-    ENT_COURSE_TITLE
+    ENT_PORTAL_USERNAME
 )
+from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
 
 
 class TestEnterpriseLogin(EnterpriseTestBase):

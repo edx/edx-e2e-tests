@@ -1,20 +1,17 @@
 """
 End to end tests for LMS dashboard.
 """
+from __future__ import absolute_import
+
 from bok_choy.web_app_test import WebAppTest
 
-from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.lms.course_page_lms import CourseHomePageExtended
-from regression.pages.lms.utils import get_course_key
+from regression.pages.lms.dashboard_lms import DashboardPageExtended
 from regression.pages.lms.lms_courseware import CoursewarePageExtended
+from regression.pages.lms.utils import get_course_key
+from regression.pages.studio.course_outline_page import CourseOutlinePageExtended
+from regression.tests.helpers.api_clients import LmsLoginApi, StudioLoginApi
 from regression.tests.helpers.utils import get_course_info
-from regression.tests.helpers.api_clients import (
-    StudioLoginApi,
-    LmsLoginApi
-)
-from regression.pages.studio.course_outline_page import (
-    CourseOutlinePageExtended
-)
 
 
 class DashboardTest(WebAppTest):

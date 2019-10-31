@@ -1,13 +1,12 @@
 """
 Import course page
 """
-from edxapp_acceptance.pages.studio.import_export import (
-    ImportMixin
-)
-from edxapp_acceptance.pages.common.utils import click_css
+from __future__ import absolute_import
 
-from regression.pages.studio.course_page_studio import CoursePageExtended
+from edxapp_acceptance.pages.common.utils import click_css
+from edxapp_acceptance.pages.studio.import_export import ImportMixin
 from regression.pages import UPLOAD_FILE_DIR
+from regression.pages.studio.course_page_studio import CoursePageExtended
 
 
 class ImportCoursePageExtended(ImportMixin, CoursePageExtended):

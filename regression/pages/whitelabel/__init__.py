@@ -3,12 +3,12 @@ Some environment vars for WL tests
 Here we are finalizing the target url based on test environment and org
 """
 
-import os
+from __future__ import absolute_import
 
+import os
 from datetime import datetime
 
-from regression.pages import BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD
-
+from regression.pages import BASIC_AUTH_PASSWORD, BASIC_AUTH_USERNAME
 
 # Specify environment if stage is not used
 DEFAULT_ENV = "stage"

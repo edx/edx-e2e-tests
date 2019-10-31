@@ -1,11 +1,13 @@
 """
 Student dashboard page.
 """
+from __future__ import absolute_import
+
 import os
 
 from opaque_keys.edx.keys import CourseKey
-from edxapp_acceptance.pages.lms.dashboard import DashboardPage
 
+from edxapp_acceptance.pages.lms.dashboard import DashboardPage
 from regression.pages.whitelabel import LMS_URL_WITH_AUTH
 from regression.pages.whitelabel.const import DEFAULT_TIMEOUT
 

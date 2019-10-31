@@ -1,17 +1,19 @@
 """
 Unit tests for utils
 """
-import unittest
-import textwrap
+from __future__ import absolute_import
 
-from ddt import ddt, data, unpack
+import textwrap
+import unittest
+
+from ddt import data, ddt, unpack
 
 from regression.pages.common.utils import (
-    get_target_url_from_text,
-    read_enrollment_codes_from_text,
-    extract_mmm_dd_yyyy_date_string_from_text,
     convert_date_format,
-    extract_numerical_value_from_price_string
+    extract_mmm_dd_yyyy_date_string_from_text,
+    extract_numerical_value_from_price_string,
+    get_target_url_from_text,
+    read_enrollment_codes_from_text
 )
 
 

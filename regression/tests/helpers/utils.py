@@ -1,19 +1,18 @@
 """
 Test helper functions.
 """
-from __future__ import print_function
+from __future__ import absolute_import, print_function
+
 import os
 import uuid
 
+import six
 from six import text_type
 
 from regression.pages.studio import LOGIN_BASE_URL
 from regression.pages.studio.utils import get_course_key
 from regression.pages.whitelabel.activate_account import ActivateAccount
-from regression.pages.whitelabel.const import (
-    ORG,
-    UNUSED_REGISTRATION_FIELDS_MAPPING
-)
+from regression.pages.whitelabel.const import ORG, UNUSED_REGISTRATION_FIELDS_MAPPING
 
 COURSE_ORG = 'COURSE_ORG'
 COURSE_NUMBER = 'COURSE_NUMBER'
@@ -194,7 +193,7 @@ def fill_input_fields(page, elements_and_values_dict):
         elements_and_values_dict(dict): A dictionary of
             elements(css) and input values.
     """
-    for key, value in elements_and_values_dict.iteritems():
+    for key, value in six.iteritems(elements_and_values_dict):
         page.q(css=key).fill(value)
 
 
@@ -207,7 +206,7 @@ def select_drop_down_values(page, elements_and_values_dict):
         elements_and_values_dict(dict): A dictionary of
             drop down elements(css) and values.
     """
-    for element, val in elements_and_values_dict.iteritems():
+    for element, val in six.iteritems(elements_and_values_dict):
         target_css = 'select[name={}] option[value="{}"]'.format(element, val)
         page.wait_for_element_visibility(
             target_css,

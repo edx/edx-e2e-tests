@@ -1,9 +1,11 @@
 """
 Extended Textbooks page
 """
-from edxapp_acceptance.pages.studio.textbook_upload import TextbookUploadPage
+from __future__ import absolute_import
 
 from selenium.webdriver.common.action_chains import ActionChains
+
+from edxapp_acceptance.pages.studio.textbook_upload import TextbookUploadPage
 from regression.pages import UPLOAD_FILE_DIR
 from regression.tests.helpers.utils import get_url
 

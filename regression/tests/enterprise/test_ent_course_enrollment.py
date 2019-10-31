@@ -1,28 +1,21 @@
 """
 Enterprise Enrollment Page tests
 """
-from regression.pages.common.utils import (
-    extract_mmm_dd_yyyy_date_string_from_text
+from __future__ import absolute_import
+
+from regression.pages.common.utils import extract_mmm_dd_yyyy_date_string_from_text
+from regression.pages.enterprise.enterprise_const import (
+    ENT_COURSE_ORG, ENT_COURSE_PRICE,
+    ENT_COURSE_START_DATE,
+    ENT_COURSE_TITLE
 )
 from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
-from regression.pages.enterprise.enterprise_const import (
-    ENT_COURSE_TITLE,
-    ENT_COURSE_ORG,
-    ENT_COURSE_START_DATE,
-    ENT_COURSE_PRICE
-)
 
 
 class TestEnterpriseCourseEnrollmentPage(EnterpriseTestBase):
     """
     Test Enterprise Enrollment page
     """
-
-    def setUp(self):
-        """
-        Initialize all page objects
-        """
-        super(TestEnterpriseCourseEnrollmentPage, self).setUp()
 
     def test_enrollment_verified_course(self):
         """

@@ -1,12 +1,14 @@
 """
 Dashboard page for Studio
 """
-from edxapp_acceptance.pages.studio.index import DashboardPage
-from edxapp_acceptance.tests.helpers import disable_animations
+from __future__ import absolute_import
+
 from bok_choy.promise import BrokenPromise
 
-from regression.pages.studio import LOGIN_BASE_URL
+from edxapp_acceptance.pages.studio.index import DashboardPage
+from edxapp_acceptance.tests.helpers import disable_animations
 from regression.pages.lms import LMS_REDIRECT_URL
+from regression.pages.studio import LOGIN_BASE_URL
 from regression.pages.studio.utils import get_course_key
 from regression.tests.helpers.utils import get_course_info
 

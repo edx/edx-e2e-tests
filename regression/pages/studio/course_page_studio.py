@@ -1,6 +1,8 @@
 """
 Extended CoursePage.
 """
+from __future__ import absolute_import
+
 import abc
 
 from edxapp_acceptance.pages.studio.course_page import CoursePage

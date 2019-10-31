@@ -2,14 +2,12 @@
 """
 List of constants to be used throughout the tests
 """
+from __future__ import absolute_import
+
 import datetime
 import os
 
-from regression.pages.whitelabel import (
-    LMS_URL,
-    ECOM_URL,
-    ORG
-)
+from regression.pages.whitelabel import ECOM_URL, LMS_URL, ORG
 
 # Global password
 PASSWORD = os.environ.get('GLOBAL_PASSWORD')

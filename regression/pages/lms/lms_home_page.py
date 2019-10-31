@@ -1,7 +1,10 @@
 """
 LMS Home page
 """
+from __future__ import absolute_import
+
 from bok_choy.page_object import PageObject
+
 from regression.pages.lms import LOGIN_BASE_URL
 
 

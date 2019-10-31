@@ -1,7 +1,10 @@
 """
 User account page
 """
+from __future__ import absolute_import
+
 from selenium.webdriver.common.keys import Keys
+
 from edxapp_acceptance.pages.lms.account_settings import AccountSettingsPage
 from regression.pages.lms import LOGIN_BASE_URL
 

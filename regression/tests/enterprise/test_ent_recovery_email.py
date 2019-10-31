@@ -1,18 +1,19 @@
 """
 Enterprise Recovery Email feature tests
 """
+from __future__ import absolute_import
+
 import uuid
-from regression.tests.helpers.api_clients import GuerrillaMailApi
-from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
+
 from regression.pages.enterprise.confirm_recovery_email import ConfirmRecoveryEmail
-from regression.pages.whitelabel.reset_password_page import (
-    ResetPassword
-)
-from regression.tests.helpers.utils import get_random_password
 from regression.pages.enterprise.enterprise_const import (
-    ENT_PORTAL_USERNAME,
-    ENT_PORTAL_PASSWORD
+    ENT_PORTAL_PASSWORD,
+    ENT_PORTAL_USERNAME
 )
+from regression.pages.whitelabel.reset_password_page import ResetPassword
+from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
+from regression.tests.helpers.api_clients import GuerrillaMailApi
+from regression.tests.helpers.utils import get_random_password
 
 
 class TestEnterpriseRecoveryEmail(EnterpriseTestBase):

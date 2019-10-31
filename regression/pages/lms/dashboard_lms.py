@@ -1,7 +1,10 @@
 """
 Student dashboard page.
 """
-from bok_choy .promise import BrokenPromise
+from __future__ import absolute_import
+
+from bok_choy.promise import BrokenPromise
+
 from edxapp_acceptance.pages.lms.dashboard import DashboardPage
 from regression.pages.lms import LOGIN_BASE_URL
 from regression.pages.whitelabel.courses_page import CoursesPage

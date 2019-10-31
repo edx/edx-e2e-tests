@@ -1,18 +1,18 @@
 """
 Regression tests for Studio's Setting page.
 """
+from __future__ import absolute_import
+
+import six
 from bok_choy.web_app_test import WebAppTest
+
+from edxapp_acceptance.pages.studio.settings_advanced import AdvancedSettingsPage
+from edxapp_acceptance.pages.studio.settings_group_configurations import GroupConfigurationsPage
 from edxapp_acceptance.pages.studio.users import UsersPageMixin
-from edxapp_acceptance.pages.studio.settings_advanced import (
-    AdvancedSettingsPage
-)
-from edxapp_acceptance.pages.studio.settings_group_configurations import (
-    GroupConfigurationsPage
-)
+from regression.pages.studio.grading_studio import GradingPageExtended
 from regression.pages.studio.settings_studio import SettingsPageExtended
 from regression.tests.helpers.api_clients import StudioLoginApi
 from regression.tests.helpers.utils import get_course_info
-from regression.pages.studio.grading_studio import GradingPageExtended
 
 
 class ScheduleAndDetailsTest(WebAppTest):
@@ -90,7 +90,7 @@ class ScheduleAndDetailsLinks(WebAppTest):
             'Advanced Settings': self.advanced_settings
         }
 
-        for name, landing_page in name_page_dict.iteritems():
+        for name, landing_page in six.iteritems(name_page_dict):
             self.settings_page.visit()
             self.settings_page.click_other_settings_links(name)
             landing_page.wait_for_page()

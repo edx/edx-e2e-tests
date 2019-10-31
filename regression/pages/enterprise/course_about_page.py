@@ -1,12 +1,14 @@
 """
 Course about page
 """
+from __future__ import absolute_import
+
 import os
+
 from bok_choy.page_object import PageObject
+
+from regression.pages.enterprise.enterprise_const import ENT_COURSE_ID
 from regression.pages.whitelabel import LMS_URL_WITH_AUTH
-from regression.pages.enterprise.enterprise_const import (
-    ENT_COURSE_ID
-)
 
 
 class CourseAboutPageExtended(PageObject):

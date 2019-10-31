@@ -1,64 +1,42 @@
 """
 Enterprise Login tests
 """
+from __future__ import absolute_import
+
 from datetime import datetime
+
 from bok_choy.web_app_test import WebAppTest
+
 from regression.pages import LOGIN_EMAIL, LOGIN_PASSWORD
-from regression.pages.lms import LMS_BASE_URL, LMS_PROTOCOL
-from regression.pages.lms.dashboard_lms import DashboardPageExtended
-from regression.pages.lms.track_selection_page import TrackSelectionPage
-from regression.pages.whitelabel.courses_page import CoursesPage
-from regression.pages.lms.login_lms import LmsLogin
-from regression.pages.whitelabel.receipt_page import ReceiptPage
-from regression.pages.enterprise.ent_edx_registration_page import (
-    EnterpriseEdxRegistration
-)
-from regression.pages.enterprise.ent_edx_login_page import (
-    EnterpriseEdxLogin
-)
-from regression.pages.enterprise.course_about_page import (
-    CourseAboutPageExtended
-)
-from regression.pages.enterprise.ent_portal_login_page import (
-    EnterprisePortalLogin
-)
-from regression.pages.enterprise.ent_portal_home_page import (
-    EnterprisePortalHome
-)
+from regression.pages.enterprise.course_about_page import CourseAboutPageExtended
+from regression.pages.enterprise.ent_course_enrollment_page import EnterpriseCourseEnrollment
+from regression.pages.enterprise.ent_data_sharing_consent_page import EnterpriseDataSharingConsentPage
+from regression.pages.enterprise.ent_edx_login_page import EnterpriseEdxLogin
+from regression.pages.enterprise.ent_edx_registration_page import EnterpriseEdxRegistration
 from regression.pages.enterprise.ent_portal_course_page import (
     EnterprisePortalCourseStart,
     EnterprisePortalCourseStructure
 )
-from regression.pages.enterprise.ent_course_enrollment_page import (
-    EnterpriseCourseEnrollment
-)
-from regression.pages.enterprise.user_account import UserAccountSettings
+from regression.pages.enterprise.ent_portal_home_page import EnterprisePortalHome
+from regression.pages.enterprise.ent_portal_login_page import EnterprisePortalLogin
 from regression.pages.enterprise.enterprise_const import (
-    ENTERPRISE_NAME,
     ENT_COURSE_TITLE,
-    ENT_PORTAL_USERNAME,
     ENT_PORTAL_PASSWORD,
+    ENT_PORTAL_USERNAME,
+    ENTERPRISE_NAME,
     IDP_CSS_ID
 )
-from regression.pages.whitelabel.ecommerce_courses_page import (
-    EcommerceCoursesPage
-)
-from regression.pages.enterprise.ent_data_sharing_consent_page import (
-    EnterpriseDataSharingConsentPage
-)
-from regression.pages.whitelabel.basket_page import (
-    CyberSourcePage
-)
-from regression.pages.whitelabel.const import (
-    BILLING_INFO,
-    CARD_HOLDER_INFO
-)
-from regression.pages.whitelabel.basket_page import SingleSeatBasketPage
-from regression.tests.helpers.api_clients import (
-    LogoutApi,
-    LmsLoginApi,
-    LmsApiClient
-)
+from regression.pages.enterprise.user_account import UserAccountSettings
+from regression.pages.lms import LMS_BASE_URL, LMS_PROTOCOL
+from regression.pages.lms.dashboard_lms import DashboardPageExtended
+from regression.pages.lms.login_lms import LmsLogin
+from regression.pages.lms.track_selection_page import TrackSelectionPage
+from regression.pages.whitelabel.basket_page import CyberSourcePage, SingleSeatBasketPage
+from regression.pages.whitelabel.const import BILLING_INFO, CARD_HOLDER_INFO
+from regression.pages.whitelabel.courses_page import CoursesPage
+from regression.pages.whitelabel.ecommerce_courses_page import EcommerceCoursesPage
+from regression.pages.whitelabel.receipt_page import ReceiptPage
+from regression.tests.helpers.api_clients import LmsApiClient, LmsLoginApi, LogoutApi
 from regression.tests.helpers.utils import get_random_credentials
 
 
@@ -142,7 +120,7 @@ class EnterpriseTestBase(WebAppTest):
         # Open the course pop up and look for the desired course
         self.ent_portal_home.open_courses_popup()
         course_titles = self.ent_portal_home.fetch_course_titles_list()
-        self.assert_(
+        self.assertTrue(
             ENT_COURSE_TITLE in course_title
             for course_title in course_titles
         )

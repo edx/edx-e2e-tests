@@ -1,6 +1,8 @@
 """
 Courseware page LMS
 """
+from __future__ import absolute_import
+
 from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 from regression.pages.lms import LOGIN_BASE_URL
 

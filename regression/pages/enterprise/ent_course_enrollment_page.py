@@ -1,7 +1,10 @@
 """
 Enterprise Course Enrollment page
 """
+from __future__ import absolute_import
+
 from bok_choy.page_object import PageObject
+from six.moves import zip
 
 
 class EnterpriseCourseEnrollment(PageObject):
@@ -100,7 +103,7 @@ class EnterpriseCourseEnrollment(PageObject):
         detail_value = self.q(
             css=detail_header_css + ' .detail-value-container>.text'
         ).text
-        return dict(zip(detail_title, detail_value))
+        return dict(list(zip(detail_title, detail_value)))
 
     def get_data_sharing_consent_warning(self):
         """

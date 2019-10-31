@@ -1,11 +1,12 @@
 """
 Course Outline Page for Studio
 """
-from edxapp_acceptance.pages.studio.overview import CourseOutlinePage
-from regression.pages.studio.utils import (
-    click_confirmation_prompt_primary_button
-)
+from __future__ import absolute_import
 
+from six.moves import range
+
+from edxapp_acceptance.pages.studio.overview import CourseOutlinePage
+from regression.pages.studio.utils import click_confirmation_prompt_primary_button
 from regression.tests.helpers.utils import get_url
 
 

@@ -1,14 +1,14 @@
 """
 Course import test
 """
+from __future__ import absolute_import
+
 from bok_choy.web_app_test import WebAppTest
 
+from regression.pages.studio.course_outline_page import CourseOutlinePageExtended
 from regression.pages.studio.import_course_page import ImportCoursePageExtended
-from regression.pages.studio.course_outline_page import (
-    CourseOutlinePageExtended
-)
-from regression.tests.helpers.utils import get_course_info
 from regression.tests.helpers.api_clients import StudioLoginApi
+from regression.tests.helpers.utils import get_course_info
 
 
 class TestCourseImport(WebAppTest):

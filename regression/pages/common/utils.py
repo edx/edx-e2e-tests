@@ -3,8 +3,12 @@
 """
 Different utilities to be used in tests
 """
-import re
+from __future__ import absolute_import
+
 import datetime
+import re
+
+import six
 
 
 def get_target_url_from_text(url_matching_string, text_chunk):
@@ -24,8 +28,7 @@ def get_target_url_from_text(url_matching_string, text_chunk):
     if regex_result:
         target_url = regex_result.group("url")
         return target_url.rstrip('.')
-    else:
-        return 'Target URL not found in the text'
+    return 'Target URL not found in the text'
 
 
 def read_enrollment_codes_from_text(coupon_string):
@@ -48,8 +51,7 @@ def read_enrollment_codes_from_text(coupon_string):
             coupons.update({new_row[0]: new_row[1]})
     if coupons:
         return coupons
-    else:
-        return 'Coupons not found'
+    return 'Coupons not found'
 
 
 def fill_input_fields(page, selectors_and_values_dict):
@@ -59,7 +61,7 @@ def fill_input_fields(page, selectors_and_values_dict):
         page:
         selectors_and_values_dict:
     """
-    for key, value in selectors_and_values_dict.iteritems():
+    for key, value in six.iteritems(selectors_and_values_dict):
         page.q(css=key).fill(value)
 
 
@@ -115,7 +117,7 @@ def get_text_from_page_elements(page, elements):
         text dict:
     """
     results = {}
-    for key, value in elements.iteritems():
+    for key, value in six.iteritems(elements):
         results[key] = page.q(css=value).text[0]
     return results
 
@@ -135,8 +137,7 @@ def extract_mmm_dd_yyyy_date_string_from_text(text_string):
     if regex_result:
         date_string = regex_result.group(0)
         return date_string
-    else:
-        return 'Required date pattern not found in search string'
+    return 'Required date pattern not found in search string'
 
 
 def convert_date_format(original_date, original_format, required_format):
@@ -173,8 +174,7 @@ def extract_numerical_value_from_price_string(raw_price_string):
     if regex_result is not None:
         price_value = regex_result.group(0)
         return float(price_value.replace(",", ""))
-    else:
-        return 'No numerical value found in search string'
+    return 'No numerical value found in search string'
 
 
 def extract_discount_value_from_response(catalog_uuid, offers_response):
@@ -192,5 +192,4 @@ def extract_discount_value_from_response(catalog_uuid, offers_response):
     )
     if offer_value:
         return float(offer_value[0].replace(",", ""))
-    else:
-        return 'No Numerical value found in search string'
+    return 'No Numerical value found in search string'

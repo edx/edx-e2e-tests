@@ -1,14 +1,19 @@
 """
 Pages for single course and multi course purchase baskets
 """
+from __future__ import absolute_import
+
 import os
+
+import six
 from bok_choy.page_object import PageObject
-from regression.pages.whitelabel import ECOM_URL_WITH_AUTH
+
 from regression.pages.common.utils import (
     extract_numerical_value_from_price_string,
     fill_input_fields,
     select_value_from_drop_down
 )
+from regression.pages.whitelabel import ECOM_URL_WITH_AUTH
 
 
 class BasketPage(PageObject):
@@ -81,7 +86,6 @@ class MultiSeatBasketPage(BasketPage):
     """
     Multi Course Basket page
     """
-    pass
 
 
 class CyberSourcePage(BasketPage):
@@ -140,7 +144,7 @@ class CyberSourcePage(BasketPage):
             "card-expiry-year": bill_info['expiry_year']
         }
 
-        for key, val in select_names_and_values.iteritems():
+        for key, val in six.iteritems(select_names_and_values):
             self.wait_for_element_visibility(
                 'select[id={}]'.format(key), 'Drop down is visible')
             self.q(

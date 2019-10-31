@@ -1,7 +1,10 @@
 """
 Utility functions for studio page objects.
 """
+from __future__ import absolute_import
+
 from opaque_keys.edx.locator import CourseLocator
+
 from edxapp_acceptance.tests.helpers import disable_animations
 
 

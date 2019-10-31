@@ -1,9 +1,12 @@
 """
 Course About page
 """
+from __future__ import absolute_import
+
 import os
 
 from bok_choy.page_object import PageObject
+
 from regression.pages.whitelabel import LMS_URL_WITH_AUTH
 
 
