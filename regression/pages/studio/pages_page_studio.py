@@ -1,15 +1,14 @@
 """
 Extended Pages page for a course.
 """
+from __future__ import absolute_import
+
 from bok_choy.javascript import requirejs
 from bok_choy.promise import EmptyPromise, Promise
-
-from edxapp_acceptance.pages.common.utils import (
-    click_css, sync_on_notification
-)
-from edxapp_acceptance.pages.studio.utils import drag
-
 from selenium.webdriver.common.action_chains import ActionChains
+
+from edxapp_acceptance.pages.common.utils import click_css, sync_on_notification
+from edxapp_acceptance.pages.studio.utils import drag
 from regression.pages.studio.course_page_studio import CoursePageExtended
 
 

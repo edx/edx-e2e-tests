@@ -1,26 +1,17 @@
 """
 Enterprise SSO ID Verification tests
 """
+from __future__ import absolute_import
+
+from regression.pages.enterprise.enterprise_const import ENT_COURSE_ID, ENT_COURSE_TITLE
+from regression.pages.whitelabel.basket_page import SingleSeatBasketPage
 from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
-from regression.pages.whitelabel.basket_page import (
-    SingleSeatBasketPage
-)
-from regression.pages.enterprise.enterprise_const import (
-    ENT_COURSE_ID,
-    ENT_COURSE_TITLE
-)
 
 
 class TestEnterpriseSSOIDVerification(EnterpriseTestBase):
     """
     Test Enterprise ID Verification page
     """
-
-    def setUp(self):
-        """
-        Initialize all page objects
-        """
-        super(TestEnterpriseSSOIDVerification, self).setUp()
 
     def test_enterprise_user_id_verification_status(self):
         """

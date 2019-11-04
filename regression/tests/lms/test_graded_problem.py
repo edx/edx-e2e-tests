@@ -1,16 +1,16 @@
 """
 End to end tests for submitting a graded problem.
 """
+from __future__ import absolute_import
+
 from bok_choy.web_app_test import WebAppTest
 
 from regression.pages.lms.course_page_lms import CourseHomePageExtended
 from regression.pages.lms.lms_courseware import CoursewarePageExtended
-from regression.pages.studio.import_course_page import ImportCoursePageExtended
-from regression.tests.helpers.utils import (
-    get_course_info
-)
-from regression.tests.helpers.api_clients import LmsLoginApi
 from regression.pages.lms.utils import get_course_key
+from regression.pages.studio.import_course_page import ImportCoursePageExtended
+from regression.tests.helpers.api_clients import LmsLoginApi
+from regression.tests.helpers.utils import get_course_info
 
 
 class GradedProblemTest(WebAppTest):

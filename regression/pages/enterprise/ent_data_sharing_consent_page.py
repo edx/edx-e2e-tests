@@ -1,11 +1,11 @@
 """
 Enterprise Data Consent page
 """
+from __future__ import absolute_import
+
 from bok_choy.page_object import PageObject
 
-from regression.pages.enterprise.ent_course_enrollment_page import (
-    EnterpriseCourseEnrollment
-)
+from regression.pages.enterprise.ent_course_enrollment_page import EnterpriseCourseEnrollment
 
 
 class EnterpriseDataSharingConsentPage(PageObject):

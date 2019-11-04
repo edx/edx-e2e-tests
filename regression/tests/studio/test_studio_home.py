@@ -1,21 +1,20 @@
 """
 End to end tests for Studio Home page
 """
+from __future__ import absolute_import
+
 import os
 from unittest import skipIf
 
 from bok_choy.web_app_test import WebAppTest
-from edxapp_acceptance.pages.studio.overview import CourseOutlinePage
 
+from edxapp_acceptance.pages.studio.overview import CourseOutlinePage
 from regression.pages.studio import STUDIO_BASE_URL, STUDIO_STAGE_BASE_URL
+from regression.pages.studio.privacy_policy import PrivacyPolicy
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.studio.terms_of_service import TermsOfService
-from regression.pages.studio.privacy_policy import PrivacyPolicy
-from regression.tests.helpers.utils import (
-    get_course_info, get_course_display_name
-)
-
 from regression.tests.helpers.api_clients import StudioLoginApi
+from regression.tests.helpers.utils import get_course_display_name, get_course_info
 
 
 class StudioHomeTest(WebAppTest):

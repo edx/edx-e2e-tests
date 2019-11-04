@@ -1,12 +1,14 @@
 """
 LMS login page
 """
+from __future__ import absolute_import
+
 import os
 
 from bok_choy.page_object import PageObject
 
-from regression.pages.whitelabel import LMS_URL_WITH_AUTH
 from regression.pages.common.utils import fill_input_fields
+from regression.pages.whitelabel import LMS_URL_WITH_AUTH
 
 
 class LoginPage(PageObject):

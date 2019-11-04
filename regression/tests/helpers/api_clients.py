@@ -1,16 +1,21 @@
 """
 Api clients for tests.
 """
-import os
-import Cookie
+from __future__ import absolute_import
+
 import datetime
 import json
+import os
 import time
 
 import requests
 from requests.auth import AuthBase
+
 from edx_rest_api_client.client import EdxRestApiClient
 from guerrillamail import GuerrillaMailSession
+import six.moves.http_cookies  # pylint: disable=import-error
+
+
 from regression.pages import (
     BASIC_AUTH_PASSWORD,
     BASIC_AUTH_USERNAME,
@@ -18,8 +23,8 @@ from regression.pages import (
     LOGIN_PASSWORD
 )
 from regression.pages.common.utils import get_target_url_from_text
-from regression.pages.lms import LOGIN_BASE_URL as LMS_AUTH_URL
 from regression.pages.lms import LMS_BASE_URL, LMS_PROTOCOL
+from regression.pages.lms import LOGIN_BASE_URL as LMS_AUTH_URL
 from regression.pages.studio import LOGIN_BASE_URL as STUDIO_AUTH_URL
 from regression.pages.studio import STUDIO_BASE_URL, STUDIO_PROTOCOL
 from regression.pages.whitelabel import LMS_URL, LMS_URL_WITH_AUTH
@@ -34,7 +39,6 @@ from regression.pages.whitelabel.const import (
     WAIT_TIME
 )
 from regression.tests.helpers.utils import get_org_specific_registration_fields
-
 
 OAUTH_ACCESS_TOKEN_URL = os.path.join(LMS_URL_WITH_AUTH, 'oauth2/access_token')
 
@@ -56,14 +60,12 @@ class ApiException(Exception):
     """
     Exceptions for API failures
     """
-    pass
 
 
 class MailException(Exception):
     """
     Exceptions for Mail failures
     """
-    pass
 
 
 def check_response(response):
@@ -343,8 +345,7 @@ class GuerrillaMailApi(object):
                 time.sleep(WAIT_TIME)
         if email_text:
             return email_text
-        else:
-            raise MailException('No Email from ' + EMAIL_SENDER_ACCOUNT)
+        raise MailException('No Email from ' + EMAIL_SENDER_ACCOUNT)
 
     def get_url_from_email(self, matching_string):
         """
@@ -437,7 +438,7 @@ class EcommerceApiClient(EdxRestApiBaseClass):
             payload:
         """
         response = self.client.coupons.post(data=payload)
-        if 'coupon_id' not in response.keys():
+        if 'coupon_id' not in list(response.keys()):
             raise ApiException('Coupon not created')
         return response['coupon_id']
 
@@ -574,7 +575,7 @@ class LmsApiClient(object):
         set_cookie = self.login_response.headers['Set-Cookie']
         if not set_cookie:
             raise ApiException('Login response cookie not found')
-        return Cookie.SimpleCookie(set_cookie)
+        return six.moves.http_cookies.SimpleCookie(set_cookie)
 
     @property
     def user_name(self):

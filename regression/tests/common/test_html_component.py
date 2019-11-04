@@ -1,25 +1,19 @@
 """
 End to end tests for HTML Components
 """
+from __future__ import absolute_import
+
 from uuid import uuid4
 
 from bok_choy.web_app_test import WebAppTest
 
-from regression.pages.studio.course_outline_page import (
-    CourseOutlinePageExtended
-)
-from regression.pages.studio.unit_page import UnitPageExtended
-from regression.pages.studio.studio_home import DashboardPageExtended
-from regression.pages.lms.utils import get_course_key
 from regression.pages.lms.lms_courseware import CoursewarePageExtended
-from regression.tests.helpers.utils import (
-    get_course_info, get_data_locator
-)
-
-from regression.tests.helpers.api_clients import (
-    StudioLoginApi,
-    LmsLoginApi
-)
+from regression.pages.lms.utils import get_course_key
+from regression.pages.studio.course_outline_page import CourseOutlinePageExtended
+from regression.pages.studio.studio_home import DashboardPageExtended
+from regression.pages.studio.unit_page import UnitPageExtended
+from regression.tests.helpers.api_clients import LmsLoginApi, StudioLoginApi
+from regression.tests.helpers.utils import get_course_info, get_data_locator
 
 
 class StudioLmsComponentBaseTest(WebAppTest):
@@ -63,11 +57,6 @@ class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
     """
     Advanced Components tests that require lms verification with studio
     """
-    def setUp(self):
-        """
-        Call setUp in parent
-        """
-        super(StudioLmsAdvancedComponentTest, self).setUp()
 
     def test_word_cloud_advanced_component(self):
         """
@@ -117,11 +106,6 @@ class StudioViewTest(StudioLmsComponentBaseTest):
     """
     HTML Components tests related to 'studio view' of component.
     """
-    def setUp(self):
-        """
-        Call setUp in parent
-        """
-        super(StudioViewTest, self).setUp()
 
     def test_unit_studio_view(self):
         """

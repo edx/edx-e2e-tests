@@ -1,15 +1,14 @@
 """
 Base class for white label tests
 """
+from __future__ import absolute_import
+
 import os
 
 from bok_choy.web_app_test import WebAppTest
 
-from regression.pages.whitelabel.const import (
-    ECOM_URL,
-    LMS_URL
-)
 from regression.pages.whitelabel.basket_page import BasketPage
+from regression.pages.whitelabel.const import ECOM_URL, LMS_URL
 from regression.pages.whitelabel.dashboard_page import DashboardPageExtended
 from regression.pages.whitelabel.home_page import HomePage
 from regression.pages.whitelabel.login_page import LoginPage

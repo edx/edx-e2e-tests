@@ -2,18 +2,15 @@
 Tests for enrollment through Otto
 """
 
-from regression.pages.whitelabel import (
-    COURSE_ORG,
-    COURSE_NUMBER,
-    COURSE_RUN,
-    DEFAULT_COURSE_PRICE
-)
+from __future__ import absolute_import
+
 from regression.pages.studio.utils import get_course_key
+from regression.pages.whitelabel import (
+    COURSE_NUMBER, COURSE_ORG, COURSE_RUN, DEFAULT_COURSE_PRICE
+)
 from regression.pages.whitelabel.course_about_page import CourseAboutPage
 from regression.tests.helpers.utils import get_wl_course_info
-from regression.tests.whitelabel.course_enrollment_test import (
-    CourseEnrollmentTest
-)
+from regression.tests.whitelabel.course_enrollment_test import CourseEnrollmentTest
 
 
 class TestEnrollmentOtto(CourseEnrollmentTest):

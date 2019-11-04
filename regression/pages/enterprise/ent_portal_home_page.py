@@ -1,6 +1,8 @@
 """
 Enterprise portal login page
 """
+from __future__ import absolute_import
+
 from bok_choy.page_object import PageObject
 
 
@@ -19,7 +21,7 @@ class EnterprisePortalHome(PageObject):
         """
         self.wait_for(
             lambda:
-            True if self.q(css=self.COURSE_LIST_CSS).text else False,
+            bool(self.q(css=self.COURSE_LIST_CSS).text),
             'wait for course list to populate'
         )
 

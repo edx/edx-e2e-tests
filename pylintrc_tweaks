@@ -3,6 +3,12 @@
 ignore+ = ,.git,node_modules,.pycharm_helpers
 load-plugins = edx_lint.pylint
 
+[MESSAGES CONTROL]
+# Disable unicode-format-string until we can agree to turn it on.
+disable+ =
+    unicode-format-string,
+    super-on-old-class
+
 [BASIC]
 attr-rgx = [a-z_][a-z0-9_]{2,40}$
 argument-rgx = [a-z_][a-z0-9_]{2,40}$

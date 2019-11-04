@@ -1,21 +1,19 @@
 """
 End to end tests for Studio Course Outline page
 """
+from __future__ import absolute_import
+
 import os
 from unittest import skip
 
 from bok_choy.web_app_test import WebAppTest
-from edxapp_acceptance.tests.helpers import assert_side_bar_help_link
 
-from regression.pages.studio.course_outline_page import (
-    CourseOutlinePageExtended
-)
+from edxapp_acceptance.tests.helpers import assert_side_bar_help_link
 from regression.pages.studio import EDXAPP_CMS_DOC_LINK_BASE_URL
+from regression.pages.studio.course_outline_page import CourseOutlinePageExtended
 from regression.pages.studio.login_studio import StudioLogin
 from regression.pages.studio.studio_home import DashboardPageExtended
-from regression.tests.helpers.utils import (
-    get_course_info, get_course_display_name
-)
+from regression.tests.helpers.utils import get_course_display_name, get_course_info
 
 DEMO_COURSE_USER = os.environ.get('USER_LOGIN_EMAIL')
 DEMO_COURSE_PASSWORD = os.environ.get('USER_LOGIN_PASSWORD')

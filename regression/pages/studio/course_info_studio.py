@@ -1,9 +1,10 @@
 """
 Course Updates page.
 """
-from edxapp_acceptance.pages.studio.utils import type_in_codemirror
-from edxapp_acceptance.pages.common.utils import click_css
+from __future__ import absolute_import
 
+from edxapp_acceptance.pages.common.utils import click_css
+from edxapp_acceptance.pages.studio.utils import type_in_codemirror
 from regression.pages.studio.course_page_studio import CoursePageExtended
 
 

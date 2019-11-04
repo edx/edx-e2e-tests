@@ -1,17 +1,19 @@
 """
 Redeem coupon page
 """
+from __future__ import absolute_import
+
 import os
 
 from bok_choy.page_object import PageObject
 from opaque_keys.edx.keys import AssetKey
 
-from regression.pages.whitelabel import ECOM_URL_WITH_AUTH
 from regression.pages.common.utils import (
-    extract_mmm_dd_yyyy_date_string_from_text,
     convert_date_format,
+    extract_mmm_dd_yyyy_date_string_from_text,
     extract_numerical_value_from_price_string
 )
+from regression.pages.whitelabel import ECOM_URL_WITH_AUTH
 
 
 def get_course_ids_from_link(link):
@@ -155,8 +157,7 @@ class RedeemCouponPage(PageObject):
             css='' + self.course_tile_css + ' .discount-percentage>p').text[0]
         if '$' in discount_str:
             return 'Absolute'
-        elif '%' in discount_str:
-            return 'Percentage'
+        return 'Percentage'
 
     @property
     def error_message(self):

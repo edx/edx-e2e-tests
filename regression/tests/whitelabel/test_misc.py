@@ -1,23 +1,16 @@
 """
 Miscellaneous tests
 """
+from __future__ import absolute_import
+
 from unittest import skipIf
 
 from regression.pages.whitelabel.const import (
-    LOGO_ALT_TEXT,
-    LOGO_LINK,
-    NO_OF_COUNTRIES,
-    NO_OF_LANGUAGES,
-    ORG,
-    SAMPLE_COUNTRIES,
-    SAMPLE_LANGUAGES,
-    SELECTED_COUNTRY,
-    SOCIAL_MEDIA_LINK
+    LOGO_ALT_TEXT, LOGO_LINK, NO_OF_COUNTRIES, NO_OF_LANGUAGES,
+    ORG, SAMPLE_COUNTRIES, SAMPLE_LANGUAGES, SELECTED_COUNTRY, SOCIAL_MEDIA_LINK
 )
 from regression.pages.whitelabel.profile_page import ProfilePage
-from regression.tests.whitelabel.white_label_tests_base import (
-    WhiteLabelTestsBaseClass
-)
+from regression.tests.whitelabel.white_label_tests_base import WhiteLabelTestsBaseClass
 
 
 class TestMisc(WhiteLabelTestsBaseClass):

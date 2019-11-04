@@ -1,18 +1,20 @@
 """
 Enterprise Offer Discount tests
 """
-from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
-from regression.pages.whitelabel.basket_page import SingleSeatBasketPage
-from regression.pages.whitelabel import ECOM_URL
-from regression.pages.enterprise.enterprise_const import (
-    ENT_CUSTOMER_CATALOG_UUID,
-    DEFAULT_COURSE_PRICE,
-    ENTERPRISE_NAME
-)
+from __future__ import absolute_import
+
 from regression.pages.common.utils import (
     extract_discount_value_from_response,
     extract_numerical_value_from_price_string
 )
+from regression.pages.enterprise.enterprise_const import (
+    DEFAULT_COURSE_PRICE,
+    ENT_CUSTOMER_CATALOG_UUID,
+    ENTERPRISE_NAME
+)
+from regression.pages.whitelabel import ECOM_URL
+from regression.pages.whitelabel.basket_page import SingleSeatBasketPage
+from regression.tests.enterprise.ent_test_base import EnterpriseTestBase
 
 
 class TestDiscountEnterpriseOffer(EnterpriseTestBase):

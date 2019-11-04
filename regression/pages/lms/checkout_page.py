@@ -1,7 +1,11 @@
 """
 Payment page.
 """
+from __future__ import absolute_import
+
+import six
 from bok_choy.page_object import PageObject
+
 from regression.pages.lms.constants import THIRD_PARTY_PAYMENTS_BASE_URL
 
 
@@ -30,7 +34,7 @@ class PaymentPage(PageObject):
             '#card_number': '4111111111111111',
             '#card_cvn': '937'
         }
-        for css, value in fill_details.iteritems():
+        for css, value in six.iteritems(fill_details):
             self.q(css=css).fill(value)
 
         drop_downs = {
@@ -40,7 +44,7 @@ class PaymentPage(PageObject):
         }
 
         # Select drop downs
-        for css, value in drop_downs.iteritems():
+        for css, value in six.iteritems(drop_downs):
             self.q(
                 css='select[name="{}"] option[value="{}"]'.format(css, value)
             ).click()

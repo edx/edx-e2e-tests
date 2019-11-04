@@ -1,25 +1,22 @@
 """
 Single course Enrollment coupons tests
 """
+from __future__ import absolute_import
+
 import random
 from unittest import skip
 
-from regression.tests.helpers.coupon_consts import (
-    CATALOG_QUERY,
-    COUPON_TYPE,
-    COURSES_CATALOG,
-    COURSE_CATALOG_TYPE,
-    COURSE_SEAT_TYPES,
-    ONCE_PER_CUSTOMER_CODE_MAX_LIMIT,
-    ONCE_PER_CUSTOMER_REDEEM_URL_MAX_LIMIT,
-    VOUCHER_TYPE
-)
+from six.moves import range
+
+from regression.pages.whitelabel.const import PASSWORD
+from regression.pages.whitelabel.course_about_page import CourseAboutPage
 from regression.pages.whitelabel.redeem_coupon_page import RedeemCouponPage
 from regression.tests.helpers.coupon import Coupon
-from regression.pages.whitelabel.const import (
-    PASSWORD
+from regression.tests.helpers.coupon_consts import (
+    CATALOG_QUERY, COUPON_TYPE, COURSE_CATALOG_TYPE, COURSE_SEAT_TYPES,
+    COURSES_CATALOG, ONCE_PER_CUSTOMER_CODE_MAX_LIMIT,
+    ONCE_PER_CUSTOMER_REDEEM_URL_MAX_LIMIT, VOUCHER_TYPE
 )
-from regression.pages.whitelabel.course_about_page import CourseAboutPage
 from regression.tests.helpers.utils import construct_course_basket_page_url
 from regression.tests.whitelabel.voucher_tests_base import VouchersTest
 
@@ -35,7 +32,7 @@ class TestDynamicEnrollmentCoupon(VouchersTest):
         """
         super(TestDynamicEnrollmentCoupon, self).setUp()
         # Initialize common variables
-        course_id, course_info = random.choice(COURSES_CATALOG.items())
+        course_id, course_info = random.choice(list(COURSES_CATALOG.items()))
         self.course_id = course_id
         self.course_price = course_info['price']
         self.total_price = course_info['price']

@@ -2,6 +2,8 @@
 Grading Page for Studio
 """
 
+from __future__ import absolute_import
+
 from edxapp_acceptance.pages.studio.settings_graders import GradingPage
 from regression.tests.helpers.utils import get_url
 

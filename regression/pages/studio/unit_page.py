@@ -2,6 +2,8 @@
 Unit Page for Studio
 """
 
+from __future__ import absolute_import
+
 from edxapp_acceptance.pages.studio.container import ContainerPage
 from edxapp_acceptance.tests.helpers import disable_animations
 

@@ -1,15 +1,16 @@
 """
 Test studio grading
 """
+from __future__ import absolute_import
+
 from uuid import uuid4
 
 from bok_choy.web_app_test import WebAppTest
+
+from regression.pages.studio.course_outline_page import CourseOutlinePageExtended
 from regression.pages.studio.grading_studio import GradingPageExtended
-from regression.pages.studio.course_outline_page import (
-    CourseOutlinePageExtended
-)
-from regression.tests.helpers.utils import get_course_info
 from regression.tests.helpers.api_clients import StudioLoginApi
+from regression.tests.helpers.utils import get_course_info
 
 
 class StudioGradingTest(WebAppTest):
@@ -48,21 +49,21 @@ class StudioGradingTest(WebAppTest):
         self.grading_page.remove_all_grades()
 
         # Default
-        self.assertEquals(
+        self.assertEqual(
             self.grading_page.letter_grade('.letter-grade'), 'Pass')
         # Addition
         self.grading_page.add_new_grade()
-        self.assertEquals(self.grading_page.letter_grade('.letter-grade'), 'A')
+        self.assertEqual(self.grading_page.letter_grade('.letter-grade'), 'A')
         # Verify that after revisiting, changes remain intact
         self.grading_page.visit()
-        self.assertEquals(self.grading_page.letter_grade('.letter-grade'), 'A')
+        self.assertEqual(self.grading_page.letter_grade('.letter-grade'), 'A')
         # Deletion
         self.grading_page.remove_grade()
-        self.assertEquals(
+        self.assertEqual(
             self.grading_page.letter_grade('.letter-grade'), 'Pass')
         # Verify that after revisiting, changes remain intact
         self.grading_page.visit()
-        self.assertEquals(
+        self.assertEqual(
             self.grading_page.letter_grade('.letter-grade'), 'Pass')
 
     def test_assignment_types(self):
@@ -80,7 +81,7 @@ class StudioGradingTest(WebAppTest):
             total_number='2',
             drop='1'
         )
-        self.assertEquals(
+        self.assertEqual(
             self.grading_page.assignment_name_field_value(), ['Final'])
 
         # Navigating to course outline page to see if the added assignment

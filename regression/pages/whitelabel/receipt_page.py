@@ -1,12 +1,11 @@
 """
 Receipt page
 """
+from __future__ import absolute_import
+
 from bok_choy.page_object import PageObject
 
-from regression.pages.common.utils import (
-    convert_date_format,
-    extract_numerical_value_from_price_string
-)
+from regression.pages.common.utils import convert_date_format, extract_numerical_value_from_price_string
 
 
 class ReceiptPage(PageObject):

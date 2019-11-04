@@ -1,23 +1,19 @@
 """
 Tests for new users using Otto
 """
+from __future__ import absolute_import
+
 import uuid
 from unittest import skip
 
 from regression.pages.whitelabel.activate_account import ActivateAccount
 from regression.pages.whitelabel.inactive_account import InactiveAccount
-from regression.pages.whitelabel.reset_password_page import (
-    ResetPassword,
-    ResetPasswordComplete
-)
+from regression.pages.whitelabel.reset_password_page import ResetPassword, ResetPasswordComplete
 from regression.tests.helpers.api_clients import GuerrillaMailApi
 from regression.tests.helpers.utils import (
-    get_random_password,
-    get_white_label_registration_fields
+    get_random_password, get_white_label_registration_fields
 )
-from regression.tests.whitelabel.white_label_tests_base import (
-    WhiteLabelTestsBaseClass
-)
+from regression.tests.whitelabel.white_label_tests_base import WhiteLabelTestsBaseClass
 
 
 class TestUserAccount(WhiteLabelTestsBaseClass):
@@ -40,9 +36,6 @@ class TestUserAccount(WhiteLabelTestsBaseClass):
         'currently we are using an alternate test'
     )
     def test_activate_account(self):  # TE-2044
-        # pylint: disable=no-value-for-parameter
-        # pylint: disable=no-member
-        # pylint: disable=attribute-defined-outside-init
         """
         Scenario: A user is able to activate his account
         """
@@ -77,7 +70,7 @@ class TestUserAccount(WhiteLabelTestsBaseClass):
         self.login_page.visit()
         self.login_page.send_forgot_password(self.user_email)
         self.assertTrue(
-            self.login_page.is_password_reset_email_message_visible()
+            self.login_page.is_password_reset_email_message_visible
         )
         reset_password_url = self.get_url_from_email(
             self.user_email,

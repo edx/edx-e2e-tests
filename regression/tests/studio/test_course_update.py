@@ -1,14 +1,15 @@
 """
 Test course update
 """
+from __future__ import absolute_import
+
 from uuid import uuid4
 
 from bok_choy.web_app_test import WebAppTest
-from regression.pages.studio.course_info_studio import (
-    CourseUpdatesPageExtended
-)
-from regression.tests.helpers.utils import get_course_info
+
+from regression.pages.studio.course_info_studio import CourseUpdatesPageExtended
 from regression.tests.helpers.api_clients import StudioLoginApi
+from regression.tests.helpers.utils import get_course_info
 
 
 class CourseUpdateTest(WebAppTest):

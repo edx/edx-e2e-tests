@@ -2,11 +2,11 @@
 URLs and constants for enterprise stuff
 """
 
+from __future__ import absolute_import
+
 import os
 
-
-ENTERPRISE_PORTAL_LOGIN_URL = u"https://pmsalesdemo8.successfactors.com/" \
-                              u"login?company=SFPART011327#/login"
+ENTERPRISE_PORTAL_LOGIN_URL = u"https://pmsalesdemo8.successfactors.com/login?company=SFPART011327#/login"
 
 DEFAULT_ENTERPRISE_NAME = 'SuccessFactors'
 
@@ -26,11 +26,9 @@ ENT_PORTAL_USERNAME = os.environ.get('ENT_PORTAL_USERNAME')
 
 ENT_PORTAL_PASSWORD = os.environ.get('ENT_PORTAL_PASSWORD')
 
-ENT_PORTAL_EDX_LINKED_USERNAME = \
-    os.environ.get('ENT_PORTAL_EDX_LINKED_USERNAME')
+ENT_PORTAL_EDX_LINKED_USERNAME = os.environ.get('ENT_PORTAL_EDX_LINKED_USERNAME')
 
-ENT_PORTAL_EDX_LINKED_PASSWORD = \
-    os.environ.get('ENT_PORTAL_EDX_LINKED_PASSWORD')
+ENT_PORTAL_EDX_LINKED_PASSWORD = os.environ.get('ENT_PORTAL_EDX_LINKED_PASSWORD')
 
 ENT_COURSE_TITLE = os.environ.get('ENT_COURSE_TITLE')
 

@@ -1,38 +1,29 @@
 """
 Single course Enrollment coupons tests
 """
+from __future__ import absolute_import
+
 import random
 from unittest import skip
 
+from six.moves import range
+
 from regression.pages.studio.utils import get_course_key
 from regression.pages.whitelabel import (
-    COURSE_ORG,
-    COURSE_NUMBER,
-    COURSE_RUN,
+    COURSE_NUMBER, COURSE_ORG, COURSE_RUN,
     DEFAULT_COURSE_PRICE
 )
 from regression.pages.whitelabel.const import PASSWORD
 from regression.pages.whitelabel.redeem_coupon_page import RedeemCouponPage
 from regression.tests.helpers.coupon import Coupon
 from regression.tests.helpers.coupon_consts import (
-    COUPON_TYPE,
-    COURSE_CATALOG_TYPE,
-    EXPIRED_END_DATE,
-    EXPIRED_REDEEM_URL_ERROR,
-    FUTURE_CODE_ERROR,
-    FUTURE_START_DATE,
-    INVALID_DOMAIN_ERROR_MESSAGE_ON_REDEEM_URL,
-    INVALID_DOMAIN_USERS,
-    ONCE_PER_CUSTOMER_CODE_MAX_LIMIT,
-    SEAT_TYPE,
-    SINGLE_USE_REDEEM_URL_REUSE_ERROR,
-    VALID_EMAIL_DOMAIN,
-    VOUCHER_TYPE
+    COUPON_TYPE, COURSE_CATALOG_TYPE, EXPIRED_END_DATE,
+    EXPIRED_REDEEM_URL_ERROR, FUTURE_CODE_ERROR, FUTURE_START_DATE,
+    INVALID_DOMAIN_ERROR_MESSAGE_ON_REDEEM_URL, INVALID_DOMAIN_USERS,
+    ONCE_PER_CUSTOMER_CODE_MAX_LIMIT, SEAT_TYPE,
+    SINGLE_USE_REDEEM_URL_REUSE_ERROR, VALID_EMAIL_DOMAIN, VOUCHER_TYPE
 )
-from regression.tests.helpers.utils import (
-    construct_course_basket_page_url,
-    get_wl_course_info
-)
+from regression.tests.helpers.utils import construct_course_basket_page_url, get_wl_course_info
 from regression.tests.whitelabel.voucher_tests_base import VouchersTest
 
 

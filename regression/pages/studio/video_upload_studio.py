@@ -1,6 +1,8 @@
 """
 Video upload page
 """
+from __future__ import absolute_import
+
 from regression.pages.studio.course_page_studio import CoursePageExtended
 
 

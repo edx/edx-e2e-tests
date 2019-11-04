@@ -1,11 +1,13 @@
 """
 Test help link on video upload page.
 """
+from __future__ import absolute_import
+
 from unittest import skipIf
 
 from bok_choy.web_app_test import WebAppTest
-from edxapp_acceptance.tests.helpers import assert_nav_help_link
 
+from edxapp_acceptance.tests.helpers import assert_nav_help_link
 from regression.pages.studio import STUDIO_BASE_URL
 from regression.pages.studio.video_upload_studio import VideoUploadPage
 from regression.tests.helpers.api_clients import StudioLoginApi
