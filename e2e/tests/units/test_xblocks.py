@@ -166,7 +166,7 @@ class TestXblocks(MainClass):
         self.config.do_assert_true(0, self.course_page.get_about_unit_text().count(variables.TEXT_NOT_AVAILABLE))
         self.config.do_assert_true_in(variables.TEXT_4_OF_8, self.course_page.get_about_unit_text())
         self.progress_page.open_progress()
-        self.config.do_assert_true_in(variables.TEXT_ANSWER_4, self.progress_page.get_subsection_result_text())
+        self.config.do_assert_true_in(variables.TEXT_ANSWER_4_OF_72, self.progress_page.get_subsection_result_text())
         if (variables.PROJECT not in variables.PROJECT_E4H):
             self.config.do_assert_true_in(variables.TEXT_GRADE_6, self.progress_page.get_grade_result_text())
         self.dashboard_page.logout()
@@ -422,7 +422,7 @@ class TestXblocks(MainClass):
         self.config.do_assert_true(0, self.course_page.get_about_unit_text().count(variables.TEXT_NOT_AVAILABLE))
         self.config.do_assert_true_in(variables.TEXT_8_OF_8, self.course_page.get_about_unit_text())
         self.progress_page.open_progress()
-        self.config.do_assert_true_in(variables.TEXT_ANSWER_8, self.progress_page.get_subsection_result_text())
+        self.config.do_assert_true_in(variables.TEXT_ANSWER_8_OF_72, self.progress_page.get_subsection_result_text())
         if (variables.PROJECT not in variables.PROJECT_E4H):
             self.config.do_assert_true_in(variables.TEXT_GRADE_11, self.progress_page.get_grade_result_text())
         self.dashboard_page.logout()
@@ -439,7 +439,7 @@ class TestXblocks(MainClass):
         self.config.do_assert_true(0, self.course_page.get_about_unit_text().count(variables.TEXT_NOT_AVAILABLE))
         self.config.do_assert_true_in(variables.TEXT_1_OF_8, self.course_page.get_about_unit_text())
         self.progress_page.open_progress()
-        self.config.do_assert_true_in(variables.TEXT_ANSWER_1_8, self.progress_page.get_subsection_result_text())
+        self.config.do_assert_true_in(variables.TEXT_ANSWER_1_72, self.progress_page.get_subsection_result_text())
         if (variables.PROJECT not in variables.PROJECT_E4H):
             self.config.do_assert_true_in(variables.TEXT_GRADE_1, self.progress_page.get_grade_result_text())
 

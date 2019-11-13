@@ -93,13 +93,8 @@ class TestCohorts(MainClass):
         self.config.do_assert_true_in(cohortNameSecond, self.cohorts_page.get_prompt_cohort_contains_student())
         self.config.do_assert_true_in(variables.COHORT_CONTAINS_STUDENT, self.cohorts_page.get_prompt_cohort_contains_student())
 
-    @unittest.skipIf(variables.PROJECT == variables.PROJECT_ASUOSPP, "Test doesn't work for ASU OSPP")
-    @unittest.skipIf(variables.PROJECT == variables.PROJECT_GREEN_HOST, "Test doesn't work for Green Host")
-    @unittest.skipIf(variables.PROJECT == variables.PROJECT_WARDY, "Test doesn't work for Wardy It")
-    @unittest.skipIf(variables.PROJECT == variables.PROJECT_GIJIMA, "Test doesn't work for Gijima")
-    @unittest.skipIf(variables.PROJECT == variables.PROJECT_TBS, "Test doesn't work for Toulouse BS")
-    @unittest.skipIf(variables.PROJECT == variables.PROJECT_E4H, "Test doesn't work for E4H")
-    @unittest.skipIf(variables.PROJECT == variables.PROJECT_SPECTRUM, "Test doesn't work for Spectrum")
+    @unittest.skipIf(variables.VERSION == variables.VERSION_GINKO, "Test doesn't work for Ginko")
+    @unittest.skipIf(variables.VERSION == variables.VERSION_FIKUS, "Test doesn't work for Fikus")
     def test_05_create_content_group(self):
         '''Create content group'''
         self.logger.do_test_name("Create content group")

@@ -70,7 +70,7 @@ class TestUnitVisibility(MainClass):
             self.config.do_assert_true(1, 2)
         self.course_page.correct_answer_unit(1)
         self.progress_page.open_progress()
-        self.config.do_assert_true_in(variables.TEXT_ANSWER_1, self.progress_page.get_subsection_result_text())
+        self.config.do_assert_true_in(variables.TEXT_ANSWER_1_OF_3, self.progress_page.get_subsection_result_text())
         if (variables.PROJECT not in variables.PROJECT_E4H):
             self.config.do_assert_true_in(variables.TEXT_GRADE_33, self.progress_page.get_grade_result_text())
 
@@ -187,7 +187,7 @@ class TestUnitVisibility(MainClass):
         self.course_page.open_course()
         self.course_page.correct_answer_unit(1)
         self.progress_page.open_progress()
-        self.config.do_assert_true_in(variables.TEXT_ANSWER_1, self.progress_page.get_subsection_result_text())
+        self.config.do_assert_true_in(variables.TEXT_ANSWER_1_OF_3, self.progress_page.get_subsection_result_text())
         if (variables.PROJECT not in variables.PROJECT_E4H):
             self.config.do_assert_true_in(variables.TEXT_GRADE_33, self.progress_page.get_grade_result_text())
         self.dashboard_page.logout()
@@ -214,7 +214,7 @@ class TestUnitVisibility(MainClass):
             print("Incorrect Project")
             self.config.do_assert_true(1, 2)
         self.progress_page.open_progress()
-        self.config.do_assert_true_in(variables.TEXT_ANSWER_1, self.progress_page.get_subsection_result_text())
+        self.config.do_assert_true_in(variables.TEXT_ANSWER_1_OF_3, self.progress_page.get_subsection_result_text())
         if (variables.PROJECT not in variables.PROJECT_E4H):
             self.config.do_assert_true_in(variables.TEXT_GRADE_33, self.progress_page.get_grade_result_text())
 
@@ -233,7 +233,7 @@ class TestUnitVisibility(MainClass):
         self.course_page.open_course()
         self.course_page.correct_answer_unit(1)
         self.progress_page.open_progress()
-        self.config.do_assert_true_in(variables.TEXT_ANSWER_1, self.progress_page.get_subsection_result_text())
+        self.config.do_assert_true_in(variables.TEXT_ANSWER_1_OF_3, self.progress_page.get_subsection_result_text())
         if (variables.PROJECT not in variables.PROJECT_E4H):
             self.config.do_assert_true_in(variables.TEXT_GRADE_33, self.progress_page.get_grade_result_text())
         self.dashboard_page.logout()
@@ -264,7 +264,7 @@ class TestUnitVisibility(MainClass):
             print("Incorrect Project")
             self.config.do_assert_true(1, 2)
         self.progress_page.open_progress()
-        self.config.do_assert_false_in(variables.TEXT_ANSWER_1, self.progress_page.get_subsection_result_text())
+        self.config.do_assert_false_in(variables.TEXT_ANSWER_1_OF_3, self.progress_page.get_subsection_result_text())
         if (variables.PROJECT not in variables.PROJECT_E4H):
             self.config.do_assert_true_in(variables.TEXT_GRADE_0, self.progress_page.get_grade_result_text())
 

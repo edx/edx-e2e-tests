@@ -89,8 +89,7 @@ class TestCoursesSettings(MainClass):
                                                      variables.COURSE_RUN)
         self.course_page.open_course()
 
-    @unittest.skipIf(variables.PROJECT == variables.PROJECT_ASUSGAB, "Test doesn't work for ASU SGA")
-    @unittest.skipIf(variables.PROJECT == variables.PROJECT_ASUOSPP, "Test doesn't work for ASUOSPP")
+    @unittest.skipIf(variables.VERSION == variables.VERSION_GINKO, "Test doesn't work for Ginko")
     def test_02_course_lenguage(self):
         '''Course lenguage'''
         self.logger.do_test_name("Course lenguage")

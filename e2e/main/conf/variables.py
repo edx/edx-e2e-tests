@@ -16,27 +16,26 @@ LOGIN_EMAIL_ADMIN = "staff"
 #-----PROJECTS-----
 PROJECT = ""
 VERSION = ""
+
+VERSION_IRONWOOD = "Ironwood"
+PROJECT_LETSTUDY = "Letstudy"
+
 VERSION_HAWTHORN = "Hawthorn"
-VERSION_GINKO = "Ginko"
-VERSION_FIKUS = "Ficus"
-#Havthorn
 PROJECT_DEMOUNIVERSITY = "Demo university"
 PROJECT_ASUSGAB = "Asu Sgab"
 PROJECT_DIMINGWAY = "Deming Way"
 PROJECT_USDS = "USDS" #TestCoursesSearch + TestCoursesSettings + #TestMembership + #TestProfile + TestAccount #TestDiscussion #ORA #TestStudentAdmin
 
-#Ginko
+VERSION_GINKO = "Ginko"
 PROJECT_GREEN_HOST = "Green Host"
 PROJECT_ASUOSPP = "Asu Ospp"
 
-#Fikus
+VERSION_FIKUS = "Ficus"
 PROJECT_TBS = "Toulouse BS" #TestProfile + TestAccount #TestMembership #TestDiscussion #ORA #TestStudentAdmin
 PROJECT_E4H = "E4H" #ALL
 PROJECT_GIJIMA = "Gijima"
 PROJECT_WARDY = "Wardy it"
 PROJECT_SPECTRUM = "Spectrum"
-
-PROJECT_LETSTUDY = "Letstudy"
 
 #-----PROJECTS VALUES-----
 #Letstudy PROD
@@ -45,7 +44,10 @@ URL_DASHBOARD = "https://lms-letstudy-ironwood.raccoongang.com/dashboard"
 URL_CMS = "https://cms-letstudy-ironwood.raccoongang.com/admin"
 URL_ADMIN = "https://lms-letstudy-ironwood.raccoongang.com/admin/"
 LOGIN_PASSWORD_STAFF = "BXfo1U6VQpHwBvxoNkPOnE"
+VERSION = VERSION_IRONWOOD
 PROJECT = PROJECT_LETSTUDY'''
+
+"--------------------------------------------------------------------------------------------"
 
 #New University Dev
 '''URL_LMS = "https://new-university-dev.raccoongang.com"
@@ -154,6 +156,7 @@ VERSION = VERSION_GINKO
 PROJECT = PROJECT_ASUOSPP'''
 
 "--------------------------------------------------------------------------------------------"
+
 #Touluse BS Prod Doesn't work now
 '''URL_LMS = "http://e-learning.tbs-education.ma"
 URL_CMS = "http://studio.e-learning.tbs-education.ma/"
@@ -173,12 +176,12 @@ VERSION = VERSION_FIKUS
 PROJECT = PROJECT_E4H'''
 
 #Gijima Prod
-URL_LMS = "https://lms-gijima.raccoon.bar"
+'''URL_LMS = "https://lms-gijima.raccoon.bar"
 URL_CMS = "https://studio.gijima.com/"
 URL_ADMIN = "https://lms-gijima.raccoon.bar/admin/"
 LOGIN_PASSWORD_STAFF = "PyqigROhx73FfhqQbg2o3W"
 VERSION = VERSION_FIKUS
-PROJECT = PROJECT_GIJIMA
+PROJECT = PROJECT_GIJIMA'''
 
 #Wardy IT Prod
 '''URL_LMS = "https://learning.wardyit.com"
@@ -418,14 +421,14 @@ UNIT_NAME_5 = "Unit_5"
 UNIT_NAME_6 = "Unit_6"
 UNIT_NAME_7 = "Unit_7"
 UNIT_NAME_8 = "Unit_8"
-TEXT_ANSWER_HULF = "(0.5/3) 17%"
-TEXT_ANSWER_1 = "(1/3) 33%"
-TEXT_ANSWER_2 = "(2/3) 67%"
-TEXT_ANSWER_8 = "(8/72)"
+TEXT_ANSWER_HULF_OF_3 = "(0.5/3) 17%"
+TEXT_ANSWER_1_OF_3 = "(1/3) 33%"
+TEXT_ANSWER_2_OF_3 = "(2/3) 67%"
+TEXT_ANSWER_8_OF_72 = "(8/72)"
 TEXT_ANSWER_6 = "(6/72)"
-TEXT_ANSWER_4 = "(4/72)"
-TEXT_ANSWER_1_8 = "(1/72)"
-TEXT_ANSWER_0 = "(0/3)"
+TEXT_ANSWER_4_OF_72 = "(4/72)"
+TEXT_ANSWER_1_72 = "(1/72)"
+TEXT_ANSWER_0_OF_3 = "(0/3)"
 TEXT_GRADE_0 = "Overall Score; 0%"
 TEXT_GRADE_67 = "Overall Score; 67%"
 TEXT_GRADE_33 = "Overall Score; 33%"
