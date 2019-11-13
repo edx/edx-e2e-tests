@@ -1,0 +1,7 @@
+You can use this template as a guide to the simple editor markdown and OLX markup to use for multiple choice problems. Edit this component to replace this template with your own assessment.
+
+>>Add the question text, or prompt, here. This text is required.||You can add an optional tip or note related to the prompt like this. <<
+
+(x) an incorrect answer
+( ) the correct answer
+( ) an incorrect answer
