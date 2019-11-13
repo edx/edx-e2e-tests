@@ -62,6 +62,7 @@ class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
         """
         Verifies that user can add Word Cloud component on Studio and LMS
         """
+
         section_name = 'Section :{}'.format(uuid4().hex)
         self.studio_course_outline.add_section_with_name(section_name)
         self.assertIn(
@@ -84,6 +85,8 @@ class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
 
         self.studio_course_outline.click_add_unit_button()
         self.unit_container_page.wait_for_page()
+        # this will defocus the name editor
+        self.unit_container_page.q(css='body').click()
 
         self.unit_container_page.add_word_cloud_component(True)
         word_cloud_data_locator = get_data_locator(
@@ -92,7 +95,7 @@ class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
 
         # View Live
         self.unit_container_page.view_live_version()
-        self.lms_courseware.wait_for_page()
+
         self.assertEqual(
             word_cloud_data_locator,
             get_data_locator(self.lms_courseware)
