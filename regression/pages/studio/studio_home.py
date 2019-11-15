@@ -31,15 +31,11 @@ class DashboardPageExtended(DashboardPage):
         """
         Selects the course we want to perform tests on
         """
-        course_title_selector = '.course-link h3'
-        self.wait_for_element_presence(course_title_selector,
-                                       'Course link presence')
-        course_names = self.q(css=course_title_selector)
-        for vals in course_names:
-            if course_title in vals.text:
-                vals.click()
-                return
-        raise BrokenPromise('Course title not found')
+        query = self.q(xpath='//h3[contains(text(), "{}")]'.format(course_title)).first
+        if course_title in query.text:
+            query.click()
+        else:
+            raise BrokenPromise('Course title not found')
 
     def click_logout_button(self):
         """
