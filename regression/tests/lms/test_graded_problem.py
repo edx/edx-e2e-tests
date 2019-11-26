@@ -9,7 +9,7 @@ from regression.pages.lms.course_page_lms import CourseHomePageExtended
 from regression.pages.lms.lms_courseware import CoursewarePageExtended
 from regression.pages.lms.utils import get_course_key
 from regression.pages.studio.import_course_page import ImportCoursePageExtended
-from regression.tests.helpers.api_clients import LmsLoginApi
+from regression.tests.helpers.api_clients import LmsLoginApi, StudioLoginApi
 from regression.tests.helpers.utils import get_course_info
 
 
@@ -24,6 +24,9 @@ class GradedProblemTest(WebAppTest):
 
         login_api = LmsLoginApi()
         login_api.authenticate(self.browser)
+
+        studio_login = StudioLoginApi()
+        studio_login.authenticate(self.browser)
 
         self.course_info = get_course_info()
 
