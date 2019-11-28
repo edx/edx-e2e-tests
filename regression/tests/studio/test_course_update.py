@@ -8,7 +8,7 @@ from uuid import uuid4
 from bok_choy.web_app_test import WebAppTest
 
 from regression.pages.studio.course_info_studio import CourseUpdatesPageExtended
-from regression.tests.helpers.api_clients import StudioLoginApi
+from regression.tests.helpers.api_clients import LmsLoginApi
 from regression.tests.helpers.utils import get_course_info
 
 
@@ -19,8 +19,8 @@ class CourseUpdateTest(WebAppTest):
     def setUp(self):
         super(CourseUpdateTest, self).setUp()
 
-        login_api = StudioLoginApi()
-        login_api.authenticate(self.browser)
+        lms_login = LmsLoginApi()
+        lms_login.authenticate(self.browser)
 
         self.course_info = get_course_info()
 
@@ -90,8 +90,8 @@ class CourseHandoutTest(WebAppTest):
     def setUp(self):
         super(CourseHandoutTest, self).setUp()
 
-        login_api = StudioLoginApi()
-        login_api.authenticate(self.browser)
+        lms_login = LmsLoginApi()
+        lms_login.authenticate(self.browser)
 
         self.course_info = get_course_info()
 

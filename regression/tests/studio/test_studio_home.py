@@ -13,7 +13,7 @@ from regression.pages.studio import STUDIO_BASE_URL, STUDIO_STAGE_BASE_URL
 from regression.pages.studio.privacy_policy import PrivacyPolicy
 from regression.pages.studio.studio_home import DashboardPageExtended
 from regression.pages.studio.terms_of_service import TermsOfService
-from regression.tests.helpers.api_clients import StudioLoginApi
+from regression.tests.helpers.api_clients import LmsLoginApi
 from regression.tests.helpers.utils import get_course_display_name, get_course_info
 
 
@@ -31,8 +31,8 @@ class StudioHomeTest(WebAppTest):
         """
         super(StudioHomeTest, self).setUp()
 
-        login_api = StudioLoginApi()
-        login_api.authenticate(self.browser)
+        lms_login = LmsLoginApi()
+        lms_login.authenticate(self.browser)
 
         self.studio_home_page = DashboardPageExtended(self.browser)
 
@@ -66,8 +66,8 @@ class StudioFooterTest(WebAppTest):
         """
         super(StudioFooterTest, self).setUp()
 
-        studio_login = StudioLoginApi()
-        studio_login.authenticate(self.browser)
+        lms_login = LmsLoginApi()
+        lms_login.authenticate(self.browser)
 
         self.terms_of_service = TermsOfService(self.browser)
         self.privacy_policy = PrivacyPolicy(self.browser)
