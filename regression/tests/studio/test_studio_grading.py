@@ -9,7 +9,7 @@ from bok_choy.web_app_test import WebAppTest
 
 from regression.pages.studio.course_outline_page import CourseOutlinePageExtended
 from regression.pages.studio.grading_studio import GradingPageExtended
-from regression.tests.helpers.api_clients import StudioLoginApi
+from regression.tests.helpers.api_clients import LmsLoginApi
 from regression.tests.helpers.utils import get_course_info
 
 
@@ -23,8 +23,8 @@ class StudioGradingTest(WebAppTest):
         """
         super(StudioGradingTest, self).setUp()
 
-        login_api = StudioLoginApi()
-        login_api.authenticate(self.browser)
+        lms_login = LmsLoginApi()
+        lms_login.authenticate(self.browser)
 
         self.course_info = get_course_info()
         self.grading_page = GradingPageExtended(

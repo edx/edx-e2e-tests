@@ -10,7 +10,7 @@ from bok_choy.web_app_test import WebAppTest
 from edxapp_acceptance.tests.helpers import assert_nav_help_link
 from regression.pages.studio import STUDIO_BASE_URL
 from regression.pages.studio.video_upload_studio import VideoUploadPage
-from regression.tests.helpers.api_clients import StudioLoginApi
+from regression.tests.helpers.api_clients import LmsLoginApi
 from regression.tests.helpers.utils import get_course_info
 
 
@@ -24,8 +24,8 @@ class TestVideoUploadHelp(WebAppTest):
         """
         super(TestVideoUploadHelp, self).setUp()
 
-        studio_login = StudioLoginApi()
-        studio_login.authenticate(self.browser)
+        lms_login = LmsLoginApi()
+        lms_login.authenticate(self.browser)
 
         self.course_info = get_course_info()
         self.video_upload_page = VideoUploadPage(

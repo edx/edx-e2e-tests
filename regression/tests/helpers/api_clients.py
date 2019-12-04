@@ -174,17 +174,15 @@ class LogistrationApiBaseClass(object):
                 'name': cookie.name,
                 'value': cookie.value,
                 'path': cookie.path,
-                'expiry': cookie.expires
+                'expiry': cookie.expires,
             }
-            # The domain for the sessionid cookie needs to be
-            # '.stage.edx.org'. The browser was setting it correctly
-            # when logging into lms, but was setting it to
-            # 'studio.stage.edx.org' when logging into studio.
-            # For studio we need to set domain back to .stage.edx.org
-            # but for WL sites we need the to remain as is
-            if 'studio' in self.logistration_base_url:
-                if cookie.name == 'stage-edx-sessionid':
-                    cookie_dict['domain'] = '.stage.edx.org'
+            # The domain for the sessionid cookie needs to be set from
+            # '.stage.edx.org' domain for both studio and lms.
+            # However, for WL sites we need the to remain as is
+            if 'stage.edx.org' in self.logistration_base_url and 'sessionid' in cookie.name:
+                cookie_dict['domain'] = '.stage.edx.org'
+
+            browser.delete_cookie(cookie.name)
             browser.add_cookie(cookie_dict)
         browser.get(self.browser_get_url)
 
