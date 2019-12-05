@@ -14,6 +14,7 @@ from requests.auth import AuthBase
 from edx_rest_api_client.client import EdxRestApiClient
 from guerrillamail import GuerrillaMailSession
 import six.moves.http_cookies  # pylint: disable=import-error
+from six.moves.urllib.parse import urlparse  # pylint: disable=import-error
 
 
 from regression.pages import (
@@ -152,6 +153,24 @@ class LogistrationApiBaseClass(object):
         )
         self.logistration_response = response
 
+    def get_cookie_domain(self, url):
+        """
+        Args:
+            url: url to extract cookie domain from
+
+        Returns: cookie domain by striping first sub-domain from domain of give url
+            i.e.
+            https://courses.stage.edx.org -> .stage.edx.org
+            https://studio-test.sandbox.edx.org -> .sandbox.edx.org
+            https://courses.edx.org -> .edx.org
+
+        """
+        parsed_uri = urlparse(url)
+        domain = parsed_uri.netloc
+        count = len(domain.split('.'))
+        cookie_domain = '.'.join(domain.split('.')[1-count:])
+        return '.' + cookie_domain
+
     def authenticate(self, browser):
         """
         Authenticate the user and pass the session to the browser.
@@ -179,8 +198,8 @@ class LogistrationApiBaseClass(object):
             # The domain for the sessionid cookie needs to be set from
             # '.stage.edx.org' domain for both studio and lms.
             # However, for WL sites we need the to remain as is
-            if 'stage.edx.org' in self.logistration_base_url and 'sessionid' in cookie.name:
-                cookie_dict['domain'] = '.stage.edx.org'
+            if 'edx.org' in self.logistration_base_url and 'sessionid' in cookie.name:
+                cookie_dict['domain'] = self.get_cookie_domain(self.logistration_base_url)
 
             browser.delete_cookie(cookie.name)
             browser.add_cookie(cookie_dict)
