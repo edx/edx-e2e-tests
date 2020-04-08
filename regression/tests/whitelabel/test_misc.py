@@ -11,8 +11,10 @@ from regression.pages.whitelabel.const import (
 )
 from regression.pages.whitelabel.profile_page import ProfilePage
 from regression.tests.whitelabel.white_label_tests_base import WhiteLabelTestsBaseClass
+import unittest
 
 
+@unittest.skip("skip this")
 class TestMisc(WhiteLabelTestsBaseClass):
     """
     Miscellaneous Tests

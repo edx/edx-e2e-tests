@@ -11,8 +11,10 @@ from regression.pages.whitelabel import (
 from regression.pages.whitelabel.course_about_page import CourseAboutPage
 from regression.tests.helpers.utils import get_wl_course_info
 from regression.tests.whitelabel.course_enrollment_test import CourseEnrollmentTest
+import unittest
 
 
+@unittest.skip("skip this")
 class TestEnrollmentOtto(CourseEnrollmentTest):
     """
     Tests for Otto Enrollment

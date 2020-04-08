@@ -28,8 +28,10 @@ from regression.tests.helpers.utils import (
     get_wl_course_info
 )
 from regression.tests.whitelabel.voucher_tests_base import VouchersTest
+import unittest
 
 
+@unittest.skip("skip this")
 class TestDiscountCoupon(VouchersTest):
     """
     Tests for Single Course Discount Coupons

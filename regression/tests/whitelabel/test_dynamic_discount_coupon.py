@@ -15,8 +15,10 @@ from regression.tests.helpers.coupon_consts import (
 )
 from regression.tests.helpers.utils import construct_course_basket_page_url
 from regression.tests.whitelabel.voucher_tests_base import VouchersTest
+import unittest
 
 
+@unittest.skip("skip this")
 class TestDynamicDiscountCoupon(VouchersTest):
     """
     Tests for Single Course Discount Coupons

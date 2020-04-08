@@ -14,8 +14,10 @@ from regression.tests.helpers.utils import (
     get_random_password, get_white_label_registration_fields
 )
 from regression.tests.whitelabel.white_label_tests_base import WhiteLabelTestsBaseClass
+import unittest
 
 
+@unittest.skip("skip this")
 class TestUserAccount(WhiteLabelTestsBaseClass):
     """
     User Accounts Tests

@@ -3,7 +3,9 @@ Common functions for Vouchers
 """
 from __future__ import absolute_import
 
+import logging
 from datetime import datetime
+from bok_choy.browser import save_screenshot
 
 from regression.pages.whitelabel.basket_page import SingleSeatBasketPage
 from regression.pages.whitelabel.const import ORG
@@ -11,6 +13,8 @@ from regression.pages.whitelabel.home_page import HomePage
 from regression.pages.whitelabel.redeem_coupon_page import RedeemCouponErrorPage, RedeemCouponPage
 from regression.tests.helpers.api_clients import EcommerceApiClient
 from regression.tests.whitelabel.course_enrollment_test import CourseEnrollmentTest
+
+log = logging.getLogger(__name__)
 
 
 class VouchersTest(CourseEnrollmentTest):
@@ -107,17 +111,19 @@ class VouchersTest(CourseEnrollmentTest):
             self.receipt_page.order_date
         )
 
-    def redeem_single_course_discount_coupon(self, coupon_url):
+    def redeem_single_course_discount_coupon(self, coupon_code):
         """
         Redeem single course discount coupon.
 
         Arguments:
-            coupon_url: Url of the coupon.
+            coupon_code: Url of the coupon.
         """
-        redeem_coupon_page = RedeemCouponPage(self.browser, coupon_url)
+        log.error("Reedem coupon page url: %s", coupon_code)
+        redeem_coupon_page = RedeemCouponPage(self.browser, coupon_code)
         redeem_coupon_page.visit()
         redeem_coupon_page.wait_for_course_tile()
         self.verify_course_info_on_coupon_redeem_page(redeem_coupon_page)
+        save_screenshot(self.driver, 'zz_' + coupon_code + '_3_redeem_page')
         redeem_coupon_page.click_checkout_button(self.course_id)
 
     def redeem_single_course_enrollment_coupon(self, coupon_url, target_page):
@@ -185,21 +191,29 @@ class VouchersTest(CourseEnrollmentTest):
             ]
         )
 
-    def make_payment_after_discount(self):
+    def make_payment_after_discount(self, coupon_code=None):
         """
         Payment by active user after discount redeem url was applied.
         """
+        log.error("Entered make_payment_after_discount")
         self.verify_info_is_populated_on_basket(
             self.coupon.discounted_course_price
         )
+        log.error("Completed verify_info_is_populated_on_basket()")
+        save_screenshot(self.driver, 'zz_' + coupon_code + '_5_after_verify_info_is_populated_on_basket')
+
         # Fill out all the billing and payment details and submit the form
         self.otto_payment_using_cyber_source()
+        log.error("Completed otto_payment_using_cyber_source()")
         # Application should take user to the receipt page
         # Verify on receipt page that information like course title,
         # course price, total price
         # order date and billing to are displayed correctly.
         self.verify_receipt_info_for_discounted_course()
+        log.error("Completed verify_receipt_info_for_discounted_course()")
         self.receipt_page.click_in_nav_to_go_to_dashboard()
+        log.error("Completed receipt_page.click_in_nav_to_go_to_dashboard()")
+
 
     def verify_after_coupon_is_applied_on_basket(self):
         """
