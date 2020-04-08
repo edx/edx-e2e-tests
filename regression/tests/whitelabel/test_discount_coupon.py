@@ -7,6 +7,7 @@ import logging
 import random
 import uuid
 from unittest import skip, skipIf
+from bok_choy.browser import save_screenshot
 
 from regression.pages.studio.utils import get_course_key
 from regression.pages.whitelabel import (
@@ -180,7 +181,9 @@ class TestDiscountCoupon(VouchersTest):
             log.error("Starting test with coupon code: %s", coupon_code);
 
             # Register to application using api
+            save_screenshot(self.driver, 'zz_' + coupon_code + '_before_register_using_api')
             self.register_using_api()
+            save_screenshot(self.driver, 'zz_' + coupon_code + '_after_register_using_api')
             log.error("Completed register_using_api()");
             self.redeem_single_course_discount_coupon(coupon_code)
             log.error("Completed redeem_single_course_discount_coupon()");
@@ -193,6 +196,7 @@ class TestDiscountCoupon(VouchersTest):
             self.dashboard_page.wait_for_page()
             log.error("Completed dashboard_page.wait_for_page()");
             self.assert_enrollment_and_logout()
+            save_screenshot(self.driver, 'zz_' + coupon_code + '_after_logout')
             log.error("Completed assert_enrollment_and_logout()");
             log.error("Cookies after logout: %s", str(self.browser.get_cookies()));
 

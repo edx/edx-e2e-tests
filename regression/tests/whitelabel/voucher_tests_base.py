@@ -123,7 +123,7 @@ class VouchersTest(CourseEnrollmentTest):
         redeem_coupon_page.visit()
         redeem_coupon_page.wait_for_course_tile()
         self.verify_course_info_on_coupon_redeem_page(redeem_coupon_page)
-        save_screenshot(self.driver, 'redeem_page_for' + coupon_url + '.png')
+        save_screenshot(self.driver, 'zz_redeem_page_for_' + coupon_url)
         redeem_coupon_page.click_checkout_button(self.course_id)
 
     def redeem_single_course_enrollment_coupon(self, coupon_url, target_page):
