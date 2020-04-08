@@ -104,9 +104,7 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
         the course. After that, logout from application.
         """
         self.assert_course_added_to_dashboard()
-        # log out of ecommerce first, just in case lms single-logout takes too long
         self.logout_from_ecommerce_using_api()
-        self.logout_user_from_lms()
 
     def assert_course_added_to_dashboard(self):
         """
