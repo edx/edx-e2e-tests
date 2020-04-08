@@ -181,14 +181,14 @@ class TestDiscountCoupon(VouchersTest):
             log.error("Starting test with coupon code: %s", coupon_code);
 
             # Register to application using api
-            save_screenshot(self.driver, 'zz_1_' + coupon_code + '_before_register_using_api')
+            save_screenshot(self.driver, 'zz_' + coupon_code + '_1_before_register_using_api')
             self.register_using_api()
-            save_screenshot(self.driver, 'zz_2_' + coupon_code + '_after_register_using_api')
+            save_screenshot(self.driver, 'zz_' + coupon_code + '_2_after_register_using_api')
             log.error("Completed register_using_api()");
             self.redeem_single_course_discount_coupon(coupon_code)
             log.error("Completed redeem_single_course_discount_coupon()");
             self.basket_page.wait_for_page()
-            save_screenshot(self.driver, 'zz_4' + coupon_code + '_after_redeem_single_course_discount_coupon')
+            save_screenshot(self.driver, 'zz_' + coupon_code + '_4_after_redeem_single_course_discount_coupon')
             log.error("Completed basket_page.wait_for_page()");
             self.ecom_cookies = self.browser.get_cookies()
             log.error("Saved cookies: %s", str(self.ecom_cookies));
@@ -197,7 +197,7 @@ class TestDiscountCoupon(VouchersTest):
             self.dashboard_page.wait_for_page()
             log.error("Completed dashboard_page.wait_for_page()");
             self.assert_enrollment_and_logout()
-            save_screenshot(self.driver, 'zz_6' + coupon_code + '_after_logout')
+            save_screenshot(self.driver, 'zz_' + coupon_code + '_6_after_logout')
             log.error("Completed assert_enrollment_and_logout()");
             log.error("Cookies after logout: %s", str(self.browser.get_cookies()));
 

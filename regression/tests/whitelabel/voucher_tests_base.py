@@ -123,7 +123,7 @@ class VouchersTest(CourseEnrollmentTest):
         redeem_coupon_page.visit()
         redeem_coupon_page.wait_for_course_tile()
         self.verify_course_info_on_coupon_redeem_page(redeem_coupon_page)
-        save_screenshot(self.driver, 'zz_3_' + coupon_code + 'redeem_page')
+        save_screenshot(self.driver, 'zz_' + coupon_code + '_3_redeem_page')
         redeem_coupon_page.click_checkout_button(self.course_id)
 
     def redeem_single_course_enrollment_coupon(self, coupon_url, target_page):
@@ -200,7 +200,7 @@ class VouchersTest(CourseEnrollmentTest):
             self.coupon.discounted_course_price
         )
         log.error("Completed verify_info_is_populated_on_basket()")
-        save_screenshot(self.driver, 'zz_5_' + coupon_code + '_after_verify_info_is_populated_on_basket')
+        save_screenshot(self.driver, 'zz_' + coupon_code + '_5_after_verify_info_is_populated_on_basket')
 
         # Fill out all the billing and payment details and submit the form
         self.otto_payment_using_cyber_source()
