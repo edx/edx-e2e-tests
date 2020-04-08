@@ -188,6 +188,7 @@ class TestDiscountCoupon(VouchersTest):
             self.redeem_single_course_discount_coupon(coupon_code)
             log.error("Completed redeem_single_course_discount_coupon()");
             self.basket_page.wait_for_page()
+            save_screenshot(self.driver, 'zz_' + coupon_code + '_after_redeem_single_course_discount_coupon')
             log.error("Completed basket_page.wait_for_page()");
             self.ecom_cookies = self.browser.get_cookies()
             log.error("Saved cookies: %s", str(self.ecom_cookies));

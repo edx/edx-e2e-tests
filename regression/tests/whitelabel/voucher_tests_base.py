@@ -200,6 +200,7 @@ class VouchersTest(CourseEnrollmentTest):
             self.coupon.discounted_course_price
         )
         log.error("Completed verify_info_is_populated_on_basket()")
+        save_screenshot(self.driver, 'zz_' + self.coupon.id + '_after_verify_info_is_populated_on_basket')
 
         # Fill out all the billing and payment details and submit the form
         self.otto_payment_using_cyber_source()
