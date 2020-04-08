@@ -3,6 +3,7 @@ Single course Discount coupons tests
 """
 from __future__ import absolute_import
 
+import logging
 import random
 import uuid
 from unittest import skip, skipIf
@@ -28,6 +29,8 @@ from regression.tests.helpers.utils import (
     get_wl_course_info
 )
 from regression.tests.whitelabel.voucher_tests_base import VouchersTest
+
+log = logging.getLogger(__name__)
 
 
 class TestDiscountCoupon(VouchersTest):
@@ -151,6 +154,8 @@ class TestDiscountCoupon(VouchersTest):
         Scenario: Existing Users - Discount Single Use Fixed Redeem URL: Each
         redeem url can be used by one person successfully
         """
+        log.error("Can you see this???");
+
         self.coupon = Coupon(
             COURSE_CATALOG_TYPE['single'],
             COUPON_TYPE['disc'],
@@ -163,19 +168,29 @@ class TestDiscountCoupon(VouchersTest):
             quantity=2
         )
 
+
+
         self.coupon.setup_coupons_using_api(self.course_price)
         coupon_codes = self.coupon.coupon_codes
         # Delete coupon after test
         self.addCleanup(self.coupon.delete_coupon)
         for coupon_code in coupon_codes:
+            log.error("Starting test with coupon code: %s", coupon_code);
+
             # Register to application using api
             self.register_using_api()
+            log.error("Completed register_using_api()");
             self.redeem_single_course_discount_coupon(coupon_code)
+            log.error("Completed redeem_single_course_discount_coupon()");
             self.basket_page.wait_for_page()
+            log.error("Completed basket_page.wait_for_page()");
             self.ecom_cookies = self.browser.get_cookies()
             self.make_payment_after_discount()
+            log.error("Completed make_payment_after_discount()");
             self.dashboard_page.wait_for_page()
+            log.error("Completed dashboard_page.wait_for_page()");
             self.assert_enrollment_and_logout()
+            log.error("Completed assert_enrollment_and_logout()");
 
     # @skipIf(TEST_ENV == "stage", "skip tests on stage")
     # def test_discount_once_per_customer_percentage_redeem_url(self):
