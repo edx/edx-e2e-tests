@@ -192,7 +192,7 @@ class TestDiscountCoupon(VouchersTest):
             log.error("Completed basket_page.wait_for_page()");
             self.ecom_cookies = self.browser.get_cookies()
             log.error("Saved cookies: %s", str(self.ecom_cookies));
-            self.make_payment_after_discount()
+            self.make_payment_after_discount(coupon_code)
             log.error("Completed make_payment_after_discount()");
             self.dashboard_page.wait_for_page()
             log.error("Completed dashboard_page.wait_for_page()");
