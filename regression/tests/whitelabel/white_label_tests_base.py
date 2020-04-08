@@ -48,7 +48,6 @@ class WhiteLabelTestsBaseClass(WebAppTest):
         Arguments:
             target: url for page where user should land after registering
         """
-        self.basket_page = BasketPage(self.browser)
         register_user = WLRegisterApi(target_page=target)
         register_user.authenticate(self.browser)
         if target:
