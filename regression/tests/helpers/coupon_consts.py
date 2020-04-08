@@ -72,7 +72,7 @@ INVALID_DOMAIN_USERS = {
 
 # Valid Email domain
 
-VALID_EMAIL_DOMAIN = "example.com"
+VALID_EMAIL_DOMAIN = "arbisoft.com"
 
 # Courses for dynamic coupons testing
 COUPON_COURSES = {
