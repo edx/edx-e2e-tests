@@ -187,12 +187,14 @@ class TestDiscountCoupon(VouchersTest):
             self.basket_page.wait_for_page()
             log.error("Completed basket_page.wait_for_page()");
             self.ecom_cookies = self.browser.get_cookies()
+            log.error("Saved cookies: %s", str(self.ecom_cookies));
             self.make_payment_after_discount()
             log.error("Completed make_payment_after_discount()");
             self.dashboard_page.wait_for_page()
             log.error("Completed dashboard_page.wait_for_page()");
             self.assert_enrollment_and_logout()
             log.error("Completed assert_enrollment_and_logout()");
+            log.error("Cookies after logout: %s", str(self.browser.get_cookies()));
 
     # @skipIf(TEST_ENV == "stage", "skip tests on stage")
     # def test_discount_once_per_customer_percentage_redeem_url(self):
