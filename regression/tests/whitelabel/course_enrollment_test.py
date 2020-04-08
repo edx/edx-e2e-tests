@@ -104,6 +104,7 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
         the course. After that, logout from application.
         """
         self.assert_course_added_to_dashboard()
+        self.logout_user_from_lms()
         self.logout_from_ecommerce_using_api()
 
     def assert_course_added_to_dashboard(self):
