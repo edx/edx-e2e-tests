@@ -3,6 +3,7 @@ Common functions for Vouchers
 """
 from __future__ import absolute_import
 
+import logging
 from datetime import datetime
 
 from regression.pages.whitelabel.basket_page import SingleSeatBasketPage
@@ -11,6 +12,8 @@ from regression.pages.whitelabel.home_page import HomePage
 from regression.pages.whitelabel.redeem_coupon_page import RedeemCouponErrorPage, RedeemCouponPage
 from regression.tests.helpers.api_clients import EcommerceApiClient
 from regression.tests.whitelabel.course_enrollment_test import CourseEnrollmentTest
+
+log = logging.getLogger(__name__)
 
 
 class VouchersTest(CourseEnrollmentTest):
@@ -189,17 +192,24 @@ class VouchersTest(CourseEnrollmentTest):
         """
         Payment by active user after discount redeem url was applied.
         """
+        log.error("Entered make_payment_after_discount")
         self.verify_info_is_populated_on_basket(
             self.coupon.discounted_course_price
         )
+        log.error("Completed verify_info_is_populated_on_basket()")
+
         # Fill out all the billing and payment details and submit the form
         self.otto_payment_using_cyber_source()
+        log.error("Completed otto_payment_using_cyber_source()")
         # Application should take user to the receipt page
         # Verify on receipt page that information like course title,
         # course price, total price
         # order date and billing to are displayed correctly.
         self.verify_receipt_info_for_discounted_course()
+        log.error("Completed verify_receipt_info_for_discounted_course()")
         self.receipt_page.click_in_nav_to_go_to_dashboard()
+        log.error("Completed receipt_page.click_in_nav_to_go_to_dashboard()")
+
 
     def verify_after_coupon_is_applied_on_basket(self):
         """
