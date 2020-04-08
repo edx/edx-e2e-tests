@@ -175,7 +175,7 @@ class TestDiscountCoupon(VouchersTest):
         log.error("Created coupon code: %s", str(coupon_codes));
 
         # Delete coupon after test
-        self.addCleanup(self.coupon.delete_coupon)
+        # self.addCleanup(self.coupon.delete_coupon)
         for coupon_code in coupon_codes:
             log.error("Starting test with coupon code: %s", coupon_code);
 
