@@ -117,6 +117,7 @@ class VouchersTest(CourseEnrollmentTest):
         Arguments:
             coupon_url: Url of the coupon.
         """
+        log.error("Reedem coupon page url: %s", coupon_url)
         redeem_coupon_page = RedeemCouponPage(self.browser, coupon_url)
         redeem_coupon_page.visit()
         redeem_coupon_page.wait_for_course_tile()
