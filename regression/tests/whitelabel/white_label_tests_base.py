@@ -52,6 +52,7 @@ class WhiteLabelTestsBaseClass(WebAppTest):
         register_user.authenticate(self.browser)
         if target:
             if "account/finish_auth?course_id" in target:
+                self.basket_page = BasketPage(self.browser)
                 self.basket_page.wait_for_page()
         else:
             self.dashboard_page.wait_for_page()
