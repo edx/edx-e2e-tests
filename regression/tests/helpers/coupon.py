@@ -126,4 +126,7 @@ class Coupon(object):
         """
         Deletes coupon using e-commerce api.
         """
-        self.e_commerce_api.delete_coupon(self.coupon_id)
+        # self.e_commerce_api.delete_coupon(self.coupon_id)
+
+        # see the coupons in dashboard and try to run via browser.
+        pass
