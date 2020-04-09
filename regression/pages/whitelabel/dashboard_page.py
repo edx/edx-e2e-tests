@@ -60,6 +60,14 @@ class DashboardPageExtended(DashboardPage):
         Returns:
             bool: True if the course is present.
         """
+        course_number = CourseKey.from_string(course_id).course
+        return self.q(
+            css='#actions-dropdown-link-0[data-course-number="{}"]'.format(
+                course_number
+            )
+        ).present
+
+    def log_out(self):
         self.q(
             css='.user-menu>.btn.btn-default.dropdown-toggle.'
                 'hidden-xs.nav-button'

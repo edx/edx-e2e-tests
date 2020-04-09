@@ -119,8 +119,11 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
                 True: If course present
                 False: Otherwise
             """
+            self.dashboard_page.logout_lms()
+            self.dashboard_page.log_out()
             if self.dashboard_page.is_course_present(self.course_id):
                 return True
+
             self.dashboard_page.visit()
             return False
 
