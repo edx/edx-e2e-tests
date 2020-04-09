@@ -78,7 +78,7 @@ class TestDiscountCoupon(VouchersTest):
     #         construct_course_basket_page_url(self.course_id)
     #     )
     #     self.enroll_using_discount_code(coupon_code)
-    #     self.assert_enrollment_and_logout()
+    #     self.assert_enrollment_and_logout_of_ecommerce()
     #     self.register_using_api(
     #         construct_course_basket_page_url(self.course_id)
     #     )
@@ -196,11 +196,10 @@ class TestDiscountCoupon(VouchersTest):
             log.error("Completed make_payment_after_discount()");
             self.dashboard_page.wait_for_page()
             log.error("Completed dashboard_page.wait_for_page()");
-            self.assert_enrollment_and_logout()
+            self.assert_enrollment_and_logout_of_ecommerce()
             save_screenshot(self.driver, 'zz_' + coupon_code + '_6_after_logout')
-            log.error("Completed assert_enrollment_and_logout()");
+            log.error("Completed assert_enrollment_and_logout_of_ecommerce()");
             log.error("Cookies after logout: %s", str(self.browser.get_cookies()));
-            self.ecom_cookies = None
 
     # @skipIf(TEST_ENV == "stage", "skip tests on stage")
     # def test_discount_once_per_customer_percentage_redeem_url(self):
