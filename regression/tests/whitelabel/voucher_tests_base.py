@@ -13,6 +13,8 @@ from regression.pages.whitelabel.home_page import HomePage
 from regression.pages.whitelabel.redeem_coupon_page import RedeemCouponErrorPage, RedeemCouponPage
 from regression.tests.helpers.api_clients import EcommerceApiClient
 from regression.tests.whitelabel.course_enrollment_test import CourseEnrollmentTest
+import requests
+
 
 log = logging.getLogger(__name__)
 
@@ -122,6 +124,11 @@ class VouchersTest(CourseEnrollmentTest):
         redeem_coupon_page = RedeemCouponPage(self.browser, coupon_code)
         redeem_coupon_page.visit()
         redeem_coupon_page.wait_for_course_tile()
+
+        redeem_coupon_page = RedeemCouponPage(self.browser, coupon_code)
+        redeem_coupon_page.visit()
+        redeem_coupon_page.wait_for_course_tile()
+
         self.verify_course_info_on_coupon_redeem_page(redeem_coupon_page)
         save_screenshot(self.driver, 'zz_' + coupon_code + '_3_redeem_page')
         redeem_coupon_page.click_checkout_button(self.course_id)
