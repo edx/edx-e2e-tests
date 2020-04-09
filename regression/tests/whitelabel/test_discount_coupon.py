@@ -30,6 +30,8 @@ from regression.tests.helpers.utils import (
     get_wl_course_info
 )
 from regression.tests.whitelabel.voucher_tests_base import VouchersTest
+import requests
+
 
 log = logging.getLogger(__name__)
 
@@ -198,6 +200,7 @@ class TestDiscountCoupon(VouchersTest):
             log.error("Completed dashboard_page.wait_for_page()");
             self.assert_enrollment_and_logout()
             self.simply_logout()
+            requests.get('https://payments.stage.mitxpro.mit.edu/logout/')
             save_screenshot(self.driver, 'zz_' + coupon_code + '_6_after_logout')
             log.error("Completed assert_enrollment_and_logout()")
             log.error("Cookies after logout: %s", str(self.browser.get_cookies()))
