@@ -20,9 +20,9 @@ class EcommerceLogoutPage(PageObject):
         """
         Is browser on the page?
         Returns:
-            True if user drop down is visible on the page:
+            True if the sign out message is on the page.
         """
-        return True
+        return "you have signed out" in self.browser.body.lower()
 
     def logout_from_ecommerce(self):
         """
