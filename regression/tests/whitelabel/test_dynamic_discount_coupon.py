@@ -61,7 +61,7 @@ class TestDynamicDiscountCoupon(VouchersTest):
             construct_course_basket_page_url(self.course_id)
         )
         self.enroll_using_discount_code(coupon_code)
-        self.assert_enrollment_and_logout()
+        self.assert_enrollment_and_logout_of_ecommerce()
         # Register to application using api
         self.register_using_api(
             construct_course_basket_page_url(self.course_id)
