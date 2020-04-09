@@ -15,20 +15,3 @@ class EcommerceLogoutPage(PageObject):
     """
 
     url = os.path.join(ECOM_URL_WITH_AUTH, 'logout/')
-
-    def is_browser_on_page(self):
-        """
-        Is browser on the page?
-        Returns:
-            True if the sign out message is on the page.
-        """
-        from bok_choy.browser import save_screenshot
-        save_screenshot(self.browser, "zz_XXX_7_after_logout")
-        logging.error(self.browser.page_source.lower())
-        return "you have signed out" in self.browser.page_source.lower()
-
-    def logout_from_ecommerce(self):
-        """
-        Log out from application
-        """
-        self.visit()
