@@ -200,6 +200,7 @@ class TestDiscountCoupon(VouchersTest):
             save_screenshot(self.driver, 'zz_' + coupon_code + '_6_after_logout')
             log.error("Completed assert_enrollment_and_logout()");
             log.error("Cookies after logout: %s", str(self.browser.get_cookies()));
+            self.ecom_cookies = None
 
     # @skipIf(TEST_ENV == "stage", "skip tests on stage")
     # def test_discount_once_per_customer_percentage_redeem_url(self):
