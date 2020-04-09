@@ -61,21 +61,11 @@ class DashboardPageExtended(DashboardPage):
             bool: True if the course is present.
         """
         course_number = CourseKey.from_string(course_id).course
-        # return self.q(
-        #     css='#actions-dropdown-link-0[data-course-number="{}"]'.format(
-        #         course_number
-        #     )
-        # ).present
-
-        self.q(
-            css='.user-menu>.btn.btn-default.dropdown-toggle.'
-                'hidden-xs.nav-button'
-        ).click()
-        self.wait_for_element_visibility(
-            '.dropdown-menu',
-            'wait for user dropdown to expand'
-        )
-        self.q(css='.nav-link[href="/logout/"]').click()
+        return self.q(
+            css='#actions-dropdown-link-0[data-course-number="{}"]'.format(
+                course_number
+            )
+        ).present
 
     def click_courses_button(self):
         """
