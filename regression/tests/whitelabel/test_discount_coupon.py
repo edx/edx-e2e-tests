@@ -172,7 +172,6 @@ class TestDiscountCoupon(VouchersTest):
             self.register_using_api()
             self.redeem_single_course_discount_coupon(coupon_code)
             self.basket_page.wait_for_page()
-            self.ecom_cookies = self.browser.get_cookies()
             self.make_payment_after_discount()
             self.dashboard_page.wait_for_page()
             self.assert_enrollment_and_logout_of_ecommerce()

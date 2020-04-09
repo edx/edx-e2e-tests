@@ -33,7 +33,6 @@ class WhiteLabelTestsBaseClass(WebAppTest):
         self.registration_page = RegisterPageExtended(self.browser)
         self.logout_page = EcommerceLogoutPage(self.browser)
         self.basket_page = BasketPage(self.browser)
-        self.ecom_cookies = None
 
     def login_user_using_ui(self, email, password):
         """

@@ -34,7 +34,6 @@ class VouchersTest(CourseEnrollmentTest):
         Arguments:
             coupon_code(unicode string): The coupon code to use for enrollment.
         """
-        self.ecom_cookies = self.browser.get_cookies()
         self.single_seat_basket.apply_coupon_code(coupon_code)
         self.verify_coupon_is_applied_on_basket()
         # Fill out all the billing and payment details and submit the form
@@ -53,7 +52,6 @@ class VouchersTest(CourseEnrollmentTest):
         Arguments:
             coupon_code(unicode string): The coupon code to use for enrollment.
         """
-        self.ecom_cookies = self.browser.get_cookies()
         self.single_seat_basket.apply_coupon_code(coupon_code)
         self.verify_after_coupon_is_applied_on_basket()
         self.single_seat_basket.go_to_receipt_page()
@@ -75,7 +73,6 @@ class VouchersTest(CourseEnrollmentTest):
         Returns:
             str: The error message after applying the coupon.
         """
-        self.ecom_cookies = self.browser.get_cookies()
         self.single_seat_basket.apply_coupon_code(coupon_code)
         return self.single_seat_basket.get_error_message_for_invalid_coupon()
 
