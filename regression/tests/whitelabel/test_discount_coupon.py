@@ -202,15 +202,6 @@ class TestDiscountCoupon(VouchersTest):
             self.simply_logout()
             requests.get('https://payments.stage.mitxpro.mit.edu/logout/')
 
-            self.q(
-                css='.user-menu>.btn.btn-default.dropdown-toggle.'
-                    'hidden-xs.nav-button'
-            ).click()
-            self.wait_for_element_visibility(
-                '.dropdown-menu',
-                'wait for user dropdown to expand'
-            )
-            self.q(css='.nav-link[href="/logout/"]').click()
 
             save_screenshot(self.driver, 'zz_' + coupon_code + '_6_after_logout')
             log.error("Completed assert_enrollment_and_logout()")
