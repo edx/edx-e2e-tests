@@ -67,6 +67,7 @@ class WhiteLabelTestsBaseClass(WebAppTest):
         """
         Logout user from ecommerce site
         """
+        self.logout_page.visit()
         self.logout_page.logout_from_ecommerce()
 
     def logout_from_wl_using_api(self):
