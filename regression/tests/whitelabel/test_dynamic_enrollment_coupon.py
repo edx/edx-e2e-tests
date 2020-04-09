@@ -67,7 +67,7 @@ class TestDynamicEnrollmentCoupon(VouchersTest):
                     construct_course_basket_page_url(self.course_id)
                 )
                 self.enroll_using_enrollment_code(coupon_code)
-                self.assert_enrollment_and_logout()
+                self.assert_enrollment_and_logout_of_ecommerce()
             else:
                 # Register to application using api
                 self.register_using_api(
@@ -114,7 +114,7 @@ class TestDynamicEnrollmentCoupon(VouchersTest):
                 self.verify_receipt_info_for_discounted_course()
                 self.receipt_page.click_in_nav_to_go_to_dashboard()
                 self.dashboard_page.wait_for_page()
-                self.assert_enrollment_and_logout()
+                self.assert_enrollment_and_logout_of_ecommerce()
             else:
                 self.register_using_api()
                 redeem_coupon = RedeemCouponPage(

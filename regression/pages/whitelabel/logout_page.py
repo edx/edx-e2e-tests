@@ -12,6 +12,8 @@ from regression.pages.whitelabel import ECOM_URL_WITH_AUTH
 class EcommerceLogoutPage(PageObject):
     """
     E-Commerce Logout
+
+    Use visit() to actually perform the logout.
     """
 
     url = os.path.join(ECOM_URL_WITH_AUTH, 'logout/')
