@@ -120,13 +120,3 @@ class HomePage(PageObject):
         """
         # Requires wait_for_page() statement in the test
         self.q(css='.nav-links a[href="/courses"]').click()
-
-    def logout_lms(self):
-        """
-        Clicks Drop down then SignOut button
-        """
-        self.q(css='.dropdown').click()
-        self.wait_for_element_visibility(
-            '.item a[href="/logout"]', 'SignOut button'
-        )
-        self.q(css='.item a[href="/logout"]').click()

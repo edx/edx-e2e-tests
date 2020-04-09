@@ -29,7 +29,6 @@ class VouchersTest(CourseEnrollmentTest):
         self.ecommerce_api = EcommerceApiClient()
         # Initialize all objects
         self.home = HomePage(self.browser)
-        self.home.logout_lms()
         self.redeem_coupon_error_page = RedeemCouponErrorPage(self.browser)
         self.single_seat_basket = SingleSeatBasketPage(self.browser)
         self.coupon = None
