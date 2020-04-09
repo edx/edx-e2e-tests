@@ -74,7 +74,7 @@ class TestDiscountCoupon(VouchersTest):
             construct_course_basket_page_url(self.course_id)
         )
         self.enroll_using_discount_code(coupon_code)
-        self.assert_enrollment_and_logout()
+        self.assert_enrollment_and_logout_of_ecommerce()
         self.register_using_api(
             construct_course_basket_page_url(self.course_id)
         )
@@ -146,7 +146,6 @@ class TestDiscountCoupon(VouchersTest):
             EXPIRED_CODE_ERROR.format(coupon_code)
         )
 
-    @skip("skipped while we investigate what's going on with this test")
     def test_discount_single_use_fixed_redeem_url(self):
         """
         Scenario: Existing Users - Discount Single Use Fixed Redeem URL: Each
@@ -173,10 +172,9 @@ class TestDiscountCoupon(VouchersTest):
             self.register_using_api()
             self.redeem_single_course_discount_coupon(coupon_code)
             self.basket_page.wait_for_page()
-            self.ecom_cookies = self.browser.get_cookies()
             self.make_payment_after_discount()
             self.dashboard_page.wait_for_page()
-            self.assert_enrollment_and_logout()
+            self.assert_enrollment_and_logout_of_ecommerce()
 
     @skipIf(TEST_ENV == "stage", "skip tests on stage")
     def test_discount_once_per_customer_percentage_redeem_url(self):

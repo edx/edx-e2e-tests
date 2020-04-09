@@ -8,7 +8,7 @@ import os
 from bok_choy.web_app_test import WebAppTest
 
 from regression.pages.whitelabel.basket_page import BasketPage
-from regression.pages.whitelabel.const import ECOM_URL, LMS_URL
+from regression.pages.whitelabel.const import LMS_URL
 from regression.pages.whitelabel.dashboard_page import DashboardPageExtended
 from regression.pages.whitelabel.home_page import HomePage
 from regression.pages.whitelabel.login_page import LoginPage
@@ -33,7 +33,6 @@ class WhiteLabelTestsBaseClass(WebAppTest):
         self.registration_page = RegisterPageExtended(self.browser)
         self.logout_page = EcommerceLogoutPage(self.browser)
         self.basket_page = BasketPage(self.browser)
-        self.ecom_cookies = None
 
     def login_user_using_ui(self, email, password):
         """
@@ -67,7 +66,7 @@ class WhiteLabelTestsBaseClass(WebAppTest):
         """
         Logout user from ecommerce site
         """
-        self.logout_page.logout_from_ecommerce()
+        self.logout_page.visit()
 
     def logout_from_wl_using_api(self):
         """
@@ -77,13 +76,4 @@ class WhiteLabelTestsBaseClass(WebAppTest):
         logout_api = LogoutApi()
         logout_api.logout_url = os.path.join(LMS_URL, 'logout')
         logout_api.cookies = self.browser.get_cookies()
-        logout_api.logout()
-
-    def logout_from_ecommerce_using_api(self):
-        """
-        Use ecommerce cookies to logout
-        """
-        logout_api = LogoutApi()
-        logout_api.logout_url = os.path.join(ECOM_URL, 'logout')
-        logout_api.cookies = self.ecom_cookies
         logout_api.logout()

@@ -76,7 +76,7 @@ class TestEnrollmentCoupon(VouchersTest):
                 construct_course_basket_page_url(self.course_id)
             )
             self.enroll_using_enrollment_code(coupon_code)
-            self.assert_enrollment_and_logout()
+            self.assert_enrollment_and_logout_of_ecommerce()
 
     def test_enrollment_once_per_customer_code_max_limit(self):
         """
@@ -106,7 +106,7 @@ class TestEnrollmentCoupon(VouchersTest):
             )
             if i < maximum_uses:
                 self.enroll_using_enrollment_code(coupon_code)
-                self.assert_enrollment_and_logout()
+                self.assert_enrollment_and_logout_of_ecommerce()
             else:
                 self.assertEqual(
                     self.error_message_on_invalid_coupon_code(coupon_code),
@@ -161,12 +161,11 @@ class TestEnrollmentCoupon(VouchersTest):
             coupon_code,
             self.receipt_page
         )
-        self.ecom_cookies = self.browser.get_cookies()
         self.receipt_page.wait_for_page()
         self.verify_receipt_info_for_discounted_course()
         self.receipt_page.click_in_nav_to_go_to_dashboard()
         self.dashboard_page.wait_for_page()
-        self.assert_enrollment_and_logout()
+        self.assert_enrollment_and_logout_of_ecommerce()
         self.register_using_api()
         self.redeem_single_course_enrollment_coupon(
             coupon_code,
