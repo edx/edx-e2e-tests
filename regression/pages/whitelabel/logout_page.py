@@ -3,7 +3,10 @@ Logout Page
 """
 from __future__ import absolute_import
 
+import os
 from bok_choy.page_object import PageObject
+
+from regression.pages.whitelabel import ECOM_URL_WITH_AUTH
 
 
 class EcommerceLogoutPage(PageObject):
@@ -11,26 +14,12 @@ class EcommerceLogoutPage(PageObject):
     E-Commerce Logout
     """
 
-    url = None
+    url = os.path.join(ECOM_URL_WITH_AUTH, 'logout/')
 
     def is_browser_on_page(self):
         """
         Is browser on the page?
         Returns:
-            True if user drop down is visible on the page:
+            True if the sign out message is on the page.
         """
-        return self.q(css='.user-menu').visible
-
-    def logout_from_ecommerce(self):
-        """
-        Log out from application
-        """
-        self.q(
-            css='.user-menu>.btn.btn-default.dropdown-toggle.'
-            'hidden-xs.nav-button'
-        ).click()
-        self.wait_for_element_visibility(
-            '.dropdown-menu',
-            'wait for user dropdown to expand'
-        )
-        self.q(css='.nav-link[href="/logout/"]').click()
+        return "you have signed out" in self.browser.page_source.lower()

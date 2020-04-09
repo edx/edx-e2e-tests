@@ -67,7 +67,7 @@ class WhiteLabelTestsBaseClass(WebAppTest):
         """
         Logout user from ecommerce site
         """
-        self.logout_page.logout_from_ecommerce()
+        self.logout_page.visit()
 
     def logout_from_wl_using_api(self):
         """
@@ -77,13 +77,4 @@ class WhiteLabelTestsBaseClass(WebAppTest):
         logout_api = LogoutApi()
         logout_api.logout_url = os.path.join(LMS_URL, 'logout')
         logout_api.cookies = self.browser.get_cookies()
-        logout_api.logout()
-
-    def logout_from_ecommerce_using_api(self):
-        """
-        Use ecommerce cookies to logout
-        """
-        logout_api = LogoutApi()
-        logout_api.logout_url = os.path.join(ECOM_URL, 'logout')
-        logout_api.cookies = self.ecom_cookies
         logout_api.logout()
