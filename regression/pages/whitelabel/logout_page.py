@@ -24,4 +24,4 @@ class EcommerceLogoutPage(PageObject):
         Returns:
             True if the sign out message is on the page.
         """
-        return "you have signed out" in self.browser.page_source.lower()
+        return self.q("body:contains('You have signed out')").present
