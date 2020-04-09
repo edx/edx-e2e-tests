@@ -3,6 +3,8 @@ Logout Page
 """
 from __future__ import absolute_import
 
+import os
+
 from bok_choy.page_object import PageObject
 
 from regression.pages.whitelabel import ECOM_URL_WITH_AUTH
