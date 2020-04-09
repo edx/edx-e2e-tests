@@ -103,6 +103,7 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
         Verify that course is added to user dashboard and user can access
         the course. After that, logout from application.
         """
+
         self.assert_course_added_to_dashboard()
         self.logout_from_ecommerce_using_api()
 
