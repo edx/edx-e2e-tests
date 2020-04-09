@@ -185,21 +185,22 @@ class TestDiscountCoupon(VouchersTest):
             self.register_using_api()
             save_screenshot(self.driver, 'zz_' + coupon_code + '_2_after_register_using_api')
             log.error("Completed register_using_api()");
-            # self.redeem_single_course_discount_coupon(coupon_code)
-            # log.error("Completed redeem_single_course_discount_coupon()");
-            # self.basket_page.wait_for_page()
-            # save_screenshot(self.driver, 'zz_' + coupon_code + '_4_after_redeem_single_course_discount_coupon')
-            # log.error("Completed basket_page.wait_for_page()");
-            # self.ecom_cookies = self.browser.get_cookies()
-            # log.error("Saved cookies: %s", str(self.ecom_cookies));
-            # self.make_payment_after_discount(coupon_code)
-            # log.error("Completed make_payment_after_discount()");
-            # self.dashboard_page.wait_for_page()
-            # log.error("Completed dashboard_page.wait_for_page()");
-            # self.assert_enrollment_and_logout()
-            # save_screenshot(self.driver, 'zz_' + coupon_code + '_6_after_logout')
-            # log.error("Completed assert_enrollment_and_logout()");
-            # log.error("Cookies after logout: %s", str(self.browser.get_cookies()));
+            self.redeem_single_course_discount_coupon(coupon_code)
+            log.error("Completed redeem_single_course_discount_coupon()");
+            self.basket_page.wait_for_page()
+            save_screenshot(self.driver, 'zz_' + coupon_code + '_4_after_redeem_single_course_discount_coupon')
+            log.error("Completed basket_page.wait_for_page()");
+            self.ecom_cookies = self.browser.get_cookies()
+            log.error("Saved cookies: %s", str(self.ecom_cookies));
+            self.make_payment_after_discount(coupon_code)
+            log.error("Completed make_payment_after_discount()");
+            self.dashboard_page.wait_for_page()
+            log.error("Completed dashboard_page.wait_for_page()");
+            self.assert_enrollment_and_logout()
+            self.simply_logout()
+            save_screenshot(self.driver, 'zz_' + coupon_code + '_6_after_logout')
+            log.error("Completed assert_enrollment_and_logout()")
+            log.error("Cookies after logout: %s", str(self.browser.get_cookies()))
 
     # @skipIf(TEST_ENV == "stage", "skip tests on stage")
     # def test_discount_once_per_customer_percentage_redeem_url(self):

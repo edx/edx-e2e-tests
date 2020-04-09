@@ -106,6 +106,13 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
         self.assert_course_added_to_dashboard()
         self.logout_from_ecommerce_using_api()
 
+    def simply_logout(self):
+        """
+        just logout
+        """
+
+        self.logout_from_ecommerce_using_api()
+
     def assert_course_added_to_dashboard(self):
         """
         Waits for course to appear on dashboard.
