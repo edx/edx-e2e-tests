@@ -161,7 +161,6 @@ class TestEnrollmentCoupon(VouchersTest):
             coupon_code,
             self.receipt_page
         )
-        self.ecom_cookies = self.browser.get_cookies()
         self.receipt_page.wait_for_page()
         self.verify_receipt_info_for_discounted_course()
         self.receipt_page.click_in_nav_to_go_to_dashboard()

@@ -85,7 +85,6 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
         """
         Verify that course name is displayed correctly on basket page.
         """
-        self.ecom_cookies = self.browser.get_cookies()
         self.assertIn(self.course_title, self.basket_page.course_name)
 
     def verify_price_on_basket(self):
