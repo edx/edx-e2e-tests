@@ -12,6 +12,7 @@ git clean -xfd > log/git_clean.log
 
 # Create the virtualenv and install requirements
 mkdir -p venv
+sudo apt install python3-venv
 python3 -m venv env
 . venv/bin/activate
 
