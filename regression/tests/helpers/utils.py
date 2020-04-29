@@ -165,6 +165,7 @@ def get_white_label_registration_fields(
     get_user_password = get_random_password()
     return {
         'email': email or get_user_email,
+        'confirm_email': email or get_user_email,
         'username': username or get_user_name,
         'password': password or get_user_password,
         'name': name,
