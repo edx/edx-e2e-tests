@@ -1,0 +1,10 @@
+# Core requirements for using this package
+-c constraints.txt
+
+bok-choy
+edx-opaque-keys
+edx-rest-api-client
+path.py
+Paver
+requests
+six
