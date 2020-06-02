@@ -8,12 +8,12 @@ import json
 import os
 import time
 
-import six.moves.http_cookies  # pylint: disable=import-error
 import requests
 from requests.auth import AuthBase
 
 from edx_rest_api_client.client import EdxRestApiClient
 from guerrillamail import GuerrillaMailSession
+import six.moves.http_cookies  # pylint: disable=import-error
 from six.moves.urllib.parse import urlparse  # pylint: disable=import-error
 
 
@@ -89,7 +89,7 @@ def yesterday_date():
     return (datetime.date.today() - datetime.timedelta(1)).strftime("%d-%b-%Y")
 
 
-class LogistrationApiBaseClass:
+class LogistrationApiBaseClass(object):
     """
     Base class for logistration api
     """
@@ -206,7 +206,7 @@ class LogistrationApiBaseClass:
         browser.get(self.browser_get_url)
 
 
-class LogoutApi:
+class LogoutApi(object):
     """
     This class uses the cookies from browser session to logout
     current user with the help of api request
@@ -308,7 +308,7 @@ class WLRegisterApi(LogistrationApiBaseClass):
         )
 
 
-class GuerrillaMailApi:
+class GuerrillaMailApi(object):
     """
     Api for using Guerrilla Mail.
     """
@@ -380,7 +380,7 @@ class GuerrillaMailApi:
         return get_target_url_from_text(matching_string, email_text)
 
 
-class EdxRestApiBaseClass:
+class EdxRestApiBaseClass(object):
     """
     Base class for creating EdxRestAPiClient instance
     """
@@ -519,7 +519,7 @@ class EnrollmentApiClient(EdxRestApiBaseClass):
         return formatted_response['is_active']
 
 
-class LmsApiClient:
+class LmsApiClient(object):
     """
     API class for accessing different APIs
     """

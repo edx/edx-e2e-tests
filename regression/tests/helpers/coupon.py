@@ -13,7 +13,7 @@ from regression.tests.helpers.coupon_consts import (
 )
 
 
-class Coupon:
+class Coupon(object):
     """
     All common functions and attributes related to coupons.
     """
