@@ -12,7 +12,7 @@ git clean -qxfd
 
 export DISPLAY=":1"
 
-virtualenv venv
+python -m virtualenv --python=python3.5 venv
 . venv/bin/activate
 
 mkdir -p log
