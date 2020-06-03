@@ -1,0 +1,19 @@
+# Core requirements for using this package
+-c constraints.txt
+
+bok-choy
+ddt
+edx-lint
+edx-opaque-keys
+edx-rest-api-client
+mock
+needle
+nose
+path.py
+Paver
+pycodestyle
+pylint
+python-guerrillamail
+requests
+selenium
+six
