@@ -19,7 +19,7 @@ from regression.tests.whitelabel.white_label_tests_base import WhiteLabelTestsBa
 
 class CourseNotFoundException(Exception):
     """
-    Course not found Exception
+    Course not found Exception.
     """
 
 
