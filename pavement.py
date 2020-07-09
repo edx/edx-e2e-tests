@@ -5,7 +5,7 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 
 from path import Path as path  # noqa
-from pavelib.paver_utils import NoseCommand, PaverTestCommand  # noqa
+from pavelib.paver_utils import TestRunCommand, PaverTestCommand  # noqa
 from paver.easy import task, needs, consume_args, sh, BuildFailure  # noqa
 
 from pavelib.paver_consts import (
@@ -58,7 +58,7 @@ def configure_e2e_tests_pre_reqs():
 @needs('configure_e2e_tests_pre_reqs')
 @consume_args
 def e2e_test(args):
-    sh(NoseCommand.command(E2E_TEST_REPORT, args))
+    sh(TestRunCommand.command(E2E_TEST_REPORT, args))
 
 
 @task
@@ -106,7 +106,7 @@ def wl_test_config():
 @needs('wl_test_config')
 @consume_args
 def e2e_wl_test(args):
-    sh(NoseCommand.command(WHITE_LABEL_TEST_REPORT, args, test_type='wl'))
+    sh(TestRunCommand.command(WHITE_LABEL_TEST_REPORT, args, test_type='wl'))
 
 
 @task
@@ -147,7 +147,7 @@ def configure_enterprise_tests_pre_reqs():
 @consume_args
 def enterprise_test(args):
     sh(
-        NoseCommand.command(
+        TestRunCommand.command(
             ENTERPRISE_TEST_REPORT,
             args,
             test_type='enterprise'

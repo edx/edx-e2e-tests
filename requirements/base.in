@@ -8,7 +8,7 @@ edx-opaque-keys
 edx-rest-api-client
 mock
 needle
-nose
+pytest
 path.py
 Paver
 pycodestyle

@@ -23,4 +23,4 @@ pip install -r requirements/base.txt > log/pip_install_base.log
 export DISPLAY=:1
 
 # Run the tests
-paver e2e_test --exclude="whitelabel\|enterprise"
+paver e2e_test --ignore=regression/tests/enterprise --ignore=regression/tests/whitelabel

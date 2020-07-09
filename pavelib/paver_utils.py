@@ -12,11 +12,11 @@ from .paver_consts import (
 )
 
 
-class NoseCommand(object):
+class TestRunCommand(object):
     @staticmethod
     def command(report_name="report.xml", user_args="", test_type=None):
         """
-        Construct the nose command with all path and nose options and
+        Construct the pytest command with all path and pytest options and
         return this command to paver tasks (Used for e2e tests)
         """
         arguments = get_file_path_and_other_args(user_args)
@@ -40,11 +40,10 @@ class NoseCommand(object):
         construct_command = [
             "SCREENSHOT_DIR='{}'".format(LOG_DIR),
             "SELENIUM_DRIVER_LOG_DIR='{}'".format(LOG_DIR),
-            "nosetests",
+            "pytest",
             test_path,
             "-v",
-            "--with-xunit",
-            "--xunit-file='{}'".format(report_path)
+            "--junit-xml='{}'".format(report_path)
             ]
 
         construct_command.extend(arguments['cmd_args'])
@@ -57,7 +56,7 @@ class PaverTestCommand(object):
     @staticmethod
     def command(test_name='', report_name='report.xml'):
         """
-        Construct the nose command with all path and nose options and
+        Construct the pytest command with all path and pytest options and
         return this command to paver tasks which will be used for
         paver tests located at pavelib/paver_tests.
         """
@@ -73,11 +72,10 @@ class PaverTestCommand(object):
 
         # Construct the command as a list
         construct_command = [
-            "nosetests",
+            "pytest",
             test_path,
             "-v",
-            "--with-xunit",
-            "--xunit-file='{}'".format(report_path)
+            "--junit-xml='{}'".format(report_path)
             ]
 
         # return command as a string
