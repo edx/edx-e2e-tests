@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # Run end-to-end tests for edx-e2e-tests in Jenkins
-
 set -e
 set -x
 
