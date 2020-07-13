@@ -19,7 +19,6 @@ install:
 # command to run tests
 script:
   - pycodestyle
-  - paver install_pages
   - pylint regression/
 after_success:
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then

@@ -96,20 +96,6 @@ Configuration
 
     pip install -r requirements/base.txt
 
-3. OPTIONAL: Cloning the edx-platform repo into a mounted directory in a docker environment
-   can take a long time (several minutes). An alternative is to navigate to the lib directory
-   back on your host system and clone the edx-platform repo there before proceeding.
-
-4. Install the page objects for the application from the edx platform repo. This will
-   clone the entire repo into lib/edx-platform so that it can use the page objects and
-   helper methods from common/test/acceptance. We also install capa and xmodule into the
-   virtual environment from common/lib.
-
-
-.. code:: bash
-
-    paver install_pages
-
 
 How to run LMS and Studio tests
 --------------------------------
@@ -155,13 +141,6 @@ To run a single test:
     paver e2e_test lms/test_dashboard.py:DashboardTest.test_resume_course
 
 
-To update page objects installed from external repos:
-
-.. code:: bash
-
-    paver install_pages
-
-
 How to run Whitelabel tests
 ----------------------------
 
@@ -180,17 +159,7 @@ How to run Whitelabel tests
 
     pip install -r requirements/base.txt
 
-4. Install the page objects for the application from the edx platform repo. This will
-   clone the entire repo into lib/edx-platform so that it can use the page objects and
-   helper methods from common/test/acceptance. We also install capa and xmodule into the
-   virtual environment from common/lib.
-
-
-.. code:: bash
-
-    paver install_pages
-
-5. Set these Environment variables
+4. Set these Environment variables
 
 .. code:: bash
 
