@@ -117,7 +117,7 @@ To run all the tests:
 
 .. code:: bash
 
-    paver e2e_test --ignore=regression/tests/whitelabel
+    paver e2e_test
 
 
 The commands also accept pytest-style specifiers for test case or module:

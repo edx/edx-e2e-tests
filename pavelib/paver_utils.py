@@ -20,18 +20,22 @@ class TestRunCommand(object):
         return this command to paver tasks (Used for e2e tests)
         """
         arguments = get_file_path_and_other_args(user_args)
-        test_directory = TEST_DIR
 
-        if test_type:
-            if test_type == 'wl':
-                test_directory = WHITE_LABEL_TEST_DIR
-            elif test_type == 'enterprise':
-                test_directory = ENTERPRISE_TEST_DIR
-        # Default to running all tests if no specific test is specified
-        if not arguments['file_path']:
-            test_path = test_directory
-        else:
+        test_directory = TEST_DIR
+        if arguments['file_path']:
             test_path = path.joinpath(test_directory, arguments['file_path'][0])
+        else:
+            if test_type == 'wl':
+                test_path = WHITE_LABEL_TEST_DIR
+            elif test_type == 'enterprise':
+                test_path = ENTERPRISE_TEST_DIR
+            else:
+                arguments['cmd_args'].extend([
+                    '='.join(['--ignore', WHITE_LABEL_TEST_DIR]),
+                    '='.join(['--ignore', ENTERPRISE_TEST_DIR]),
+                ])
+                # Default to running all tests if no specific test is specified
+                test_path = test_directory
 
         # Create report path by concatenating report directory and report name
         report_path = path.joinpath(REPORT_DIR, report_name)

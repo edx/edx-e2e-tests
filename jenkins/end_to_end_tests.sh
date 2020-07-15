@@ -21,5 +21,4 @@ pip install -r requirements/base.txt > log/pip_install_base.log
 # Set the display to the virtual frame buffer (Xvfb)
 export DISPLAY=:1
 
-# Run the tests
-paver e2e_test --ignore=regression/tests/enterprise --ignore=regression/tests/whitelabel
+paver e2e_test
