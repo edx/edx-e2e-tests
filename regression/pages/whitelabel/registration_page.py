@@ -6,7 +6,7 @@ from __future__ import absolute_import
 import os
 
 from edxapp_acceptance.pages.lms.login_and_register import CombinedLoginAndRegisterPage
-from edxapp_acceptance.tests.helpers import disable_animations
+from edxapp_acceptance.pages.common.utils import disable_animations
 from regression.pages.whitelabel import LMS_URL_WITH_AUTH, ORG
 from regression.tests.helpers.utils import click_checkbox, fill_input_fields, select_drop_down_values
 

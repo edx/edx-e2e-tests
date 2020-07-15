@@ -6,6 +6,7 @@ from __future__ import absolute_import
 import datetime
 import json
 import os
+import re
 import time
 
 import six.moves.http_cookies  # pylint: disable=import-error
@@ -166,7 +167,7 @@ class LogistrationApiBaseClass:
 
         """
         parsed_uri = urlparse(url)
-        domain = parsed_uri.netloc
+        domain = parsed_uri.netloc.split(':')[0]   # strip off port when tests are run from devstack
         count = len(domain.split('.'))
         cookie_domain = '.'.join(domain.split('.')[1-count:])
         return '.' + cookie_domain
@@ -195,10 +196,12 @@ class LogistrationApiBaseClass:
                 'path': cookie.path,
                 'expiry': cookie.expires,
             }
-            # The domain for the sessionid cookie needs to be set from
-            # '.stage.edx.org' domain for both studio and lms.
+            # The domain for the sessionid cookie needs to be set to
+            # '.stage.edx.org' when tests are run with stage urls
+            # and '.devstack.edx' when tests are run in devstack
+            # for both studio and lms.
             # However, for WL sites we need the to remain as is
-            if 'edx.org' in self.logistration_base_url and 'sessionid' in cookie.name:
+            if re.search(r'edx.org|devstack', self.logistration_base_url) and 'sessionid' in cookie.name:
                 cookie_dict['domain'] = self.get_cookie_domain(self.logistration_base_url)
 
             browser.delete_cookie(cookie.name)

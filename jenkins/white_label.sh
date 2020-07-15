@@ -19,13 +19,6 @@ mkdir -p log
 
 pip install -r requirements/base.txt
 
-# Install the page objects from the edx-platform repo.
-# Before doing so, we don't need optimizations for lxml,
-# so install it this way which doesn't bother compiling them.
-STATIC_DEPS=true CFLAGS="-O0"  pip install "lxml==4.0.0" > log/pip_lxml_install.log
-paver install_pages > log/paver_install_pages.log
-
-
 # Run the tests
 organizations=""
 

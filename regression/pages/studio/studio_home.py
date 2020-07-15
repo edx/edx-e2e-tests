@@ -6,7 +6,7 @@ from __future__ import absolute_import
 from bok_choy.promise import BrokenPromise
 
 from edxapp_acceptance.pages.studio.index import DashboardPage
-from edxapp_acceptance.tests.helpers import disable_animations
+from edxapp_acceptance.pages.common.utils import disable_animations
 from regression.pages.lms import LMS_REDIRECT_URL
 from regression.pages.studio import LOGIN_BASE_URL
 from regression.pages.studio.utils import get_course_key

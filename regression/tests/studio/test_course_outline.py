@@ -8,7 +8,7 @@ from unittest import skip
 
 from bok_choy.web_app_test import WebAppTest
 
-from edxapp_acceptance.tests.helpers import assert_side_bar_help_link
+from edxapp_acceptance.pages.common.utils import assert_side_bar_help_link
 from regression.pages.studio import EDXAPP_CMS_DOC_LINK_BASE_URL
 from regression.pages.studio.course_outline_page import CourseOutlinePageExtended
 from regression.pages.studio.login_studio import StudioLogin
