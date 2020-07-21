@@ -5,53 +5,62 @@
 #    make upgrade
 #
 astroid==2.3.3            # via -r requirements/base.txt, pylint, pylint-celery
+attrs==19.3.0             # via -r requirements/base.txt, pytest
 bok-choy==1.1.1           # via -r requirements/base.txt
-certifi==2020.4.5.1       # via -r requirements/base.txt, requests
+certifi==2020.6.20        # via -r requirements/base.txt, requests
 chardet==3.0.4            # via -r requirements/base.txt, requests
 click-log==0.3.2          # via -r requirements/base.txt, edx-lint
 click==7.1.2              # via -r requirements/base.txt, click-log, edx-lint
-coverage==5.1             # via coveralls
-coveralls==2.0.0          # via -r requirements/travis.in
+coverage==5.2             # via coveralls
+coveralls==2.1.1          # via -r requirements/travis.in
 ddt==1.4.1                # via -r requirements/base.txt
-django-waffle==0.20.0     # via -r requirements/base.txt, edx-django-utils
-django==2.2.12            # via -r requirements/base.txt, edx-django-utils
+django-waffle==1.0.0      # via -r requirements/base.txt, edx-django-utils
+django==2.2.14            # via -r requirements/base.txt, edx-django-utils
 docopt==0.6.2             # via coveralls
-edx-django-utils==3.2.2   # via -r requirements/base.txt, edx-rest-api-client
-edx-lint==1.4.1           # via -r requirements/base.txt
+edx-django-utils==3.2.3   # via -r requirements/base.txt, edx-rest-api-client
+edx-lint==1.5.0           # via -r requirements/base.txt
 edx-opaque-keys==2.1.0    # via -r requirements/base.txt
 edx-rest-api-client==5.2.1  # via -r requirements/base.txt
-idna==2.9                 # via -r requirements/base.txt, requests
-importlib-metadata==1.6.0  # via -r requirements/base.txt, path
+idna==2.10                # via -r requirements/base.txt, requests
+importlib-metadata==1.7.0  # via -r requirements/base.txt, path, pluggy, pytest
 isort==4.3.21             # via -r requirements/base.txt, pylint
 lazy-object-proxy==1.4.3  # via -r requirements/base.txt, astroid
 lazy==1.4                 # via -r requirements/base.txt, bok-choy
 mccabe==0.6.1             # via -r requirements/base.txt, pylint
 mock==3.0.5               # via -r requirements/base.txt
+more-itertools==8.4.0     # via -r requirements/base.txt, pytest
 needle==0.5.0             # via -r requirements/base.txt
-newrelic==5.14.0.142      # via -r requirements/base.txt, edx-django-utils
+newrelic==5.14.1.144      # via -r requirements/base.txt, edx-django-utils
 nose==1.3.7               # via -r requirements/base.txt, needle
+packaging==20.4           # via -r requirements/base.txt, pytest
 path.py==12.4.0           # via -r requirements/base.txt
 path==13.1.0              # via -r requirements/base.txt, path.py
+pathlib2==2.3.5           # via -r requirements/base.txt, pytest
 paver==1.3.4              # via -r requirements/base.txt
 pbr==5.4.5                # via -r requirements/base.txt, stevedore
-pillow==7.1.2             # via -r requirements/base.txt, needle
+pillow==7.2.0             # via -r requirements/base.txt, needle
+pluggy==0.13.1            # via -r requirements/base.txt, pytest
 psutil==1.2.1             # via -r requirements/base.txt, edx-django-utils
+py==1.9.0                 # via -r requirements/base.txt, pytest
 pycodestyle==2.6.0        # via -r requirements/base.txt
 pyjwt==1.7.1              # via -r requirements/base.txt, edx-rest-api-client
 pylint-celery==0.3        # via -r requirements/base.txt, edx-lint
 pylint-django==2.0.11     # via -r requirements/base.txt, edx-lint
 pylint-plugin-utils==0.6  # via -r requirements/base.txt, pylint-celery, pylint-django
-pylint==2.4.2             # via -r requirements/base.txt, edx-lint, pylint-celery, pylint-django, pylint-plugin-utils
+pylint==2.4.4             # via -r requirements/base.txt, edx-lint, pylint-celery, pylint-django, pylint-plugin-utils
 pymongo==3.10.1           # via -r requirements/base.txt, edx-opaque-keys
+pyparsing==2.4.7          # via -r requirements/base.txt, packaging
+pytest==5.4.3             # via -r requirements/base.txt
 python-guerrillamail==0.2.0  # via -r requirements/base.txt
 pytz==2020.1              # via -r requirements/base.txt, django
-requests==2.23.0          # via -r requirements/base.txt, coveralls, edx-rest-api-client, python-guerrillamail, slumber
+requests==2.24.0          # via -r requirements/base.txt, coveralls, edx-rest-api-client, python-guerrillamail, slumber
 selenium==3.141.0         # via -r requirements/base.txt, bok-choy, needle
-six==1.15.0               # via -r requirements/base.txt, astroid, bok-choy, django-waffle, edx-lint, edx-opaque-keys, mock, paver, stevedore
+six==1.15.0               # via -r requirements/base.txt, astroid, bok-choy, edx-lint, edx-opaque-keys, mock, packaging, pathlib2, paver, stevedore
 slumber==0.7.1            # via -r requirements/base.txt, edx-rest-api-client
 sqlparse==0.3.1           # via -r requirements/base.txt, django
 stevedore==1.32.0         # via -r requirements/base.txt, edx-opaque-keys
 typed-ast==1.4.1          # via -r requirements/base.txt, astroid
 urllib3==1.25.9           # via -r requirements/base.txt, requests, selenium
+wcwidth==0.2.5            # via -r requirements/base.txt, pytest
 wrapt==1.11.2             # via -r requirements/base.txt, astroid
 zipp==1.2.0               # via -r requirements/base.txt, importlib-metadata

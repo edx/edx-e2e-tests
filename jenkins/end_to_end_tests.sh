@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # Run end-to-end tests for edx-e2e-tests in Jenkins
-
 set -e
 set -x
 
@@ -22,5 +21,4 @@ pip install -r requirements/base.txt > log/pip_install_base.log
 # Set the display to the virtual frame buffer (Xvfb)
 export DISPLAY=:1
 
-# Run the tests
-paver e2e_test --exclude="whitelabel\|enterprise"
+paver e2e_test

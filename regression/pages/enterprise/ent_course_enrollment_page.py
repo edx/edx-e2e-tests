@@ -122,8 +122,6 @@ class EnterpriseCourseEnrollment(PageObject):
         Return course original price and course discounted price
         as well as the name of the organization discount provided by
         """
-        # from nose.tools import set_trace
-        # set_trace()
         return self.q(
             css='label[for="radio0"] .price'
         ).text[0]

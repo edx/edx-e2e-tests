@@ -117,10 +117,10 @@ To run all the tests:
 
 .. code:: bash
 
-    paver e2e_test --exclude=whitelabel
+    paver e2e_test
 
 
-The commands also accept nose-style specifiers for test case or module:
+The commands also accept pytest-style specifiers for test case or module:
 
 To run all the tests in the file:
 
