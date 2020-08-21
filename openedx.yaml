@@ -2,6 +2,5 @@
 # https://open-edx-proposals.readthedocs.io/en/latest/oep-0002-bp-repo-metadata.html#specification
 
 oeps:
-  oep-18: true
+    oep-18: true
 openedx-release: {ref: master}
-owner: edx/testeng
