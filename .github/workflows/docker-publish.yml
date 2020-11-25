@@ -1,0 +1,25 @@
+name: Push Docker Images
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish_docker_image:
+    name: Publish Docker Image
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build and Push docker image
+        run: |
+          docker --version
+          sudo apt-get -y update
+          sudo apt-get -y install -o Dpkg::Options::="--force-confnew" docker-ce=18.03.0~ce-0~ubuntu
+          docker --version
+          docker-compose build
+          docker login -u=${{ secrets.DOCKERHUB_USERNAME }} -p=${{ secrets.DOCKERHUB_PASSWORD }}
+          docker push edxops/e2e:latest
