@@ -1170,6 +1170,13 @@ class DataDownloadPage(PageObject):
         self.wait_for_element_visibility('#data-grade-config-text', 'Grading Configurations are visible')
         return self.q(css='#data-grade-config-text').text[0]
 
+    @property
+    def get_number_of_pending_tasks(self):
+        """
+        Returns number of pending tasks
+        """
+        return len(self.q(css=".running-tasks-table .slick-row"))
+
 
 class StudentAdminPage(PageObject):
     """
