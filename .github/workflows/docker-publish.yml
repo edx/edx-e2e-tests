@@ -14,12 +14,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Build and Push docker image
-        run: |
-          docker --version
-          sudo apt-get -y update
-          sudo apt-get -y install -o Dpkg::Options::="--force-confnew" docker-ce=18.03.0~ce-0~ubuntu
-          docker --version
-          docker-compose build
-          docker login -u=${{ secrets.DOCKERHUB_USERNAME }} -p=${{ secrets.DOCKERHUB_PASSWORD }}
-          docker push edxops/e2e:latest
+      - name: Login to DockerHub
+          uses: docker/login-action@v1
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: edxops/e2e:latest
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
