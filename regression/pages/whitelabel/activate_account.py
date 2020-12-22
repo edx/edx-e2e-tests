@@ -15,7 +15,7 @@ class ActivateAccount(PageObject):
         """
         Activate account url has to be set by the test
         """
-        super(ActivateAccount, self).__init__(browser)
+        super().__init__(browser)
         self.activate_account_url = activation_url
         self.activation_msg_css = ".account-activation.account" \
                                   "-activation.aa-icon.success"

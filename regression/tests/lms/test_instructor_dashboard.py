@@ -19,7 +19,7 @@ class AnalyticsTest(WebAppTest):
     """
 
     def setUp(self):
-        super(AnalyticsTest, self).setUp()
+        super().setUp()
 
         login_api = LmsLoginApi()
         login_api.authenticate(self.browser)
@@ -46,7 +46,7 @@ class DataDownloadTest(WebAppTest):
     """
 
     def setUp(self):
-        super(DataDownloadTest, self).setUp()
+        super().setUp()
 
         login_api = LmsLoginApi()
         login_api.authenticate(self.browser)

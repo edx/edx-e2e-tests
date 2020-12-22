@@ -24,7 +24,7 @@ class TestDiscountEnterpriseOffer(EnterpriseTestBase):
     DISCOUNT_MSG = "Discount provided by "
 
     def setUp(self):
-        super(TestDiscountEnterpriseOffer, self).setUp()
+        super().setUp()
         self.course_price = DEFAULT_COURSE_PRICE
         self.target_url = ECOM_URL + '/enterprise/offers'
 

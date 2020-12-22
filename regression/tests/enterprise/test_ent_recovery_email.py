@@ -24,7 +24,7 @@ class TestEnterpriseRecoveryEmail(EnterpriseTestBase):
         """
         Initialize all page objects
         """
-        super(TestEnterpriseRecoveryEmail, self).setUp()
+        super().setUp()
         self.user_name = str(uuid.uuid4().node)
         self.temp_mail = GuerrillaMailApi(self.user_name)
         self.user_email = self.temp_mail.user_email

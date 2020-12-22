@@ -25,7 +25,7 @@ class StudioUserLogin(WebAppTest):
         """
         Initialize the page object
         """
-        super(StudioUserLogin, self).setUp()
+        super().setUp()
         self.studio_login_page = StudioLogin(self.browser)
         self.studio_home_page = DashboardPageExtended(self.browser)
         self.studio_logout_page = StudioLogout(self.browser)

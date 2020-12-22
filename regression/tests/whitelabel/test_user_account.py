@@ -25,7 +25,7 @@ class TestUserAccount(WhiteLabelTestsBaseClass):
         """
         Initialize all page objects
         """
-        super(TestUserAccount, self).setUp()
+        super().setUp()
         self.inactive_account = InactiveAccount(self.browser)
         self.reset_password_complete = ResetPasswordComplete(self.browser)
         user_name = str(uuid.uuid4().node)

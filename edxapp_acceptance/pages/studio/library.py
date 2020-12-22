@@ -24,7 +24,7 @@ class LibraryPage(PageObject, HelpMixin):
     Base page for Library pages. Defaults URL to the edit page.
     """
     def __init__(self, browser, locator):
-        super(LibraryPage, self).__init__(browser)
+        super().__init__(browser)
         self.locator = locator
 
     @property
@@ -62,7 +62,7 @@ class LibraryEditPage(LibraryPage, PaginatedMixin, UsersPageMixin):
         for improved test reliability.
         """
         self.wait_for_ajax()
-        super(LibraryEditPage, self).wait_until_ready()
+        super().wait_until_ready()
 
     @property
     def xblocks(self):

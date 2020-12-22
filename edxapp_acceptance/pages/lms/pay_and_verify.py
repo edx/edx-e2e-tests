@@ -38,7 +38,7 @@ class PaymentAndVerificationFlow(PageObject):
         Raises:
             ValueError
         """
-        super(PaymentAndVerificationFlow, self).__init__(browser)
+        super().__init__(browser)
         self._course_id = course_id
 
         if entry_point not in ['start-flow', 'upgrade', 'verify-now', 'verify-later', 'payment-confirmation']:

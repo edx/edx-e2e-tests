@@ -20,7 +20,7 @@ class ScheduleAndDetailsTest(WebAppTest):
     Tests for Studio's Setting page.
     """
     def setUp(self):
-        super(ScheduleAndDetailsTest, self).setUp()
+        super().setUp()
 
         lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)
@@ -41,7 +41,7 @@ class ScheduleAndDetailsLinks(WebAppTest):
     Tests for Studio's Setting page links.
     """
     def setUp(self):
-        super(ScheduleAndDetailsLinks, self).setUp()
+        super().setUp()
 
         lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)

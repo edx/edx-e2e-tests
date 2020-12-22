@@ -22,7 +22,7 @@ class AcidView(PageObject):
             context_selector (str): The selector that identifies where this :class:`.AcidBlock` view
                 is on the page.
         """
-        super(AcidView, self).__init__(browser)
+        super().__init__(browser)
         self.context_selector = context_selector
 
     def is_browser_on_page(self):

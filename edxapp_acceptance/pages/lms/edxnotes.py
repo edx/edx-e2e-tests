@@ -17,7 +17,7 @@ class NoteChild(PageObject):
     BODY_SELECTOR = None
 
     def __init__(self, browser, item_id):
-        super(NoteChild, self).__init__(browser)
+        super().__init__(browser)
         self.item_id = item_id
 
     def is_browser_on_page(self):
@@ -262,7 +262,7 @@ class EdxNotesPage(CoursePage, PaginatedUIMixin):
     }
 
     def __init__(self, *args, **kwargs):
-        super(EdxNotesPage, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.current_view = self.MAPPING["recent"](self.browser)
 
     def is_browser_on_page(self):
@@ -371,7 +371,7 @@ class EdxNoteHighlight(NoteChild):
     NOTE_SELECTOR = ".annotator-note"
 
     def __init__(self, browser, element, parent_id):
-        super(EdxNoteHighlight, self).__init__(browser, parent_id)
+        super().__init__(browser, parent_id)
         self.element = element
         self.item_id = parent_id
         disable_animations(self)

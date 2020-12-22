@@ -38,7 +38,7 @@ class RedeemCouponPage(PageObject):
         """
         Enrollment code has to be set by the test
         """
-        super(RedeemCouponPage, self).__init__(browser)
+        super().__init__(browser)
         self.coupon_code = coupon_code
         self.course_tile_css = 'div.discount-multiple-courses'
 

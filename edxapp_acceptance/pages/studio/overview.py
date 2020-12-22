@@ -341,7 +341,7 @@ class CourseOutlineChild(PageObject, CourseOutlineItem):
     BODY_SELECTOR = '.outline-item'
 
     def __init__(self, browser, locator):
-        super(CourseOutlineChild, self).__init__(browser)
+        super().__init__(browser)
         self.locator = locator
 
     def is_browser_on_page(self):

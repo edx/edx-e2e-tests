@@ -203,7 +203,7 @@ class CertificateSectionPage(CertificatesPage):
         self.selector = prefix + u' .certificates-list-item-{}'.format(index)
         self.index = index
 
-        super(CertificateSectionPage, self).__init__(container.browser, **container.course_info)
+        super().__init__(container.browser, **container.course_info)
 
     def is_browser_on_page(self):
         """
@@ -414,7 +414,7 @@ class SignatorySectionPage(CertificatesPage):
         self.index = index
         self.mode = mode
 
-        super(SignatorySectionPage, self).__init__(container.browser, **container.course_info)
+        super().__init__(container.browser, **container.course_info)
 
     def is_browser_on_page(self):
         """

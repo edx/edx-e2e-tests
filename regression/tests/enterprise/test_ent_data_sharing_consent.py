@@ -20,7 +20,7 @@ class TestEnterpriseDataSharingConsent(EnterpriseTestBase):
         """
         Initialize all page objects
         """
-        super(TestEnterpriseDataSharingConsent, self).setUp()
+        super().setUp()
         self.browser.maximize_window()
 
     def test_data_sharing_consent_page_details(self):

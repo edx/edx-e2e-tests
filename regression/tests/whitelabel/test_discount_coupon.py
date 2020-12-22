@@ -35,7 +35,7 @@ class TestDiscountCoupon(VouchersTest):
     Tests for Single Course Discount Coupons
     """
     def setUp(self):
-        super(TestDiscountCoupon, self).setUp()
+        super().setUp()
         # Initialize common variables
         self.course_info = get_wl_course_info(
             org=COURSE_ORG,

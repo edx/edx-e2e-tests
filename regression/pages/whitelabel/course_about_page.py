@@ -19,7 +19,7 @@ class CourseAboutPage(PageObject):
         """
         Course id has to be set by the test
         """
-        super(CourseAboutPage, self).__init__(browser)
+        super().__init__(browser)
         self.course_id = course_id
 
     @property

@@ -19,7 +19,7 @@ class ResetPassword(PageObject):
         """
         Reset Password url has to be set by the test
         """
-        super(ResetPassword, self).__init__(browser)
+        super().__init__(browser)
         self.reset_password_url = reset_password_url
 
     @property

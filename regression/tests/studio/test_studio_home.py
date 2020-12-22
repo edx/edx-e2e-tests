@@ -29,7 +29,7 @@ class StudioHomeTest(WebAppTest):
         """
         Initialize the page object
         """
-        super(StudioHomeTest, self).setUp()
+        super().setUp()
 
         lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)
@@ -64,7 +64,7 @@ class StudioFooterTest(WebAppTest):
         """
         Initialize the page object
         """
-        super(StudioFooterTest, self).setUp()
+        super().setUp()
 
         lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)

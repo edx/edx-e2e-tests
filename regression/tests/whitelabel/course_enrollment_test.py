@@ -29,7 +29,7 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
     """
 
     def setUp(self):
-        super(CourseEnrollmentTest, self).setUp()
+        super().setUp()
         self.lms_api_client = LmsApiClient()
         self.enrollment_api_client = EnrollmentApiClient()
         # Initialize all page objects

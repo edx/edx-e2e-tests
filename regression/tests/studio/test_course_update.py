@@ -17,7 +17,7 @@ class CourseUpdateTest(WebAppTest):
     Test course update.
     """
     def setUp(self):
-        super(CourseUpdateTest, self).setUp()
+        super().setUp()
 
         lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)
@@ -88,7 +88,7 @@ class CourseHandoutTest(WebAppTest):
     Test course handout
     """
     def setUp(self):
-        super(CourseHandoutTest, self).setUp()
+        super().setUp()
 
         lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)

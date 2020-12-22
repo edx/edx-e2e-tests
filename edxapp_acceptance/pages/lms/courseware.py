@@ -29,7 +29,7 @@ class CoursewarePage(CoursePage, CompletionOnViewMixin):
     subsection_selector = '.chapter-content-container a'
 
     def __init__(self, browser, course_id):
-        super(CoursewarePage, self).__init__(browser, course_id)
+        super().__init__(browser, course_id)
         self.nav = CourseNavPage(browser, self)
 
     def is_browser_on_page(self):
@@ -462,7 +462,7 @@ class CoursewareSequentialTabPage(CoursePage):
     """
 
     def __init__(self, browser, course_id, chapter, subsection, position):
-        super(CoursewareSequentialTabPage, self).__init__(browser, course_id)
+        super().__init__(browser, course_id)
         self.url_path = "courseware/{}/{}/{}".format(chapter, subsection, position)
 
     def is_browser_on_page(self):
@@ -484,7 +484,7 @@ class CourseNavPage(PageObject):
     url = None
 
     def __init__(self, browser, parent_page):
-        super(CourseNavPage, self).__init__(browser)
+        super().__init__(browser)
         self.parent_page = parent_page
         # TODO: TNL-6546: Remove the following
         self.course_outline_page = False
@@ -729,7 +729,7 @@ class RenderXBlockPage(PageObject, CompletionOnViewMixin):
     xblock_component_selector = '.xblock'
 
     def __init__(self, browser, block_id):
-        super(RenderXBlockPage, self).__init__(browser)
+        super().__init__(browser)
         self.block_id = block_id
 
     @property

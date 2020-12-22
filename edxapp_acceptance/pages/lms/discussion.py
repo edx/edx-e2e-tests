@@ -72,7 +72,7 @@ class DiscussionThreadPage(PageObject, DiscussionPageMixin):
     url = None
 
     def __init__(self, browser, thread_selector):
-        super(DiscussionThreadPage, self).__init__(browser)
+        super().__init__(browser)
         self.thread_selector = thread_selector
 
     def _find_within(self, selector):
@@ -440,7 +440,7 @@ class DiscussionSortPreferencePage(CoursePage):
     Page that contain the discussion board with sorting options
     """
     def __init__(self, browser, course_id):
-        super(DiscussionSortPreferencePage, self).__init__(browser, course_id)
+        super().__init__(browser, course_id)
         self.url_path = "discussion/forum"
 
     def is_browser_on_page(self):
@@ -479,7 +479,7 @@ class DiscussionSortPreferencePage(CoursePage):
 
 class DiscussionTabSingleThreadPage(CoursePage):
     def __init__(self, browser, course_id, discussion_id, thread_id):
-        super(DiscussionTabSingleThreadPage, self).__init__(browser, course_id)
+        super().__init__(browser, course_id)
         self.thread_page = DiscussionThreadPage(
             browser,
             u"body.discussion .discussion-article[data-id='{thread_id}']".format(thread_id=thread_id)
@@ -531,7 +531,7 @@ class InlineDiscussionPage(PageObject, DiscussionPageMixin):
     url = None
 
     def __init__(self, browser, discussion_id):
-        super(InlineDiscussionPage, self).__init__(browser)
+        super().__init__(browser)
         self.root_selector = (
             u".discussion-module[data-discussion-id='{discussion_id}'] ".format(
                 discussion_id=discussion_id
@@ -602,7 +602,7 @@ class InlineDiscussionThreadPage(DiscussionThreadPage):
     Page object to manipulate an individual thread view in an inline discussion.
     """
     def __init__(self, browser, thread_id):
-        super(InlineDiscussionThreadPage, self).__init__(
+        super().__init__(
             browser,
             u".discussion-module .discussion-article[data-id='{thread_id}']".format(thread_id=thread_id)
         )
@@ -625,7 +625,7 @@ class DiscussionUserProfilePage(CoursePage):
     PAGING_SELECTOR = ".discussion-pagination[data-page-number]"
 
     def __init__(self, browser, course_id, user_id, username, page=1):
-        super(DiscussionUserProfilePage, self).__init__(browser, course_id)
+        super().__init__(browser, course_id)
         self.url_path = "discussion/forum/dummy/users/{}?page={}".format(user_id, page)
         self.username = username
 
@@ -660,7 +660,7 @@ class DiscussionTabHomePage(CoursePage, DiscussionPageMixin):
     ALERT_SELECTOR = ".discussion-body .forum-nav .search-alert"
 
     def __init__(self, browser, course_id):
-        super(DiscussionTabHomePage, self).__init__(browser, course_id)
+        super().__init__(browser, course_id)
         self.url_path = "discussion/forum/"
         self.root_selector = None
 

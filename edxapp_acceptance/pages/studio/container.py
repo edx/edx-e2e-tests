@@ -22,7 +22,7 @@ class ContainerPage(PageObject, HelpMixin):
     ADD_MISSING_GROUPS_SELECTOR = '.notification-action-button[data-notification-action="add-missing-groups"]'
 
     def __init__(self, browser, locator):
-        super(ContainerPage, self).__init__(browser)
+        super().__init__(browser)
         self.locator = locator
 
     @property
@@ -438,7 +438,7 @@ class XBlockWrapper(PageObject):
     }
 
     def __init__(self, browser, locator):
-        super(XBlockWrapper, self).__init__(browser)
+        super().__init__(browser)
         self.locator = locator
 
     def is_browser_on_page(self):

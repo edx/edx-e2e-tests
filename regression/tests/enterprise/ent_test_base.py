@@ -49,7 +49,7 @@ class EnterpriseTestBase(WebAppTest):
         """
         Initialize all page objects
         """
-        super(EnterpriseTestBase, self).setUp()
+        super().setUp()
         self.browser.maximize_window()
         self.ent_portal_login = EnterprisePortalLogin(self.browser)
         self.ent_portal_home = EnterprisePortalHome(self.browser)

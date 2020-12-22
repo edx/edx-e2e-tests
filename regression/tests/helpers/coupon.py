@@ -18,7 +18,7 @@ class Coupon:
     All common functions and attributes related to coupons.
     """
     def __init__(self, catalog_type, coupon_type, voucher_type, **kwargs):
-        super(Coupon, self).__init__()
+        super().__init__()
         self.benefit_type = ""
         self.benefit_value = ""
         self.discounted_course_price = ""

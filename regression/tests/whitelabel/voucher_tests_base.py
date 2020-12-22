@@ -19,7 +19,7 @@ class VouchersTest(CourseEnrollmentTest):
     """
 
     def setUp(self):
-        super(VouchersTest, self).setUp()
+        super().setUp()
         self.ecommerce_api = EcommerceApiClient()
         # Initialize all objects
         self.home = HomePage(self.browser)

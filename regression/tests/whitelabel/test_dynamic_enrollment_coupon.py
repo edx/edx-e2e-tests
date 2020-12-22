@@ -30,7 +30,7 @@ class TestDynamicEnrollmentCoupon(VouchersTest):
         """
         Prepare setup for running tests
         """
-        super(TestDynamicEnrollmentCoupon, self).setUp()
+        super().setUp()
         # Initialize common variables
         course_id, course_info = random.choice(list(COURSES_CATALOG.items()))
         self.course_id = course_id
