@@ -25,7 +25,7 @@ class WhiteLabelTestsBaseClass(WebAppTest):
         """
         Setup for all common features
         """
-        super(WhiteLabelTestsBaseClass, self).setUp()
+        super().setUp()
         # Initialize all page objects
         self.home_page = HomePage(self.browser)
         self.dashboard_page = DashboardPageExtended(self.browser)

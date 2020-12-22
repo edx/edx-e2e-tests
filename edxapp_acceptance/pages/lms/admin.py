@@ -13,7 +13,7 @@ class ChangeUserAdminPage(PageObject):
     Change user page in Django's admin.
     """
     def __init__(self, browser, user_pk):
-        super(ChangeUserAdminPage, self).__init__(browser)
+        super().__init__(browser)
         self.user_pk = user_pk
 
     @property

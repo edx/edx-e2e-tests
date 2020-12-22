@@ -9,14 +9,13 @@ import os
 import re
 import time
 
-import six.moves.http_cookies  # pylint: disable=import-error
+import six.moves.http_cookies
 import requests
 from requests.auth import AuthBase
 
 from edx_rest_api_client.client import EdxRestApiClient
 from guerrillamail import GuerrillaMailSession
-from six.moves.urllib.parse import urlparse  # pylint: disable=import-error
-
+from six.moves.urllib.parse import urlparse
 
 from regression.pages import (
     BASIC_AUTH_PASSWORD,
@@ -215,7 +214,7 @@ class LogoutApi:
     current user with the help of api request
     """
     def __init__(self):
-        super(LogoutApi, self).__init__()
+        super().__init__()
         self.logout_url = None
         self.cookies = {}
         self.session = requests.Session()
@@ -237,7 +236,7 @@ class LmsLoginApi(LogistrationApiBaseClass):
     Logged in session api for LMS
     """
     def __init__(self, target_page=None):
-        super(LmsLoginApi, self).__init__()
+        super().__init__()
 
         partial_url_string = target_page or 'dashboard'
 
@@ -271,7 +270,7 @@ class StudioLoginApi(LogistrationApiBaseClass):
     Login api for Studio
     """
     def __init__(self):
-        super(StudioLoginApi, self).__init__()
+        super().__init__()
 
         self.logistration_base_url = '{}://{}/{}'.format(
             STUDIO_PROTOCOL, STUDIO_BASE_URL, 'signin'
@@ -289,7 +288,7 @@ class WLRegisterApi(LogistrationApiBaseClass):
     Register a new user using API
     """
     def __init__(self, target_page=None):
-        super(WLRegisterApi, self).__init__()
+        super().__init__()
 
         partial_url_string = target_page or 'dashboard'
 

@@ -160,7 +160,7 @@ class LibraryUsersPage(UsersPageMixin, HelpMixin):
     Library Team page in Studio
     """
     def __init__(self, browser, locator):
-        super(LibraryUsersPage, self).__init__(browser)
+        super().__init__(browser)
         self.locator = locator
 
     @property
@@ -205,7 +205,7 @@ class UserWrapper(PageObject):
     }
 
     def __init__(self, browser, email):
-        super(UserWrapper, self).__init__(browser)
+        super().__init__(browser)
         self.email = email
         self.selector = u'.user-list .user-item[data-email="{}"]'.format(self.email)
 

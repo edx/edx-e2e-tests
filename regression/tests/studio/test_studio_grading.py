@@ -21,7 +21,7 @@ class StudioGradingTest(WebAppTest):
         """
         Initialize the page object
         """
-        super(StudioGradingTest, self).setUp()
+        super().setUp()
 
         lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)

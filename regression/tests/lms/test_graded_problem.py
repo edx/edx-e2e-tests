@@ -20,7 +20,7 @@ class GradedProblemTest(WebAppTest):
     tarball_name = 'course.tar.gz'
 
     def setUp(self):
-        super(GradedProblemTest, self).setUp()
+        super().setUp()
 
         login_api = LmsLoginApi()
         login_api.authenticate(self.browser)

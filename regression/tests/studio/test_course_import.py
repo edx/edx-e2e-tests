@@ -20,7 +20,7 @@ class TestCourseImport(WebAppTest):
     landing_page_class = CourseOutlinePageExtended
 
     def setUp(self):
-        super(TestCourseImport, self).setUp()
+        super().setUp()
 
         lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)

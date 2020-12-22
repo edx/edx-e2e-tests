@@ -11,7 +11,7 @@ class TestPaverE2ECommands(PaverTestCase):
     Tests for e2e paver commands.
     """
     def setUp(self):
-        super(TestPaverE2ECommands, self).setUp()
+        super().setUp()
 
     def _expected_command(self, test_name='', report_name='report.xml'):
         """

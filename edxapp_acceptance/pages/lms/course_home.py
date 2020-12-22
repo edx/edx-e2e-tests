@@ -28,7 +28,7 @@ class CourseHomePage(CoursePage):
         return self.q(css='.course-outline').present
 
     def __init__(self, browser, course_id):
-        super(CourseHomePage, self).__init__(browser, course_id)
+        super().__init__(browser, course_id)
         self.course_id = course_id
         self.outline = CourseOutlinePage(browser, self)
         self.preview = StaffPreviewPage(browser, self)
@@ -84,7 +84,7 @@ class CourseOutlinePage(PageObject):
     url = None
 
     def __init__(self, browser, parent_page):
-        super(CourseOutlinePage, self).__init__(browser)
+        super().__init__(browser)
         self.parent_page = parent_page
         self._section_selector = '.outline-item.section'
         self._subsection_selector = '.subsection.accordion'
@@ -337,7 +337,7 @@ class CourseSearchResultsPage(CoursePage):
         return self.q(css='.page-content > .search-results').present
 
     def __init__(self, browser, course_id):
-        super(CourseSearchResultsPage, self).__init__(browser, course_id)
+        super().__init__(browser, course_id)
         self.course_id = course_id
 
     @property

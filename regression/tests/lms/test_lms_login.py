@@ -24,7 +24,7 @@ class LoginTest(WebAppTest):
         """
         Initialize the page object
         """
-        super(LoginTest, self).setUp()
+        super().setUp()
         self.login_page = LmsLogin(self.browser)
         self.dashboard_ext = DashboardPageExtended(self.browser)
 

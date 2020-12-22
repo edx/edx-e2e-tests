@@ -212,7 +212,7 @@ class BaseTeamsPage(CoursePage, PaginatedUIMixin, TeamCardsMixin, BreadcrumbsMix
         Note that `topic` is a dict representation of a topic following
         the same convention as a course module's topic.
         """
-        super(BaseTeamsPage, self).__init__(browser, course_id)
+        super().__init__(browser, course_id)
         self.browser = browser
         self.course_id = course_id
         self.topic = topic
@@ -308,7 +308,7 @@ class BrowseTeamsPage(BaseTeamsPage):
     page.
     """
     def __init__(self, browser, course_id, topic):
-        super(BrowseTeamsPage, self).__init__(browser, course_id, topic)
+        super().__init__(browser, course_id, topic)
         self.url_path = "teams/#topics/{topic_id}".format(topic_id=self.topic['id'])
 
 
@@ -318,7 +318,7 @@ class SearchTeamsPage(BaseTeamsPage):
     page.
     """
     def __init__(self, browser, course_id, topic):
-        super(SearchTeamsPage, self).__init__(browser, course_id, topic)
+        super().__init__(browser, course_id, topic)
         self.url_path = "teams/#topics/{topic_id}/search".format(topic_id=self.topic['id'])
 
 
@@ -333,7 +333,7 @@ class TeamManagementPage(CoursePage, FieldsMixin, BreadcrumbsMixin):
         representation of a topic following the same convention as a
         course module's topic.
         """
-        super(TeamManagementPage, self).__init__(browser, course_id)
+        super().__init__(browser, course_id)
         self.topic = topic
         self.url_path = "teams/#topics/{topic_id}/create-team".format(topic_id=self.topic['id'])
 
@@ -403,7 +403,7 @@ class EditMembershipPage(CoursePage):
         Set up `self.url_path` on instantiation, since it dynamically
         reflects the current team.
         """
-        super(EditMembershipPage, self).__init__(browser, course_id)
+        super().__init__(browser, course_id)
         self.team = team
         self.url_path = "teams/#teams/{topic_id}/{team_id}/edit-team/manage-members".format(
             topic_id=self.team['topic_id'], team_id=self.team['id']
@@ -449,7 +449,7 @@ class TeamPage(CoursePage, PaginatedUIMixin, BreadcrumbsMixin):
         Set up `self.url_path` on instantiation, since it dynamically
         reflects the current team.
         """
-        super(TeamPage, self).__init__(browser, course_id)
+        super().__init__(browser, course_id)
         self.team = team
         if self.team:
             self.url_path = "teams/#teams/{topic_id}/{team_id}".format(

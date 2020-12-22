@@ -12,7 +12,7 @@ class PaverTestCase(TestCase):
     Base class for Paver test cases.
     """
     def setUp(self):
-        super(PaverTestCase, self).setUp()
+        super().setUp()
 
         # Show full length diffs upon test failure
         self.maxDiff = None  # pylint: disable=invalid-name
@@ -21,7 +21,7 @@ class PaverTestCase(TestCase):
         tasks.environment = MockEnvironment()
 
     def tearDown(self):
-        super(PaverTestCase, self).tearDown()
+        super().tearDown()
         tasks.environment = tasks.Environment()
 
     @property
@@ -44,7 +44,7 @@ class MockEnvironment(tasks.Environment):
     Mock environment that collects information about Paver commands.
     """
     def __init__(self):
-        super(MockEnvironment, self).__init__()
+        super().__init__()
         self.dry_run = True
         self.messages = []
 

@@ -22,7 +22,7 @@ class TestEnrollmentOtto(CourseEnrollmentTest):
         """
         Initialize all objects
         """
-        super(TestEnrollmentOtto, self).setUp()
+        super().setUp()
         self.course_info = get_wl_course_info(
             org=COURSE_ORG,
             num=COURSE_NUMBER,

@@ -15,7 +15,7 @@ class ConfirmRecoveryEmail(PageObject):
         """
         Secondary Email account url has to be set by the test
         """
-        super(ConfirmRecoveryEmail, self).__init__(browser)
+        super().__init__(browser)
         self.recovery_email_url = recovery_email_url
         self.activation_msg_css = ".message .valid"
 

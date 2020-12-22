@@ -39,7 +39,7 @@ class CoursePage(PageObject, HelpMixin):
 
         These identifiers will likely change in the future.
         """
-        super(CoursePage, self).__init__(browser)
+        super().__init__(browser)
         self.course_info = {
             'course_org': course_org,
             'course_num': course_num,

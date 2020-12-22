@@ -22,7 +22,7 @@ class TestEnterpriseLogin(EnterpriseTestBase):
         """
         Initialize all page objects
         """
-        super(TestEnterpriseLogin, self).setUp()
+        super().setUp()
         self.browser.maximize_window()
 
     def test_enterprise_login_linked_user(self):

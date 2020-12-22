@@ -36,7 +36,7 @@ class TestEnrollmentCoupon(VouchersTest):
         """
         Prepare setup for running tests
         """
-        super(TestEnrollmentCoupon, self).setUp()
+        super().setUp()
         # Initialize common variables
         self.course_info = get_wl_course_info(
             org=COURSE_ORG,

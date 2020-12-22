@@ -24,7 +24,7 @@ class StudioLmsComponentBaseTest(WebAppTest):
         """
         Common setup for component tests
         """
-        super(StudioLmsComponentBaseTest, self).setUp()
+        super().setUp()
 
         lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)

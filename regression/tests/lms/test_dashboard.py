@@ -20,7 +20,7 @@ class DashboardTest(WebAppTest):
     """
 
     def setUp(self):
-        super(DashboardTest, self).setUp()
+        super().setUp()
 
         lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)

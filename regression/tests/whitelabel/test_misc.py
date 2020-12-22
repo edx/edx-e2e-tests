@@ -22,7 +22,7 @@ class TestMisc(WhiteLabelTestsBaseClass):
         """
         Initialize all page objects
         """
-        super(TestMisc, self).setUp()
+        super().setUp()
         self.profile_page = ProfilePage(self.browser)
 
     @skipIf(ORG == 'MITxPRO', 'MITxPRO has no social media links')
