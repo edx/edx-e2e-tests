@@ -28,7 +28,7 @@ lazy==1.4                 # via bok-choy
 mccabe==0.6.1             # via pylint
 mock==3.0.5               # via -r requirements/base.in
 needle==0.5.0             # via -r requirements/base.in
-newrelic==5.22.1.152      # via edx-django-utils
+newrelic==5.24.0.153      # via edx-django-utils
 nose==1.3.7               # via needle
 packaging==20.8           # via pytest
 path.py==12.5.0           # via -r requirements/base.in
@@ -50,7 +50,7 @@ pymongo==3.11.2           # via edx-opaque-keys
 pyparsing==2.4.7          # via packaging
 pytest==6.1.2             # via -r requirements/base.in
 python-guerrillamail==0.2.0  # via -r requirements/base.in
-pytz==2020.4              # via django
+pytz==2020.5              # via django
 requests==2.25.1          # via -r requirements/base.in, edx-rest-api-client, python-guerrillamail, slumber
 selenium==3.141.0         # via -r requirements/base.in, bok-choy, needle
 six==1.15.0               # via -r requirements/base.in, astroid, bok-choy, edx-lint, edx-opaque-keys, mock, pathlib2, paver, stevedore
