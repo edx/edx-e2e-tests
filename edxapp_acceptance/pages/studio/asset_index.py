@@ -10,7 +10,6 @@ from bok_choy.javascript import wait_for_js
 from bok_choy.promise import EmptyPromise
 from opaque_keys.edx.locator import CourseLocator
 from path import Path
-from six.moves import zip
 
 from edxapp_acceptance.pages.common.utils import sync_on_notification
 from edxapp_acceptance.pages.studio import BASE_URL
@@ -40,7 +39,7 @@ class AssetIndexPageStudioFrontend(CoursePage):
             self.course_info['course_run'],
             deprecated=(default_store == 'draft')
         )
-        url = "/".join([BASE_URL, self.URL_PATH, six.moves.urllib.parse.quote_plus(six.text_type(course_key))])
+        url = "/".join([BASE_URL, self.URL_PATH, six.moves.urllib.parse.quote_plus(str(course_key))])
         return url if url[-1] == '/' else url + '/'
 
     @wait_for_js
@@ -222,7 +221,7 @@ class AssetIndexPageStudioFrontend(CoursePage):
         """Delete the asset with the specified name."""
         names = self.asset_files_names
         if name not in names:
-            raise LookupError(u'Asset with filename {} not found.'.format(name))
+            raise LookupError(f'Asset with filename {name} not found.')
         delete_buttons = self.asset_delete_buttons
         assets = dict(list(zip(names, delete_buttons)))
         # Now click the link in that row
@@ -250,7 +249,7 @@ class AssetIndexPageStudioFrontend(CoursePage):
 
         for file_name in file_names:
             # Make file input field visible.
-            self.browser.execute_script('$("{}").css("display","block");'.format(file_input_css))
+            self.browser.execute_script(f'$("{file_input_css}").css("display","block");')
             self.wait_for_element_visibility(file_input_css, "Input is visible")
             # Send file to upload
             self.q(css=file_input_css).results[0].send_keys(

@@ -2,7 +2,6 @@
 Tests for enrollment through Otto
 """
 
-from __future__ import absolute_import
 
 from regression.pages.studio.utils import get_course_key
 from regression.pages.whitelabel import (

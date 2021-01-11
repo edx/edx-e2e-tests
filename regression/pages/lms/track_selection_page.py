@@ -1,7 +1,6 @@
 """
 Track selection page.
 """
-from __future__ import absolute_import
 
 from bok_choy.page_object import PageObject
 
@@ -28,4 +27,4 @@ class TrackSelectionPage(PageObject):
         Click verified this course button
         """
         value = '[value="Pursue a Verified Certificate ($100 USD)"]'
-        self.q(css='.action-select {value}'.format(value=value)).click()
+        self.q(css=f'.action-select {value}').click()

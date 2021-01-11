@@ -1,7 +1,6 @@
 """
 Regression tests for Studio's Setting page.
 """
-from __future__ import absolute_import
 
 import six
 from bok_choy.web_app_test import WebAppTest
@@ -90,7 +89,7 @@ class ScheduleAndDetailsLinks(WebAppTest):
             'Advanced Settings': self.advanced_settings
         }
 
-        for name, landing_page in six.iteritems(name_page_dict):
+        for name, landing_page in name_page_dict.items():
             self.settings_page.visit()
             self.settings_page.click_other_settings_links(name)
             landing_page.wait_for_page()

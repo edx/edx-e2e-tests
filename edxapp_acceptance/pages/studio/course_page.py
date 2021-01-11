@@ -59,4 +59,4 @@ class CoursePage(PageObject, HelpMixin):
             self.course_info['course_run'],
             deprecated=(default_store == 'draft')
         )
-        return "/".join([BASE_URL, self.url_path, six.text_type(course_key)])
+        return "/".join([BASE_URL, self.url_path, str(course_key)])

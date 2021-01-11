@@ -1,7 +1,6 @@
 """
 Base class for tests with enrollment capability
 """
-from __future__ import absolute_import
 
 import datetime
 
@@ -211,7 +210,7 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
         self.assertEqual(
             # Slight chance that this will fail if the test execution crosses
             # the boundary of midnight
-            text_type(datetime.datetime.utcnow().date()),
+            str(datetime.datetime.utcnow().date()),
             self.receipt_page.order_date
         )
         self.assertEqual(

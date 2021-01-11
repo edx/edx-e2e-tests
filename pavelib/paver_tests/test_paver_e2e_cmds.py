@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 import os
 from path import Path as path
 from pavelib.paver_tests.utils import PaverTestCase
@@ -22,8 +21,8 @@ class TestPaverE2ECommands(PaverTestCase):
             root_path, TEST_DIR, test_name)).abspath()
 
         expected_command = [
-            "SCREENSHOT_DIR='{}'".format(LOG_DIR),
-            "SELENIUM_DRIVER_LOG_DIR='{}'".format(LOG_DIR),
+            f"SCREENSHOT_DIR='{LOG_DIR}'",
+            f"SELENIUM_DRIVER_LOG_DIR='{LOG_DIR}'",
             "pytest",
             test_path,
             "-v",

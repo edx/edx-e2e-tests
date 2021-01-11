@@ -1,7 +1,6 @@
 """
 End to end tests for Studio Course Outline page
 """
-from __future__ import absolute_import
 
 import os
 from unittest import skip

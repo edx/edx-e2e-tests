@@ -1,7 +1,6 @@
 """
 Instructor dashboard page.
 """
-from __future__ import absolute_import
 
 from edxapp_acceptance.pages.lms.instructor_dashboard import InstructorDashboardPage
 from regression.pages.lms import LOGIN_BASE_URL

@@ -1,7 +1,6 @@
 """
 Enterprise Data Consent page
 """
-from __future__ import absolute_import
 
 from bok_choy.page_object import PageObject
 
@@ -31,7 +30,7 @@ class EnterpriseDataSharingConsentPage(PageObject):
         Returns consent message text
         """
         return self.q(
-            css='{}:nth-of-type(1)'.format(self.CONSENT_MSG_CSS)
+            css=f'{self.CONSENT_MSG_CSS}:nth-of-type(1)'
         ).text[0]
 
     def get_enterprise_name_from_msg(self):
@@ -39,7 +38,7 @@ class EnterpriseDataSharingConsentPage(PageObject):
         Returns enterprise name present in consent message
         """
         return self.q(
-            css='{}:nth-of-type(1)>b'.format(self.CONSENT_MSG_CSS)
+            css=f'{self.CONSENT_MSG_CSS}:nth-of-type(1)>b'
         ).text[0]
 
     def open_policy_text(self):

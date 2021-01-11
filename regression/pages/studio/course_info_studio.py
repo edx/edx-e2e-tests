@@ -1,7 +1,6 @@
 """
 Course Updates page.
 """
-from __future__ import absolute_import
 
 from edxapp_acceptance.pages.common.utils import click_css
 from edxapp_acceptance.pages.studio.utils import type_in_codemirror

@@ -1,7 +1,6 @@
 """
 Course About page
 """
-from __future__ import absolute_import
 
 import os
 
@@ -27,7 +26,7 @@ class CourseAboutPage(PageObject):
         """
         Construct url for the page.
         """
-        partial_url_str = u"courses/" + self.course_id + u"/about"
+        partial_url_str = "courses/" + self.course_id + "/about"
         return os.path.join(LMS_URL_WITH_AUTH, partial_url_str)
 
     def is_browser_on_page(self):

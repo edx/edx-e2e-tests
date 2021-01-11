@@ -1,7 +1,6 @@
 """
 Pages for single course and multi course purchase baskets
 """
-from __future__ import absolute_import
 
 import os
 
@@ -144,14 +143,14 @@ class CyberSourcePage(BasketPage):
             "card-expiry-year": bill_info['expiry_year']
         }
 
-        for key, val in six.iteritems(select_names_and_values):
+        for key, val in select_names_and_values.items():
             self.wait_for_element_visibility(
-                'select[id={}]'.format(key), 'Drop down is visible')
+                f'select[id={key}]', 'Drop down is visible')
             self.q(
-                css='select[id={}] option[value="{}"]'.format(key, val)
+                css=f'select[id={key}] option[value="{val}"]'
             ).click()
             self.wait_for(lambda k=key, v=val: self.q(
-                css='select[id={}] option[value="{}"]'.format(k, v)
+                css=f'select[id={k}] option[value="{v}"]'
             ).selected, "Correct value is selected")
 
         self.q(css='#card-cvn').fill(bill_info['cvn'])

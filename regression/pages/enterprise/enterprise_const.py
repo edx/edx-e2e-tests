@@ -2,11 +2,10 @@
 URLs and constants for enterprise stuff
 """
 
-from __future__ import absolute_import
 
 import os
 
-ENTERPRISE_PORTAL_LOGIN_URL = u"https://pmsalesdemo8.successfactors.com/login?company=SFPART011327#/login"
+ENTERPRISE_PORTAL_LOGIN_URL = "https://pmsalesdemo8.successfactors.com/login?company=SFPART011327#/login"
 
 DEFAULT_ENTERPRISE_NAME = 'SuccessFactors'
 

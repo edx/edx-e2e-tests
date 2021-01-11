@@ -15,7 +15,6 @@ import os.path
 
 from bok_choy.promise import EmptyPromise
 from selenium.webdriver import ActionChains
-from six.moves import range
 
 from edxapp_acceptance.pages.studio.course_page import CoursePage
 from edxapp_acceptance.pages.common.utils import disable_animations
@@ -200,7 +199,7 @@ class CertificateSectionPage(CertificatesPage):
 
         :return:
         """
-        self.selector = prefix + u' .certificates-list-item-{}'.format(index)
+        self.selector = prefix + f' .certificates-list-item-{index}'
         self.index = index
 
         super().__init__(container.browser, **container.course_info)
@@ -450,7 +449,7 @@ class SignatorySectionPage(CertificatesPage):
         """
         Return selector fo signatory container
         """
-        selector = self.prefix + u' .signatory-{}-view-{}'.format(self.mode, self.index)
+        selector = self.prefix + f' .signatory-{self.mode}-view-{self.index}'
         return ' '.join([selector, css])
 
     def find_css(self, css_selector):

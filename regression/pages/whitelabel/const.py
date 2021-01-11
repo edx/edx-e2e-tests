@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 """
 List of constants to be used throughout the tests
 """
-from __future__ import absolute_import
 
 import datetime
 import os
@@ -29,7 +27,7 @@ ECOMMERCE_API_URL = os.path.join(ECOM_URL, 'api/v2/')
 ENROLLMENT_API_URL = os.path.join(LMS_URL, 'api/enrollment/v1')
 
 CYBERSOURCE_CHECKOUT_URL = \
-    u'https://testsecureacceptance.cybersource.com/checkout'
+    'https://testsecureacceptance.cybersource.com/checkout'
 
 EMAIL_SENDER_ACCOUNTS = {
     'Enterprise': 'no-reply@registration.edx.org',
@@ -105,7 +103,7 @@ BILLING_INFO = {
     'card_type': 'visa',
     'card_number': '4111111111111111',
     'cvn': '123',
-    'expiry_month': '{:02d}'.format(CREDIT_CARD_EXPIRATION_DATE.month),
+    'expiry_month': f'{CREDIT_CARD_EXPIRATION_DATE.month:02d}',
     'expiry_year': str(CREDIT_CARD_EXPIRATION_DATE.year)
 }
 
@@ -139,24 +137,24 @@ NO_OF_COUNTRIES = 250
 NO_OF_LANGUAGES = 187
 
 SAMPLE_COUNTRIES = [
-    u'\xc5land Islands',
-    u"C\xf4te d'Ivoire",
-    u'Cura\xe7ao',
-    u'Saint Helena, Ascension and Tristan da Cunha',
-    u'Sint Maarten (Dutch part)'
+    '\xc5land Islands',
+    "C\xf4te d'Ivoire",
+    'Cura\xe7ao',
+    'Saint Helena, Ascension and Tristan da Cunha',
+    'Sint Maarten (Dutch part)'
 ]
 
 SAMPLE_LANGUAGES = [
-    u'Afrikaans',
-    u'Sichuan Yi',
-    u'Bokm\xe5l, Norwegian',
-    u'Volap\xfck',
-    u'Tonga (Tonga Islands)'
+    'Afrikaans',
+    'Sichuan Yi',
+    'Bokm\xe5l, Norwegian',
+    'Volap\xfck',
+    'Tonga (Tonga Islands)'
 ]
 
-SELECTED_COUNTRY = u'United States of America'
+SELECTED_COUNTRY = 'United States of America'
 
-SELECTED_LANGUAGE = u'English'
+SELECTED_LANGUAGE = 'English'
 
 UNUSED_REGISTRATION_FIELDS_MAPPING = {
     "MITxPRO": ["profession", "specialty"],

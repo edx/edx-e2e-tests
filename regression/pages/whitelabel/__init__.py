@@ -3,7 +3,6 @@ Some environment vars for WL tests
 Here we are finalizing the target url based on test environment and org
 """
 
-from __future__ import absolute_import
 
 import os
 from datetime import datetime
@@ -72,9 +71,9 @@ def get_base_service_urls(base_url, ecom_prefix, ecom_base_url):
 if TEST_ENV in (DEFAULT_ENV, "sandbox"):
     if TEST_ENV == DEFAULT_ENV:
         BASE_URLS = {
-            'edX': u'courses.stage.edx.org',
-            'HarvardMedGlobalAcademy': u'stage.cmeonline.hms.harvard.edu',
-            'MITxPRO': u'stage.MITxPRO.mit.edu'
+            'edX': 'courses.stage.edx.org',
+            'HarvardMedGlobalAcademy': 'stage.cmeonline.hms.harvard.edu',
+            'MITxPRO': 'stage.MITxPRO.mit.edu'
         }
 
         ECOM_PREFIX = STAGE_ECOM_PREFIX
@@ -82,9 +81,9 @@ if TEST_ENV in (DEFAULT_ENV, "sandbox"):
         # Get DNS name if tests are running on sandbox
         TARGET_DNS = os.environ.get("TARGET_DNS")
         BASE_URLS = {
-            'Enterprise': "{}.sandbox.edx.org".format(TARGET_DNS),
-            'MITxPRO': "mitxpro-{}.sandbox.edx.org".format(TARGET_DNS),
-            'Harvard': "hms-{}.sandbox.edx.org".format(TARGET_DNS)
+            'Enterprise': f"{TARGET_DNS}.sandbox.edx.org",
+            'MITxPRO': f"mitxpro-{TARGET_DNS}.sandbox.edx.org",
+            'Harvard': f"hms-{TARGET_DNS}.sandbox.edx.org"
         }
         ECOM_PREFIX = SANDBOX_AND_DEVSTACK_ECOM_PREFIX
 
@@ -106,10 +105,10 @@ if TEST_ENV in (DEFAULT_ENV, "sandbox"):
 elif TEST_ENV == "devstack":
     # Get DNS name if tests are running on devstack
     BASE_URLS = {
-        'edX': u"edx-wl-ci.e2e.devstack:18000",
-        'MITxPRO': u"mitxpro-wl-ci.e2e.devstack:18000",
-        'Harvard': u"hms-wl-ci.e2e.devstack:18000",
-        'HarvardMedGlobalAcademy': u'globalacademy-wl-ci.e2e.devstack:18000',
+        'edX': "edx-wl-ci.e2e.devstack:18000",
+        'MITxPRO': "mitxpro-wl-ci.e2e.devstack:18000",
+        'Harvard': "hms-wl-ci.e2e.devstack:18000",
+        'HarvardMedGlobalAcademy': 'globalacademy-wl-ci.e2e.devstack:18000',
     }
     BASE_URL = BASE_URLS[ORG]
     ECOM_BASE_URL = BASE_URL.replace('18000', '18130')
@@ -127,9 +126,9 @@ elif TEST_ENV == "devstack":
         'HarvardMedGlobalAcademy': 'globalacademy'
     }
 else:
-    raise Exception("Unknown TEST_ENV '{}'".format(TEST_ENV))
+    raise Exception(f"Unknown TEST_ENV '{TEST_ENV}'")
 
-LMS_URL = '{}://{}'.format(LMS_PROTOCOL, BASE_URL)
+LMS_URL = f'{LMS_PROTOCOL}://{BASE_URL}'
 
 # Get Course ID, Price and Name
 DEFAULT_COURSE_NUM = "WL_E2E"

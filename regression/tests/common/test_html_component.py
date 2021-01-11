@@ -1,7 +1,6 @@
 """
 End to end tests for HTML Components
 """
-from __future__ import absolute_import
 
 from uuid import uuid4
 
@@ -60,7 +59,7 @@ class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
         Verifies that user can add Word Cloud component on Studio and LMS
         """
 
-        section_name = 'Section :{}'.format(uuid4().hex)
+        section_name = f'Section :{uuid4().hex}'
         self.studio_course_outline.add_section_with_name(section_name)
         self.assertIn(
             section_name,
@@ -69,7 +68,7 @@ class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
             ).text
         )
 
-        subsection_name = 'Subsection :{}'.format(uuid4().hex)
+        subsection_name = f'Subsection :{uuid4().hex}'
         self.studio_course_outline.add_subsection_with_name(
             subsection_name
         )
@@ -115,8 +114,8 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         And I click on the 'View unit in Studio' button
         Then correct component should open.
         """
-        section_name = 'Section :{}'.format(uuid4().hex)
-        subsection_name = 'Subsection :{}'.format(uuid4().hex)
+        section_name = f'Section :{uuid4().hex}'
+        subsection_name = f'Subsection :{uuid4().hex}'
         # Add a section.
         self.studio_course_outline.add_section_with_name(section_name)
         # Add a subsection.

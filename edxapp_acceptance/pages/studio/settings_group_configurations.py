@@ -3,7 +3,6 @@ Course Group Configurations page.
 """
 
 
-from six.moves import range
 
 from edxapp_acceptance.pages.common.utils import confirm_prompt
 from edxapp_acceptance.pages.studio.course_page import CoursePage
@@ -107,14 +106,14 @@ class GroupConfigurationsPage(CoursePage):
         return self.q(css='.wrapper-groups.content-groups.enrollment_track .collection-details .title').text
 
 
-class GroupConfiguration(object):
+class GroupConfiguration:
     """
     Group Configuration wrapper.
     """
 
     def __init__(self, page, prefix, index):
         self.page = page
-        self.SELECTOR = prefix + u' .wrapper-collection-{}'.format(index)
+        self.SELECTOR = prefix + f' .wrapper-collection-{index}'
         self.index = index
 
     def get_selector(self, css=''):
@@ -266,7 +265,7 @@ class GroupConfiguration(object):
         Return list of groups.
         """
         def group_selector(group_index):
-            return self.get_selector('.group-{} '.format(group_index))
+            return self.get_selector(f'.group-{group_index} ')
 
         return [Group(self.page, group_selector(index)) for index, element in enumerate(self.find_css('.group'))]
 
@@ -306,10 +305,10 @@ class GroupConfiguration(object):
         return self.find_css('.wrapper-group-configuration-validation .group-configuration-validation-text').text[0]
 
     def __repr__(self):
-        return "<{}:{}>".format(self.__class__.__name__, self.name)
+        return f"<{self.__class__.__name__}:{self.name}>"
 
 
-class Group(object):
+class Group:
     """
     Group wrapper.
     """
@@ -355,4 +354,4 @@ class Group(object):
         return self.find_css(css).first.click()
 
     def __repr__(self):
-        return "<{}:{}>".format(self.__class__.__name__, self.name)
+        return f"<{self.__class__.__name__}:{self.name}>"

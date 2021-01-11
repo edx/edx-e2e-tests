@@ -3,7 +3,6 @@ HTML component editor in studio
 """
 
 
-from six.moves import zip
 
 from edxapp_acceptance.pages.common.utils import click_css
 from edxapp_acceptance.pages.studio.utils import get_codemirror_value, type_in_codemirror
@@ -222,7 +221,7 @@ class HtmlXBlockEditorView(XBlockEditorView):
         """
         If editing, set the value of a field.
         """
-        selector = u'.xblock-studio_view li.field label:contains("{}") + input'.format(field_display_name)
+        selector = f'.xblock-studio_view li.field label:contains("{field_display_name}") + input'
         script = "$(arguments[0]).val(arguments[1]).change();"
         self.browser.execute_script(script, selector, field_value)
 
@@ -251,7 +250,7 @@ class HtmlXBlockEditorView(XBlockEditorView):
         file_input_css = "[type='file']"
 
         # select file input element and change visibility to add file.
-        self.browser.execute_script('$("{}").css("display","block");'.format(file_input_css))
+        self.browser.execute_script(f'$("{file_input_css}").css("display","block");')
         self.wait_for_element_visibility(file_input_css, "Input is visible")
         self.q(css=file_input_css).results[0].send_keys(file_name)
         self.wait_for_element_visibility('#imageDescription', 'Upload form is visible.')

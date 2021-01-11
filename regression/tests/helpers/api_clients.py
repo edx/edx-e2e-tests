@@ -1,7 +1,6 @@
 """
 Api clients for tests.
 """
-from __future__ import absolute_import
 
 import datetime
 import json
@@ -53,7 +52,7 @@ class BearerAuth(AuthBase):
 
     def __call__(self, r):
         """ Update the request headers. """
-        r.headers['Authorization'] = 'Bearer {}'.format(self.token)
+        r.headers['Authorization'] = f'Bearer {self.token}'
         return r
 
 
@@ -514,7 +513,7 @@ class EnrollmentApiClient(EdxRestApiBaseClass):
             course_run_id (str): course id in which user is enrolled
         """
         response = self.client.enrollment(
-            '{},{}'.format(username, course_run_id)
+            f'{username},{course_run_id}'
         ).get()
         check_response(response)
         formatted_response = response.json()

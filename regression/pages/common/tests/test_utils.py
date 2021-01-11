@@ -1,7 +1,6 @@
 """
 Unit tests for utils
 """
-from __future__ import absolute_import
 
 import textwrap
 import unittest

@@ -1,7 +1,6 @@
 """
 Constant used in coupon tests
 """
-from __future__ import absolute_import
 
 from datetime import datetime, timedelta
 
@@ -76,40 +75,40 @@ VALID_EMAIL_DOMAIN = "example.com"
 
 # Courses for dynamic coupons testing
 COUPON_COURSES = {
-    u'HarvardMedGlobalAcademy': {
-        u'course-v1:HarvardMedGlobalAcademy+E2E02+2018': {
-            'price': 200.0, 'title': u'HarvardMedGlobalAcademy-E2E-Test-2'
+    'HarvardMedGlobalAcademy': {
+        'course-v1:HarvardMedGlobalAcademy+E2E02+2018': {
+            'price': 200.0, 'title': 'HarvardMedGlobalAcademy-E2E-Test-2'
         },
-        u'course-v1:HarvardMedGlobalAcademy+E2E03+2018': {
-            'price': 300.0, 'title': u'HarvardMedGlobalAcademy-E2E-Test-3'
+        'course-v1:HarvardMedGlobalAcademy+E2E03+2018': {
+            'price': 300.0, 'title': 'HarvardMedGlobalAcademy-E2E-Test-3'
         },
-        u'course-v1:HarvardMedGlobalAcademy+E2E04+2018': {
-            'price': 400.0, 'title': u'HarvardMedGlobalAcademy-E2E-Test-4'
+        'course-v1:HarvardMedGlobalAcademy+E2E04+2018': {
+            'price': 400.0, 'title': 'HarvardMedGlobalAcademy-E2E-Test-4'
         }
     },
-    u'MITxPRO': {
-        u'course-v1:MITxPRO+E2E02+2018': {
-            'price': 200.0, 'title': u'MITxPRO-E2E-Test-2'
+    'MITxPRO': {
+        'course-v1:MITxPRO+E2E02+2018': {
+            'price': 200.0, 'title': 'MITxPRO-E2E-Test-2'
         },
-        u'course-v1:MITxPRO+E2E03+2018': {
-            'price': 300.0, 'title': u'MITxPRO-E2E-Test-3'
+        'course-v1:MITxPRO+E2E03+2018': {
+            'price': 300.0, 'title': 'MITxPRO-E2E-Test-3'
         },
-        u'course-v1:MITxPRO+E2E04+2018': {
-            'price': 400.0, 'title': u'MITxPRO-E2E-Test-4'
+        'course-v1:MITxPRO+E2E04+2018': {
+            'price': 400.0, 'title': 'MITxPRO-E2E-Test-4'
         }
     },
-    u'HarvardXPLUS': {
-        u'course-v1:HarvardXPLUS+HXP01+2016': {
-            'price': 100.0, 'title': u'Automated Tests-HXP01'
+    'HarvardXPLUS': {
+        'course-v1:HarvardXPLUS+HXP01+2016': {
+            'price': 100.0, 'title': 'Automated Tests-HXP01'
         },
-        u'course-v1:HarvardXPLUS+HXP02+2016': {
-            'price': 100.0, 'title': u'Automated Tests-HXP02'
+        'course-v1:HarvardXPLUS+HXP02+2016': {
+            'price': 100.0, 'title': 'Automated Tests-HXP02'
         },
-        u'course-v1:HarvardXPLUS+HXP03+2016': {
-            'price': 200.0, 'title': u'Automated Tests-HXP03'
+        'course-v1:HarvardXPLUS+HXP03+2016': {
+            'price': 200.0, 'title': 'Automated Tests-HXP03'
         }
     },
-    u'Enterprise': {}
+    'Enterprise': {}
 }
 
 COURSES_CATALOG = COUPON_COURSES[ORG]

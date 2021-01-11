@@ -1,7 +1,6 @@
 """
 Enterprise Enrollment Page tests
 """
-from __future__ import absolute_import
 
 from regression.pages.common.utils import extract_mmm_dd_yyyy_date_string_from_text
 from regression.pages.enterprise.enterprise_const import (

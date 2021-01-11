@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 LMS index (home) page.
 """
@@ -17,7 +16,7 @@ class IndexPage(PageObject):
     """
     LMS index (home) page, the default landing page for Open edX users when they are not logged in
     """
-    url = "{base}/".format(base=BASE_URL)
+    url = f"{BASE_URL}/"
 
     def is_browser_on_page(self):
         """

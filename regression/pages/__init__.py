@@ -3,7 +3,6 @@ This module retrieves a couple of environment variables
 which later on are used by pages inside pages package.
 """
 
-from __future__ import absolute_import
 
 import os
 

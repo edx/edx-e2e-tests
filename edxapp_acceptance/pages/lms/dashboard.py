@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Student dashboard page.
 """
@@ -6,7 +5,6 @@ Student dashboard page.
 
 from bok_choy.page_object import PageObject
 from opaque_keys.edx.keys import CourseKey
-from six.moves import range
 
 from edxapp_acceptance.pages.lms import BASE_URL
 
@@ -16,7 +14,7 @@ class DashboardPage(PageObject):
     Student dashboard, where the student can view
     courses she/he has registered for.
     """
-    url = "{base}/dashboard".format(base=BASE_URL)
+    url = f"{BASE_URL}/dashboard"
 
     def is_browser_on_page(self):
         return self.q(css='.my-courses').present
@@ -78,7 +76,7 @@ class DashboardPage(PageObject):
             # and the other being the enrollment mode.
             enrollment_mode = course_listing[0].get_attribute('class').split('course ')[1]
         else:
-            raise Exception(u"No course named {} was found on the dashboard".format(course_name))
+            raise Exception(f"No course named {course_name} was found on the dashboard")
 
         return enrollment_mode
 
@@ -91,7 +89,7 @@ class DashboardPage(PageObject):
         if link_css is not None:
             self.q(css=link_css).first.click()
         else:
-            msg = u"No links found for course {0}".format(course_id)
+            msg = f"No links found for course {course_id}"
             self.warning(msg)
 
     def _link_css(self, course_id):
@@ -109,7 +107,7 @@ class DashboardPage(PageObject):
                 break
 
         if link_index is not None:
-            return "a.enter-course:nth-of-type({0})".format(link_index + 1)
+            return "a.enter-course:nth-of-type({})".format(link_index + 1)
         else:
             return None
 
@@ -118,8 +116,8 @@ class DashboardPage(PageObject):
         Go to the course unenroll dialog message for `course_id` (e.g. edx/Open_DemoX/edx_demo_course)
         """
         div_index = self.get_course_actions_link_css(course_id)
-        button_link_css = "#actions-dropdown-link-{}".format(div_index)
-        unenroll_css = "#unenroll-{}".format(div_index)
+        button_link_css = f"#actions-dropdown-link-{div_index}"
+        unenroll_css = f"#unenroll-{div_index}"
 
         if button_link_css is not None:
             self.q(css=button_link_css).first.click()
@@ -133,7 +131,7 @@ class DashboardPage(PageObject):
             }
 
         else:
-            msg = u"No links found for course {0}".format(course_id)
+            msg = f"No links found for course {course_id}"
             self.warning(msg)
 
     def get_course_actions_link_css(self, course_id):
@@ -164,7 +162,7 @@ class DashboardPage(PageObject):
 
     def get_course_social_sharing_widget(self, widget_name):
         """ Retrieves the specified social sharing widget by its classification """
-        return self.q(css='a.action-{}'.format(widget_name))
+        return self.q(css=f'a.action-{widget_name}')
 
     def get_profile_img(self):
         """ Retrieves the user's profile image """

@@ -5,7 +5,6 @@ username and basic authentication password
 should be used.
 """
 
-from __future__ import absolute_import
 
 import os
 
@@ -25,4 +24,4 @@ if BASIC_AUTH_USERNAME and BASIC_AUTH_PASSWORD:
         STUDIO_PROTOCOL, BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD,
         STUDIO_BASE_URL)
 else:
-    LOGIN_BASE_URL = '{}://{}'.format(STUDIO_PROTOCOL, STUDIO_BASE_URL)
+    LOGIN_BASE_URL = f'{STUDIO_PROTOCOL}://{STUDIO_BASE_URL}'

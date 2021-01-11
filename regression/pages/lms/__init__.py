@@ -5,7 +5,6 @@ username and basic authentication password
 should be used.
 """
 
-from __future__ import absolute_import
 
 import os
 
@@ -29,7 +28,7 @@ if BASIC_AUTH_USERNAME and BASIC_AUTH_PASSWORD:
         BASIC_AUTH_PASSWORD, ECOM_BASE_URL_STR
     )
 else:
-    LOGIN_BASE_URL = '{}://{}'.format(LMS_PROTOCOL, LMS_BASE_URL)
-    ECOM_BASE_URL = '{}://{}'.format(LMS_PROTOCOL, ECOM_BASE_URL_STR)
+    LOGIN_BASE_URL = f'{LMS_PROTOCOL}://{LMS_BASE_URL}'
+    ECOM_BASE_URL = f'{LMS_PROTOCOL}://{ECOM_BASE_URL_STR}'
 
 LMS_REDIRECT_URL = 'https://stage.edx.org'

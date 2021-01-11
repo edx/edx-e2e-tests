@@ -1,7 +1,6 @@
 """
 Reset Password page
 """
-from __future__ import absolute_import
 
 import os
 
@@ -50,7 +49,7 @@ class ResetPasswordComplete(PageObject):
     Reset password completion page
     """
 
-    url = os.path.join(LMS_URL_WITH_AUTH, u'password_reset_complete')
+    url = os.path.join(LMS_URL_WITH_AUTH, 'password_reset_complete')
 
     def is_browser_on_page(self):
         return self.q(css='.status.submission-success').present

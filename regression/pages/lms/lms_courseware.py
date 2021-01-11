@@ -1,7 +1,6 @@
 """
 Courseware page LMS
 """
-from __future__ import absolute_import
 
 from edxapp_acceptance.pages.lms.courseware import CoursewarePage
 from regression.pages.lms import LOGIN_BASE_URL
@@ -49,7 +48,7 @@ class CoursewarePageExtended(CoursewarePage):
         try:
             section_index = self._section_titles().index(section_title)
         except ValueError:
-            self.warning("Could not find section '{0}'".format(section_title))
+            self.warning(f"Could not find section '{section_title}'")
             return
 
         # Get the subsection by index
@@ -58,7 +57,7 @@ class CoursewarePageExtended(CoursewarePage):
                 section_index + 1
             ).index(subsection_title)
         except ValueError:
-            msg = "Could not find subsection '{0}' in section '{1}'".format(
+            msg = "Could not find subsection '{}' in section '{}'".format(
                 subsection_title, section_title
             )
             self.warning(msg)
@@ -66,8 +65,8 @@ class CoursewarePageExtended(CoursewarePage):
 
         # Convert list indices (start at zero) to CSS indices (start at 1)
         subsection_css = (
-            ".outline-item.section:nth-of-type({0}) "
-            ".subsection:nth-of-type({1}) .outline-item"
+            ".outline-item.section:nth-of-type({}) "
+            ".subsection:nth-of-type({}) .outline-item"
         ).format(section_index + 1, subsection_index + 1)
 
         # Click the subsection and ensure that the page finishes reloading
@@ -90,7 +89,7 @@ class CoursewarePageExtended(CoursewarePage):
         # Retrieve the subsection title for the section
         # Add one to the list index to get the CSS index, which starts at one
         subsection_css = (
-            ".outline-item.section:nth-of-type({0}) .subsection a"
+            ".outline-item.section:nth-of-type({}) .subsection a"
         ).format(section_index)
 
         return self.q(
@@ -108,8 +107,8 @@ class CoursewarePageExtended(CoursewarePage):
             promise_check_func=lambda: self.courseware_page.nav.is_on_section(
                 section_title, subsection_title
             ),
-            description="Waiting for course page with section '{0}' and "
-                        "subsection '{1}'".format(
+            description="Waiting for course page with section '{}' and "
+                        "subsection '{}'".format(
                             section_title, subsection_title)
         )
 

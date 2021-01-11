@@ -1,7 +1,6 @@
 """
 Enterprise Logistration page
 """
-from __future__ import absolute_import
 
 from edxapp_acceptance.pages.lms.login_and_register import CombinedLoginAndRegisterPage
 from regression.pages.lms import LOGIN_BASE_URL
