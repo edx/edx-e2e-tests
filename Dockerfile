@@ -4,7 +4,7 @@
 #
 # docker build . -t edxops/e2e:latest
 
-FROM edxops/python:3.5
+FROM edxops/python:3.8
 MAINTAINER edxops
 
 # Install system libraries needed for lxml
