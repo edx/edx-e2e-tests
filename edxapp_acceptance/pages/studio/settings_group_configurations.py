@@ -3,7 +3,6 @@ Course Group Configurations page.
 """
 
 
-
 from edxapp_acceptance.pages.common.utils import confirm_prompt
 from edxapp_acceptance.pages.studio.course_page import CoursePage
 

@@ -3,7 +3,6 @@ HTML component editor in studio
 """
 
 
-
 from edxapp_acceptance.pages.common.utils import click_css
 from edxapp_acceptance.pages.studio.utils import get_codemirror_value, type_in_codemirror
 from edxapp_acceptance.pages.studio.xblock_editor import XBlockEditorView

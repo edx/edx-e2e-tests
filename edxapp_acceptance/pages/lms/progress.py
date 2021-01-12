@@ -3,7 +3,6 @@ Student progress page
 """
 
 
-
 from edxapp_acceptance.pages.lms.course_page import CoursePage
 
 
