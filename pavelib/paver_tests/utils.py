@@ -1,7 +1,6 @@
 """Unit tests for the Paver server tasks."""
 
 import os
-from six import text_type
 from paver import tasks
 from unittest import TestCase
 

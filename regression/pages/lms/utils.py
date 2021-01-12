@@ -3,7 +3,6 @@ Utility functions for lms page objects.
 """
 
 from opaque_keys.edx.locator import CourseLocator
-from six import text_type
 
 
 def get_course_key(course_info, module_store='split'):

@@ -2,7 +2,6 @@
 Regression tests for Studio's Setting page.
 """
 
-import six
 from bok_choy.web_app_test import WebAppTest
 
 from edxapp_acceptance.pages.studio.settings_advanced import AdvancedSettingsPage

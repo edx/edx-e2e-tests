@@ -122,7 +122,6 @@ selenium==3.141.0
     #   needle
 six==1.15.0
     # via
-    #   -r requirements/base.in
     #   astroid
     #   bok-choy
     #   edx-lint

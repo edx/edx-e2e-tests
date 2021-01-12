@@ -4,7 +4,6 @@ Pages for single course and multi course purchase baskets
 
 import os
 
-import six
 from bok_choy.page_object import PageObject
 
 from regression.pages.common.utils import (

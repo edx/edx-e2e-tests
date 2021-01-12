@@ -2,7 +2,6 @@
 Payment page.
 """
 
-import six
 from bok_choy.page_object import PageObject
 
 from regression.pages.lms.constants import THIRD_PARTY_PAYMENTS_BASE_URL

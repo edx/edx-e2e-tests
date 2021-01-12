@@ -5,7 +5,6 @@ Base class for tests with enrollment capability
 import datetime
 
 from bok_choy.promise import EmptyPromise
-from six import text_type
 
 from regression.pages.whitelabel.basket_page import CyberSourcePage, MultiSeatBasketPage, SingleSeatBasketPage
 from regression.pages.whitelabel.const import BILLING_INFO, CARD_HOLDER_INFO, PASSWORD

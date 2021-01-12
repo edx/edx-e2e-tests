@@ -5,9 +5,6 @@ Test helper functions.
 import os
 import uuid
 
-import six
-from six import text_type
-
 from regression.pages.studio import LOGIN_BASE_URL
 from regression.pages.studio.utils import get_course_key
 from regression.pages.whitelabel.activate_account import ActivateAccount

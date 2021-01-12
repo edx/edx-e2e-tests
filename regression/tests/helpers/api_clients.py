@@ -8,13 +8,13 @@ import os
 import re
 import time
 
-import six.moves.http_cookies
+from http import cookies as http_cookies
+from urllib.parse import urlparse
 import requests
 from requests.auth import AuthBase
 
 from edx_rest_api_client.client import EdxRestApiClient
 from guerrillamail import GuerrillaMailSession
-from six.moves.urllib.parse import urlparse
 
 from regression.pages import (
     BASIC_AUTH_PASSWORD,
@@ -593,7 +593,7 @@ class LmsApiClient:
         set_cookie = self.login_response.headers['Set-Cookie']
         if not set_cookie:
             raise ApiException('Login response cookie not found')
-        return six.moves.http_cookies.SimpleCookie(set_cookie)
+        return http_cookies.SimpleCookie(set_cookie)
 
     @property
     def user_name(self):

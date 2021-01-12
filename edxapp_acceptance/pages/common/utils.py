@@ -4,7 +4,6 @@ Utility methods common to Studio and the LMS.
 
 
 import requests
-import six
 from bok_choy.javascript import js_defined
 from bok_choy.promise import BrokenPromise, EmptyPromise, Promise
 from selenium.common.exceptions import StaleElementReferenceException

@@ -5,8 +5,6 @@ Different utilities to be used in tests
 import datetime
 import re
 
-import six
-
 
 def get_target_url_from_text(url_matching_string, text_chunk):
     """

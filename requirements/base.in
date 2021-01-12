@@ -16,4 +16,3 @@ pylint
 python-guerrillamail
 requests
 selenium
-six

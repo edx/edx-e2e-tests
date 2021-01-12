@@ -3,7 +3,6 @@ Mixins for fields.
 """
 
 
-import six
 from bok_choy.promise import EmptyPromise
 
 from edxapp_acceptance.pages.common.utils import get_selected_option_text, select_option_by_text

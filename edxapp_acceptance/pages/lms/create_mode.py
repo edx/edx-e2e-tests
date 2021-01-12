@@ -3,7 +3,7 @@
 
 import re
 
-import six.moves.urllib.parse
+from urllib.parse import urlencode
 from bok_choy.page_object import PageObject
 
 from edxapp_acceptance.pages.lms import BASE_URL
@@ -66,7 +66,7 @@ class ModeCreationPage(PageObject):
             course_id=self._course_id
         )
 
-        query_string = six.moves.urllib.parse.urlencode(self._parameters)
+        query_string = urlencode(self._parameters)
         if query_string:
             url += '?' + query_string
 

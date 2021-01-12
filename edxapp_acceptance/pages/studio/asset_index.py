@@ -5,11 +5,11 @@ The Files and Uploads page for a course in Studio
 
 import os
 
-import six
 from bok_choy.javascript import wait_for_js
 from bok_choy.promise import EmptyPromise
 from opaque_keys.edx.locator import CourseLocator
 from path import Path
+from urllib.parse import quote_plus
 
 from edxapp_acceptance.pages.common.utils import sync_on_notification
 from edxapp_acceptance.pages.studio import BASE_URL
@@ -39,7 +39,7 @@ class AssetIndexPageStudioFrontend(CoursePage):
             self.course_info['course_run'],
             deprecated=(default_store == 'draft')
         )
-        url = "/".join([BASE_URL, self.URL_PATH, six.moves.urllib.parse.quote_plus(str(course_key))])
+        url = "/".join([BASE_URL, self.URL_PATH, quote_plus(str(course_key))])
         return url if url[-1] == '/' else url + '/'
 
     @wait_for_js

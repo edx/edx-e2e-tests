@@ -2,8 +2,6 @@
 Course Schedule and Details Settings page.
 """
 
-from six import text_type
-
 from edxapp_acceptance.pages.common.utils import click_css
 from edxapp_acceptance.pages.studio.settings import SettingsPage
 from regression.pages import UPLOAD_FILE_DIR

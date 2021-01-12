@@ -3,7 +3,7 @@
 
 from bok_choy.page_object import PageObject, unguarded
 from bok_choy.promise import EmptyPromise, Promise
-from six.moves.urllib.parse import urlencode
+from urllib.parse import urlencode
 
 from edxapp_acceptance.pages.lms import BASE_URL
 from edxapp_acceptance.pages.lms.dashboard import DashboardPage
