@@ -1,12 +1,10 @@
 """
 Single course Enrollment coupons tests
 """
-from __future__ import absolute_import
 
 import random
 from unittest import skip
 
-from six.moves import range
 
 from regression.pages.studio.utils import get_course_key
 from regression.pages.whitelabel import (

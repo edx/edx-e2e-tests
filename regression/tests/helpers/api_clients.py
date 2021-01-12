@@ -1,7 +1,6 @@
 """
 Api clients for tests.
 """
-from __future__ import absolute_import
 
 import datetime
 import json
@@ -9,13 +8,13 @@ import os
 import re
 import time
 
-import six.moves.http_cookies
+from http import cookies as http_cookies
+from urllib.parse import urlparse
 import requests
 from requests.auth import AuthBase
 
 from edx_rest_api_client.client import EdxRestApiClient
 from guerrillamail import GuerrillaMailSession
-from six.moves.urllib.parse import urlparse
 
 from regression.pages import (
     BASIC_AUTH_PASSWORD,
@@ -53,7 +52,7 @@ class BearerAuth(AuthBase):
 
     def __call__(self, r):
         """ Update the request headers. """
-        r.headers['Authorization'] = 'Bearer {}'.format(self.token)
+        r.headers['Authorization'] = f'Bearer {self.token}'
         return r
 
 
@@ -514,7 +513,7 @@ class EnrollmentApiClient(EdxRestApiBaseClass):
             course_run_id (str): course id in which user is enrolled
         """
         response = self.client.enrollment(
-            '{},{}'.format(username, course_run_id)
+            f'{username},{course_run_id}'
         ).get()
         check_response(response)
         formatted_response = response.json()
@@ -594,7 +593,7 @@ class LmsApiClient:
         set_cookie = self.login_response.headers['Set-Cookie']
         if not set_cookie:
             raise ApiException('Login response cookie not found')
-        return six.moves.http_cookies.SimpleCookie(set_cookie)
+        return http_cookies.SimpleCookie(set_cookie)
 
     @property
     def user_name(self):

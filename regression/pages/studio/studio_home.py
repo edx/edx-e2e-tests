@@ -1,7 +1,6 @@
 """
 Dashboard page for Studio
 """
-from __future__ import absolute_import
 
 from bok_choy.promise import BrokenPromise
 
@@ -31,7 +30,7 @@ class DashboardPageExtended(DashboardPage):
         """
         Selects the course we want to perform tests on
         """
-        query = self.q(xpath='//h3[contains(text(), "{}")]'.format(course_title)).first
+        query = self.q(xpath=f'//h3[contains(text(), "{course_title}")]').first
         if course_title in query.text:
             query.click()
         else:

@@ -1,7 +1,6 @@
 """
 Base class for white label tests
 """
-from __future__ import absolute_import
 
 import os
 

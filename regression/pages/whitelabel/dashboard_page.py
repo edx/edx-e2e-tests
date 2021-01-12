@@ -1,7 +1,6 @@
 """
 Student dashboard page.
 """
-from __future__ import absolute_import
 
 import os
 
@@ -17,7 +16,7 @@ class DashboardPageExtended(DashboardPage):
     This class is an extended class of Dashboard Page,
     where we add methods that are different or not used in DashboardPage
     """
-    url = os.path.join(LMS_URL_WITH_AUTH, u'dashboard')
+    url = os.path.join(LMS_URL_WITH_AUTH, 'dashboard')
 
     def logout_lms(self):
         """

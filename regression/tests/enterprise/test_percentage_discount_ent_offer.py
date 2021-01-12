@@ -1,7 +1,6 @@
 """
 Enterprise Offer Discount tests
 """
-from __future__ import absolute_import
 
 from regression.pages.common.utils import (
     extract_discount_value_from_response,

@@ -1,7 +1,6 @@
 """
 LMS login page
 """
-from __future__ import absolute_import
 
 from edxapp_acceptance.pages.lms.dashboard import DashboardPage
 from edxapp_acceptance.pages.lms.login import LoginPage

@@ -4,7 +4,6 @@ Utility methods common to Studio and the LMS.
 
 
 import requests
-import six
 from bok_choy.javascript import js_defined
 from bok_choy.promise import BrokenPromise, EmptyPromise, Promise
 from selenium.common.exceptions import StaleElementReferenceException
@@ -78,7 +77,7 @@ def click_css(page, css, source_index=0, require_notification=True):
         """Is the given element visible?"""
         # Only make the call to size once (instead of once for the height and once for the width)
         # because otherwise you will trigger a extra query on a remote element.
-        return element.is_displayed() and all(size > 0 for size in six.itervalues(element.size))
+        return element.is_displayed() and all(size > 0 for size in element.size.values())
 
     # Disable all animations for faster testing with more reliable synchronization
     disable_animations(page)
@@ -153,7 +152,7 @@ def is_focused_on_element(browser, selector):
     """
     Check if the focus is on the element that matches the selector.
     """
-    return browser.execute_script(u"return $('{}').is(':focus')".format(selector))
+    return browser.execute_script(f"return $('{selector}').is(':focus')")
 
 
 def disable_animations(page):
@@ -192,7 +191,7 @@ def disable_css_animations(page):
     """
     Disable CSS3 animations, transitions, transforms.
     """
-    page.browser.execute_script(u"""
+    page.browser.execute_script("""
         var id = 'no-transitions';
 
         // if styles were already added, just do nothing.
@@ -269,7 +268,7 @@ def select_option_by_text(select_browser_query, option_text, focus_out=False):
         except StaleElementReferenceException:
             return False
 
-    msg = u'Selected option {}'.format(option_text)
+    msg = f'Selected option {option_text}'
     EmptyPromise(lambda: select_option(select_browser_query, option_text), msg).fulfill()
 
 
@@ -394,7 +393,7 @@ def assert_opened_help_link_is_correct(test, url):
     # Check that the URL loads. Can't do this in the browser because it might
     # be loading a "Maze Found" missing content page.
     response = requests.get(url)
-    test.assertEqual(response.status_code, 200, u"URL {!r} returned {}".format(url, response.status_code))
+    test.assertEqual(response.status_code, 200, f"URL {url!r} returned {response.status_code}")
 
 
 def assert_side_bar_help_link(test, page, href, help_text, as_list_item=False, index=-1, close_window=True):

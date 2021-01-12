@@ -1,7 +1,6 @@
 """
 Extended Pages page for a course.
 """
-from __future__ import absolute_import
 
 from bok_choy.javascript import requirejs
 from bok_choy.promise import EmptyPromise, Promise
@@ -93,7 +92,7 @@ class PagesPageExtended(CoursePageExtended):
             require_notification=False
         )
         self.browser.execute_script(
-            'tinyMCE.activeEditor.setContent("{}")'.format(new_content)
+            f'tinyMCE.activeEditor.setContent("{new_content}")'
         )
         self.browser.execute_script(
             'document.querySelectorAll(".button.action-primary'

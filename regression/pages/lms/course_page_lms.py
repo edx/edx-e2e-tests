@@ -1,7 +1,6 @@
 """
 Course Home page
 """
-from __future__ import absolute_import
 
 from edxapp_acceptance.pages.lms.course_home import CourseHomePage
 from regression.pages.lms import LOGIN_BASE_URL

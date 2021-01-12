@@ -21,13 +21,13 @@ class LibraryContentXBlockWrapper(PageObject):
         """
         Checks if page is opened
         """
-        return self.q(css='{}[data-id="{}"]'.format(self.BODY_SELECTOR, self.locator)).present
+        return self.q(css=f'{self.BODY_SELECTOR}[data-id="{self.locator}"]').present
 
     def _bounded_selector(self, selector):
         """
         Return `selector`, but limited to this particular block's context
         """
-        return u'{}[data-id="{}"] {}'.format(
+        return '{}[data-id="{}"] {}'.format(
             self.BODY_SELECTOR,
             self.locator,
             selector

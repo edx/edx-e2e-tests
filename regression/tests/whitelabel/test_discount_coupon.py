@@ -1,7 +1,6 @@
 """
 Single course Discount coupons tests
 """
-from __future__ import absolute_import
 
 import random
 import uuid

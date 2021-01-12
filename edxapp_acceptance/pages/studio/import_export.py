@@ -9,7 +9,6 @@ import time
 from datetime import datetime
 
 import requests
-import six
 from bok_choy.promise import EmptyPromise
 
 from edxapp_acceptance.pages.common.utils import click_css
@@ -18,7 +17,7 @@ from edxapp_acceptance.pages.studio.course_page import CoursePage
 from edxapp_acceptance.pages.studio.library import LibraryPage
 
 
-class TemplateCheckMixin(object):
+class TemplateCheckMixin:
     """
     Mixin for verifying that a template is loading the correct text.
     """
@@ -31,7 +30,7 @@ class TemplateCheckMixin(object):
         return self.q(css='h1.page-header')[0].text.split('\n')[-1]
 
 
-class ImportExportMixin(object):
+class ImportExportMixin:
     """
     Mixin for functionality common to both the import and export pages
     """
@@ -56,8 +55,8 @@ class ImportExportMixin(object):
         """
         Return python datetime object from the parsed timestamp tuple (date, time)
         """
-        timestamp = u"{0} {1}".format(*self.timestamp)
-        formatted_timestamp = time.strptime(timestamp, u"%m/%d/%Y %H:%M")
+        timestamp = "{} {}".format(*self.timestamp)
+        formatted_timestamp = time.strptime(timestamp, "%m/%d/%Y %H:%M")
         return datetime.fromtimestamp(time.mktime(formatted_timestamp))
 
     @property
@@ -68,7 +67,7 @@ class ImportExportMixin(object):
         """
         string = self.q(css='.item-progresspoint-success-date').text[0]
 
-        return re.match(six.text_type(r'\(([^ ]+).+?(\d{2}:\d{2})'), string).groups()
+        return re.match(r'\(([^ ]+).+?(\d{2}:\d{2})', string).groups()
 
     def wait_for_tasks(self, completed=False, fail_on=None):
         """
@@ -83,11 +82,11 @@ class ImportExportMixin(object):
         for desc, css_class in self.task_classes.items():
             desc_text = desc_template.format(desc)
             # pylint: disable=cell-var-from-loop
-            EmptyPromise(lambda: self.q(css=u'.{}.{}'.format(css_class, state)).present, desc_text, timeout=30)
+            EmptyPromise(lambda: self.q(css=f'.{css_class}.{state}').present, desc_text, timeout=30)
             if fail_on == desc:
                 EmptyPromise(
-                    lambda: self.q(css=u'.{}.is-complete.has-error'.format(css_class)).present,
-                    u"{} checkpoint marked as failed".format(desc),
+                    lambda: self.q(css=f'.{css_class}.is-complete.has-error').present,
+                    f"{desc} checkpoint marked as failed",
                     timeout=30
                 )
                 # The rest should never run.
@@ -105,9 +104,9 @@ class ImportExportMixin(object):
         Outputs the CSS class and promise description for task states based on completion.
         """
         if completed:
-            return 'is-complete', u"'{}' is marked complete"
+            return 'is-complete', "'{}' is marked complete"
         else:
-            return 'is-not-started', u"'{}' is in not-yet-started status"
+            return 'is-not-started', "'{}' is in not-yet-started status"
 
 
 class ExportMixin(ImportExportMixin):
@@ -146,7 +145,7 @@ class ExportMixin(ImportExportMixin):
         Download tarball at `url`
         """
         kwargs = dict()
-        session_id = [{i['name']: i['value']} for i in self.browser.get_cookies() if i['name'] == u'sessionid']
+        session_id = [{i['name']: i['value']} for i in self.browser.get_cookies() if i['name'] == 'sessionid']
         if session_id:
             kwargs.update({
                 'cookies': session_id[0]
@@ -208,7 +207,7 @@ class ExportMixin(ImportExportMixin):
         EmptyPromise(self.is_click_handler_registered, 'Export Button Click Handler Registered', timeout=30).fulfill()
 
 
-class LibraryLoader(object):
+class LibraryLoader:
     """
     URL loading mixing for Library import/export
     """
@@ -219,7 +218,7 @@ class LibraryLoader(object):
         but is used for import/export.
         """
         # pylint: disable=no-member
-        return "/".join([BASE_URL, self.url_path, six.text_type(self.locator)])
+        return "/".join([BASE_URL, self.url_path, str(self.locator)])
 
 
 class ExportCoursePage(ExportMixin, TemplateCheckMixin, CoursePage):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Teams pages.
 """
@@ -19,12 +18,12 @@ TEAMS_HEADER_CSS = '.teams-header'
 CREATE_TEAM_LINK_CSS = '.create-team'
 
 
-class TeamCardsMixin(object):
+class TeamCardsMixin:
     """Provides common operations on the team card component."""
 
     def _bounded_selector(self, css):
         """Bind the CSS to a particular tabpanel (e.g. My Teams or Browse)."""
-        return u'{tabpanel_id} {css}'.format(tabpanel_id=getattr(self, 'tabpanel_id', ''), css=css)
+        return '{tabpanel_id} {css}'.format(tabpanel_id=getattr(self, 'tabpanel_id', ''), css=css)
 
     def view_first_team(self):
         """Click the 'view' button of the first team card on the page."""
@@ -51,7 +50,7 @@ class TeamCardsMixin(object):
         return self.q(css=self._bounded_selector('.member-count')).map(lambda e: e.text).results
 
 
-class BreadcrumbsMixin(object):
+class BreadcrumbsMixin:
     """Provides common operations on teams page breadcrumb links."""
 
     @property
@@ -190,14 +189,14 @@ class BrowseTopicsPage(CoursePage, PaginatedUIMixin):
         Show the teams list for `topic_name`.
         """
         self.q(css=TEAMS_LINK_CSS).filter(
-            text=u'View Teams in the {topic_name} Topic'.format(topic_name=topic_name)
+            text=f'View Teams in the {topic_name} Topic'
         )[0].click()
         self.wait_for_ajax()
 
     def sort_topics_by(self, sort_order):
         """Sort the list of topics by the given `sort_order`."""
         self.q(
-            css=u'#paging-header-select option[value={sort_order}]'.format(sort_order=sort_order)
+            css=f'#paging-header-select option[value={sort_order}]'
         ).click()
         self.wait_for_ajax()
 
@@ -274,7 +273,7 @@ class BaseTeamsPage(CoursePage, PaginatedUIMixin, TeamCardsMixin, BreadcrumbsMix
     def sort_teams_by(self, sort_order):
         """Sort the list of teams by the given `sort_order`."""
         self.q(
-            css=u'#paging-header-select option[value={sort_order}]'.format(sort_order=sort_order)
+            css=f'#paging-header-select option[value={sort_order}]'
         ).click()
         self.wait_for_ajax()
 
@@ -283,7 +282,7 @@ class BaseTeamsPage(CoursePage, PaginatedUIMixin, TeamCardsMixin, BreadcrumbsMix
         """
         Returns true if showing search results.
         """
-        return self.header_description.startswith(u"Showing results for")
+        return self.header_description.startswith("Showing results for")
 
     def search(self, string):
         """
@@ -565,7 +564,7 @@ class TeamPage(CoursePage, PaginatedUIMixin, BreadcrumbsMixin):
 
     def format_capacity_text(self, num_members, max_size):
         """ Helper method to format the expected team capacity text. """
-        return u'{num_members} / {max_size} {members_text}'.format(
+        return '{num_members} / {max_size} {members_text}'.format(
             num_members=num_members,
             max_size=max_size,
             members_text='Member' if num_members == max_size else 'Members'

@@ -1,10 +1,8 @@
 """
 Enterprise Course Enrollment page
 """
-from __future__ import absolute_import
 
 from bok_choy.page_object import PageObject
-from six.moves import zip
 
 
 class EnterpriseCourseEnrollment(PageObject):

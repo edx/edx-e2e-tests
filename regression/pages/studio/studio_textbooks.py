@@ -1,7 +1,6 @@
 """
 Extended Textbooks page
 """
-from __future__ import absolute_import
 
 from selenium.webdriver.common.action_chains import ActionChains
 

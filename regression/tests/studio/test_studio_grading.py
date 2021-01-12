@@ -1,7 +1,6 @@
 """
 Test studio grading
 """
-from __future__ import absolute_import
 
 from uuid import uuid4
 
@@ -88,7 +87,7 @@ class StudioGradingTest(WebAppTest):
         # is available to use on subsections
         self.studio_course_outline.visit()
 
-        section_name = 'Section :{}'.format(uuid4().hex)
+        section_name = f'Section :{uuid4().hex}'
         self.studio_course_outline.add_section_with_name(section_name)
         self.assertIn(
             section_name,
@@ -96,7 +95,7 @@ class StudioGradingTest(WebAppTest):
                 css='.incontext-editor-value').text
         )
 
-        subsection_name = 'Subsection :{}'.format(uuid4().hex)
+        subsection_name = f'Subsection :{uuid4().hex}'
         self.studio_course_outline.add_subsection_with_name(
             subsection_name)
         self.assertIn(

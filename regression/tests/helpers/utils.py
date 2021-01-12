@@ -1,13 +1,9 @@
 """
 Test helper functions.
 """
-from __future__ import absolute_import, print_function
 
 import os
 import uuid
-
-import six
-from six import text_type
 
 from regression.pages.studio import LOGIN_BASE_URL
 from regression.pages.studio.utils import get_course_key
@@ -25,7 +21,7 @@ def get_random_credentials():
     Get random user name and email address
     """
     username = 'test_{}'.format(str(uuid.uuid4().node))
-    email = "{}@example.com".format(username)
+    email = f"{username}@example.com"
     return username, email
 
 
@@ -68,7 +64,7 @@ def get_wl_course_info(org, num, run):
         'course_org': org,
         'course_num': num,
         'course_run': run,
-        'display_name': "{}-{}-Test".format(org, num)
+        'display_name': f"{org}-{num}-Test"
     }
 
 
@@ -87,7 +83,7 @@ def visit_all(pages):
         pages:
     """
     for page in pages:
-        print("Visiting: {}".format(page))
+        print(f"Visiting: {page}")
         page.visit()
 
 
@@ -99,7 +95,7 @@ def get_url(url_path, course_info):
         course_info:
     """
     course_key = get_course_key(course_info)
-    return "/".join([LOGIN_BASE_URL, url_path, text_type(course_key)])
+    return "/".join([LOGIN_BASE_URL, url_path, str(course_key)])
 
 
 def get_data_locator(page):
@@ -194,7 +190,7 @@ def fill_input_fields(page, elements_and_values_dict):
         elements_and_values_dict(dict): A dictionary of
             elements(css) and input values.
     """
-    for key, value in six.iteritems(elements_and_values_dict):
+    for key, value in elements_and_values_dict.items():
         page.q(css=key).fill(value)
 
 
@@ -207,8 +203,8 @@ def select_drop_down_values(page, elements_and_values_dict):
         elements_and_values_dict(dict): A dictionary of
             drop down elements(css) and values.
     """
-    for element, val in six.iteritems(elements_and_values_dict):
-        target_css = 'select[name={}] option[value="{}"]'.format(element, val)
+    for element, val in elements_and_values_dict.items():
+        target_css = f'select[name={element}] option[value="{val}"]'
         page.wait_for_element_visibility(
             target_css,
             'target value is visible in Drop down'

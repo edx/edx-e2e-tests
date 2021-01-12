@@ -1,4 +1,3 @@
-# coding: utf-8
 """
 Course Schedule and Details Settings page.
 """
@@ -7,7 +6,6 @@ Course Schedule and Details Settings page.
 import os
 import os.path
 
-import six
 from bok_choy.javascript import requirejs
 from bok_choy.promise import EmptyPromise
 
@@ -51,7 +49,7 @@ class SettingsPage(CoursePage):
         """
         self.wait_for(
             lambda: self.browser.execute_script(
-                "return $('{ele}').val();".format(ele=jquery_element)) == '{val}'.format(val=value),
+                f"return $('{jquery_element}').val();") == f'{value}',
             'wait for jQuery to finish loading data on page.'
         )
 
@@ -65,7 +63,7 @@ class SettingsPage(CoursePage):
     def get_elements(self, css_selector):
         self.wait_for_element_presence(
             css_selector,
-            'Elements matching "{}" selector are present'.format(css_selector)
+            f'Elements matching "{css_selector}" selector are present'
         )
         results = self.q(css=css_selector)
         return results
@@ -79,7 +77,7 @@ class SettingsPage(CoursePage):
         Set the values of the elements to those specified
         in the element_values dict.
         """
-        for css, value in six.iteritems(element_values):
+        for css, value in element_values.items():
             element = self.get_element(css)
             element.clear()
             element.send_keys(value)
@@ -182,7 +180,7 @@ class SettingsPage(CoursePage):
         ).format(license_name=license_name)
         button = self.q(xpath=button_xpath)
         if not button.present:
-            raise Exception("Invalid license name: {name}".format(name=license_name))
+            raise Exception(f"Invalid license name: {license_name}")
         button.click()
 
     pacing_css = '.pacing input[type=radio]'
@@ -200,7 +198,7 @@ class SettingsPage(CoursePage):
         self.wait_for_element_presence(self.checked_pacing_css, 'course pacing controls present and rendered')
         checked = self.q(css=self.checked_pacing_css).results[0]
         checked_id = checked.get_attribute('id')
-        return self.q(css='label[for={checked_id}]'.format(checked_id=checked_id)).results[0].text
+        return self.q(css=f'label[for={checked_id}]').results[0].text
 
     @course_pacing.setter
     def course_pacing(self, pacing):
@@ -209,7 +207,7 @@ class SettingsPage(CoursePage):
         the appropriate radio button.
         """
         self.wait_for_element_presence(self.checked_pacing_css, 'course pacing controls present')
-        self.q(xpath="//label[contains(text(), '{pacing}')]".format(pacing=pacing)).click()
+        self.q(xpath=f"//label[contains(text(), '{pacing}')]").click()
 
     @property
     def course_pacing_disabled_text(self):
@@ -224,7 +222,7 @@ class SettingsPage(CoursePage):
         """
         self.wait_for_element_presence(self.checked_pacing_css, 'course pacing controls present')
         statuses = self.q(css=self.pacing_css).map(lambda e: e.get_attribute('disabled')).results
-        return all((s == 'true' for s in statuses))
+        return all(s == 'true' for s in statuses)
 
     ################
     # Waits
@@ -246,10 +244,10 @@ class SettingsPage(CoursePage):
         """
         Clicks the button
         """
-        btn_css = 'div#page-notification button.action-{}'.format(name.lower())
+        btn_css = f'div#page-notification button.action-{name.lower()}'
         EmptyPromise(
             lambda: self.q(css=btn_css).visible,
-            '{} button is visible'.format(name)
+            f'{name} button is visible'
         ).fulfill()
         press_the_notification_button(self, name)
 

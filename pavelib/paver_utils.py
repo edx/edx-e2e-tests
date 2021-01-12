@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 from path import Path as path
 
 from .paver_consts import (
@@ -12,7 +11,7 @@ from .paver_consts import (
 )
 
 
-class TestRunCommand(object):
+class TestRunCommand:
     @staticmethod
     def command(report_name="report.xml", user_args="", test_type=None):
         """
@@ -42,12 +41,12 @@ class TestRunCommand(object):
 
         # Construct the command as a list
         construct_command = [
-            "SCREENSHOT_DIR='{}'".format(LOG_DIR),
-            "SELENIUM_DRIVER_LOG_DIR='{}'".format(LOG_DIR),
+            f"SCREENSHOT_DIR='{LOG_DIR}'",
+            f"SELENIUM_DRIVER_LOG_DIR='{LOG_DIR}'",
             "pytest",
             test_path,
             "-v",
-            "--junit-xml='{}'".format(report_path)
+            f"--junit-xml='{report_path}'"
             ]
 
         construct_command.extend(arguments['cmd_args'])
@@ -55,7 +54,7 @@ class TestRunCommand(object):
         return cmd
 
 
-class PaverTestCommand(object):
+class PaverTestCommand:
 
     @staticmethod
     def command(test_name='', report_name='report.xml'):
@@ -79,7 +78,7 @@ class PaverTestCommand(object):
             "pytest",
             test_path,
             "-v",
-            "--junit-xml='{}'".format(report_path)
+            f"--junit-xml='{report_path}'"
             ]
 
         # return command as a string

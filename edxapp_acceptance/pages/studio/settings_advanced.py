@@ -3,7 +3,6 @@ Course Advanced Settings page
 """
 
 
-import six
 from bok_choy.promise import EmptyPromise
 
 from edxapp_acceptance.pages.studio.course_page import CoursePage
@@ -102,7 +101,7 @@ class AdvancedSettingsPage(CoursePage):
         """
         cordinates_dict = self.browser.find_element_by_css_selector(coordinates_for)
         location = cordinates_dict.location
-        for key, val in six.iteritems(location):
+        for key, val in location.items():
             if key == 'x':
                 x_axis = val
             elif key == 'y':
@@ -177,7 +176,7 @@ class AdvancedSettingsPage(CoursePage):
         """
         Make multiple settings changes and save them.
         """
-        for key, value in six.iteritems(key_value_map):
+        for key, value in key_value_map.items():
             index = self._get_index_of(key)
             type_in_codemirror(self, index, value)
 

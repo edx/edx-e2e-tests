@@ -12,7 +12,7 @@ git clean -xfd > log/git_clean.log
 
 # Create the virtualenv and install requirements
 mkdir -p venv
-python -m virtualenv --python=python3.5 venv
+python -m virtualenv --python=python3.8 venv
 . venv/bin/activate
 
 echo "Installing base requirements"

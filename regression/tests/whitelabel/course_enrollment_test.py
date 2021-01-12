@@ -1,12 +1,10 @@
 """
 Base class for tests with enrollment capability
 """
-from __future__ import absolute_import
 
 import datetime
 
 from bok_choy.promise import EmptyPromise
-from six import text_type
 
 from regression.pages.whitelabel.basket_page import CyberSourcePage, MultiSeatBasketPage, SingleSeatBasketPage
 from regression.pages.whitelabel.const import BILLING_INFO, CARD_HOLDER_INFO, PASSWORD
@@ -211,7 +209,7 @@ class CourseEnrollmentTest(WhiteLabelTestsBaseClass):
         self.assertEqual(
             # Slight chance that this will fail if the test execution crosses
             # the boundary of midnight
-            text_type(datetime.datetime.utcnow().date()),
+            str(datetime.datetime.utcnow().date()),
             self.receipt_page.order_date
         )
         self.assertEqual(

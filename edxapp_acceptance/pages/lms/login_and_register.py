@@ -3,7 +3,7 @@
 
 from bok_choy.page_object import PageObject, unguarded
 from bok_choy.promise import EmptyPromise, Promise
-from six.moves.urllib.parse import urlencode
+from urllib.parse import urlencode
 
 from edxapp_acceptance.pages.lms import BASE_URL
 from edxapp_acceptance.pages.lms.dashboard import DashboardPage
@@ -248,7 +248,7 @@ class CombinedLoginAndRegisterPage(PageObject):
         Only the "Dummy" provider is used for bok choy because it is the only
         one that doesn't send traffic to external servers.
         """
-        self.q(css="button.{}-oa2-dummy".format(self.current_form)).click()
+        self.q(css=f"button.{self.current_form}-oa2-dummy").click()
 
     def password_reset(self, email):
         """Navigates to, fills in, and submits the password reset form.

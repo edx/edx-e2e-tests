@@ -7,7 +7,6 @@ from bok_choy.javascript import requirejs
 from bok_choy.promise import BrokenPromise
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
-from six.moves import range
 
 from edxapp_acceptance.pages.common.utils import click_css
 from edxapp_acceptance.pages.studio.settings import SettingsPage
@@ -65,7 +64,7 @@ class GradingPage(SettingsPage):
         """
         # Button displays after hovering on it
         btn_css = '.remove-button'
-        self.browser.execute_script("$('{}').focus().click()".format(btn_css))
+        self.browser.execute_script(f"$('{btn_css}').focus().click()")
         self.wait_for_ajax()
         self.save_changes()
 

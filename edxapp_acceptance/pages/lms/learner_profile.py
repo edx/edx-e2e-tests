@@ -13,7 +13,7 @@ from edxapp_acceptance.pages.lms.fields import FieldsMixin
 from edxapp_acceptance.pages.lms.instructor_dashboard import InstructorDashboardPage
 from edxapp_acceptance.pages.common.utils import select_option_by_value
 
-PROFILE_VISIBILITY_SELECTOR = u'#u-field-select-account_privacy option[value="{}"]'
+PROFILE_VISIBILITY_SELECTOR = '#u-field-select-account_privacy option[value="{}"]'
 PROFILE_VISIBILITY_INPUT = '#u-field-select-account_privacy'
 
 
@@ -55,8 +55,8 @@ class Badge(PageObject):
         """
         Execute javascript to bring the popup(.badges-model) inside the window.
         """
-        script_to_execute = (u"var popup = document.querySelectorAll('.badges-modal')[0];;"
-                             u"popup.style.left = '20%';")
+        script_to_execute = ("var popup = document.querySelectorAll('.badges-modal')[0];;"
+                             "popup.style.left = '20%';")
         self.browser.execute_script(script_to_execute)
 
     def close_modal(self):
@@ -147,7 +147,7 @@ class LearnerProfilePage(FieldsMixin, PageObject):
         if privacy != self.privacy:
             query = self.q(css=PROFILE_VISIBILITY_INPUT)
             select_option_by_value(query, privacy)
-            EmptyPromise(lambda: privacy == self.privacy, u'Privacy is set to {}'.format(privacy)).fulfill()
+            EmptyPromise(lambda: privacy == self.privacy, f'Privacy is set to {privacy}').fulfill()
             self.q(css='.btn-change-privacy').first.click()
             self.wait_for_ajax()
 
@@ -165,7 +165,7 @@ class LearnerProfilePage(FieldsMixin, PageObject):
             True/False
         """
         self.wait_for_ajax()
-        return self.q(css='.u-field-{}'.format(field_id)).visible
+        return self.q(css=f'.u-field-{field_id}').visible
 
     def field_is_editable(self, field_id):
         """

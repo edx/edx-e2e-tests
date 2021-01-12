@@ -1,7 +1,6 @@
 """
 Enterprise Data consent tests
 """
-from __future__ import absolute_import
 
 from regression.pages.enterprise.enterprise_const import ENT_COURSE_TITLE, ENTERPRISE_NAME
 from regression.pages.whitelabel.basket_page import SingleSeatBasketPage

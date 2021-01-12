@@ -24,7 +24,7 @@ class DiscussionComponentEditor(XBlockEditorView):
         """
         If editing, set the value of a field.
         """
-        selector = u'.xblock-studio_view li.field label:contains("{}") + input'.format(field_display_name)
+        selector = f'.xblock-studio_view li.field label:contains("{field_display_name}") + input'
         script = "$(arguments[0]).val(arguments[1]).change();"
         self.browser.execute_script(script, selector, field_value)
 

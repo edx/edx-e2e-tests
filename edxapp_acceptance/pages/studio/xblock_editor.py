@@ -29,13 +29,13 @@ class BaseXBlockEditorView(PageObject):
         self.locator = locator
 
     def is_browser_on_page(self):
-        return self.q(css='{}[data-locator="{}"]'.format(self.BODY_SELECTOR, self.locator)).present
+        return self.q(css=f'{self.BODY_SELECTOR}[data-locator="{self.locator}"]').present
 
     def _bounded_selector(self, selector):
         """
         Return `selector`, but limited to this particular `XBlockEditorView` context
         """
-        return u'{}[data-locator="{}"] {}'.format(
+        return '{}[data-locator="{}"] {}'.format(
             self.BODY_SELECTOR,
             self.locator,
             selector

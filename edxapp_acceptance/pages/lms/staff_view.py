@@ -59,7 +59,7 @@ class StaffPreviewPage(PageObject):
             self.q(css=self.VIEW_MODE_OPTIONS_CSS).filter(lambda el: el.text == required_mode).first.click()
         # Use a script here because .clear() + .send_keys() triggers unwanted behavior if a username is already set
         self.browser.execute_script(
-            '$(".action-preview-username").val("{}").blur().change();'.format(username_or_email)
+            f'$(".action-preview-username").val("{username_or_email}").blur().change();'
         )
         self.wait_for_ajax()
 

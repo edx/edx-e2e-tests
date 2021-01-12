@@ -1,7 +1,6 @@
 """
 Studio login page
 """
-from __future__ import absolute_import
 
 from edxapp_acceptance.pages.studio.login import LoginPage
 from regression.pages.studio import LOGIN_BASE_URL

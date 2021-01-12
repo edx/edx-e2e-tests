@@ -40,7 +40,7 @@ class PagesPage(CoursePage):
             description="Static tab is added"
         )
         self.wait_for_element_visibility(
-            u'.tab-list :nth-child({}) .xblock-student_view'.format(total_tabs),
+            f'.tab-list :nth-child({total_tabs}) .xblock-student_view',
             'Static tab is visible'
         )
         # self.wait_for_ajax()
@@ -124,7 +124,7 @@ class PagesPage(CoursePage):
             true(bool): if tab is visible
             false(bool): if tab is not visible
         """
-        css_selector = u'[data-tab-id="{}"] .toggle-checkbox'.format(tab_name)
+        css_selector = f'[data-tab-id="{tab_name}"] .toggle-checkbox'
         return True if not self.q(css=css_selector).selected else False
 
     def toggle_tab(self, tab_name):
@@ -133,7 +133,7 @@ class PagesPage(CoursePage):
         Args:
             tab_name(string): Name of the tab to be toggled
         """
-        css_selector = u'[data-tab-id="{}"] .action-visible'.format(tab_name)
+        css_selector = f'[data-tab-id="{tab_name}"] .action-visible'
         return self.q(css=css_selector).first.click()
 
     def set_field_val(self, field_display_name, field_value):
@@ -144,7 +144,7 @@ class PagesPage(CoursePage):
             field_display_name(str): Display name of the field for which the value is to be changed
             field_value(str): New value for the field
         """
-        selector = u'.xblock-studio_view li.field label:contains("{}") + input'.format(field_display_name)
+        selector = f'.xblock-studio_view li.field label:contains("{field_display_name}") + input'
         script = '$(arguments[0]).val(arguments[1]).change();'
         self.browser.execute_script(script, selector, field_value)
 

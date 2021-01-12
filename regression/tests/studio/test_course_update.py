@@ -1,7 +1,6 @@
 """
 Test course update
 """
-from __future__ import absolute_import
 
 from uuid import uuid4
 
@@ -33,7 +32,7 @@ class CourseUpdateTest(WebAppTest):
         self.course_update_page.visit()
         self.course_update_content_selector = '#course-update-list li' \
                                               ' .post-preview .update-contents'
-        self.course_update_text = 'New update:{}'.format(uuid4().hex)
+        self.course_update_text = f'New update:{uuid4().hex}'
 
     def create_course_update(self):
         """
@@ -59,7 +58,7 @@ class CourseUpdateTest(WebAppTest):
         self.create_course_update()
 
         # Edit course update
-        course_update_edit_text = 'Edited update:{}'.format(uuid4().hex)
+        course_update_edit_text = f'Edited update:{uuid4().hex}'
         # Edit the course update and save.
         self.course_update_page.edit_course_update(course_update_edit_text)
         # Verify that the edit has been saved correctly and is visible.
@@ -107,7 +106,7 @@ class CourseHandoutTest(WebAppTest):
         """
         Verifies that user can edit course handout
         """
-        course_handout_content = 'New handout content:{}'.format(uuid4().hex)
+        course_handout_content = f'New handout content:{uuid4().hex}'
         # Edit course handout
         self.course_update_page.edit_course_handout(course_handout_content)
         # Verify that the edit has been saved correctly and is visible.

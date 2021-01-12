@@ -1,14 +1,9 @@
-# -*- coding: utf-8 -*-
-
 """
 Different utilities to be used in tests
 """
-from __future__ import absolute_import
 
 import datetime
 import re
-
-import six
 
 
 def get_target_url_from_text(url_matching_string, text_chunk):
@@ -61,7 +56,7 @@ def fill_input_fields(page, selectors_and_values_dict):
         page:
         selectors_and_values_dict:
     """
-    for key, value in six.iteritems(selectors_and_values_dict):
+    for key, value in selectors_and_values_dict.items():
         page.q(css=key).fill(value)
 
 
@@ -74,9 +69,9 @@ def select_value_from_drop_down(page, drop_down_name, value):
         value:
     """
     page.wait_for_element_visibility(
-        'select[name={}]'.format(drop_down_name), 'Drop down is visible')
+        f'select[name={drop_down_name}]', 'Drop down is visible')
     page.q(
-        css='select[name={}] option[value="{}"]'.format(drop_down_name, value)
+        css=f'select[name={drop_down_name}] option[value="{value}"]'
     ).click()
     page.wait_for(
         lambda: page.q(
@@ -117,7 +112,7 @@ def get_text_from_page_elements(page, elements):
         text dict:
     """
     results = {}
-    for key, value in six.iteritems(elements):
+    for key, value in elements.items():
         results[key] = page.q(css=value).text[0]
     return results
 

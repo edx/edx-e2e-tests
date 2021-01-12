@@ -1,7 +1,6 @@
 """
 End to end tests for Instructor Dashboard.
 """
-from __future__ import absolute_import
 
 from bok_choy.web_app_test import WebAppTest
 

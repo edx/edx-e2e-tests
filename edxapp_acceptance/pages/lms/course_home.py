@@ -7,7 +7,6 @@ from collections import OrderedDict
 
 from bok_choy.page_object import PageObject
 from bok_choy.promise import BrokenPromise
-from six import text_type
 
 from .bookmarks import BookmarksPage
 from .course_page import CoursePage
@@ -51,7 +50,7 @@ class CourseHomePage(CoursePage):
     def is_course_goal_update_icon_shown(self, valid=True):
         """ Verifies course goal success or error icon appears. """
         correct_icon = 'check' if valid else 'close'
-        return self.q(css='.fa-{icon}'.format(icon=correct_icon)).present
+        return self.q(css=f'.fa-{correct_icon}').present
 
     def click_bookmarks_button(self):
         """ Click on Bookmarks button """
@@ -160,9 +159,9 @@ class CourseOutlinePage(PageObject):
                              for sub_webel in subsection_webelements]
 
         try:
-            subsection_index = subsection_titles.index(text_type(subsection_title))
+            subsection_index = subsection_titles.index(str(subsection_title))
         except ValueError:
-            raise ValueError(u"Could not find subsection '{0}' in section '{1}'".format(
+            raise ValueError("Could not find subsection '{}' in section '{}'".format(
                 subsection_title, section_title
             ))
 
@@ -190,11 +189,11 @@ class CourseOutlinePage(PageObject):
         try:
             section_title = self._section_titles()[section_index]
         except IndexError:
-            raise ValueError(u"Section index '{0}' is out of range.".format(section_index))
+            raise ValueError(f"Section index '{section_index}' is out of range.")
         try:
             subsection_title = self._subsection_titles(section_index)[subsection_index]
         except IndexError:
-            raise ValueError(u"Subsection index '{0}' in section index '{1}' is out of range.".format(
+            raise ValueError("Subsection index '{}' in section index '{}' is out of range.".format(
                 subsection_index, section_index
             ))
 
@@ -207,7 +206,7 @@ class CourseOutlinePage(PageObject):
         try:
             section_index = self._section_titles().index(section_title)
         except ValueError:
-            raise ValueError(u"Could not find section '{0}'".format(section_title))
+            raise ValueError(f"Could not find section '{section_title}'")
 
         return section_index
 
@@ -254,7 +253,7 @@ class CourseOutlinePage(PageObject):
         self.wait_for(
             promise_check_func=lambda: courseware_page.nav.is_on_section(
                 section_title, subsection_title),
-            description=u"Waiting for course page with section '{0}' and subsection '{1}'".format(
+            description="Waiting for course page with section '{}' and subsection '{}'".format(
                 section_title, subsection_title)
         )
 
@@ -280,7 +279,7 @@ class CourseOutlinePage(PageObject):
 
     @staticmethod
     def _is_html_element_aria_expanded(html_element):
-        return html_element.get_attribute('aria-expanded') == u'true'
+        return html_element.get_attribute('aria-expanded') == 'true'
 
     @staticmethod
     def _get_outline_element_title(outline_element):

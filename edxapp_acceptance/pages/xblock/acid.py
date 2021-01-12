@@ -30,7 +30,7 @@ class AcidView(PageObject):
         # First make sure that an element with the view-container class is present on the page,
         # and then wait to make sure that the xblock has finished initializing.
         return (
-            self.q(css=u'{} .acid-block'.format(self.context_selector)).present and
+            self.q(css=f'{self.context_selector} .acid-block').present and
             wait_for_xblock_initialization(self, self.context_selector) and
             self._ajax_finished()
         )
@@ -51,14 +51,14 @@ class AcidView(PageObject):
         """
         Return whether a particular :class:`.AcidBlock` test passed.
         """
-        selector = u'{} .acid-block {} .pass'.format(self.context_selector, test_selector)
+        selector = f'{self.context_selector} .acid-block {test_selector} .pass'
         return bool(self.q(css=selector).results)
 
     def child_test_passed(self, test_selector):
         """
         Return whether a particular :class:`.AcidParentBlock` test passed.
         """
-        selector = u'{} .acid-parent-block {} .pass'.format(self.context_selector, test_selector)
+        selector = f'{self.context_selector} .acid-parent-block {test_selector} .pass'
         return bool(self.q(css=selector).execute(try_interval=0.1, timeout=3))
 
     @property
@@ -87,7 +87,7 @@ class AcidView(PageObject):
 
     def scope_passed(self, scope):
         return all(
-            self.test_passed(u'.scope-storage-test.scope-{} {}'.format(scope, test))
+            self.test_passed(f'.scope-storage-test.scope-{scope} {test}')
             for test in (
                 ".server-storage-test-returned",
                 ".server-storage-test-succeeded",
@@ -97,4 +97,4 @@ class AcidView(PageObject):
         )
 
     def __repr__(self):
-        return "{}(<browser>, {!r})".format(self.__class__.__name__, self.context_selector)
+        return f"{self.__class__.__name__}(<browser>, {self.context_selector!r})"

@@ -1,9 +1,6 @@
 """
 Course Schedule and Details Settings page.
 """
-from __future__ import absolute_import
-
-from six import text_type
 
 from edxapp_acceptance.pages.common.utils import click_css
 from edxapp_acceptance.pages.studio.settings import SettingsPage
@@ -23,7 +20,7 @@ class SettingsPageExtended(SettingsPage):
         Construct a URL to the page within the course.
         """
         course_id = get_course_key(self.course_info)
-        return "/".join((LOGIN_BASE_URL, self.url_path, text_type(course_id)))
+        return "/".join((LOGIN_BASE_URL, self.url_path, str(course_id)))
 
     def is_browser_on_page(self):
         return self.q(css='body.view-settings #course-organization').visible \
@@ -47,7 +44,7 @@ class SettingsPageExtended(SettingsPage):
             '#modal-window-title', 'Upload Pop up visibility'
         )
         self.browser.execute_script(
-            '$("{}").css("display","block");'.format(file_input_css)
+            f'$("{file_input_css}").css("display","block");'
         )
         self.wait_for_element_visibility(file_input_css, "File input visible")
         self.q(css=file_input_css).results[0].send_keys(
