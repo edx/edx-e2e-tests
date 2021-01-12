@@ -18,7 +18,7 @@ django==2.2.17            # via django-crum, edx-django-utils
 edx-django-utils==3.13.0  # via edx-rest-api-client
 edx-lint==1.6             # via -r requirements/base.in
 edx-opaque-keys==2.1.1    # via -r requirements/base.in
-edx-rest-api-client==5.2.2  # via -r requirements/base.in
+edx-rest-api-client==5.2.3  # via -r requirements/base.in
 idna==2.10                # via requests
 importlib-metadata==2.1.1  # via path, pluggy, pytest
 iniconfig==1.1.1          # via pytest
@@ -58,7 +58,7 @@ slumber==0.7.1            # via edx-rest-api-client
 sqlparse==0.4.1           # via django
 stevedore==1.32.0         # via edx-django-utils, edx-opaque-keys
 toml==0.10.2              # via pylint, pytest
-typed-ast==1.4.1          # via astroid
+typed-ast==1.4.2          # via astroid
 urllib3==1.26.2           # via requests, selenium
 wrapt==1.12.1             # via astroid
 zipp==1.2.0               # via importlib-metadata
