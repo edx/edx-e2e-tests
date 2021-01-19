@@ -49,58 +49,6 @@ class StudioLmsComponentBaseTest(WebAppTest):
         self.studio_course_outline.delete_all_sections()
 
 
-class StudioLmsAdvancedComponentTest(StudioLmsComponentBaseTest):
-    """
-    Advanced Components tests that require lms verification with studio
-    """
-
-    def test_word_cloud_advanced_component(self):
-        """
-        Verifies that user can add Word Cloud component on Studio and LMS
-        """
-
-        section_name = f'Section :{uuid4().hex}'
-        self.studio_course_outline.add_section_with_name(section_name)
-        self.assertIn(
-            section_name,
-            self.studio_course_outline.q(
-                css='.incontext-editor-value'
-            ).text
-        )
-
-        subsection_name = f'Subsection :{uuid4().hex}'
-        self.studio_course_outline.add_subsection_with_name(
-            subsection_name
-        )
-        self.assertIn(
-            subsection_name,
-            self.studio_course_outline.q(
-                css='.incontext-editor-value'
-            ).text
-        )
-
-        self.studio_course_outline.click_add_unit_button()
-        self.unit_container_page.wait_for_page()
-        # this will defocus the name editor
-        self.unit_container_page.q(css='body').click()
-
-        self.unit_container_page.add_word_cloud_component(True)
-        word_cloud_data_locator = get_data_locator(
-            self.unit_container_page
-        )
-
-        # View Live
-        self.unit_container_page.view_live_version()
-
-        self.assertEqual(
-            word_cloud_data_locator,
-            get_data_locator(self.lms_courseware)
-        )
-        # Remove the added section
-        self.studio_course_outline.visit()
-        self.studio_course_outline.delete_section()
-
-
 class StudioViewTest(StudioLmsComponentBaseTest):
     """
     HTML Components tests related to 'studio view' of component.
