@@ -65,7 +65,7 @@ edx-lint==1.6
     # via -r requirements/base.txt
 edx-opaque-keys==2.1.1
     # via -r requirements/base.txt
-edx-rest-api-client==5.2.3
+edx-rest-api-client==5.3.0
     # via -r requirements/base.txt
 idna==2.10
     # via
@@ -137,7 +137,7 @@ py==1.10.0
     #   pytest
 pycodestyle==2.6.0
     # via -r requirements/base.txt
-pyjwt==2.0.0
+pyjwt==2.0.1
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
