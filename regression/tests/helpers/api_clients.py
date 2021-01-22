@@ -9,11 +9,11 @@ import re
 import time
 
 from http import cookies as http_cookies
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 import requests
 from requests.auth import AuthBase
 
-from edx_rest_api_client.client import EdxRestApiClient
+from edx_rest_api_client.client import OAuthAPIClient
 from guerrillamail import GuerrillaMailSession
 
 from regression.pages import (
@@ -381,38 +381,25 @@ class GuerrillaMailApi:
         return get_target_url_from_text(matching_string, email_text)
 
 
-class EdxRestApiBaseClass:
+class OAuthApiBaseClass:
     """
-    Base class for creating EdxRestAPiClient instance
+    Base class for creating OAuthAPIClient instance
     """
     api_url_root = None
-    append_slash = True
 
     def __init__(self):
         assert self.api_url_root
-        access_token, __ = self.get_access_token()
-        self.client = EdxRestApiClient(
-            self.api_url_root,
-            jwt=access_token,
-            append_slash=self.append_slash
-        )
-
-    @staticmethod
-    def get_access_token():
-        """ Returns an access token and expiration date from the OAuth
-        provider.
-        Returns:
-            (str, datetime):Tuple containing access token and expiration date.
-        """
-        return EdxRestApiClient.get_oauth_access_token(
+        self.client = OAuthAPIClient(
             OAUTH_ACCESS_TOKEN_URL,
             OAUTH_CLIENT_ID,
             OAUTH_CLIENT_SECRET,
-            token_type='jwt'
         )
 
+    def url(self, extra):
+        return urljoin(self.api_url_root, extra)
 
-class EcommerceApiClient(EdxRestApiBaseClass):
+
+class EcommerceApiClient(OAuthApiBaseClass):
     """
     Ecommerce API client for various actions like creating, deleting
     downloading coupons
@@ -426,7 +413,7 @@ class EcommerceApiClient(EdxRestApiBaseClass):
         Arguments:
             course_id
         """
-        response = self.client.courses(course_id).products.get()["results"]
+        response = self.client.get(self.url(f'courses/{course_id}/products/')).json()["results"]
         if not response:
             raise ApiException('No course product found')
         return response
@@ -455,7 +442,7 @@ class EcommerceApiClient(EdxRestApiBaseClass):
         Args:
             payload:
         """
-        response = self.client.coupons.post(data=payload)
+        response = self.client.post(self.url('coupons/'), data=payload).json()
         if 'coupon_id' not in list(response.keys()):
             raise ApiException('Coupon not created')
         return response['coupon_id']
@@ -466,7 +453,7 @@ class EcommerceApiClient(EdxRestApiBaseClass):
         Args:
             coupon_id:
         """
-        response = self.client.products(coupon_id).get()
+        response = self.client.get(self.url(f'products/{coupon_id}/')).json()
         if not response:
             raise ApiException('No coupon report found')
         return response
@@ -478,7 +465,7 @@ class EcommerceApiClient(EdxRestApiBaseClass):
         Args:
             coupon_id:
         """
-        response = self.client.coupons(coupon_id).delete()
+        response = self.client.delete(self.url(f'coupons/{coupon_id}/'))
         if not response:
             raise ApiException('Failed to delete the coupon using API')
 
@@ -497,13 +484,12 @@ class EcommerceApiClient(EdxRestApiBaseClass):
         return coupon_codes
 
 
-class EnrollmentApiClient(EdxRestApiBaseClass):
+class EnrollmentApiClient(OAuthApiBaseClass):
     """
     Enrollment API client
     """
 
     api_url_root = ENROLLMENT_API_URL
-    append_slash = False
 
     def is_user_enrolled(self, username, course_run_id):
         """
@@ -512,9 +498,7 @@ class EnrollmentApiClient(EdxRestApiBaseClass):
             username (str): user name for enrolled user
             course_run_id (str): course id in which user is enrolled
         """
-        response = self.client.enrollment(
-            f'{username},{course_run_id}'
-        ).get()
+        response = self.client.get(self.url(f'enrollment/{username},{course_run_id}'))
         check_response(response)
         formatted_response = response.json()
         return formatted_response['is_active']
