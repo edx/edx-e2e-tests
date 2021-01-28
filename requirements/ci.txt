@@ -37,6 +37,10 @@ code-annotations==1.0.2
     # via
     #   -r requirements/base.txt
     #   edx-lint
+code-annotations==1.0.2
+    # via
+    #   -r requirements/base.txt
+    #   edx-lint
 coverage==5.4
     # via coveralls
 coveralls==3.0.0
