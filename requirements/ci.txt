@@ -37,7 +37,11 @@ code-annotations==1.0.2
     # via
     #   -r requirements/base.txt
     #   edx-lint
-coverage==5.3.1
+code-annotations==1.0.2
+    # via
+    #   -r requirements/base.txt
+    #   edx-lint
+coverage==5.4
     # via coveralls
 coveralls==3.0.0
     # via -r requirements/ci.in
@@ -53,6 +57,7 @@ django-waffle==2.1.0
     #   edx-django-utils
 django==2.2.17
     # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
     #   code-annotations
     #   django-crum
@@ -64,7 +69,7 @@ edx-django-utils==3.13.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
-edx-lint==3.0
+edx-lint==3.0.2
     # via -r requirements/base.txt
 edx-opaque-keys==2.1.1
     # via -r requirements/base.txt
@@ -156,7 +161,7 @@ pylint-celery==0.3
     # via
     #   -r requirements/base.txt
     #   edx-lint
-pylint-django==2.3.0
+pylint-django==2.4.2
     # via
     #   -r requirements/base.txt
     #   edx-lint
@@ -239,7 +244,7 @@ toml==0.10.2
     #   -r requirements/base.txt
     #   pylint
     #   pytest
-urllib3==1.26.2
+urllib3==1.26.3
     # via
     #   -r requirements/base.txt
     #   requests
