@@ -15,7 +15,7 @@ class LoginPage(PageObject):
     Login page for the LMS.
     """
 
-    url = BASE_URL + "/login"
+    url = BASE_URL + "/login?skip_authn_mfe=true"
 
     def is_browser_on_page(self):
         return any([

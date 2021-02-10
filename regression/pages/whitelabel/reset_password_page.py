@@ -58,4 +58,4 @@ class ResetPasswordComplete(PageObject):
         """
         Clicks login button
         """
-        self.q(css='.message-copy>a[href^="/login"]').click()
+        self.q(css='.message-copy>a[href^="/login?skip_authn_mfe=true"]').click()

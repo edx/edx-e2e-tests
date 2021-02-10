@@ -11,7 +11,7 @@ class EnterpriseEdxLogin(CombinedLoginAndRegisterPage):
     This class is an extended class of CombinedLoginAndRegisterPage,
     where we add methods that are different or not used in LMS
     """
-    url = LOGIN_BASE_URL + '/login'
+    url = LOGIN_BASE_URL + '/logi?skip_authn_mfe=truen'
 
     def is_browser_on_page(self):
         """

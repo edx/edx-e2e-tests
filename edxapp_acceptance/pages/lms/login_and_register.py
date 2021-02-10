@@ -71,7 +71,7 @@ class ResetPasswordPage(PageObject):
         Arguments:
             browser (Browser): The browser instance.
     """
-    url = BASE_URL + "/login#forgot-password-modal"
+    url = BASE_URL + "/login?skip_authn_mfe=true#forgot-password-modal"
 
     def is_browser_on_page(self):
         return (
