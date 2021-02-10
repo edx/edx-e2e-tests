@@ -42,7 +42,7 @@ class LoginPage(PageObject, LoginMixin, HelpMixin):
     """
     Login page for Studio.
     """
-    url = LMS_URL + "/login"
+    url = LMS_URL + "/login?skip_authn_mfe=true"
 
     def is_browser_on_page(self):
         return (

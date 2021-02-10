@@ -12,7 +12,7 @@ class LmsLogin(LoginPage):
     This class is an extended class of LoginPage,
     where we add methods that are different or not used in LoginPage
     """
-    url = LOGIN_BASE_URL + '/login'
+    url = LOGIN_BASE_URL + '/login?skip_authn_mfe=true'
 
     def is_browser_on_page(self):
         """

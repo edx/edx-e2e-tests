@@ -234,15 +234,13 @@ class LmsLoginApi(LogistrationApiBaseClass):
     """
     Logged in session api for LMS
     """
-    def __init__(self, target_page=None):
+    def __init__(self):
         super().__init__()
-
-        partial_url_string = target_page or 'dashboard'
 
         self.logistration_base_url = '{}://{}/{}'.format(
             LMS_PROTOCOL,
             LMS_BASE_URL,
-            'login'
+            'login?skip_authn_mfe=true'
         )
 
         self.logistration_post_url = '{}://{}/{}'.format(
@@ -251,7 +249,7 @@ class LmsLoginApi(LogistrationApiBaseClass):
             'user_api/v1/account/login_session/'
         )
 
-        self.browser_get_url = os.path.join(LMS_AUTH_URL, partial_url_string)
+        self.browser_get_url = LMS_AUTH_URL
 
     def get_offer_request(self, target_url):
         """
@@ -295,7 +293,7 @@ class WLRegisterApi(LogistrationApiBaseClass):
 
         self.logistration_base_url = '{}{}'.format(
             LMS_URL,
-            '/register?next=%2F'
+            '/register?next=%2F&?skip_authn_mfe=true'
         )
 
         self.logistration_post_url = '{}{}'.format(
