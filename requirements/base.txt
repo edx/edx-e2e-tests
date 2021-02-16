@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-astroid==2.4.2
+astroid==2.5
     # via
     #   pylint
     #   pylint-celery
@@ -54,7 +54,7 @@ isort==5.7.0
     # via pylint
 jinja2==2.11.3
     # via code-annotations
-lazy-object-proxy==1.4.3
+lazy-object-proxy==1.5.2
     # via astroid
 lazy==1.4
     # via bok-choy
@@ -134,7 +134,6 @@ selenium==3.141.0
     #   needle
 six==1.15.0
     # via
-    #   astroid
     #   bok-choy
     #   edx-lint
     #   paver

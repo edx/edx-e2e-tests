@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-astroid==2.4.2
+astroid==2.5
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -87,7 +87,7 @@ jinja2==2.11.3
     # via
     #   -r requirements/base.txt
     #   code-annotations
-lazy-object-proxy==1.4.3
+lazy-object-proxy==1.5.2
     # via
     #   -r requirements/base.txt
     #   astroid
@@ -212,7 +212,6 @@ selenium==3.141.0
 six==1.15.0
     # via
     #   -r requirements/base.txt
-    #   astroid
     #   bok-choy
     #   edx-lint
     #   paver
