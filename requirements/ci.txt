@@ -51,7 +51,7 @@ django-waffle==2.1.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-django==2.2.18
+django==2.2.19
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
@@ -121,7 +121,7 @@ packaging==20.9
     #   pytest
 path.py==12.5.0
     # via -r requirements/base.txt
-path==15.1.0
+path==15.1.2
     # via
     #   -r requirements/base.txt
     #   path.py
@@ -166,7 +166,7 @@ pylint-plugin-utils==0.6
     #   -r requirements/base.txt
     #   pylint-celery
     #   pylint-django
-pylint==2.6.0
+pylint==2.7.0
     # via
     #   -r requirements/base.txt
     #   edx-lint
