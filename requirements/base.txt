@@ -25,7 +25,7 @@ click==7.1.2
     #   edx-lint
 code-annotations==1.1.0
     # via edx-lint
-ddt==1.4.1
+ddt==1.4.2
     # via -r requirements/base.in
 django-crum==0.7.9
     # via edx-django-utils
@@ -88,7 +88,7 @@ psutil==5.8.0
     # via edx-django-utils
 py==1.10.0
     # via pytest
-pycodestyle==2.6.0
+pycodestyle==2.7.0
     # via -r requirements/base.in
 pyjwt==2.0.1
     # via edx-rest-api-client
@@ -152,7 +152,7 @@ toml==0.10.2
     # via
     #   pylint
     #   pytest
-urllib3==1.26.3
+urllib3==1.26.4
     # via
     #   requests
     #   selenium

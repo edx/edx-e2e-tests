@@ -41,7 +41,7 @@ coverage==5.5
     # via coveralls
 coveralls==3.0.1
     # via -r requirements/ci.in
-ddt==1.4.1
+ddt==1.4.2
     # via -r requirements/base.txt
 django-crum==0.7.9
     # via
@@ -147,7 +147,7 @@ py==1.10.0
     # via
     #   -r requirements/base.txt
     #   pytest
-pycodestyle==2.6.0
+pycodestyle==2.7.0
     # via -r requirements/base.txt
 pyjwt==2.0.1
     # via
@@ -238,7 +238,7 @@ toml==0.10.2
     #   -r requirements/base.txt
     #   pylint
     #   pytest
-urllib3==1.26.3
+urllib3==1.26.4
     # via
     #   -r requirements/base.txt
     #   requests
