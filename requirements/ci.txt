@@ -65,7 +65,7 @@ edx-django-utils==3.15.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
-edx-lint==4.1.0
+edx-lint==5.0.0
     # via -r requirements/base.txt
 edx-opaque-keys==2.2.0
     # via -r requirements/base.txt
@@ -79,7 +79,7 @@ iniconfig==1.1.1
     # via
     #   -r requirements/base.txt
     #   pytest
-isort==5.7.0
+isort==5.8.0
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -87,7 +87,7 @@ jinja2==2.11.3
     # via
     #   -r requirements/base.txt
     #   code-annotations
-lazy-object-proxy==1.5.2
+lazy-object-proxy==1.6.0
     # via
     #   -r requirements/base.txt
     #   astroid
