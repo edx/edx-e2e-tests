@@ -2,6 +2,7 @@
 Test course update
 """
 
+from unittest import skip
 from uuid import uuid4
 
 from bok_choy.web_app_test import WebAppTest
@@ -47,6 +48,7 @@ class CourseUpdateTest(WebAppTest):
             self.course_update_text
         )
 
+    @skip("BOM-2460: Test is failing on Ubuntu 20.04.")
     def test_course_update(self):
         """
         Verifies creation, editing and deletion of course update
@@ -102,6 +104,7 @@ class CourseHandoutTest(WebAppTest):
         )
         self.course_update_page.visit()
 
+    @skip("BOM-2460: Test is failing on Ubuntu 20.04.")
     def test_edit_course_handout(self):
         """
         Verifies that user can edit course handout

@@ -29,7 +29,7 @@ class StudioUserLogin(WebAppTest):
         self.studio_home_page = DashboardPageExtended(self.browser)
         self.studio_logout_page = StudioLogout(self.browser)
 
-    @skip("Skip since studio's login/logout now redirects to LMS (ARCH-323)")
+    @skip("BOM-2460: Test is failing on Ubuntu 20.04.")
     def test_studio_login_logout(self):
         """
         Verifies that user can login and logout successfully

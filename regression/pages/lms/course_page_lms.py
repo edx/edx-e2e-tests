@@ -16,6 +16,7 @@ class CourseHomePageExtended(CourseHomePage):
         """
         Construct a URL to the page within the course.
         """
+
         return "{}/courses/{}/{}".format(
             LOGIN_BASE_URL, self.course_id, self.url_path
         )

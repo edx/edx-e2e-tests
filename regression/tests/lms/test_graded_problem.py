@@ -26,10 +26,7 @@ class GradedProblemTest(WebAppTest):
 
         self.course_info = get_course_info()
 
-        self.lms_courseware = CoursewarePageExtended(
-            self.browser,
-            get_course_key(self.course_info)
-        )
+        self.lms_courseware = CoursewarePageExtended(self.browser, get_course_key(self.course_info))
 
         self.import_page = ImportCoursePageExtended(*self.page_args())
         self.import_page.visit()

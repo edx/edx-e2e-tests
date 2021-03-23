@@ -40,6 +40,7 @@ class TestCourseImport(WebAppTest):
             self.course_info['run']
         ]
 
+    @skip("BOM-2460: Test is failing on Ubuntu 20.04.")
     def test_course_updated(self):
         """
         Tests that we can update(import) course using tarball.
