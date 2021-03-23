@@ -60,7 +60,7 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         Given that I am at the LMS side of the edX.
         And I open a component
         And I click on the 'View unit in Studio' button
-        Then correct component should open.
+        Then correct component should open
         """
         section_name = f'Section :{uuid4().hex}'
         subsection_name = f'Subsection :{uuid4().hex}'
