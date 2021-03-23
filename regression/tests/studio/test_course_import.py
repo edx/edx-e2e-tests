@@ -2,6 +2,7 @@
 Course import test
 """
 
+from unittest import skip
 from bok_choy.web_app_test import WebAppTest
 
 from regression.pages.studio.course_outline_page import CourseOutlinePageExtended
