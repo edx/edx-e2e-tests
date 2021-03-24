@@ -58,5 +58,5 @@ class GradedProblemTest(WebAppTest):
         Verifies submission of a graded problem
         """
         self.course_page.click_resume_button()
-        self.lms_courseware.wait_for_page()
+        self.lms_courseware.visit()
         self.lms_courseware.submit_graded_problem()
