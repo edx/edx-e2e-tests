@@ -32,7 +32,7 @@ class CoursewarePageExtended(CoursewarePage):
         """
         Clicks on the 'View unit in Studio' button
         """
-        self.q(css='.preview-menu .view-in-studio').click()
+        self.q(css='.view-in-studio').click()
 
     def go_to_section(self, section_title, subsection_title):
         """
