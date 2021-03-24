@@ -28,6 +28,9 @@ class StudioLmsComponentBaseTest(WebAppTest):
         lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)
 
+        import pdb;
+        pdb.set_trace()
+
         self.unit_container_page = UnitPageExtended(self.browser, None)
 
         self.studio_home_page = DashboardPageExtended(self.browser)
@@ -82,7 +85,7 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         import pdb;
         pdb.set_trace()
 
-        # self.unit_container_page.wait_for_page()
+        self.unit_container_page.wait_for_page()
 
         # # Correct unit component should open.
         self.assertEqual(
