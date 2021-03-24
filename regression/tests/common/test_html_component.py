@@ -28,9 +28,6 @@ class StudioLmsComponentBaseTest(WebAppTest):
         lms_login = LmsLoginApi()
         lms_login.authenticate(self.browser)
 
-        import pdb;
-        pdb.set_trace()
-
         self.unit_container_page = UnitPageExtended(self.browser, None)
 
         self.studio_home_page = DashboardPageExtended(self.browser)
@@ -81,9 +78,7 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         # # View unit in the studio
         time.sleep(2)
         self.lms_courseware.view_unit_in_studio()
-        time.sleep(2)
-        import pdb;
-        pdb.set_trace()
+        time.sleep(50)
 
         self.unit_container_page.wait_for_page()
 
