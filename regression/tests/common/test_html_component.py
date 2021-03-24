@@ -76,8 +76,7 @@ class StudioViewTest(StudioLmsComponentBaseTest):
 
         data_locator = get_data_locator(self.unit_container_page)
         self.lms_courseware.visit()
-
-        # self.lms_courseware.go_to_section(section_name, subsection_name)
+        self.lms_courseware.go_to_section(section_name, subsection_name)
         # # View unit in the studio
         # self.lms_courseware.view_unit_in_studio()
         # self.unit_container_page.wait_for_page()
