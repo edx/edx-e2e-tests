@@ -1,6 +1,7 @@
 """
 End to end tests for HTML Components
 """
+import time
 from unittest import skip
 from uuid import uuid4
 
@@ -79,6 +80,7 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         self.lms_courseware.go_to_section(section_name, subsection_name)
         # View unit in the studio
         self.lms_courseware.view_unit_in_studio()
+        time.sleep(5)
         self.unit_container_page.wait_for_page()
         # Correct unit component should open.
         self.assertEqual(
