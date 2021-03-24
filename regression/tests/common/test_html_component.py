@@ -79,6 +79,7 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         # View unit in the studio
         self.lms_courseware.view_unit_in_studio()
         time.sleep(5)
+        assert  self.unit_container_page.url=='studio.devstack.edx:18010/container/1'
         self.unit_container_page.wait_for_page()
         # Correct unit component should open.
         self.assertEqual(
