@@ -75,10 +75,7 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         data_locator = get_data_locator(self.unit_container_page)
         self.lms_courseware.visit()
         self.lms_courseware.go_to_section(section_name, subsection_name)
-        # # View unit in the studio
-        self.logout_from_lms_using_api()
-        self.login_and_go_to_course_enrollment_page()
-
+        # View unit in the studio
         self.lms_courseware.view_unit_in_studio()
         import pdb; pdb.set_trace()
 
