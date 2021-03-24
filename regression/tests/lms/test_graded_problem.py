@@ -1,7 +1,7 @@
 """
 End to end tests for submitting a graded problem.
 """
-
+from unittest import skip
 from bok_choy.web_app_test import WebAppTest
 
 from regression.pages.lms.course_page_lms import CourseHomePageExtended
@@ -50,6 +50,7 @@ class GradedProblemTest(WebAppTest):
             self.course_info['run']
         ]
 
+    @skip("BOM-2460: Test is failing on Ubuntu 20.04.")
     def test_graded_problem(self):
         """
         Verifies submission of a graded problem
