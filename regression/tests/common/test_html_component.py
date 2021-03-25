@@ -81,7 +81,9 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         self.lms_courseware.view_unit_in_studio()
 
         # View the course in studio.
-        self.studio_course_outline.visit()
+        assert 1==2
+
+        # self.studio_course_outline.visit()
         self.studio_course_outline.click_sub_section()
         self.studio_course_outline.click_unit_button()
 
