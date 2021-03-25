@@ -76,8 +76,10 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         self.lms_courseware.visit()
         self.lms_courseware.go_to_section(section_name, subsection_name)
         # View unit in the studio
+
         self.lms_courseware.view_unit_in_studio()
-        time.sleep(100)
+        import pdb;
+        pdb.set_trace()
         self.unit_container_page.wait_for_page()
 
         # # Correct unit component should open.
