@@ -131,3 +131,11 @@ class CourseOutlinePageExtended(CourseOutlinePage):
         """
         self.q(css='.subsection-title').click()
         self.wait_for_ajax()
+
+    def click_unit_button(self):
+        """
+        Adds Unit clicking the unit button of a sub section
+        Navigates to Add Components page
+        """
+        self.q(css='.unit-title .item-title .xblock-field-value .incontext-editor-value').click()
+        self.wait_for_ajax()
