@@ -81,7 +81,7 @@ class StudioViewTest(StudioLmsComponentBaseTest):
 
         import pdb;
         pdb.set_trace()
-        self.unit_container_page.wait_for_page(timeout=100)
+        self.unit_container_page.wait_for_page(timeout=30)
 
         # # Correct unit component should open.
         self.assertEqual(
