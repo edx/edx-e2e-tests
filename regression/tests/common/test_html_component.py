@@ -1,7 +1,6 @@
 """
 End to end tests for HTML Components
 """
-from unittest import skip
 from uuid import uuid4
 
 from bok_choy.web_app_test import WebAppTest
@@ -54,7 +53,6 @@ class StudioViewTest(StudioLmsComponentBaseTest):
     HTML Components tests related to 'studio view' of component.
     """
 
-    @skip("BOM-2460: Test is failing on Ubuntu 20.04.")
     def test_unit_studio_view(self):
         """
         Scenario: To test studio view of component from LMS
