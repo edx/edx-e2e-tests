@@ -127,15 +127,14 @@ class CourseOutlinePageExtended(CourseOutlinePage):
 
     def click_sub_section(self):
         """
-        This deletes a section
+        Click on the sub-section.
         """
         self.q(css='.subsection-title').click()
         self.wait_for_ajax()
 
     def click_unit_button(self):
         """
-        Adds Unit clicking the unit button of a sub section
-        Navigates to Add Components page
+        Click on the unit.
         """
-        self.q(css='a.unit-title').click()
+        self.q(css='h3.unit-header-details a.unit-title').click()
         self.wait_for_ajax()

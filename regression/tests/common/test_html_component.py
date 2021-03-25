@@ -80,17 +80,17 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         # View unit in the studio
         self.lms_courseware.view_unit_in_studio()
 
-        # self.unit_container_page.wait_for_page(timeout=30)
-        time.sleep(10)
-
+        # View the course in studio.
         self.studio_course_outline.visit()
         self.studio_course_outline.click_sub_section()
         self.studio_course_outline.click_unit_button()
+
+        self.unit_container_page.wait_for_page()
         # # # Correct unit component should open.
         self.assertEqual(
             get_data_locator(self.unit_container_page),
             data_locator, 'Correct component is opened'
         )
         # # Remove the added section
-        # self.studio_course_outline.visit()
-        # self.studio_course_outline.delete_section()
+        self.studio_course_outline.visit()
+        self.studio_course_outline.delete_section()
