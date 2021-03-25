@@ -47,6 +47,7 @@ class ContainerPage(PageObject, HelpMixin):
         def _is_finished_loading():
             is_done = False
             # Get the request token of the first xblock rendered on the page and assume it is correct.
+
             data_request_elements = self.q(css='[data-request-token]')
             if len(data_request_elements) > 0:
                 request_token = data_request_elements.first.attrs('data-request-token')[0]
