@@ -1,7 +1,7 @@
 """
 End to end tests for HTML Components
 """
-import time
+from unittest import skip
 from uuid import uuid4
 
 from bok_choy.web_app_test import WebAppTest
@@ -71,28 +71,17 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         self.unit_container_page.wait_for_page()
         self.unit_container_page.add_word_cloud_component(True)
         # Get unique data locator id of the unit added).
-
         data_locator = get_data_locator(self.unit_container_page)
-
         self.lms_courseware.visit()
         self.lms_courseware.go_to_section(section_name, subsection_name)
-
         # View unit in the studio
         self.lms_courseware.view_unit_in_studio()
-
-        # View the course in studio.
-        self.studio_course_outline.visit()
-
-        assert 1==2
-        self.studio_course_outline.click_sub_section()
-        self.studio_course_outline.click_unit_button()
-
         self.unit_container_page.wait_for_page()
-        # # # Correct unit component should open.
+        # Correct unit component should open.
         self.assertEqual(
             get_data_locator(self.unit_container_page),
             data_locator, 'Correct component is opened'
         )
-        # # Remove the added section
+        # Remove the added section
         self.studio_course_outline.visit()
         self.studio_course_outline.delete_section()
