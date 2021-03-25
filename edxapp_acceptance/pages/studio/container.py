@@ -45,6 +45,9 @@ class ContainerPage(PageObject, HelpMixin):
             )).results)
 
         def _is_finished_loading():
+            import pdb;
+            pdb.set_trace()
+
             is_done = False
             # Get the request token of the first xblock rendered on the page and assume it is correct.
 
