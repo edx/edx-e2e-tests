@@ -78,8 +78,8 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         # View unit in the studio
         self.lms_courseware.view_unit_in_studio()
         import pdb; pdb.set_trace()
-
-        self.unit_container_page.wait_for_ajax()
+        time.sleep(100)
+        self.unit_container_page.wait_for_page()
 
         # # Correct unit component should open.
         self.assertEqual(
