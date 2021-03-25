@@ -137,5 +137,5 @@ class CourseOutlinePageExtended(CourseOutlinePage):
         Adds Unit clicking the unit button of a sub section
         Navigates to Add Components page
         """
-        self.q(css='.unit-title .item-title .xblock-field-value .incontext-editor-value').click()
+        self.q(css='a.unit-title').click()
         self.wait_for_ajax()
