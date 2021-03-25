@@ -79,7 +79,7 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         self.lms_courseware.view_unit_in_studio()
 
         # self.unit_container_page.wait_for_page(timeout=30)
-        #
+        time.sleep(10)
         # # # Correct unit component should open.
         self.assertEqual(
             get_data_locator(self.unit_container_page),
