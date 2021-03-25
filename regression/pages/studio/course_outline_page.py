@@ -124,3 +124,10 @@ class CourseOutlinePageExtended(CourseOutlinePage):
         Returns section names of all sections.
         """
         return self.q(css='.section-title').text
+
+    def click_sub_section(self):
+        """
+        This deletes a section
+        """
+        self.q(css='.subsection-title').click()
+        self.wait_for_ajax()
