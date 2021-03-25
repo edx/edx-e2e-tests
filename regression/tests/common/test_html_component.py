@@ -80,6 +80,10 @@ class StudioViewTest(StudioLmsComponentBaseTest):
 
         # self.unit_container_page.wait_for_page(timeout=30)
         time.sleep(10)
+        import pdb;
+        pdb.set_trace()
+
+        self.studio_course_outline.visit()
         self.studio_course_outline.click_sub_section()
         # # # Correct unit component should open.
         self.assertEqual(
