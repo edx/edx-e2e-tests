@@ -124,3 +124,17 @@ class CourseOutlinePageExtended(CourseOutlinePage):
         Returns section names of all sections.
         """
         return self.q(css='.section-title').text
+
+    def click_sub_section(self):
+        """
+        Click on the sub-section.
+        """
+        self.q(css='.subsection-title').click()
+        self.wait_for_ajax()
+
+    def click_unit_button(self):
+        """
+        Click on the unit.
+        """
+        self.q(css='h3.unit-header-details a.unit-title').click()
+        self.wait_for_ajax()
