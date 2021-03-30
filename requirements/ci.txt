@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-astroid==2.5.1
+astroid==2.5.2
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -166,7 +166,7 @@ pylint-plugin-utils==0.6
     #   -r requirements/base.txt
     #   pylint-celery
     #   pylint-django
-pylint==2.7.2
+pylint==2.7.3
     # via
     #   -r requirements/base.txt
     #   edx-lint
