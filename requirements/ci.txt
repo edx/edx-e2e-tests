@@ -33,7 +33,7 @@ click==7.1.2
     #   click-log
     #   code-annotations
     #   edx-lint
-code-annotations==1.1.0
+code-annotations==1.1.1
     # via
     #   -r requirements/base.txt
     #   edx-lint
@@ -61,7 +61,7 @@ django==2.2.19
     #   edx-lint
 docopt==0.6.2
     # via coveralls
-edx-django-utils==3.15.0
+edx-django-utils==3.16.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
@@ -131,7 +131,7 @@ pbr==5.5.1
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==8.1.2
+pillow==8.2.0
     # via
     #   -r requirements/base.txt
     #   needle
@@ -166,7 +166,7 @@ pylint-plugin-utils==0.6
     #   -r requirements/base.txt
     #   pylint-celery
     #   pylint-django
-pylint==2.7.3
+pylint==2.7.4
     # via
     #   -r requirements/base.txt
     #   edx-lint
@@ -181,7 +181,7 @@ pyparsing==2.4.7
     # via
     #   -r requirements/base.txt
     #   packaging
-pytest==6.2.2
+pytest==6.2.3
     # via -r requirements/base.txt
 python-guerrillamail==0.2.0
     # via -r requirements/base.txt
