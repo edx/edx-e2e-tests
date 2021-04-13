@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-astroid==2.5.2
+astroid==2.5.3
     # via
     #   pylint
     #   pylint-celery
@@ -31,7 +31,7 @@ django-crum==0.7.9
     # via edx-django-utils
 django-waffle==2.1.0
     # via edx-django-utils
-django==2.2.19
+django==2.2.20
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   code-annotations
@@ -94,7 +94,7 @@ pyjwt==2.0.1
     # via edx-rest-api-client
 pylint-celery==0.3
     # via edx-lint
-pylint-django==2.4.2
+pylint-django==2.4.3
     # via edx-lint
 pylint-plugin-utils==0.6
     # via
