@@ -16,9 +16,6 @@ cache:
 install:
   - pip install -r requirements/ci.txt
 # command to run tests
-script:
-  - pycodestyle
-  - pylint regression/
 after_success:
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
     docker --version;
