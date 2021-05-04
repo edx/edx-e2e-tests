@@ -61,7 +61,7 @@ django==2.2.20
     #   edx-lint
 docopt==0.6.2
     # via coveralls
-edx-django-utils==3.16.0
+edx-django-utils==4.0.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
@@ -149,7 +149,7 @@ py==1.10.0
     #   pytest
 pycodestyle==2.7.0
     # via -r requirements/base.txt
-pyjwt==2.0.1
+pyjwt==2.1.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
@@ -166,9 +166,8 @@ pylint-plugin-utils==0.6
     #   -r requirements/base.txt
     #   pylint-celery
     #   pylint-django
-pylint==2.7.4
+pylint==2.8.2
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
     #   edx-lint
     #   pylint-celery
@@ -186,7 +185,7 @@ pytest==6.2.3
     # via -r requirements/base.txt
 python-guerrillamail==0.2.0
     # via -r requirements/base.txt
-python-slugify==4.0.1
+python-slugify==5.0.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
