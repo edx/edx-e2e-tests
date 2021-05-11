@@ -9,7 +9,7 @@ astroid==2.5.6
     #   -r requirements/base.txt
     #   pylint
     #   pylint-celery
-attrs==20.3.0
+attrs==21.2.0
     # via
     #   -r requirements/base.txt
     #   pytest
@@ -173,7 +173,7 @@ pylint==2.8.2
     #   pylint-celery
     #   pylint-django
     #   pylint-plugin-utils
-pymongo==3.11.3
+pymongo==3.11.4
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
@@ -181,11 +181,11 @@ pyparsing==2.4.7
     # via
     #   -r requirements/base.txt
     #   packaging
-pytest==6.2.3
+pytest==6.2.4
     # via -r requirements/base.txt
 python-guerrillamail==0.2.0
     # via -r requirements/base.txt
-python-slugify==5.0.0
+python-slugify==5.0.2
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -209,7 +209,7 @@ selenium==3.141.0
     #   -r requirements/base.txt
     #   bok-choy
     #   needle
-six==1.15.0
+six==1.16.0
     # via
     #   -r requirements/base.txt
     #   bok-choy

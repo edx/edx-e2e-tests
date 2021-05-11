@@ -8,7 +8,7 @@ astroid==2.5.6
     # via
     #   pylint
     #   pylint-celery
-attrs==20.3.0
+attrs==21.2.0
     # via pytest
 bok-choy==1.1.1
     # via -r requirements/base.in
@@ -107,15 +107,15 @@ pylint==2.8.2
     #   pylint-celery
     #   pylint-django
     #   pylint-plugin-utils
-pymongo==3.11.3
+pymongo==3.11.4
     # via edx-opaque-keys
 pyparsing==2.4.7
     # via packaging
-pytest==6.2.3
+pytest==6.2.4
     # via -r requirements/base.in
 python-guerrillamail==0.2.0
     # via -r requirements/base.in
-python-slugify==5.0.0
+python-slugify==5.0.2
     # via code-annotations
 pytz==2021.1
     # via django
@@ -132,7 +132,7 @@ selenium==3.141.0
     #   -r requirements/base.in
     #   bok-choy
     #   needle
-six==1.15.0
+six==1.16.0
     # via
     #   bok-choy
     #   edx-lint
