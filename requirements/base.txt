@@ -14,6 +14,8 @@ bok-choy==1.1.1
     # via -r requirements/base.in
 certifi==2020.12.5
     # via requests
+cffi==1.14.5
+    # via cryptography
 chardet==4.0.0
     # via requests
 click-log==0.3.2
@@ -25,13 +27,15 @@ click==7.1.2
     #   edx-lint
 code-annotations==1.1.1
     # via edx-lint
+cryptography==3.4.7
+    # via pyjwt
 ddt==1.4.2
     # via -r requirements/base.in
 django-crum==0.7.9
     # via edx-django-utils
 django-waffle==2.1.0
     # via edx-django-utils
-django==2.2.20
+django==2.2.23
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   code-annotations
@@ -52,13 +56,13 @@ iniconfig==1.1.1
     # via pytest
 isort==5.8.0
     # via pylint
-jinja2==2.11.3
+jinja2==3.0.0
     # via code-annotations
 lazy-object-proxy==1.6.0
     # via astroid
 lazy==1.4
     # via bok-choy
-markupsafe==1.1.1
+markupsafe==2.0.0
     # via jinja2
 mccabe==0.6.1
     # via pylint
@@ -90,8 +94,12 @@ py==1.10.0
     # via pytest
 pycodestyle==2.7.0
     # via -r requirements/base.in
-pyjwt==2.1.0
-    # via edx-rest-api-client
+pycparser==2.20
+    # via cffi
+pyjwt[crypto]==1.7.1
+    # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+    #   edx-rest-api-client
 pylint-celery==0.3
     # via edx-lint
 pylint-django==2.4.4
