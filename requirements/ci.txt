@@ -33,6 +33,7 @@ click-log==0.3.2
     #   edx-lint
 click==7.1.2
     # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
     #   click-log
     #   code-annotations
