@@ -33,7 +33,6 @@ click-log==0.3.2
     #   edx-lint
 click==7.1.2
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
     #   click-log
     #   code-annotations
@@ -92,7 +91,7 @@ isort==5.8.0
     # via
     #   -r requirements/base.txt
     #   pylint
-jinja2==3.0.0
+jinja2==3.0.1
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -104,7 +103,7 @@ lazy==1.4
     # via
     #   -r requirements/base.txt
     #   bok-choy
-markupsafe==2.0.0
+markupsafe==2.0.1
     # via
     #   -r requirements/base.txt
     #   jinja2
