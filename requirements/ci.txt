@@ -114,7 +114,7 @@ mock==4.0.3
     # via -r requirements/base.txt
 needle==0.5.0
     # via -r requirements/base.txt
-newrelic==6.2.0.156
+newrelic==6.4.0.157
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -250,7 +250,7 @@ toml==0.10.2
     #   -r requirements/base.txt
     #   pylint
     #   pytest
-urllib3==1.26.4
+urllib3==1.26.5
     # via
     #   -r requirements/base.txt
     #   requests
