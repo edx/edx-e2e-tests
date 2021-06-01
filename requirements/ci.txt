@@ -15,7 +15,7 @@ attrs==21.2.0
     #   pytest
 bok-choy==1.1.1
     # via -r requirements/base.txt
-certifi==2020.12.5
+certifi==2021.5.30
     # via
     #   -r requirements/base.txt
     #   requests
@@ -178,7 +178,7 @@ pylint-plugin-utils==0.6
     #   -r requirements/base.txt
     #   pylint-celery
     #   pylint-django
-pylint==2.8.2
+pylint==2.8.3
     # via
     #   -r requirements/base.txt
     #   edx-lint
