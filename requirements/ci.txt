@@ -59,7 +59,7 @@ django-waffle==2.2.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-django==2.2.23
+django==2.2.24
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
@@ -68,7 +68,7 @@ django==2.2.23
     #   edx-lint
 docopt==0.6.2
     # via coveralls
-edx-django-utils==4.0.0
+edx-django-utils==4.1.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
