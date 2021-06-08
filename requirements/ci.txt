@@ -114,7 +114,7 @@ mock==4.0.3
     # via -r requirements/base.txt
 needle==0.5.0
     # via -r requirements/base.txt
-newrelic==6.4.0.157
+newrelic==6.4.1.158
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
