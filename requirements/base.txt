@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-astroid==2.6.2
+astroid==2.6.5
     # via
     #   pylint
     #   pylint-celery
@@ -16,7 +16,7 @@ certifi==2021.5.30
     # via requests
 cffi==1.14.6
     # via cryptography
-charset-normalizer==2.0.2
+charset-normalizer==2.0.3
     # via requests
 click==8.0.1
     # via
@@ -99,7 +99,7 @@ pyjwt[crypto]==1.7.1
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   edx-rest-api-client
-pylint==2.9.3
+pylint==2.9.5
     # via
     #   -r requirements/base.in
     #   edx-lint
@@ -165,3 +165,6 @@ urllib3==1.26.6
     #   selenium
 wrapt==1.12.1
     # via astroid
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
