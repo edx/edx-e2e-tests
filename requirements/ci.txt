@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-astroid==2.6.2
+astroid==2.6.5
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -23,7 +23,7 @@ cffi==1.14.6
     # via
     #   -r requirements/base.txt
     #   cryptography
-charset-normalizer==2.0.2
+charset-normalizer==2.0.3
     # via
     #   -r requirements/base.txt
     #   requests
@@ -43,7 +43,7 @@ code-annotations==1.1.2
     #   edx-lint
 coverage==5.5
     # via coveralls
-coveralls==3.1.0
+coveralls==3.2.0
     # via -r requirements/ci.in
 cryptography==3.4.7
     # via
@@ -165,7 +165,7 @@ pyjwt[crypto]==1.7.1
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
     #   edx-rest-api-client
-pylint==2.9.3
+pylint==2.9.5
     # via
     #   -r requirements/base.txt
     #   edx-lint
@@ -259,3 +259,6 @@ wrapt==1.12.1
     # via
     #   -r requirements/base.txt
     #   astroid
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
