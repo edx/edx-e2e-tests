@@ -37,7 +37,7 @@ click-log==0.3.2
     # via
     #   -r requirements/base.txt
     #   edx-lint
-code-annotations==1.1.2
+code-annotations==1.2.0
     # via
     #   -r requirements/base.txt
     #   edx-lint
@@ -86,7 +86,7 @@ iniconfig==1.1.1
     # via
     #   -r requirements/base.txt
     #   pytest
-isort==5.9.2
+isort==5.9.3
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -114,7 +114,7 @@ mock==4.0.3
     # via -r requirements/base.txt
 needle==0.5.0
     # via -r requirements/base.txt
-newrelic==6.4.4.161
+newrelic==6.6.0.162
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -126,7 +126,7 @@ packaging==21.0
     # via
     #   -r requirements/base.txt
     #   pytest
-path==16.0.0
+path==16.2.0
     # via
     #   -r requirements/base.txt
     #   path.py
@@ -165,7 +165,7 @@ pyjwt[crypto]==1.7.1
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
     #   edx-rest-api-client
-pylint==2.9.5
+pylint==2.9.6
     # via
     #   -r requirements/base.txt
     #   edx-lint
