@@ -148,7 +148,7 @@ slumber==0.7.1
     # via edx-rest-api-client
 sqlparse==0.4.1
     # via django
-stevedore==3.3.0
+stevedore==3.4.0
     # via
     #   code-annotations
     #   edx-django-utils
