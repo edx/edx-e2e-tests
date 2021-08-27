@@ -47,12 +47,9 @@ class PaymentPage(PageObject):
                 css=f'select[name="{css}"] option[value="{value}"]'
             ).click()
 
-            self.wait_for(
-                lambda: self.q(
-                    css='select[name="{}"] option[value="{}"]'.format(
-                        css, value)
-                ).selected, "Correct value is selected"
-            )
+            # pylint: disable= (cell-var-from-loop)
+            self.wait_for(lambda: self.q(css='select[name="{}"] option[value="{}"]'
+                                         .format(css, value)).selected, "Correct value is selected")
 
         # Click Visa type on Card Type radio button
         self.q(css='label[for=card_type_001]').filter(
