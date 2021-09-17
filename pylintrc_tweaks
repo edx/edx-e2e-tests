@@ -6,8 +6,10 @@ load-plugins = edx_lint.pylint
 [MESSAGES CONTROL]
 # Disable unicode-format-string until we can agree to turn it on.
 disable+ =
+    consider-using-f-string,
     unicode-format-string,
-    super-on-old-class
+    super-on-old-class,
+    no-member
 
 [BASIC]
 attr-rgx = [a-z_][a-z0-9_]{2,40}$
