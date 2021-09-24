@@ -16,7 +16,7 @@ certifi==2021.5.30
     # via requests
 cffi==1.14.6
     # via cryptography
-charset-normalizer==2.0.5
+charset-normalizer==2.0.6
     # via requests
 click==8.0.1
     # via
@@ -68,7 +68,7 @@ mock==4.0.3
     # via -r requirements/base.in
 needle==0.5.0
     # via -r requirements/base.in
-newrelic==6.10.0.165
+newrelic==7.0.0.166
     # via edx-django-utils
 nose==1.3.7
     # via needle
@@ -164,7 +164,7 @@ typing-extensions==3.10.0.2
     # via
     #   astroid
     #   pylint
-urllib3==1.26.6
+urllib3==1.26.7
     # via
     #   requests
     #   selenium
