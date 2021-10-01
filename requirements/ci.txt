@@ -19,10 +19,6 @@ certifi==2021.5.30
     # via
     #   -r requirements/base.txt
     #   requests
-cffi==1.14.6
-    # via
-    #   -r requirements/base.txt
-    #   cryptography
 charset-normalizer==2.0.6
     # via
     #   -r requirements/base.txt
@@ -45,11 +41,7 @@ coverage==5.5
     # via coveralls
 coveralls==3.2.0
     # via -r requirements/ci.in
-cryptography==3.4.8
-    # via
-    #   -r requirements/base.txt
-    #   pyjwt
-ddt==1.4.2
+ddt==1.4.3
     # via -r requirements/base.txt
 django==2.2.24
     # via
@@ -71,7 +63,7 @@ edx-django-utils==4.4.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
-edx-lint==5.1.0
+edx-lint==5.2.0
     # via -r requirements/base.txt
 edx-opaque-keys==2.2.2
     # via -r requirements/base.txt
@@ -141,7 +133,7 @@ pillow==8.3.2
     # via
     #   -r requirements/base.txt
     #   needle
-platformdirs==2.3.0
+platformdirs==2.4.0
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -159,13 +151,8 @@ py==1.10.0
     #   pytest
 pycodestyle==2.7.0
     # via -r requirements/base.txt
-pycparser==2.20
+pyjwt==2.1.0
     # via
-    #   -r requirements/base.txt
-    #   cffi
-pyjwt[crypto]==1.7.1
-    # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
     #   edx-rest-api-client
 pylint==2.11.1
