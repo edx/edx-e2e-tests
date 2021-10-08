@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-astroid==2.8.0
+astroid==2.8.2
     # via
     #   pylint
     #   pylint-celery
@@ -25,7 +25,7 @@ click-log==0.3.2
     # via edx-lint
 code-annotations==1.2.0
     # via edx-lint
-ddt==1.4.3
+ddt==1.4.4
     # via -r requirements/base.in
 django==2.2.24
     # via
@@ -50,7 +50,7 @@ iniconfig==1.1.1
     # via pytest
 isort==5.9.3
     # via pylint
-jinja2==3.0.1
+jinja2==3.0.2
     # via code-annotations
 lazy==1.4
     # via bok-choy
@@ -90,7 +90,7 @@ py==1.10.0
     # via pytest
 pycodestyle==2.7.0
     # via -r requirements/base.in
-pyjwt==2.1.0
+pyjwt==2.2.0
     # via edx-rest-api-client
 pylint==2.11.1
     # via
@@ -117,7 +117,7 @@ python-guerrillamail==0.2.0
     # via -r requirements/base.in
 python-slugify==5.0.2
     # via code-annotations
-pytz==2021.1
+pytz==2021.3
     # via django
 pyyaml==5.4.1
     # via code-annotations
