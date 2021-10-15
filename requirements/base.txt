@@ -12,11 +12,11 @@ attrs==21.2.0
     # via pytest
 bok-choy==1.1.1
     # via -r requirements/base.in
-certifi==2021.5.30
+certifi==2021.10.8
     # via requests
-charset-normalizer==2.0.6
+charset-normalizer==2.0.7
     # via requests
-click==8.0.1
+click==8.0.3
     # via
     #   click-log
     #   code-annotations
@@ -44,7 +44,7 @@ edx-opaque-keys==2.2.2
     # via -r requirements/base.in
 edx-rest-api-client==5.4.0
     # via -r requirements/base.in
-idna==3.2
+idna==3.3
     # via requests
 iniconfig==1.1.1
     # via pytest
@@ -64,7 +64,7 @@ mock==4.0.3
     # via -r requirements/base.in
 needle==0.5.0
     # via -r requirements/base.in
-newrelic==7.0.0.166
+newrelic==7.2.1.168
     # via edx-django-utils
 nose==1.3.7
     # via needle
@@ -88,7 +88,7 @@ psutil==5.8.0
     # via edx-django-utils
 py==1.10.0
     # via pytest
-pycodestyle==2.7.0
+pycodestyle==2.8.0
     # via -r requirements/base.in
 pyjwt==2.2.0
     # via edx-rest-api-client
@@ -119,7 +119,7 @@ python-slugify==5.0.2
     # via code-annotations
 pytz==2021.3
     # via django
-pyyaml==5.4.1
+pyyaml==6.0
     # via code-annotations
 requests==2.26.0
     # via
