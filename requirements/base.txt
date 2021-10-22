@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-astroid==2.8.2
+astroid==2.8.3
     # via
     #   pylint
     #   pylint-celery
@@ -64,7 +64,7 @@ mock==4.0.3
     # via -r requirements/base.in
 needle==0.5.0
     # via -r requirements/base.in
-newrelic==7.2.1.168
+newrelic==7.2.2.169
     # via edx-django-utils
 nose==1.3.7
     # via needle
@@ -78,7 +78,7 @@ paver==1.3.4
     # via -r requirements/base.in
 pbr==5.6.0
     # via stevedore
-pillow==8.3.2
+pillow==8.4.0
     # via needle
 platformdirs==2.4.0
     # via pylint
@@ -90,7 +90,7 @@ py==1.10.0
     # via pytest
 pycodestyle==2.8.0
     # via -r requirements/base.in
-pyjwt==2.2.0
+pyjwt==2.3.0
     # via edx-rest-api-client
 pylint==2.11.1
     # via
@@ -107,7 +107,7 @@ pylint-plugin-utils==0.6
     # via
     #   pylint-celery
     #   pylint-django
-pymongo==3.12.0
+pymongo==3.12.1
     # via edx-opaque-keys
 pyparsing==2.4.7
     # via packaging
@@ -141,7 +141,7 @@ slumber==0.7.1
     # via edx-rest-api-client
 sqlparse==0.4.2
     # via django
-stevedore==3.4.0
+stevedore==3.5.0
     # via
     #   code-annotations
     #   edx-django-utils
@@ -160,7 +160,7 @@ urllib3==1.26.7
     # via
     #   requests
     #   selenium
-wrapt==1.12.1
+wrapt==1.13.2
     # via astroid
 
 # The following packages are considered to be unsafe in a requirements file:
