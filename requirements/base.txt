@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-astroid==2.8.3
+astroid==2.8.4
     # via
     #   pylint
     #   pylint-celery
@@ -38,7 +38,7 @@ django-waffle==2.2.1
     # via edx-django-utils
 edx-django-utils==4.4.0
     # via edx-rest-api-client
-edx-lint==5.2.0
+edx-lint==5.2.1
     # via -r requirements/base.in
 edx-opaque-keys==2.2.2
     # via -r requirements/base.in
@@ -109,7 +109,7 @@ pylint-plugin-utils==0.6
     #   pylint-django
 pymongo==3.12.1
     # via edx-opaque-keys
-pyparsing==2.4.7
+pyparsing==3.0.3
     # via packaging
 pytest==6.2.5
     # via -r requirements/base.in
