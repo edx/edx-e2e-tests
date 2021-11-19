@@ -4,7 +4,11 @@
 #
 #    make upgrade
 #
-astroid==2.8.4
+asgiref==3.4.1
+    # via
+    #   -r requirements/base.txt
+    #   django
+astroid==2.8.5
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -43,7 +47,7 @@ coveralls==3.3.1
     # via -r requirements/ci.in
 ddt==1.4.4
     # via -r requirements/base.txt
-django==2.2.24
+django==3.2.9
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
@@ -113,7 +117,7 @@ nose==1.3.7
     # via
     #   -r requirements/base.txt
     #   needle
-packaging==21.2
+packaging==21.3
     # via
     #   -r requirements/base.txt
     #   pytest
@@ -125,7 +129,7 @@ path.py==12.5.0
     # via -r requirements/base.txt
 paver==1.3.4
     # via -r requirements/base.txt
-pbr==5.7.0
+pbr==5.8.0
     # via
     #   -r requirements/base.txt
     #   stevedore
@@ -179,7 +183,7 @@ pymongo==3.12.1
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
-pyparsing==2.4.7
+pyparsing==3.0.6
     # via
     #   -r requirements/base.txt
     #   packaging
@@ -240,7 +244,7 @@ toml==0.10.2
     #   -r requirements/base.txt
     #   pylint
     #   pytest
-typing-extensions==3.10.0.2
+typing-extensions==4.0.0
     # via
     #   -r requirements/base.txt
     #   astroid
