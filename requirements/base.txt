@@ -109,7 +109,7 @@ pylint-plugin-utils==0.6
     # via
     #   pylint-celery
     #   pylint-django
-pymongo==3.12.1
+pymongo==4.0
     # via edx-opaque-keys
 pyparsing==3.0.6
     # via packaging
@@ -154,7 +154,7 @@ toml==0.10.2
     # via
     #   pylint
     #   pytest
-typing-extensions==4.0.0
+typing-extensions==4.0.1
     # via
     #   astroid
     #   pylint

@@ -41,7 +41,7 @@ code-annotations==1.2.0
     # via
     #   -r requirements/base.txt
     #   edx-lint
-coverage==6.1.2
+coverage==6.2
     # via coveralls
 coveralls==3.3.1
     # via -r requirements/ci.in
@@ -179,7 +179,7 @@ pylint-plugin-utils==0.6
     #   -r requirements/base.txt
     #   pylint-celery
     #   pylint-django
-pymongo==3.12.1
+pymongo==4.0
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
@@ -244,7 +244,7 @@ toml==0.10.2
     #   -r requirements/base.txt
     #   pylint
     #   pytest
-typing-extensions==4.0.0
+typing-extensions==4.0.1
     # via
     #   -r requirements/base.txt
     #   astroid
