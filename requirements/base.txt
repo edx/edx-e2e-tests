@@ -16,7 +16,7 @@ bok-choy==1.1.1
     # via -r requirements/base.in
 certifi==2021.10.8
     # via requests
-charset-normalizer==2.0.8
+charset-normalizer==2.0.9
     # via requests
 click==8.0.3
     # via
@@ -29,7 +29,7 @@ code-annotations==1.2.0
     # via edx-lint
 ddt==1.4.4
     # via -r requirements/base.in
-django==3.2.9
+django==3.2.10
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   django-crum
@@ -94,7 +94,7 @@ pycodestyle==2.8.0
     # via -r requirements/base.in
 pyjwt==2.3.0
     # via edx-rest-api-client
-pylint==2.12.1
+pylint==2.12.2
     # via
     #   -r requirements/base.in
     #   edx-lint
@@ -109,7 +109,7 @@ pylint-plugin-utils==0.6
     # via
     #   pylint-celery
     #   pylint-django
-pymongo==4.0
+pymongo==4.0.1
     # via edx-opaque-keys
 pyparsing==3.0.6
     # via packaging
