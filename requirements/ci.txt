@@ -13,7 +13,7 @@ astroid==2.9.0
     #   -r requirements/base.txt
     #   pylint
     #   pylint-celery
-attrs==21.2.0
+attrs==21.4.0
     # via
     #   -r requirements/base.txt
     #   pytest
@@ -137,7 +137,7 @@ pillow==8.4.0
     # via
     #   -r requirements/base.txt
     #   needle
-platformdirs==2.4.0
+platformdirs==2.4.1
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -145,7 +145,7 @@ pluggy==1.0.0
     # via
     #   -r requirements/base.txt
     #   pytest
-psutil==5.8.0
+psutil==5.9.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -174,7 +174,7 @@ pylint-django==2.4.4
     # via
     #   -r requirements/base.txt
     #   edx-lint
-pylint-plugin-utils==0.6
+pylint-plugin-utils==0.7
     # via
     #   -r requirements/base.txt
     #   pylint-celery
