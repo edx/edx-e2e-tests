@@ -8,7 +8,7 @@ asgiref==3.4.1
     # via
     #   -r requirements/base.txt
     #   django
-astroid==2.9.0
+astroid==2.9.2
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -23,7 +23,7 @@ certifi==2021.10.8
     # via
     #   -r requirements/base.txt
     #   requests
-charset-normalizer==2.0.9
+charset-normalizer==2.0.10
     # via
     #   -r requirements/base.txt
     #   requests
@@ -47,7 +47,7 @@ coveralls==3.3.1
     # via -r requirements/ci.in
 ddt==1.4.4
     # via -r requirements/base.txt
-django==3.2.10
+django==3.2.11
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
@@ -121,7 +121,7 @@ packaging==21.3
     # via
     #   -r requirements/base.txt
     #   pytest
-path==16.2.0
+path==16.3.0
     # via
     #   -r requirements/base.txt
     #   path.py
@@ -133,7 +133,7 @@ pbr==5.8.0
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==8.4.0
+pillow==9.0.0
     # via
     #   -r requirements/base.txt
     #   needle
@@ -170,7 +170,7 @@ pylint-celery==0.3
     # via
     #   -r requirements/base.txt
     #   edx-lint
-pylint-django==2.4.4
+pylint-django==2.5.0
     # via
     #   -r requirements/base.txt
     #   edx-lint
@@ -203,7 +203,7 @@ pyyaml==6.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
-requests==2.26.0
+requests==2.27.1
     # via
     #   -r requirements/base.txt
     #   coveralls
