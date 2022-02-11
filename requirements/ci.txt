@@ -23,7 +23,7 @@ certifi==2021.10.8
     # via
     #   -r requirements/base.txt
     #   requests
-charset-normalizer==2.0.10
+charset-normalizer==2.0.11
     # via
     #   -r requirements/base.txt
     #   requests
@@ -37,17 +37,17 @@ click-log==0.3.2
     # via
     #   -r requirements/base.txt
     #   edx-lint
-code-annotations==1.2.0
+code-annotations==1.3.0
     # via
     #   -r requirements/base.txt
     #   edx-lint
-coverage==6.3
+coverage==6.3.1
     # via coveralls
 coveralls==3.3.1
     # via -r requirements/ci.in
 ddt==1.4.4
     # via -r requirements/base.txt
-django==3.2.11
+django==3.2.12
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
@@ -63,13 +63,13 @@ django-waffle==2.3.0
     #   edx-django-utils
 docopt==0.6.2
     # via coveralls
-edx-django-utils==4.4.2
+edx-django-utils==4.5.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
 edx-lint==5.2.1
     # via -r requirements/base.txt
-edx-opaque-keys==2.2.2
+edx-opaque-keys==2.3.0
     # via -r requirements/base.txt
 edx-rest-api-client==5.5.0
     # via -r requirements/base.txt
@@ -124,20 +124,20 @@ packaging==21.3
 path==16.3.0
     # via
     #   -r requirements/base.txt
-    #   path.py
-path.py==12.5.0
+    #   path-py
+path-py==12.5.0
     # via -r requirements/base.txt
 paver==1.3.4
     # via -r requirements/base.txt
-pbr==5.8.0
+pbr==5.8.1
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==9.0.0
+pillow==9.0.1
     # via
     #   -r requirements/base.txt
     #   needle
-platformdirs==2.4.1
+platformdirs==2.5.0
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -179,7 +179,7 @@ pylint-plugin-utils==0.7
     #   -r requirements/base.txt
     #   pylint-celery
     #   pylint-django
-pymongo==4.0.1
+pymongo==3.12.3
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
@@ -187,7 +187,7 @@ pyparsing==3.0.7
     # via
     #   -r requirements/base.txt
     #   packaging
-pytest==6.2.5
+pytest==7.0.0
     # via -r requirements/base.txt
 python-guerrillamail==0.2.0
     # via -r requirements/base.txt
@@ -243,6 +243,9 @@ toml==0.10.2
     # via
     #   -r requirements/base.txt
     #   pylint
+tomli==2.0.1
+    # via
+    #   -r requirements/base.txt
     #   pytest
 typing-extensions==4.0.1
     # via
