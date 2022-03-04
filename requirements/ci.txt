@@ -27,7 +27,7 @@ charset-normalizer==2.0.12
     # via
     #   -r requirements/base.txt
     #   requests
-click==8.0.3
+click==8.0.4
     # via
     #   -r requirements/base.txt
     #   click-log
@@ -41,7 +41,7 @@ code-annotations==1.3.0
     # via
     #   -r requirements/base.txt
     #   edx-lint
-coverage==6.3.1
+coverage==6.3.2
     # via coveralls
 coveralls==3.3.1
     # via -r requirements/ci.in
@@ -109,7 +109,7 @@ mock==4.0.3
     # via -r requirements/base.txt
 needle==0.5.0
     # via -r requirements/base.txt
-newrelic==7.4.0.172
+newrelic==7.6.0.173
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -121,7 +121,7 @@ packaging==21.3
     # via
     #   -r requirements/base.txt
     #   pytest
-path==16.3.0
+path==16.4.0
     # via
     #   -r requirements/base.txt
     #   path-py
@@ -137,7 +137,7 @@ pillow==9.0.1
     # via
     #   -r requirements/base.txt
     #   needle
-platformdirs==2.5.0
+platformdirs==2.5.1
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -191,7 +191,7 @@ pytest==7.0.1
     # via -r requirements/base.txt
 python-guerrillamail==0.2.0
     # via -r requirements/base.txt
-python-slugify==6.0.1
+python-slugify==6.1.1
     # via
     #   -r requirements/base.txt
     #   code-annotations
