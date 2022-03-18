@@ -23,7 +23,7 @@ click==8.0.4
     #   click-log
     #   code-annotations
     #   edx-lint
-click-log==0.3.2
+click-log==0.4.0
     # via edx-lint
 code-annotations==1.3.0
     # via edx-lint
@@ -38,7 +38,7 @@ django-crum==0.7.9
     # via edx-django-utils
 django-waffle==2.3.0
     # via edx-django-utils
-edx-django-utils==4.5.0
+edx-django-utils==4.6.0
     # via edx-rest-api-client
 edx-lint==5.2.1
     # via -r requirements/base.in
@@ -58,7 +58,7 @@ lazy==1.4
     # via bok-choy
 lazy-object-proxy==1.7.1
     # via astroid
-markupsafe==2.1.0
+markupsafe==2.1.1
     # via jinja2
 mccabe==0.6.1
     # via pylint
@@ -113,7 +113,7 @@ pymongo==3.12.3
     # via edx-opaque-keys
 pyparsing==3.0.7
     # via packaging
-pytest==7.0.1
+pytest==7.1.1
     # via -r requirements/base.in
 python-guerrillamail==0.2.0
     # via -r requirements/base.in
@@ -158,7 +158,7 @@ typing-extensions==4.1.1
     # via
     #   astroid
     #   pylint
-urllib3==1.26.8
+urllib3==1.26.9
     # via
     #   requests
     #   selenium
