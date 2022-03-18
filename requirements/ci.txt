@@ -33,7 +33,7 @@ click==8.0.4
     #   click-log
     #   code-annotations
     #   edx-lint
-click-log==0.3.2
+click-log==0.4.0
     # via
     #   -r requirements/base.txt
     #   edx-lint
@@ -63,7 +63,7 @@ django-waffle==2.3.0
     #   edx-django-utils
 docopt==0.6.2
     # via coveralls
-edx-django-utils==4.5.0
+edx-django-utils==4.6.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
@@ -97,7 +97,7 @@ lazy-object-proxy==1.7.1
     # via
     #   -r requirements/base.txt
     #   astroid
-markupsafe==2.1.0
+markupsafe==2.1.1
     # via
     #   -r requirements/base.txt
     #   jinja2
@@ -187,7 +187,7 @@ pyparsing==3.0.7
     # via
     #   -r requirements/base.txt
     #   packaging
-pytest==7.0.1
+pytest==7.1.1
     # via -r requirements/base.txt
 python-guerrillamail==0.2.0
     # via -r requirements/base.txt
@@ -252,7 +252,7 @@ typing-extensions==4.1.1
     #   -r requirements/base.txt
     #   astroid
     #   pylint
-urllib3==1.26.8
+urllib3==1.26.9
     # via
     #   -r requirements/base.txt
     #   requests
