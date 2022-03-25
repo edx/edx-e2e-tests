@@ -6,7 +6,7 @@
 #
 asgiref==3.5.0
     # via django
-astroid==2.9.3
+astroid==2.11.1
     # via
     #   pylint
     #   pylint-celery
@@ -29,6 +29,8 @@ code-annotations==1.3.0
     # via edx-lint
 ddt==1.4.4
     # via -r requirements/base.in
+dill==0.3.4
+    # via pylint
 django==3.2.12
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
@@ -52,7 +54,7 @@ iniconfig==1.1.1
     # via pytest
 isort==5.10.1
     # via pylint
-jinja2==3.0.3
+jinja2==3.1.0
     # via code-annotations
 lazy==1.4
     # via bok-choy
@@ -60,7 +62,7 @@ lazy-object-proxy==1.7.1
     # via astroid
 markupsafe==2.1.1
     # via jinja2
-mccabe==0.6.1
+mccabe==0.7.0
     # via pylint
 mock==4.0.3
     # via -r requirements/base.in
@@ -94,7 +96,7 @@ pycodestyle==2.8.0
     # via -r requirements/base.in
 pyjwt==2.3.0
     # via edx-rest-api-client
-pylint==2.12.2
+pylint==2.13.0
     # via
     #   -r requirements/base.in
     #   edx-lint
@@ -119,7 +121,7 @@ python-guerrillamail==0.2.0
     # via -r requirements/base.in
 python-slugify==6.1.1
     # via code-annotations
-pytz==2021.3
+pytz==2022.1
     # via django
 pyyaml==6.0
     # via code-annotations
@@ -150,10 +152,10 @@ stevedore==3.5.0
     #   edx-opaque-keys
 text-unidecode==1.3
     # via python-slugify
-toml==0.10.2
-    # via pylint
 tomli==2.0.1
-    # via pytest
+    # via
+    #   pylint
+    #   pytest
 typing-extensions==4.1.1
     # via
     #   astroid
@@ -162,7 +164,7 @@ urllib3==1.26.9
     # via
     #   requests
     #   selenium
-wrapt==1.13.3
+wrapt==1.14.0
     # via astroid
 
 # The following packages are considered to be unsafe in a requirements file:
