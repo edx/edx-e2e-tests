@@ -113,7 +113,7 @@ mock==4.0.3
     # via -r requirements/base.txt
 needle==0.5.0
     # via -r requirements/base.txt
-newrelic==7.8.0.174
+newrelic==7.10.0.175
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -137,7 +137,7 @@ pbr==5.8.1
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==9.0.1
+pillow==9.1.0
     # via
     #   -r requirements/base.txt
     #   needle
@@ -163,7 +163,7 @@ pyjwt==2.3.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
-pylint==2.13.4
+pylint==2.13.5
     # via
     #   -r requirements/base.txt
     #   edx-lint
