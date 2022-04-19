@@ -73,10 +73,6 @@ class StudioViewTest(StudioLmsComponentBaseTest):
         self.unit_container_page.add_word_cloud_component(True)
         # Get unique data locator id of the unit added).
         data_locator = get_data_locator(self.unit_container_page)
-        self.lms_courseware.visit()
-        self.lms_courseware.go_to_section(section_name, subsection_name)
-        # View unit in the studio
-        self.lms_courseware.view_unit_in_studio()
         # View the course in studio.
         self.studio_course_outline.visit()
         self.studio_course_outline.click_sub_section()
