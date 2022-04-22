@@ -6,7 +6,7 @@
 #
 asgiref==3.5.0
     # via django
-astroid==2.11.2
+astroid==2.11.3
     # via
     #   pylint
     #   pylint-celery
@@ -84,7 +84,7 @@ pbr==5.8.1
     # via stevedore
 pillow==9.1.0
     # via needle
-platformdirs==2.5.1
+platformdirs==2.5.2
     # via pylint
 pluggy==1.0.0
     # via pytest
@@ -96,7 +96,7 @@ pycodestyle==2.8.0
     # via -r requirements/base.in
 pyjwt==2.3.0
     # via edx-rest-api-client
-pylint==2.13.5
+pylint==2.13.7
     # via
     #   -r requirements/base.in
     #   edx-lint
@@ -156,7 +156,7 @@ tomli==2.0.1
     # via
     #   pylint
     #   pytest
-typing-extensions==4.1.1
+typing-extensions==4.2.0
     # via
     #   astroid
     #   pylint
