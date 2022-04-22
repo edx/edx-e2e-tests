@@ -8,7 +8,7 @@ asgiref==3.5.0
     # via
     #   -r requirements/base.txt
     #   django
-astroid==2.11.2
+astroid==2.11.3
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -141,7 +141,7 @@ pillow==9.1.0
     # via
     #   -r requirements/base.txt
     #   needle
-platformdirs==2.5.1
+platformdirs==2.5.2
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -163,7 +163,7 @@ pyjwt==2.3.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
-pylint==2.13.5
+pylint==2.13.7
     # via
     #   -r requirements/base.txt
     #   edx-lint
@@ -248,7 +248,7 @@ tomli==2.0.1
     #   -r requirements/base.txt
     #   pylint
     #   pytest
-typing-extensions==4.1.1
+typing-extensions==4.2.0
     # via
     #   -r requirements/base.txt
     #   astroid
