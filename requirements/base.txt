@@ -6,7 +6,7 @@
 #
 asgiref==3.5.1
     # via django
-astroid==2.11.4
+astroid==2.11.5
     # via
     #   pylint
     #   pylint-celery
@@ -43,7 +43,7 @@ django-crum==0.7.9
     # via edx-django-utils
 django-waffle==2.4.1
     # via edx-django-utils
-edx-django-utils==4.7.0
+edx-django-utils==4.8.1
     # via edx-rest-api-client
 edx-lint==5.2.2
     # via -r requirements/base.in
@@ -99,7 +99,7 @@ pycodestyle==2.8.0
     # via -r requirements/base.in
 pycparser==2.21
     # via cffi
-pyjwt==2.3.0
+pyjwt==2.4.0
     # via edx-rest-api-client
 pylint==2.13.8
     # via
@@ -120,7 +120,7 @@ pymongo==3.12.3
     # via edx-opaque-keys
 pynacl==1.5.0
     # via edx-django-utils
-pyparsing==3.0.8
+pyparsing==3.0.9
     # via packaging
 pytest==7.1.2
     # via -r requirements/base.in
