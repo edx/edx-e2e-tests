@@ -46,7 +46,7 @@ code-annotations==1.3.0
     # via
     #   -r requirements/base.txt
     #   edx-lint
-coverage==6.4
+coverage==6.4.1
     # via coveralls
 coveralls==3.3.1
     # via -r requirements/ci.in
@@ -172,7 +172,7 @@ pyjwt==2.4.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
-pylint==2.13.9
+pylint==2.14.0
     # via
     #   -r requirements/base.txt
     #   edx-lint
@@ -261,6 +261,10 @@ tomli==2.0.1
     #   -r requirements/base.txt
     #   pylint
     #   pytest
+tomlkit==0.11.0
+    # via
+    #   -r requirements/base.txt
+    #   pylint
 typing-extensions==4.2.0
     # via
     #   -r requirements/base.txt
