@@ -285,12 +285,8 @@ disable =
 	feature-toggle-needs-doc,
 	illegal-waffle-usage,
 	
-	non-ascii-bytes-literal,
-	
 	logging-fstring-interpolation,
 	consider-using-f-string,
-	unicode-format-string,
-	super-on-old-class,
 	no-member
 
 [REPORTS]
