@@ -45,7 +45,7 @@ django-waffle==2.5.0
     # via edx-django-utils
 edx-django-utils==5.0.0
     # via edx-rest-api-client
-edx-lint==5.2.3
+edx-lint==5.2.4
     # via -r requirements/base.in
 edx-opaque-keys==2.3.0
     # via -r requirements/base.in
