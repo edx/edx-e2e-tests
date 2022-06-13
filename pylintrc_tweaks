@@ -8,7 +8,6 @@ load-plugins = edx_lint.pylint
 disable+ =
     consider-using-f-string,
     unicode-format-string,
-    super-on-old-class,
     no-member
 
 [BASIC]
