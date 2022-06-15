@@ -8,7 +8,7 @@ asgiref==3.5.2
     # via
     #   -r requirements/base.txt
     #   django
-astroid==2.11.5
+astroid==2.11.6
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -172,7 +172,7 @@ pyjwt==2.4.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
-pylint==2.14.1
+pylint==2.14.2
     # via
     #   -r requirements/base.txt
     #   edx-lint
