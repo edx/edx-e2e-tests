@@ -19,7 +19,7 @@ attrs==21.4.0
     #   pytest
 bok-choy==1.1.1
     # via -r requirements/base.txt
-certifi==2022.5.18.1
+certifi==2022.6.15
     # via
     #   -r requirements/base.txt
     #   requests
