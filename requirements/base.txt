@@ -14,7 +14,7 @@ attrs==21.4.0
     # via pytest
 bok-choy==1.1.1
     # via -r requirements/base.in
-certifi==2022.5.18.1
+certifi==2022.6.15
     # via requests
 cffi==1.15.0
     # via pynacl
