@@ -66,7 +66,7 @@ django-crum==0.7.9
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-django-waffle==2.5.0
+django-waffle==2.6.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -118,7 +118,7 @@ mock==4.0.3
     # via -r requirements/base.txt
 needle==0.5.0
     # via -r requirements/base.txt
-newrelic==7.14.0.177
+newrelic==7.16.0.178
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -172,7 +172,7 @@ pyjwt==2.4.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
-pylint==2.14.4
+pylint==2.14.5
     # via
     #   -r requirements/base.txt
     #   edx-lint
