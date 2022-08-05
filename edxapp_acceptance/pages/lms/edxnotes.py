@@ -150,7 +150,7 @@ class EdxNotesPageItem(NoteChild):
         tag_links = self.q(css=self._bounded_selector(self.TAG_SELECTOR))
         if len(tag_links) == 0:
             return None
-        return[tag_link.text for tag_link in tag_links]
+        return [tag_link.text for tag_link in tag_links]
 
     def go_to_tag(self, tag_name):
         """ Clicks a tag associated with the note to change to the tags view (and scroll to the tag group). """
