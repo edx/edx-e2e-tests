@@ -6,7 +6,7 @@
 #
 asgiref==3.5.2
     # via django
-astroid==2.11.7
+astroid==2.12.5
     # via
     #   pylint
     #   pylint-celery
@@ -43,7 +43,7 @@ django==3.2.15
     #   edx-django-utils
 django-crum==0.7.9
     # via edx-django-utils
-django-waffle==2.7.0
+django-waffle==3.0.0
     # via edx-django-utils
 edx-django-utils==5.0.0
     # via edx-rest-api-client
@@ -103,7 +103,7 @@ pycparser==2.21
     # via cffi
 pyjwt==2.4.0
     # via edx-rest-api-client
-pylint==2.14.5
+pylint==2.15.0
     # via
     #   -r requirements/base.in
     #   edx-lint
@@ -177,6 +177,3 @@ urllib3==1.26.12
     #   selenium
 wrapt==1.14.1
     # via astroid
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
