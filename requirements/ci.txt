@@ -19,7 +19,7 @@ attrs==22.1.0
     #   pytest
 bok-choy==1.1.1
     # via -r requirements/base.txt
-certifi==2022.6.15
+certifi==2022.9.14
     # via
     #   -r requirements/base.txt
     #   requests
@@ -72,17 +72,17 @@ django-waffle==3.0.0
     #   edx-django-utils
 docopt==0.6.2
     # via coveralls
-edx-django-utils==5.0.0
+edx-django-utils==5.0.1
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
-edx-lint==5.2.5
+edx-lint==5.3.0
     # via -r requirements/base.txt
 edx-opaque-keys==2.3.0
     # via -r requirements/base.txt
 edx-rest-api-client==5.5.0
     # via -r requirements/base.txt
-idna==3.3
+idna==3.4
     # via
     #   -r requirements/base.txt
     #   requests
@@ -118,7 +118,7 @@ mock==4.0.3
     # via -r requirements/base.txt
 needle==0.5.0
     # via -r requirements/base.txt
-newrelic==8.0.0.179
+newrelic==8.1.0.180
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
