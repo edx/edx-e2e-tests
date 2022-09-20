@@ -23,6 +23,7 @@ pip install -r requirements/base.txt
 organizations=""
 
 for organization in ${organizations}; do
+    export SELENIUM_BROWSER=chrome
     export ORG=${organization}
     echo "Running wl tests on" ${organization}
     paver e2e_wl_test || EXIT=1
