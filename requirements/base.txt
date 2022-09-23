@@ -6,7 +6,7 @@
 #
 asgiref==3.5.2
     # via django
-astroid==2.12.9
+astroid==2.12.10
     # via
     #   pylint
     #   pylint-celery
@@ -45,7 +45,7 @@ django-crum==0.7.9
     # via edx-django-utils
 django-waffle==3.0.0
     # via edx-django-utils
-edx-django-utils==5.0.1
+edx-django-utils==5.1.0
     # via edx-rest-api-client
 edx-lint==5.3.0
     # via -r requirements/base.in
@@ -61,7 +61,7 @@ isort==5.10.1
     # via pylint
 jinja2==3.1.2
     # via code-annotations
-lazy==1.4
+lazy==1.5
     # via bok-choy
 lazy-object-proxy==1.7.1
     # via astroid
@@ -101,9 +101,9 @@ pycodestyle==2.9.1
     # via -r requirements/base.in
 pycparser==2.21
     # via cffi
-pyjwt==2.4.0
+pyjwt==2.5.0
     # via edx-rest-api-client
-pylint==2.15.2
+pylint==2.15.3
     # via
     #   -r requirements/base.in
     #   edx-lint
