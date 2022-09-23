@@ -8,7 +8,7 @@ asgiref==3.5.2
     # via
     #   -r requirements/base.txt
     #   django
-astroid==2.12.9
+astroid==2.12.10
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -72,7 +72,7 @@ django-waffle==3.0.0
     #   edx-django-utils
 docopt==0.6.2
     # via coveralls
-edx-django-utils==5.0.1
+edx-django-utils==5.1.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
@@ -98,7 +98,7 @@ jinja2==3.1.2
     # via
     #   -r requirements/base.txt
     #   code-annotations
-lazy==1.4
+lazy==1.5
     # via
     #   -r requirements/base.txt
     #   bok-choy
@@ -168,11 +168,11 @@ pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi
-pyjwt==2.4.0
+pyjwt==2.5.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
-pylint==2.15.2
+pylint==2.15.3
     # via
     #   -r requirements/base.txt
     #   edx-lint
