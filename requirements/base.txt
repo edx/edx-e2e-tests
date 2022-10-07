@@ -36,7 +36,7 @@ ddt==1.6.0
     # via -r requirements/base.in
 dill==0.3.5.1
     # via pylint
-django==3.2.15
+django==3.2.16
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   django-crum
@@ -130,7 +130,7 @@ python-guerrillamail==0.2.0
     # via -r requirements/base.in
 python-slugify==6.1.2
     # via code-annotations
-pytz==2022.2.1
+pytz==2022.4
     # via django
 pyyaml==6.0
     # via code-annotations
@@ -167,7 +167,7 @@ tomli==2.0.1
     #   pytest
 tomlkit==0.11.5
     # via pylint
-typing-extensions==4.3.0
+typing-extensions==4.4.0
     # via
     #   astroid
     #   pylint
