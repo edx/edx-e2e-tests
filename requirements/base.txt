@@ -6,7 +6,7 @@
 #
 asgiref==3.5.2
     # via django
-astroid==2.12.12
+astroid==2.12.13
     # via
     #   pylint
     #   pylint-celery
@@ -53,7 +53,7 @@ edx-opaque-keys==2.3.0
     # via -r requirements/base.in
 edx-rest-api-client==5.5.0
     # via -r requirements/base.in
-exceptiongroup==1.0.1
+exceptiongroup==1.0.4
     # via pytest
 idna==3.4
     # via requests
@@ -91,7 +91,7 @@ pbr==5.11.0
     # via stevedore
 pillow==9.3.0
     # via needle
-platformdirs==2.5.3
+platformdirs==2.5.4
     # via pylint
 pluggy==1.0.0
     # via pytest
@@ -103,7 +103,7 @@ pycparser==2.21
     # via cffi
 pyjwt==2.6.0
     # via edx-rest-api-client
-pylint==2.15.5
+pylint==2.15.6
     # via
     #   -r requirements/base.in
     #   edx-lint
@@ -128,7 +128,7 @@ pytest==7.2.0
     # via -r requirements/base.in
 python-guerrillamail==0.2.0
     # via -r requirements/base.in
-python-slugify==6.1.2
+python-slugify==7.0.0
     # via code-annotations
 pytz==2022.6
     # via django

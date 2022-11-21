@@ -8,7 +8,7 @@ asgiref==3.5.2
     # via
     #   -r requirements/base.txt
     #   django
-astroid==2.12.12
+astroid==2.12.13
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -82,7 +82,7 @@ edx-opaque-keys==2.3.0
     # via -r requirements/base.txt
 edx-rest-api-client==5.5.0
     # via -r requirements/base.txt
-exceptiongroup==1.0.1
+exceptiongroup==1.0.4
     # via
     #   -r requirements/base.txt
     #   pytest
@@ -150,7 +150,7 @@ pillow==9.3.0
     # via
     #   -r requirements/base.txt
     #   needle
-platformdirs==2.5.3
+platformdirs==2.5.4
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -172,7 +172,7 @@ pyjwt==2.6.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
-pylint==2.15.5
+pylint==2.15.6
     # via
     #   -r requirements/base.txt
     #   edx-lint
@@ -208,7 +208,7 @@ pytest==7.2.0
     # via -r requirements/base.txt
 python-guerrillamail==0.2.0
     # via -r requirements/base.txt
-python-slugify==6.1.2
+python-slugify==7.0.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
