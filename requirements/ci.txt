@@ -19,7 +19,7 @@ attrs==22.1.0
     #   pytest
 bok-choy==1.1.1
     # via -r requirements/base.txt
-certifi==2022.9.24
+certifi==2022.12.7
     # via
     #   -r requirements/base.txt
     #   requests
@@ -122,7 +122,7 @@ mock==4.0.3
     # via -r requirements/base.txt
 needle==0.5.0
     # via -r requirements/base.txt
-newrelic==8.4.0
+newrelic==8.5.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -130,7 +130,7 @@ nose==1.3.7
     # via
     #   -r requirements/base.txt
     #   needle
-packaging==21.3
+packaging==22.0
     # via
     #   -r requirements/base.txt
     #   pytest
@@ -150,7 +150,7 @@ pillow==9.3.0
     # via
     #   -r requirements/base.txt
     #   needle
-platformdirs==2.5.4
+platformdirs==2.6.0
     # via
     #   -r requirements/base.txt
     #   pylint
@@ -172,7 +172,7 @@ pyjwt==2.6.0
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
-pylint==2.15.7
+pylint==2.15.8
     # via
     #   -r requirements/base.txt
     #   edx-lint
@@ -200,10 +200,6 @@ pynacl==1.5.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-pyparsing==3.0.9
-    # via
-    #   -r requirements/base.txt
-    #   packaging
 pytest==7.2.0
     # via -r requirements/base.txt
 python-guerrillamail==0.2.0
