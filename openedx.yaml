@@ -3,4 +3,3 @@
 
 oeps:
     oep-18: true
-openedx-release: {ref: master}
