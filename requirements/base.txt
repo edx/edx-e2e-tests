@@ -4,13 +4,13 @@
 #
 #    make upgrade
 #
-asgiref==3.5.2
+asgiref==3.6.0
     # via django
 astroid==2.12.13
     # via
     #   pylint
     #   pylint-celery
-attrs==22.1.0
+attrs==22.2.0
     # via
     #   outcome
     #   pytest
@@ -59,7 +59,7 @@ idna==3.4
     # via requests
 iniconfig==1.1.1
     # via pytest
-isort==5.10.1
+isort==5.11.4
     # via pylint
 jinja2==3.1.2
     # via code-annotations
@@ -103,7 +103,7 @@ pycparser==2.21
     # via cffi
 pyjwt==2.6.0
     # via edx-rest-api-client
-pylint==2.15.8
+pylint==2.15.9
     # via
     #   -r requirements/base.in
     #   edx-lint
@@ -128,7 +128,7 @@ python-guerrillamail==0.2.0
     # via -r requirements/base.in
 python-slugify==7.0.0
     # via code-annotations
-pytz==2022.6
+pytz==2022.7
     # via django
 pyyaml==6.0
     # via code-annotations
