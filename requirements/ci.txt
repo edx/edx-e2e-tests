@@ -82,7 +82,7 @@ edx-opaque-keys==2.3.0
     # via -r requirements/base.txt
 edx-rest-api-client==5.5.0
     # via -r requirements/base.txt
-exceptiongroup==1.0.4
+exceptiongroup==1.1.0
     # via
     #   -r requirements/base.txt
     #   pytest
@@ -118,7 +118,7 @@ mccabe==0.7.0
     # via
     #   -r requirements/base.txt
     #   pylint
-mock==4.0.3
+mock==5.0.0
     # via -r requirements/base.txt
 needle==0.5.0
     # via -r requirements/base.txt
@@ -150,7 +150,7 @@ pillow==9.3.0
     # via
     #   -r requirements/base.txt
     #   needle
-platformdirs==2.6.0
+platformdirs==2.6.2
     # via
     #   -r requirements/base.txt
     #   pylint
