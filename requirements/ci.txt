@@ -82,7 +82,7 @@ edx-opaque-keys==2.3.0
     # via -r requirements/base.txt
 edx-rest-api-client==5.5.0
     # via -r requirements/base.txt
-exceptiongroup==1.0.4
+exceptiongroup==1.1.0
     # via
     #   -r requirements/base.txt
     #   pytest
@@ -106,7 +106,7 @@ lazy==1.5
     # via
     #   -r requirements/base.txt
     #   bok-choy
-lazy-object-proxy==1.8.0
+lazy-object-proxy==1.9.0
     # via
     #   -r requirements/base.txt
     #   astroid
@@ -118,7 +118,7 @@ mccabe==0.7.0
     # via
     #   -r requirements/base.txt
     #   pylint
-mock==4.0.3
+mock==5.0.0
     # via -r requirements/base.txt
 needle==0.5.0
     # via -r requirements/base.txt
@@ -146,11 +146,11 @@ pbr==5.11.0
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==9.3.0
+pillow==9.4.0
     # via
     #   -r requirements/base.txt
     #   needle
-platformdirs==2.6.0
+platformdirs==2.6.2
     # via
     #   -r requirements/base.txt
     #   pylint
