@@ -110,7 +110,7 @@ lazy-object-proxy==1.9.0
     # via
     #   -r requirements/base.txt
     #   astroid
-markupsafe==2.1.1
+markupsafe==2.1.2
     # via
     #   -r requirements/base.txt
     #   jinja2
@@ -200,7 +200,7 @@ pynacl==1.5.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-pytest==7.2.0
+pytest==7.2.1
     # via -r requirements/base.txt
 python-guerrillamail==0.2.0
     # via -r requirements/base.txt
@@ -208,7 +208,7 @@ python-slugify==7.0.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
-pytz==2022.7
+pytz==2022.7.1
     # via
     #   -r requirements/base.txt
     #   django

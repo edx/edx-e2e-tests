@@ -67,7 +67,7 @@ lazy==1.5
     # via bok-choy
 lazy-object-proxy==1.9.0
     # via astroid
-markupsafe==2.1.1
+markupsafe==2.1.2
     # via jinja2
 mccabe==0.7.0
     # via pylint
@@ -122,13 +122,13 @@ pymongo==3.13.0
     # via edx-opaque-keys
 pynacl==1.5.0
     # via edx-django-utils
-pytest==7.2.0
+pytest==7.2.1
     # via -r requirements/base.in
 python-guerrillamail==0.2.0
     # via -r requirements/base.in
 python-slugify==7.0.0
     # via code-annotations
-pytz==2022.7
+pytz==2022.7.1
     # via django
 pyyaml==6.0
     # via code-annotations
