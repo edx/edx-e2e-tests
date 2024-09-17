@@ -20,5 +20,4 @@ pip install -r requirements/base.txt > log/pip_install_base.log
 
 # Set the display to the virtual frame buffer (Xvfb)
 export DISPLAY=:1
-export SETUPTOOLS_USE_DISTUTILS="stdlib" # https://setuptools.readthedocs.io/en/latest/history.html#v50-0-0
 paver e2e_test
